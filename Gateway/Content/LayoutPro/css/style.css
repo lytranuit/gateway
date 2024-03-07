@@ -1,0 +1,30 @@
+﻿
+    html,
+    body,
+    header,
+    .view {
+      height: 100%;
+    }
+
+    @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 815px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 600px;
+      }
+    }
+
+    .intro-2 {
+        background: url("../img/architecture.jpg")no-repeat center center;
+        background-size: cover;
+    }

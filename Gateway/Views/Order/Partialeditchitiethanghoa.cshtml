@@ -1,0 +1,133 @@
+﻿@model ApplicationChart.Models.dta_Products
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Mã hàng hóa</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.MAHH</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Tên hàng hóa</label>
+            <input value="@Model.TENHH" class="form-control font-weight-normal m-0" type="text" autocomplete="off" />
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Đơn vị tính</label>
+            <input value="@Model.DVT" class="form-control font-weight-normal m-0" type="text" autocomplete="off" />
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Nhóm hàng</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.nhom</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Giá mua</label>
+            <label class="form-control col-form-label" for="tenctkm">@string.Format("{0:#,##0.00}", Model.GIAMUA)</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Giá bán</label>
+            <label class="form-control col-form-label" for="tenctkm">@string.Format("{0:#,##0.00}", Model.GIABAN)</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Quy cách</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.QUICACH</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Tên hoạt chất</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.tenhoatchat</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Số lượng 1</label>
+            <label class="form-control col-form-label" for="tenctkm">@string.Format("{0:#,##0}", Model.SL1)</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Đơn vị tính 1</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.DVT1</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Số lượng 2</label>
+            <label class="form-control col-form-label" for="tenctkm">@string.Format("{0:#,##0}", Model.SL1)</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Đơn vị tính 2</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.DVT2</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Số lượng 3</label>
+            <label class="form-control col-form-label" for="tenctkm">@string.Format("{0:#,##0}", Model.SL1)</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Đơn vị tính 3</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.DVT3</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Số đăng ký</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.SDK</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Nhà sản xuất</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.nhasanxuat</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Hoạt chất</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.hoatchat</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Dạng bào chế</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.dangbaoche</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Đại diện</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.daidien</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Hàm lượng</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.hamluong</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Quy cách hộp</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.quicachhop</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Thuốc kê đơn</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.thuockedon</label>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Thuốc CHC</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.chc</label>
+        </div>
+    </div><div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group mb-0">
+            <label class="col-form-label font-weight-bold" for="tenctkm">Thuốc kiểm soát đặc biệt</label>
+            <label class="form-control col-form-label" for="tenctkm">@Model.kiemsoatdacbiet</label>
+        </div>
+    </div>
+</div>

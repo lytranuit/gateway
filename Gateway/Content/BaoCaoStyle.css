@@ -1,0 +1,479 @@
+﻿#btnin {
+    font-size: 14px;
+    /*border-color: #C40C2C;
+    background: #f2546b;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2546b), color-stop(100%, #dc0b2a));
+    background: -webkit-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: -o-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: -ms-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: linear-gradient(to bottom, #f2546b 0%,#dc0b2a 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2546b', endColorstr='#dc0b2a',GradientType=0 );
+    color: #fff;
+    text-shadow: 0 -1px 0 #c40c28;*/
+}
+
+a.btn {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.mt-1 {
+    margin-top: 4px;
+}
+
+.mb-1 {
+    margin-bottom: 4px;
+}
+
+.funkyradio {
+    width: 100%;
+}
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 100% !important;
+}
+
+.modal-header .close {
+    padding: 1rem;
+    margin: -8px -7px -13px auto;
+}
+
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+}
+/*.w3-modal-dialog-centered {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            min-height: calc(100% - (.5rem * 2));
+        }*/
+.overflow-auto {
+    overflow: auto !important;
+}
+/*chat*/
+.main-section {
+    width: 300px;
+    position: fixed;
+    right: 20px;
+    bottom: -350px;
+}
+
+.first-section:hover {
+    cursor: pointer;
+}
+
+.open-more {
+    bottom: 0px;
+    transition: 2s;
+}
+
+.border-chat {
+    border: 1px solid #2fa95d;
+    margin: 0px;
+}
+
+.first-section {
+    background-color: #2fa95d;
+}
+
+    .first-section p {
+        color: #fff;
+        margin: 0px;
+        padding: 10px 0px;
+    }
+
+        .first-section p:hover {
+            color: #fff;
+            cursor: pointer;
+        }
+
+.right-first-section {
+    text-align: right;
+}
+
+    .right-first-section i {
+        color: #fff;
+        font-size: 15px;
+        padding: 12px 3px;
+    }
+
+        .right-first-section i:hover {
+            color: #fff;
+        }
+
+.chat-section ul li {
+    list-style: none;
+    margin-top: 10px;
+    position: relative;
+}
+
+.chat-section {
+    overflow-y: scroll;
+    height: 300px;
+}
+
+    .chat-section ul {
+        padding: 0px;
+    }
+
+.left-chat img, .right-chat img {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin: 0px 10px;
+}
+
+.right-chat img {
+    float: right;
+}
+
+.second-section {
+    padding: 0px;
+    margin: 0px;
+    background-color: #F3F3F3;
+    height: 300px;
+}
+
+.left-chat, .right-chat {
+    overflow: hidden;
+}
+
+    .left-chat p, .right-chat p {
+        background-color: #FD8468;
+        padding: 10px;
+        color: #fff;
+        border-radius: 5px;
+        float: left;
+        width: 60%;
+        margin-bottom: 20px;
+    }
+
+    .left-chat span, .right-chat span {
+        position: absolute;
+        left: 70px;
+        top: 60px;
+        color: #B7BCC5;
+    }
+
+    .right-chat span {
+        left: 45px;
+    }
+
+    .right-chat p {
+        float: right;
+        background-color: #FFFFFF;
+        color: #FD8468;
+    }
+
+.third-section {
+    border-top: 1px solid #EEEEEE;
+}
+
+.text-bar input {
+    width: 90%;
+    margin-left: -15px;
+    padding: 10px 10px;
+    border: 1px solid #fff;
+}
+
+.text-bar a i {
+    background-color: #2fa95d;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    padding: 7px 0px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.left-chat:before {
+    content: " ";
+    position: absolute;
+    top: 0px;
+    left: 55px;
+    bottom: 150px;
+    border: 15px solid transparent;
+    border-top-color: #FD8468;
+}
+
+.right-chat:before {
+    content: " ";
+    position: absolute;
+    top: 0px;
+    right: 55px;
+    bottom: 150px;
+    border: 15px solid transparent;
+    border-top-color: #fff;
+}
+/*chat*/
+html, body {
+    line-height: 1.2;
+}
+
+.fa-exclamation-triangle {
+    color: red;
+    font-size: 25px;
+}
+
+.caret {
+    display: none !important;
+}
+
+.btn.abc {
+    transition: background-color 0.5s,font-weight 0.5s;
+    font-weight: normal;
+    color: black;
+    margin-top: 0;
+    height: 35px;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 0px;
+}
+
+    .btn.abc:hover {
+        font-weight: bolder;
+    }
+
+    .btn.abc:active {
+        background: linear-gradient(to bottom, #f2546b 0%,#dc0b2a 100%);
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+.NGAY {
+    width: 97%;
+    background: white;
+    border: 1px solid #D1D3D4;
+    color: black;
+    border-radius: 6px !important;
+}
+
+.donvi1 {
+    /*margin-left:10%;*/
+    width: 95%;
+}
+
+.donvi {
+    width: 90%;
+}
+
+.donvi2 {
+    margin-left: 4%;
+    width: 96%;
+}
+
+.w3-dropdown-click:hover {
+    background-color: white;
+}
+
+#taidrop {
+    z-index: 999;
+}
+
+.w3-xlarge {
+    font-size: 22px !important;
+}
+
+th {
+    color: black !important;
+    font-weight: 600;
+}
+
+#download {
+    display: none;
+}
+
+.checkbox label, .radio label {
+    min-height: 19px !important;
+}
+
+.checkbox, .radio {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+.input-group {
+    padding-bottom: 0;
+}
+
+.w3-button:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+
+.nice-select .list {
+    max-height: 400px;
+    overflow: scroll;
+}
+
+
+.btn.dropdown-toggle.btn-default {
+    margin: 0;
+    border: 1px solid #D1D3D4;
+    border-radius: 5px;
+}
+
+button.btn.btn-default {
+    font-size: 14px;
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .caret {
+    right: 10px;
+}
+
+@media screen and (min-width:360px) {
+    .paddingright {
+        padding-right: 16px !important;
+    }
+
+    .nice-select {
+        font-size: 11px;
+    }
+
+    div.w3-content.w3-padding {
+        font-size: 11px;
+    }
+
+    #tungay {
+        width: 84%;
+    }
+
+    #denngay {
+        width: 84%;
+    }
+}
+
+@media screen and (min-width: 490px) {
+    .paddingright {
+        padding-right: 0px !important;
+    }
+
+    #tungay {
+        width: 52%;
+    }
+
+    #denngay {
+        width: 52%;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    #tungay {
+        width: 86%;
+    }
+
+    #denngay {
+        width: 86%;
+    }
+}
+
+
+@media screen and (min-width:640px) {
+    .nice-select {
+        font-size: 11px;
+    }
+
+    div.w3-content.w3-padding {
+        font-size: 11px;
+    }
+
+    #tungay {
+        width: 92%;
+    }
+
+    #denngay {
+        width: 92%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .nice-select {
+        font-size: 15px;
+    }
+
+    div.w3-content.w3-padding {
+        font-size: 12px;
+    }
+
+    #tungay {
+        width: 77%;
+    }
+
+    #denngay {
+        width: 77%;
+    }
+}
+
+@media screen and (min-width: 801px) {
+    .w3-col b {
+        font-size: 12px !important;
+    }
+
+    #tungay {
+        width: 71%;
+    }
+
+    #denngay {
+        width: 71%;
+    }
+}
+
+@media screen and (min-width: 950px) {
+    #tungay {
+        width: 60%;
+    }
+
+    #denngay {
+        width: 60%;
+    }
+
+    .paddingright {
+        padding-right: 10px !important;
+    }
+}
+
+@media screen and (min-width: 1226px) {
+    #tungay {
+        width: 100%;
+    }
+
+    #denngay {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1366px) {
+    #tungay {
+        width: 90%;
+    }
+
+    #denngay {
+        width: 90%;
+    }
+
+    .nice-select {
+        font-size: 15px;
+    }
+
+    div.w3-content.w3-padding {
+        font-size: 13px;
+    }
+}
+
+@media (max-width:800px) {
+    .container-fluid {
+        padding-left: 0px !important;
+    }
+}
+
+@media (max-width:800px) {
+    .container-fluid {
+        padding-left: 0px !important;
+    }
+
+    span.text {
+        font-size: 11px;
+    }
+}

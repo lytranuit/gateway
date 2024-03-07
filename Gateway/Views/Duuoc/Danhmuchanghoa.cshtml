@@ -1,0 +1,298 @@
+﻿
+@{
+    ViewBag.Title = "Danh mục hàng hóa";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<style>
+    .bootstrap-select.btn-group .dropdown-toggle .caret {
+        right: 10px;
+        margin-top: -3px;
+    }
+
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 100% !important;
+    }
+
+    span.text {
+        font-size: 0.8em;
+    }
+
+    .bootstrap-select .dropdown-menu {
+        left: auto;
+        right: 0;
+        width: 100%;
+    }
+
+    .selectui .dropdown-menu {
+        left: 0;
+        right: auto;
+    }
+
+    div.dataTables_wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 5px 5px;
+        font-size: 11px;
+    }
+</style>
+
+}
+
+
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">DỰ ƯỚC</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">DANH MỤC HÀNG HÓA</li>
+        </ol>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-body pb-0 pt-1">
+                    <div class="form-row" id="PartialResult">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modaledit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">CHỈNH SỬA DANH MỤC HÀNG HÓA</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Mã hàng hóa <code class="text-danger">(*)</code></label>
+                            <input readonly autocomplete="off" type="text" class="form-control" id="mahh" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Tên hàng hóa <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="tenhh" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadName">Đơn vị tính <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="dvt" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Nhóm <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="nhom" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Giá kê khai <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="giamua" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadName">Qui Cách <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="quicach" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Tên Hoạt Chất <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="tenhoatchat" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">CHC <code class="text-danger">(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" id="chc" tabindex="-98">
+                                <option value="0">False</option>
+                                <option selected value="1">True</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">SDK <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="sdk" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Nhà Sản Xuất <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="nsx" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">SAP CODE <code class="text-danger">(*)</code></label>
+                            <input autocomplete="off" type="text" class="form-control" id="sapcode" required="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnluu" type="button" class="btnluu btn-sm btn-primary waves-effect waves-light">Lưu</button>
+                <button type="button" class="btn btn-sm btn-danger waves-effect" data-dismiss="modal">Đóng</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*}*@
+@section scripts {
+<script src="~/Scripts/bootstrap-select.js?version=99"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loading').modal({ backdrop: 'static', keyboard: false });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("PartialDMHH", "Duuoc")",
+                datatype: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    $("#PartialResult").html(data);
+                    $('#example').DataTable({
+                        "columnDefs": [{
+                            "targets": 'no-sort',
+                            "orderable": false,
+                        }],
+                        "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                        "order": [],
+                        "scrollX": true, dom: 'Bfrtip',
+                    buttons: [
+                 'copy', 'excel'
+                    ]
+                    });
+                    $('#loading').modal('hide');
+                },
+                timeout: 5000,
+            });
+
+            $("#PartialResult").on("click", ".btnedit", function () {
+                var hang = $(this);
+                var mahh = $(this).val();
+                console.log(mahh);
+                $.ajax({
+                    url: "@Url.Action("GetviewDMHH", "Duuoc")",
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{mahh: ' + JSON.stringify(mahh) + '}',
+                    success: function (data) {
+                        console.log(data);
+                       
+                        $("#mahh").val(data.MAHH);
+                        $("#tenhh").val(data.TENHH);
+                        $("#dvt").val(data.DVT);
+                        $("#nhom").val(data.nhom);
+                        $("#giamua").val(data.GIAMUA);
+                        $("#giaban").val(data.GIABAN);
+                        $("#quicach").val(data.QUICACH);
+                        $("#tenhoatchat").val(data.tenhoatchat);
+                        $("#sdk").val(data.SDK);
+                        $("#nsx").val(data.nsx);
+                        $("#chc").val(data.chc).selectpicker("refresh");
+                        $("#sapcode").val(data.SAP_code);
+                        $('#modaledit').modal({ backdrop: 'static', keyboard: true });
+                    },
+                    timeout: 5000,
+                });
+            });
+
+            $("#btnluu").click(function () {
+                $.ajax({
+                    url: "@Url.Action("EditDMHH", "Duuoc")",
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{CL: ' + JSON.stringify($('#cl').val())
+                            + ',MAHH: ' + JSON.stringify($('#mahh').val())
+                            + ',TENHH: ' + JSON.stringify($('#tenhh').val())
+                            + ',DVT: ' + JSON.stringify($('#dvt').val())
+                            + ',nhom: ' + JSON.stringify($('#nhom').val())
+                            + ',GIAMUA: ' + JSON.stringify($('#giamua').val())
+                            + ',GIABAN: ' + JSON.stringify($('#giaban').val())
+                            + ',QUICACH: ' + JSON.stringify($('#quicach').val())
+                            + ',tenhoatchat: ' + JSON.stringify($('#tenhoatchat').val())
+                            + ',SDK: ' + JSON.stringify($('#sdk').val())
+                            + ',nsx: ' + JSON.stringify($('#nsx').val())
+                            + ',chc: ' + JSON.stringify($('#chc').val())
+                            + ',SAP_code: ' + JSON.stringify($('#sapcode').val())
+							+ '}',
+                    success: function (data) {
+                        if (data == 1) {
+                            $('#modaledit').modal('hide');
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("PartialDMHH", "Duuoc")",
+                                datatype: 'json',
+                            contentType: "application/json",
+                            success: function (data) {
+                                $("#PartialResult").html(data);
+                                $('#example').DataTable({
+                                    "columnDefs": [{
+                                        "targets": 'no-sort',
+                                        "orderable": false,
+                                    }],
+                                    "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                                    "order": [],
+                                });
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 5000,
+                            });
+                    } else {
+                                Swal.fire(
+                                    'Kết nối không thành công',
+                                    'Vui lòng kiểm tra lại kết nối Internet',
+                                    'error'
+                                )
+                }
+                },
+                error: function (request, status, error) {
+                    Swal.fire(
+                        'Kết nối không thành công',
+                        'Vui lòng kiểm tra lại kết nối Internet',
+                        'error'
+                    )
+                },
+            timeout: 5000,
+            });
+        });
+
+
+          });
+    </script>
+}
+

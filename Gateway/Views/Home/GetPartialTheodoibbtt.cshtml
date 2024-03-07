@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ApplicationChart.Models.DATABBTT>
+<table id="example" class="table-bordered display nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th class="text-center">Năm</th>
+            <th class="text-center">Loại HDMB</th>
+            <th class="text-center">Mã KH</th>
+            <th class="text-center">Tên KH</th>
+            <th class="text-center">Tên người GD</th>
+            <th class="text-center">Mã TDV</th>
+            <th class="text-center">Tổng</th>
+            <th class="text-center">CK</th>
+            <th class="text-center">CK đạt quý</th>
+            <th class="text-center">CK đạt</th>
+            <th class="text-center">CK vượt</th>
+            <th class="text-center">Ghi chú</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="text-center">Năm</th>
+            <th class="text-center">Loại HDMB</th>
+            <th class="text-center">Mã KH</th>
+            <th class="text-center">Tên KH</th>
+            <th class="text-center">Tên người GD</th>
+            <th class="text-center">Mã TDV</th>
+            <th class="text-center">Tổng</th>
+            <th class="text-center">CK</th>
+            <th class="text-center">CK đạt quý</th>
+            <th class="text-center">CK đạt</th>
+            <th class="text-center">CK vượt</th>
+            <th class="text-center">Ghi chú</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.nam</td>
+                    <td class="text-center">@i.LoaiBBTT</td>
+                    <td>@i.makh</td>
+                    <td>@i.donvi</td>
+                    <td>@i.tennguoigd</td>
+                    <td>@i.matdv</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.Tong)</td>
+                    <td>@i.ck</td>
+                    <td>@i.ckdatquy</td>
+                    <td>@i.ckdat</td>
+                    <td>@i.ckvuot</td>
+                    <td>@i.Ghichu</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<table class="table table-bordered mb-2 mt-2">
+    <tbody>
+        <tr>
+            <td class="text-center font-weight-bold text-danger">SỐ LƯỢNG BBTT : @Model.Count()</td>
+            <td class="text-center font-weight-bold text-danger">TỔNG : @string.Format("{0:#,##0}", Model.Sum(n => n.Tong))</td>
+        </tr>
+    </tbody>
+</table>

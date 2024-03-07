@@ -1,0 +1,1346 @@
+﻿
+@{
+    ViewBag.Title = "Nhập dữ liệu";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 11px;
+        }
+    </style>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div id="heightscreen">
+        <div class="w3-card w3-white" style="border-radius:0.25rem">
+            <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+                <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">DỰ ƯỚC</a></li>
+                <li class="breadcrumb-item active w3-text-black font-weight-normal">NHẬP DỮ LIỆU</li>
+            </ol>
+        </div>
+        <div class="alert border mb-0" role="alert">
+            <b>FILE EXCEL MẪU :</b> <a class="font-weight-bold" href="~/Content/FILEMAUKEHOACH.xlsx">TẢI XUỐNG</a>
+        </div>
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-header">
+                        <button id="btnnhap" type="button" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-pencil-square-o"></i> NHẬP DỮ LIỆU</button>
+                        <button id="btnxem" type="button" class="btn btn-secondary btn-sm transition-3d-hover m-0"><i class="fa fa-eye"></i> XEM DỮ LIỆU ĐÃ NHẬP</button>
+                        <button id="btnhoantat" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-send"></i> XÁC NHẬN KẾ HOẠCH</button>
+                        @*<button onclick="ExportToTable()" type="button" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-eye"></i> XEM TRƯỚC</button>*@
+                        @*<button id="btnxem" type="button" class="btn btn-secondary btn-sm transition-3d-hover m-0"><i class="fa fa-eye"></i> XEM DỮ LIỆU ĐÃ GỬI</button>*@
+                        <button type="button" onClick="window.location.reload()" class="btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-reply"></i> TẢI LẠI</button>
+                    </div>
+                    <div class="card-body pb-0 pt-1">
+                        <div class="form-row">
+                            @*<div class="form-group col-md-2 col-sm-6 mb-0 divthang">
+                                    <label class="my-1 mr-2 font-weight-bold" for="chon">Mã Chi Nhánh<code>(*)</code></label>
+                                    <select class="selectpicker my-1 mr-sm-2 show-tick" name="macn" id="macn">
+                                        @foreach (var i in ViewBag.macn)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>*@
+                            <div class="form-group col-md-2 col-sm-6 mb-0 divthang">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">Tháng<code>(*)</code></label>
+                                <select class="selectpicker my-1 mr-sm-2 show-tick" name="thang" id="thang">
+                                    <option selected value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 col-sm-6 mb-0 divthang">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">Năm<code>(*)</code></label>
+                                <select class="selectpicker my-1 mr-sm-2 show-tick" name="nam" id="nam">
+                                    <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                                    <option value="@(DateTime.Now.Year + 1)">@(DateTime.Now.Year + 1)</option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-3 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Dữ liệu<code>(*)</code></label>
+                                <select class="selectpicker show-tick my-1 mr-sm-2" name="bang" id="bang">
+                                    @foreach (var item in ViewBag.phanquyen)
+                                    {
+                                        if (item == "ADMIN")
+                                        {
+                                            <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                                            //<option value="2">ROLLING FORECAST APPROVAL</option>
+                                            <option value="3">NET SUPPLY REQUIREMENT</option>
+                                            <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                                            break;
+                                        }
+                                        else if (item == "SALEIMPORT")
+                                        {
+                                            <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                                        }
+                                        else if (item == "SALEAPPROVE")
+                                        {
+                                            //<option selected value="2">ROLLING FORECAST APPROVAL</option>
+                                        }
+                                        else if (item == "SCAPPROVE")
+                                        {
+
+                                            <option selected value="3">NET SUPPLY REQUIREMENT</option>
+                                        }
+                                        else if (item == "PRODUCTAPPROVE")
+                                        {
+                                            <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 col-sm-6 mb-0 divthang">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">Kênh<code>(*)</code></label>
+                                @if (ViewBag.phanquyen.Contains("SCAPPROVE") || ViewBag.phanquyen.Contains("PRODUCTAPPROVE"))
+                                {
+                                    <select disabled class="selectpicker my-1 mr-sm-2 show-tick" name="kenh" id="kenh">
+                                        @foreach (var item in ViewBag.kenh)
+                                        {
+
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
+
+                                }
+
+                                else
+                                {
+                                    <select class="selectpicker my-1 mr-sm-2 show-tick" name="kenh" id="kenh">
+                                        @foreach (var item in ViewBag.kenh)
+                                        {
+
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
+                                }
+
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">Nhập file Excel<code>(*)</code></label>
+                                <input type="file" class="form-control-file  my-1 mr-sm-2" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="fileexcel">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-header p-2">
+                        <h6 class="text-danger text-center text-uppercase" id="tabletext"></h6>
+                        <h6 class="text-danger text-center text-uppercase" id="tabletext1"></h6>
+                    </div>
+                    <div class="card-body pb-0 pt-1">
+                        @*<button type="button" id="btnExport">EXPORT REPORT</button>*@
+                        <div class="table-responsive" id="partialtable">
+                            <table id="exceltable" class="table-bordered display nowrap dataTable no-footer">
+                                <thead id="tableheader">
+                                    @if (ViewBag.phanquyen.Contains("PRODUCTAPPROVE") || ViewBag.phanquyen.Contains("SCAPPROVE"))
+                                    {
+                                        <tr>
+                                            <td>Local code</td>
+                                            <td>Product Name</td>
+                                            <td>M0</td>
+                                            <td>M1</td>
+                                            <td>M2</td>
+                                            <td>M3</td>
+                                            <td>M4</td>
+                                            <td>M5</td>
+                                            <td>M6</td>
+                                            <td>M7</td>
+                                            <td>M8</td>
+                                            <td>M9</td>
+                                            <td>M10</td>
+                                            <td>M11</td>
+                                            <td>M12</td>
+                                            <td>M13</td>
+                                            <td>M14</td>
+                                            <td>M15</td>
+                                            <td>M16</td>
+                                            <td>M17</td>
+                                            <td>M18</td>
+                                            <td>M19</td>
+                                            <td>M20</td>
+                                            <td>M21</td>
+                                            <td>M22</td>
+                                            <td>M23</td>
+                                            <td>M24</td>
+                                            <td>Value M0</td>
+                                            <td>Value M1</td>
+                                            <td>Value M2</td>
+                                            <td>Value M3</td>
+                                            <td>Value M4</td>
+                                            <td>Value M5</td>
+                                            <td>Value M6</td>
+                                            <td>Value M7</td>
+                                            <td>Value M8</td>
+                                            <td>Value M9</td>
+                                            <td>Value M10</td>
+                                            <td>Value M11</td>
+                                            <td>Value M12</td>
+                                            <td>Value M13</td>
+                                            <td>Value M14</td>
+                                            <td>Value M15</td>
+                                            <td>Value M16</td>
+                                            <td>Value M17</td>
+                                            <td>Value M18</td>
+                                            <td>Value M19</td>
+                                            <td>Value M20</td>
+                                            <td>Value M21</td>
+                                            <td>Value M22</td>
+                                            <td>Value M23</td>
+                                            <td>Value M24</td>
+                                            <td>Ngày kết thúc thầu</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>Local code</td>
+                                            <td>Product Name</td>
+                                            <td>Channel Categories</td>
+                                            <td>M0</td>
+                                            <td>M1</td>
+                                            <td>M2</td>
+                                            <td>M3</td>
+                                            <td>M4</td>
+                                            <td>M5</td>
+                                            <td>M6</td>
+                                            <td>M7</td>
+                                            <td>M8</td>
+                                            <td>M9</td>
+                                            <td>M10</td>
+                                            <td>M11</td>
+                                            <td>M12</td>
+                                            <td>M13</td>
+                                            <td>M14</td>
+                                            <td>M15</td>
+                                            <td>M16</td>
+                                            <td>M17</td>
+                                            <td>M18</td>
+                                            <td>M19</td>
+                                            <td>M20</td>
+                                            <td>M21</td>
+                                            <td>M22</td>
+                                            <td>M23</td>
+                                            <td>M24</td>
+                                            <td>Value M0</td>
+                                            <td>Value M1</td>
+                                            <td>Value M2</td>
+                                            <td>Value M3</td>
+                                            <td>Value M4</td>
+                                            <td>Value M5</td>
+                                            <td>Value M6</td>
+                                            <td>Value M7</td>
+                                            <td>Value M8</td>
+                                            <td>Value M9</td>
+                                            <td>Value M10</td>
+                                            <td>Value M11</td>
+                                            <td>Value M12</td>
+                                            <td>Value M13</td>
+                                            <td>Value M14</td>
+                                            <td>Value M15</td>
+                                            <td>Value M16</td>
+                                            <td>Value M17</td>
+                                            <td>Value M18</td>
+                                            <td>Value M19</td>
+                                            <td>Value M20</td>
+                                            <td>Value M21</td>
+                                            <td>Value M22</td>
+                                            <td>Value M23</td>
+                                            <td>Value M24</td>
+                                            <td>Ngày kết thúc thầu</td>
+                                        </tr>
+                                    }
+
+                                </thead>
+                                <tbody id="tablebody"></tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts {
+
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    @*<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>*@
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script>
+        var ExcelToJSON = function () {
+
+            this.parseExcel = function (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    //$("#partialtable > table").dataTable().destroy();
+                    $('#exceltable tbody').empty();
+                    workbook.SheetNames.forEach(function (sheetName) {
+                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName], { defval: "" });
+                        var productList = JSON.parse(JSON.stringify(XL_row_object));
+
+                        var rows = $('#exceltable tbody');
+                        // console.log(productList)
+                        for (i = 1; i < productList.length; i++) {
+                            var columns = Object.values(productList[i])
+                            var rowss = $('<tr/>');
+                            for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                                var cellValue = columns[colIndex];
+                                if (cellValue == null)
+                                    cellValue = "";
+                                rowss.append($('<td/>').html(cellValue));
+                            }
+                            rows.append(rowss);
+                        }
+                        $("#partialtable > table").dataTable({
+                            "bInfo": false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+                            "paging": false,//Dont want paging
+                            "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                            buttons: [
+                                'copy', 'excel'
+                            ]
+                        });
+                        //$("#exceltable").dataTable({
+                        //    "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                        //    buttons: [
+                        //      'copy', 'excel'
+                        //    ]
+                        //});
+
+                    })
+                };
+                reader.onerror = function (ex) {
+                    console.log(ex);
+                };
+
+                reader.readAsBinaryString(file);
+            };
+        };
+
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            var xl2json = new ExcelToJSON();
+            xl2json.parseExcel(files[0]);
+        }
+
+        document.getElementById('fileexcel').addEventListener('change', handleFileSelect, false);
+    </script>
+    <script>
+        //function ExportToTable() {
+
+        //    $('#tablebody ,#tableheader').empty();
+
+        //    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+        //    /*Checks whether the file is a valid excel file*/
+        //    if (regex.test($("#fileexcel").val().toLowerCase())) {
+        //        var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+        //        if ($("#fileexcel").val().toLowerCase().indexOf(".xlsx") > 0) {
+        //            xlsxflag = true;
+        //        }
+        //        /*Checks whether the browser supports HTML5*/
+        //        if (typeof (FileReader) != "undefined") {
+        //            var reader = new FileReader();
+        //            reader.onload = function (e) {
+        //                var data = e.target.result;
+        //                /*Converts the excel data in to object*/
+        //                if (xlsxflag) {
+        //                    var workbook = XLSX.read(data, { type: 'binary' });
+        //                }
+        //                else {
+        //                    var workbook = XLS.read(data, { type: 'binary' });
+        //                }
+        //                /*Gets all the sheetnames of excel in to a variable*/
+        //                var sheet_name_list = workbook.SheetNames;
+
+        //                var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+        //                sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+        //                    /*Convert the cell value to Json*/
+        //                    if (xlsxflag) {
+        //                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+        //                        var columnszzzz = XLSX.utils.sheet_to_json(workbook.Sheets[y], { header: 1 });
+        //                    }
+        //                    else {
+        //                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+        //                        var columnszzzz = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y], { header: 1 });
+        //                    }
+        //                    if (exceljson.length > 0 && cnt == 0) {
+
+        //                        BindTable(columnszzzz, '#exceltable', '#tableheader','#tablebody');
+        //                        cnt++;
+        //                    }
+        //                });
+        //                $("#tabletext").text($("#exceltable > tbody > tr").length + " hàng hợp lệ được nhập từ file Excel");
+        //                $("#exceltable").dataTable({
+        //                    "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+        //                    buttons: [
+        //                 'copy', 'excel', 'csv',
+        //                    ]
+        //                });
+        //                $('#exceltable').show();
+
+        //            }
+        //            if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+        //                reader.readAsArrayBuffer($("#fileexcel")[0].files[0]);
+        //            }
+        //            else {
+        //                reader.readAsBinaryString($("#fileexcel")[0].files[0]);
+        //            }
+        //        }
+        //        else {
+        //            alert("Sorry! Your browser does not support HTML5!");
+        //        }
+        //    }
+        //    else {
+        //        toastr.options = {
+        //            "closeButton": false,
+        //            "debug": false,
+        //            "newestOnTop": true,
+        //            "progressBar": true,
+        //            "positionClass": "toast-top-right",
+        //            "preventDuplicates": false,
+        //            "onclick": null,
+        //            "showDuration": "300",
+        //            "hideDuration": "1000",
+        //            "timeOut": "5000",
+        //            "extendedTimeOut": "1000",
+        //            "showEasing": "swing",
+        //            "hideEasing": "linear",
+        //            "showMethod": "fadeIn",
+        //            "hideMethod": "fadeOut"
+        //        }
+        //        Command: toastr["warning"]("Kiểm tra lại tên file excel không được có dấu và ký tự đặc biệt !", "Thông báo")
+        //        $("#tabletext").text("");
+        //    }
+        //}
+        function isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+                   !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        }
+        //function BindTable(jsondata, tableid, tableheader, tablebody) {/*Function used to convert the JSON array to Html Table*/
+
+        //    var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+        //    for (var i = 0; i < 1; i++) {
+        //        var row$ = $('<tr/>');
+        //        for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+        //            var cellValue = jsondata[i][columns[colIndex]];
+        //            if (cellValue == null)
+        //                cellValue = "";
+        //            row$.append($('<th/>').html(cellValue));
+        //        }
+
+        //        $(tableheader).append(row$);
+
+        //    }
+        //    for (var i = 1; i < jsondata.length; i++) {
+        //        var row$ = $('<tr/>');
+        //        for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+        //            var cellValue = jsondata[i][columns[colIndex]];
+        //            if (cellValue == null)
+        //                cellValue = "";
+        //            row$.append($('<td/>').html(cellValue));
+        //        }
+        //        if (jsondata[i][columns[0]] != "" && jsondata[i][columns[0]] != null && jsondata[i][columns[0]].replaceAll(" ", "") != "-") {
+        //            $(tablebody).append(row$);
+        //        }
+        //    }
+        //}
+        //function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+        //    var columnSet = [];
+        //    var headerTr$ = $('<tr/>');
+        //    for (var i = 0; i < jsondata.length; i++) {
+        //        var rowHash = jsondata[i];
+        //        for (var key in rowHash) {
+        //            if (rowHash.hasOwnProperty(key)) {
+        //                if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+        //                    columnSet.push(key);
+        //                    //headerTr$.append($('<th/>').html(key));
+        //                }
+        //            }
+        //        }
+        //    }
+        //    //$(tableid).append(headerTr$);
+        //    return columnSet;
+        //}
+        $(document).ready(function () {
+
+            //$("#btnExport").click(function() {
+            //    let table = $("#partialtable table");
+            //    TableToExcel.convert(table[0], { // html code may contain multiple tables so here we are refering to 1st table tag
+            //        name: `export.xlsx`, // fileName you could use any name
+            //        sheet: {
+            //            name: 'Sheet 1' // sheetName
+            //        }
+            //    });
+            //});
+            var mahh = @Html.Raw(Json.Encode(Model));
+            if('@ViewBag.thang' != '')
+            {
+                $("#thang").val('@ViewBag.thang').selectpicker('refresh');;
+                $("#nam").val('@ViewBag.nam').selectpicker('refresh');;
+            }
+            $("#btnhoantat").hide();
+            $("#bang").change(function () {
+                if ($("#bang").val() != "1") {
+                    $("#btnhoantat").show();
+                }
+                else {
+                    $("#btnhoantat").hide();
+                }
+            });
+            $('.amenu6').addClass('active');
+            $("#btnxem").click(function () {
+                if($("#bang").val() == "1")
+                {
+                    $("#btnhoantat").show();
+                }
+
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                $.ajax({
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    url: "@Url.Action("Xemdulieu", "Duuoc")",
+                    data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                    success: function (data) {
+                        $("#partialtable").html(data);
+                        $("#tabletext").text("Số hàng đã nhập vào hệ thống " + $("#exceltable > tbody > tr.tr-data").length);
+                       
+                        setTimeout(function () {
+                            $("#partialtable > table").dataTable({
+                                "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                buttons: [
+                                    'copy', 'excel'
+                                ]
+                            });
+                        }, 1000); //delay is in milliseconds
+
+                        $.ajax({
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            url: "@Url.Action("Checkdulieu", "Duuoc")",
+                            data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                            success: function (data) {
+                                if($("#bang").val() == 1){
+                                    if (data == 1) {
+                                        $("#btnhoantat").prop('disabled', true)
+                                        $("#tabletext1").text("Kế hoạch này đã được xác nhận");
+                                        $('#loading').modal('hide');
+                                    } else {
+                                        $("#btnhoantat").prop('disabled', false)
+                                        $("#tabletext1").text("Kế hoạch này chưa được xác nhận");
+                                        $('#loading').modal('hide');
+                                    }
+                                }
+                                else
+                                {
+                                    $("#tabletext1").text("");
+                                    $('#loading').modal('hide');
+                                }
+                            },
+                            error: function (request, status, error) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 20000,
+                        });
+                        if($("#exceltable > tbody > tr").length == 0)
+                        {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Dữ liệu chưa được nhập vào !", "Thông báo")
+                            $('#loading').modal('hide');
+                        }
+                    },
+                    error: function (request, status, error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                        $('#loading').modal('hide');
+                    },
+                    timeout: 40000,
+                });
+            });
+            $("#btnhoantat").click(function () {
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                if ($("#bang").val() == 1)
+                {
+                    $.ajax({
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        url: "@Url.Action("Guidulieu", "Duuoc")",
+                        data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                        success: function (data) {
+                            if(data == 1)
+                            {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["success"]("Dữ liệu đã được XÁC NHẬN thành công", "Thông báo")
+                                $('#loading').modal('hide');
+                            } else if (data == 2) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Dữ liệu của tháng này đã bị khóa không thể thay đổi !", "Thông báo")
+                                $('#loading').modal('hide');
+                            }
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 50000,
+                    });
+                }
+            });
+            $("#btnnhap").click(function () {
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                var arrsubchannel = [ 'Tender','Retail','Wholesale','Affiliate','Intercompany','Pypharm'];
+                if (document.getElementById("fileexcel").files.length == 0) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Kiểm tra lại tên file excel không được có dấu và ký tự đặc biệt !", "Thông báo")
+                    $('#loading').modal('hide');
+                }
+                else if($("#tableheader tr:first td").length != $("tbody tr:first-child td").length)
+                {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("File dữ liệu bạn nhập vào không đúng format. Vui lòng kiểm tra lại", "Thông báo")
+                    $('#loading').modal('hide');
+                }
+
+                else {
+
+                    var data1 = [];
+                    var loi = [];
+                    var hang = 0;
+                    $("#exceltable > tbody > tr").each(function () {
+                        hang = hang + 1;
+                        var thang = parseInt($("#thang").val());
+                        var cot = 3;
+                        if ($("#bang").val() == "4" || $("#bang").val() == "3") {
+                            cot = 2
+                        }
+                        if ($("#bang").val() == "4" || $("#bang").val() == "3") {
+
+                            //if (!arrsubchannel.includes($(this).find('td:eq(' + (cot + 50) + ')').text())) {
+                            //    loi.push({
+                            //        "hang": hang
+                            //        , "cot": (cot + 1)
+                            //    });
+                            //}
+                        }
+                        else {
+
+                            if (!arrsubchannel.includes((($("#bang").val() == "3") ? $(this).find('td:eq(3)').text() : $(this).find('td:eq(2)').text()))) {
+                                loi.push({
+                                    "hang": hang
+                                    , "cot": (cot + 1)
+
+                                });
+                            }
+                        }
+                        var ngayktt = "";
+                        if ($(this).find('td:eq(' + (cot + 50) + ')').text() != "") {
+                            var mydate = moment($(this).find('td:eq(' + (cot + 50) + ')').text(), 'DD/MM/YYYY');
+                            //format that date into a different format
+                            ngayktt = moment(mydate).format("DD/MM/YYYY");
+                        }
+                        for (let i = thang; i < thang + 25; i++) {
+                            //if(($(this).find('td:eq('+ cot +')').text().replace(/[^\d.]/g, '') != "" && $(this).find('td:eq('+ cot +')').text().replace(/[^\d.]/g, '') != null) || ($(this).find('td:eq('+ (cot + 25) +')').text().replace(/[^\d.]/g, '') != "" && $(this).find('td:eq('+ (cot + 25) +')').text().replace(/[^\d.]/g, '') != null))
+                            //{
+                            if ($("#bang").val() == "4" || $("#bang").val() == "3") {
+                                data1.push({
+
+                                    "thang": (i % 12 == 0) ? 12 : (i % 12)
+                                    , "nam": (parseInt($("#nam").val()) + parseInt((i - 1) / 12))
+                                    , "mahh": $(this).find('td:eq(0)').text()
+                                    , "sub": $(this).find('td:eq(' + (cot + 50) + ')').text()
+                                    //, "soluong": $(this).find('td:eq('+ cot +')').text().replace(/[^\d.]/g, '')
+                                    , "soluong": ($(this).find('td:eq(' + cot + ')').text() == "") ? 0 : parseInt($(this).find('td:eq(' + cot + ')').text().replace(/[^\d.]/g, ''))
+                                    //, "sotien": $(this).find('td:eq('+ (cot + 25) +')').text().replace(/[^\d.]/g, '')
+                                    , "sotien": ($(this).find('td:eq(' + (cot + 25) + ')').text() == "") ? 0 : parseInt($(this).find('td:eq(' + (cot + 25) + ')').text().replace(/[^\d.]/g, ''))
+                                    //, "gia": $(this).find('td:eq(5)').text().replaceAll(" ", "")
+
+                                });
+
+                            }
+                            else {
+                                data1.push({
+
+                                    "thang": (i % 12 == 0) ? 12 : (i % 12)
+                                    , "nam": (parseInt($("#nam").val()) + parseInt((i - 1) / 12))
+                                    , "mahh": $(this).find('td:eq(0)').text()
+                                    , "kenh": ($("#bang").val() == "3") ? $(this).find('td:eq(2)').text() : $("#kenh").val()
+                                    , "sub": ($("#bang").val() == "3") ? $(this).find('td:eq(3)').text() : $(this).find('td:eq(2)').text()
+                                    //, "soluong": $(this).find('td:eq('+ cot +')').text().replace(/[^\d.]/g, '')
+                                    , "soluong": ($(this).find('td:eq(' + cot + ')').text() == "") ? 0 : parseInt($(this).find('td:eq(' + cot + ')').text().replace(/[^\d.]/g, ''))
+                                    //, "sotien": $(this).find('td:eq('+ (cot + 25) +')').text().replace(/[^\d.]/g, '')
+                                    , "sotien": ($(this).find('td:eq(' + (cot + 25) + ')').text() == "") ? 0 : parseInt($(this).find('td:eq(' + (cot + 25) + ')').text().replace(/[^\d.]/g, ''))
+                                    //, "gia": $(this).find('td:eq(5)').text().replaceAll(" ", "")
+                                    , "ngayketthucthau": (ngayktt == "") ? null : ngayktt
+                                });
+
+                            }
+
+                            //}
+                            //else
+                            //{
+                            //    loi.push({
+                            //        "hang": hang
+                            //        ,"cot": (cot + 1)
+                            //    });
+                            //}
+                            cot = cot + 1;
+                        }
+                    });
+                    if (loi?.length > 0) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Các giá trị [hàng - cột] sau đây " + JSON.stringify(loi) + " không được để trống và điền đúng format, vui lòng thử lại", "Thông báo")
+                        $('#loading').modal('hide');
+                    }
+                    else {
+                        $.ajax({
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        url: "@Url.Action("Checkimportdulieu", "Duuoc")",
+                        data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val())+ ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                        success: function (data) {
+                            if (data == 1 || data == 0) {
+
+                                $.confirm({
+                                    title: '<b>THÔNG BÁO</b>',
+                                    content: (data == 0) ? ('Bạn có chắc chắn muốn nhập file excel này vào dữ liệu tháng ' + $("#thang").val() + ' năm ' + $("#nam").val() + ' ?') : 'Hiện đã có dữ liệu tháng ' + $("#thang").val() + ' năm ' + $("#nam").val() + ', bạn có chắc xóa dữ liệu cũ và thêm dữ liệu mới này vào ? </br><b class="text-danger">LƯU Ý:</b> Các dữ liệu bị xóa sẽ không thể khôi phục.',
+                                    buttons: {
+                                        confirm: {
+                                            text: 'Chắc chắn',
+                                            btnClass: 'btn-success',
+                                            keys: ['enter'],
+                                            action: function () {
+                                                //var check = 1;
+                                                //var hang = 1;
+                                                //var khongthuocht = []
+                                                //$("#exceltable > tr").not(':first').each(function () {
+                                                //    if ($(this).find('td:eq(0)').text() == "" || $(this).find('td:eq(1)').text() == ""|| $(this).find('td:eq(2)').text() == "" || (isNumeric($(this).find('td:eq(4)').text().replaceAll(",", "")) == false) || $(this).find('td:eq(5)').text() == "" || $(this).find('td:eq(6)').text() == "") {
+                                                //        check = 0;
+                                                //        return false; // breaks
+                                                //    }
+                                                //    hang = hang + 1;
+                                                //});
+                                                //if (check == 1) {
+                                                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                                                $.ajax({
+                                                    type: "POST",
+                                                    datatype: 'json',
+                                                    contentType: "application/json",
+                                                    url: "@Url.Action("Deletedulieu", "Duuoc")",
+                                                    data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                                                    success: function (data) {
+                                                        $('#loading').modal({ backdrop: 'static', keyboard: false });
+
+                                                        //if(loi.length == 0)
+                                                        //{
+                                                        var data2 = [];
+                                                        var data3 = [];
+                                                        if (data1.length > 600) {
+                                                            data2 = data1.slice(0, 10000);
+                                                            data3 = data1.slice(10001);
+                                                        } else {
+                                                            data2 = data1
+                                                        }
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            datatype: 'json',
+                                                            contentType: "application/json",
+                                                            url: "@Url.Action("Importdulieu", "Duuoc")",
+                                                            data: '{data: ' + JSON.stringify(data2) + ', bang: ' + JSON.stringify($("#bang").val())  + ', kenh: ' + JSON.stringify($("#kenh").val()) + ', thangduuoc: ' + JSON.stringify($("#thang").val())+ ', namduuoc: ' + JSON.stringify($("#nam").val()) + '}',
+
+                                                            success: function (data) {
+
+                                                                if(data == "1")
+                                                                {
+
+                                                                    $.ajax({
+                                                                        type: "POST",
+                                                                        datatype: 'json',
+                                                                        contentType: "application/json",
+                                                                        url: "@Url.Action("Importdulieu", "Duuoc")",
+                                                                        data: '{data: ' + JSON.stringify(data3) + ', bang: ' + JSON.stringify($("#bang").val())  + ', kenh: ' + JSON.stringify($("#kenh").val()) + ', thangduuoc: ' + JSON.stringify($("#thang").val())+ ', namduuoc: ' + JSON.stringify($("#nam").val()) + '}',
+
+                                                                        success: function (data) {
+                                                                            if(data == "1")
+                                                                            {
+                                                                                toastr.options = {
+                                                                                "closeButton": false,
+                                                                                "debug": false,
+                                                                                "newestOnTop": true,
+                                                                                "progressBar": true,
+                                                                                "positionClass": "toast-top-right",
+                                                                                "preventDuplicates": false,
+                                                                                "onclick": null,
+                                                                                "showDuration": "300",
+                                                                                "hideDuration": "1000",
+                                                                                "timeOut": "5000",
+                                                                                "extendedTimeOut": "1000",
+                                                                                "showEasing": "swing",
+                                                                                "hideEasing": "linear",
+                                                                                "showMethod": "fadeIn",
+                                                                                "hideMethod": "fadeOut"
+                                                                    }
+                                                                    Command: toastr["success"]("Cập nhật thành công", "Thông báo")
+                                                                    $('#loading').modal('hide');
+                                                                    if ($("#bang").val() == 1) {
+                                                                        $("#btnhoantat").show();
+                                                                        $.confirm({
+                                                                            title: '<b>THÔNG BÁO</b>',
+                                                                            content: 'Bạn có muốn <b>XÁC NHẬN KẾ HOẠCH</b> không?',
+                                                                            buttons: {
+                                                                                confirm: {
+                                                                                    text: 'Xác nhận',
+                                                                                    btnClass: 'btn-success',
+                                                                                    keys: ['enter'],
+                                                                                    action: function () {
+                                                                                        $('#loading').modal({ backdrop: 'static', keyboard: false });
+                                                                                        $.ajax({
+                                                                                            type: "POST",
+                                                                                            datatype: 'json',
+                                                                                            contentType: "application/json",
+                                                                                            url: "@Url.Action("Guidulieu", "Duuoc")",
+                                                                                            data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                                                                                            success: function (data) {
+                                                                                                if(data == 1)
+                                                                                                {
+                                                                                                    toastr.options = {
+                                                                                                        "closeButton": false,
+                                                                                                        "debug": false,
+                                                                                                        "newestOnTop": true,
+                                                                                                        "progressBar": true,
+                                                                                                        "positionClass": "toast-top-right",
+                                                                                                        "preventDuplicates": false,
+                                                                                                        "onclick": null,
+                                                                                                        "showDuration": "300",
+                                                                                                        "hideDuration": "1000",
+                                                                                                        "timeOut": "5000",
+                                                                                                        "extendedTimeOut": "1000",
+                                                                                                        "showEasing": "swing",
+                                                                                                        "hideEasing": "linear",
+                                                                                                        "showMethod": "fadeIn",
+                                                                                                        "hideMethod": "fadeOut"
+                                                                                                    }
+                                                                                                    Command: toastr["success"]("Dữ liệu đã được XÁC NHẬN thành công", "Thông báo")
+                                                                                                    $('#loading').modal('hide');
+                                                                                                } else if (data == 2) {
+                                                                                                    toastr.options = {
+                                                                                                        "closeButton": false,
+                                                                                                        "debug": false,
+                                                                                                        "newestOnTop": true,
+                                                                                                        "progressBar": true,
+                                                                                                        "positionClass": "toast-top-right",
+                                                                                                        "preventDuplicates": false,
+                                                                                                        "onclick": null,
+                                                                                                        "showDuration": "300",
+                                                                                                        "hideDuration": "1000",
+                                                                                                        "timeOut": "5000",
+                                                                                                        "extendedTimeOut": "1000",
+                                                                                                        "showEasing": "swing",
+                                                                                                        "hideEasing": "linear",
+                                                                                                        "showMethod": "fadeIn",
+                                                                                                        "hideMethod": "fadeOut"
+                                                                                                    }
+                                                                                                    Command: toastr["warning"]("Dữ liệu của tháng này đã bị khóa không thể thay đổi !", "Thông báo")
+                                                                                                    $('#loading').modal('hide');
+                                                                                                }
+                                                                                            },
+                                                                                            error: function (request, status, error) {
+                                                                                                toastr.options = {
+                                                                                                    "closeButton": false,
+                                                                                                    "debug": false,
+                                                                                                    "newestOnTop": true,
+                                                                                                    "progressBar": true,
+                                                                                                    "positionClass": "toast-top-right",
+                                                                                                    "preventDuplicates": false,
+                                                                                                    "onclick": null,
+                                                                                                    "showDuration": "300",
+                                                                                                    "hideDuration": "1000",
+                                                                                                    "timeOut": "5000",
+                                                                                                    "extendedTimeOut": "1000",
+                                                                                                    "showEasing": "swing",
+                                                                                                    "hideEasing": "linear",
+                                                                                                    "showMethod": "fadeIn",
+                                                                                                    "hideMethod": "fadeOut"
+                                                                                                }
+                                                                                                Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                                                                                                $('#loading').modal('hide');
+                                                                                            },
+                                                                                            timeout: 500000,
+                                                                                        });
+                                                                                    }},
+                                                                                cancel: {
+                                                                                    text: 'Hủy',
+                                                                                    btnClass: 'btn-danger',
+                                                                                    keys: ['esc'],
+                                                                                    action: function () {}}
+                                                                            }})
+
+                                                                    }
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                $('#loading').modal('hide');
+                                                                                toastr.options = {
+                                                                                    "closeButton": false,
+                                                                                    "debug": false,
+                                                                                    "newestOnTop": true,
+                                                                                    "progressBar": true,
+                                                                                    "positionClass": "toast-top-right",
+                                                                                    "preventDuplicates": false,
+                                                                                    "onclick": null,
+                                                                                    "showDuration": "300",
+                                                                                    "hideDuration": "1000",
+                                                                                    "timeOut": "5000",
+                                                                                    "extendedTimeOut": "1000",
+                                                                                    "showEasing": "swing",
+                                                                                    "hideEasing": "linear",
+                                                                                    "showMethod": "fadeIn",
+                                                                                    "hideMethod": "fadeOut"
+                                                                                }
+                                                                                Command: toastr["warning"](data, "Thông báo")
+                                                                            }
+
+                                                                        },
+                                                                        error: function (request, status, error) {
+                                                                            toastr.options = {
+                                                                                "closeButton": false,
+                                                                                "debug": false,
+                                                                                "newestOnTop": true,
+                                                                                "progressBar": true,
+                                                                                "positionClass": "toast-top-right",
+                                                                                "preventDuplicates": false,
+                                                                                "onclick": null,
+                                                                                "showDuration": "300",
+                                                                                "hideDuration": "1000",
+                                                                                "timeOut": "5000",
+                                                                                "extendedTimeOut": "1000",
+                                                                                "showEasing": "swing",
+                                                                                "hideEasing": "linear",
+                                                                                "showMethod": "fadeIn",
+                                                                                "hideMethod": "fadeOut"
+                                                                            }
+                                                                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                                                            $('#loading').modal('hide');
+                                                                        },
+                                                                        timeout: 1500000,
+                                                                    });
+
+                                                                }////////////
+                                                                else
+                                                                {
+                                                                    toastr.options = {
+                                                                        "closeButton": false,
+                                                                        "debug": false,
+                                                                        "newestOnTop": true,
+                                                                        "progressBar": true,
+                                                                        "positionClass": "toast-top-right",
+                                                                        "preventDuplicates": false,
+                                                                        "onclick": null,
+                                                                        "showDuration": "300",
+                                                                        "hideDuration": "1000",
+                                                                        "timeOut": "5000",
+                                                                        "extendedTimeOut": "1000",
+                                                                        "showEasing": "swing",
+                                                                        "hideEasing": "linear",
+                                                                        "showMethod": "fadeIn",
+                                                                        "hideMethod": "fadeOut"
+                                                                    }
+                                                                    Command: toastr["warning"](data, "Thông báo")
+                                                                    $('#loading').modal('hide');
+                                                                }
+
+                                                            },
+                                                            error: function (request, status, error) {
+                                                                toastr.options = {
+                                                                    "closeButton": false,
+                                                                    "debug": false,
+                                                                    "newestOnTop": true,
+                                                                    "progressBar": true,
+                                                                    "positionClass": "toast-top-right",
+                                                                    "preventDuplicates": false,
+                                                                    "onclick": null,
+                                                                    "showDuration": "300",
+                                                                    "hideDuration": "1000",
+                                                                    "timeOut": "5000",
+                                                                    "extendedTimeOut": "1000",
+                                                                    "showEasing": "swing",
+                                                                    "hideEasing": "linear",
+                                                                    "showMethod": "fadeIn",
+                                                                    "hideMethod": "fadeOut"
+                                                                }
+                                                                Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                                                $('#loading').modal('hide');
+                                                            },
+                                                            timeout: 1500000,
+                                                        });
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //    toastr.options = {
+                                                        //        "closeButton": false,
+                                                        //        "debug": false,
+                                                        //        "newestOnTop": true,
+                                                        //        "progressBar": true,
+                                                        //        "positionClass": "toast-top-right",
+                                                        //        "preventDuplicates": false,
+                                                        //        "onclick": null,
+                                                        //        "showDuration": "300",
+                                                        //        "hideDuration": "1000",
+                                                        //        "timeOut": "5000",
+                                                        //        "extendedTimeOut": "1000",
+                                                        //        "showEasing": "swing",
+                                                        //        "hideEasing": "linear",
+                                                        //        "showMethod": "fadeIn",
+                                                        //        "hideMethod": "fadeOut"
+                                                        //    }
+                                                        //    Command: toastr["warning"]("Các giá trị [hàng - cột] sau đây " + JSON.stringify(loi) + " không được để trống, vui lòng thử lại", "Thông báo")
+                                                        //    $('#loading').modal('hide');
+                                                        //}
+
+                                                    },
+                                                    error: function (request, status, error) {
+                                                        toastr.options = {
+                                                            "closeButton": false,
+                                                            "debug": false,
+                                                            "newestOnTop": true,
+                                                            "progressBar": true,
+                                                            "positionClass": "toast-top-right",
+                                                            "preventDuplicates": false,
+                                                            "onclick": null,
+                                                            "showDuration": "300",
+                                                            "hideDuration": "1000",
+                                                            "timeOut": "5000",
+                                                            "extendedTimeOut": "1000",
+                                                            "showEasing": "swing",
+                                                            "hideEasing": "linear",
+                                                            "showMethod": "fadeIn",
+                                                            "hideMethod": "fadeOut"
+                                                        }
+                                                        Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                                                        $('#loading').modal('hide');
+                                                    },
+                                                    timeout: 1200000,
+                                                });
+
+                                            }
+                                        },
+                                        cancel: {
+                                            text: 'Hủy',
+                                            btnClass: 'btn-danger',
+                                            keys: ['esc'],
+                                            action: function () {
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Dữ liệu của tháng này đã bị khóa không thể thay đổi !", "Thông báo")
+                                $('#loading').modal('hide');
+                            }
+
+
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });
+                    }
+
+                    $('#loading').modal('hide');
+                }
+            });
+
+        });
+    </script>
+}
+
+
+
+
+
+

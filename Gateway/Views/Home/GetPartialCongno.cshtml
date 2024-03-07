@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ApplicationChart.Models.Dulieucongno>
+
+<table id="example" class="table-bordered display nowrap">
+    <thead>
+        <tr>
+            <th class="text-center">SCT</th>
+            <th class="text-center">Ngày</th>
+            <th class="text-center">Nội dung</th>
+            <th class="text-center">Phát sinh NỢ</th>
+            <th class="text-center">Phát sinh CÓ</th>
+            @*<th class="text-center">Cuối kỳ</th>*@
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="text-right" colspan="3">TỔNG PHÁT SINH</th>
+            <th class="text-right" id="tongno">@((Model.Skip(1).Where(n => n.NGAY != null).Any()) ? string.Format("{0:#,##0}", Model.Skip(1).Where(n => n.PSNO != null).Sum(n => long.Parse(n.PSNO.Replace(",", "").Replace(".", "")))) : "0")</th>
+            <th class="text-right" id="tongco">@((Model.Skip(1).Where(n => n.NGAY != null).Any()) ? string.Format("{0:#,##0}", Model.Skip(1).Where(n => n.PSCO != null).Sum(n => long.Parse(n.PSCO.Replace(",", "").Replace(".", "")))) : "0")</th>
+        </tr>
+        <tr>
+            <th class="text-right" colspan="3">CUỐI KỲ</th>
+            <th class="text-right" id="cuoikyno">@Model.Skip(1).FirstOrDefault().NOCUOIKY</th>
+            <th class="text-right" id="cuoikyco">@Model.Skip(1).FirstOrDefault().COCUOIKY</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td class="text-center">@i.SCT</td>
+                <td class="text-center">@((i.NGAY != null) ? ((DateTime)i.NGAY).ToString("dd/MM/yyyy") : "")</td>
+                <td>@i.NOIDUNG</td>
+                <td class="text-right">@((i.PSNO != null) ? i.PSNO : "0")</td>
+                <td class="text-right">@((i.PSCO != null) ? i.PSCO : "0")</td>
+            </tr>
+        }
+    </tbody>
+</table>

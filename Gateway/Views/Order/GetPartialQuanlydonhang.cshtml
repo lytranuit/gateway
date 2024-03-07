@@ -1,0 +1,104 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_GIAOHANG>
+<table class="table table-bordered mb-2 mt-2">
+    <tbody>
+        <tr>
+            <td class="text-center font-weight-bold text-danger">SỐ ĐƠN HÀNG : @Model.Count()</td>
+            <td class="text-center font-weight-bold text-danger">ĐÃ GIAO : @Model.Where(n => n.giaohang == true).Count() HÓA ĐƠN</td>
+            <td class="text-center font-weight-bold text-danger">ĐÃ THU TIỀN : @string.Format("{0:#,##0}", Model.Where(n => n.thutien == true).Sum(n => n.tongtien)) - @Model.Where(n => n.thutien == true).Count() HÓA ĐƠN</td>
+        </tr>
+    </tbody>
+</table>
+
+<table id="example" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1" style="width:100%">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th>SỐ HD - NGÀY LẤY ĐƠN - MÃ TDV</th>
+            <th>THÔNG TIN KHÁCH HÀNG</th>
+            <th>TỔNG TIỀN</th>
+            <th class="no-sort">GIAO HÀNG</th>
+            <th class="no-sort">THU TIỀN</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td data-sohd="@i.sohd" data-ngayhd="@i.ngay.ToString("dd/MM/yyyy")" data-matdv="@i.matdv" class="text-center"><b class="text-danger">@i.sohd</b> - @i.ngay.ToString("dd/MM/yyyy") - @i.matdv</td>
+                    <td data-makh="@i.makh" data-donvi="@i.tenkh" data-diachi="@i.diachi">@i.makh - @i.tenkh - @i.diachi</td>
+                    <td data-tongtien="@i.tongtien" class="text-right">@string.Format("{0:#,##0}", i.tongtien)</td>
+                    @if (i.giaohang == true)
+                    {
+                        <td class="text-center">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="@(((DateTime)i.ngaygiaohang).ToString("dd/MM/yyyy HH:mm"))">
+                                <a data-toggle="modal" class="btn btn-sm btn-success waves-effect transition-3d-hover m-0 p-2 btnthongtin" href="#modalthongtin" data-thongtin="@(((DateTime)i.ngaygiaohang).ToString("dd/MM/yyyy HH:mm"))"><i class="fa fa-2x fa-check-circle"></i></a>
+                            </span>
+                        </td>
+                    }
+                    else if (i.giaohang == false)
+                    {
+                        <td class="text-center">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="@i.lido">
+                                <a data-toggle="modal" class="btn btn-sm btn-danger waves-effect transition-3d-hover m-0 p-2 btnlido" href="#modallido" data-lido="@i.lido"><i class="fa fa-2x fa-times"></i></a>
+                            </span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center"><button type="button" class="btn btn-sm btn-warning waves-effect transition-3d-hover m-0 p-2" disabled><i class="fa fa-2x fa-spin fa-spinner"></i></button></td>
+                    }
+                    @if (i.thutien == true)
+                    {
+                        <td class="text-center"><button type="button" class="btn btn-sm btn-success waves-effect transition-3d-hover m-0 p-2" disabled><i class="fa fa-2x fa-dollar"></i></button></td>
+                    }
+                    else
+                    {
+                        <td class="text-center"><button type="button" class="btn btn-sm btn-warning waves-effect transition-3d-hover m-0 p-2" disabled><i class="fa fa-2x fa-dollar"></i></button></td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+<div class="modal fade" id="modallido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog mx-auto" role="document">
+        <div class="modal-content full-screen">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">LÍ DO</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <span id="textlido"></span>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-sm btn-danger mt-0 mb-0" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalthongtin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog mx-auto" role="document">
+        <div class="modal-content full-screen">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">NGÀY GIAO HÀNG</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <span id="textthongtin">
+
+                </span>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-sm btn-danger mt-0 mb-0" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+

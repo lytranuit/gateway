@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý khách hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=8" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=42">
+}
+
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ KHÁCH HÀNG</li>
+        </ol>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-1" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <strong>Bộ lọc khách hàng</strong>
+                </div>
+                <div class="card-body pt-2 pb-0">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-4 col-form-label" for="chinhanh">Chi nhánh <code class="bg-white">(*)</code></label>
+                                <div class="col-sm-8">
+                                    <select title="Chọn..." class="selectpicker" id="chinhanh">
+                                        <optgroup label="MIỀN TRUNG">
+                                            @foreach (var k in ViewBag.mientrung)
+                                            {
+                                                <option value=@k.macn>@k.Tencn</option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="MIỀN NAM">
+                                            @foreach (var k in ViewBag.miennam)
+                                            {
+                                                <option value=@k.macn>@k.Tencn</option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="MIỀN BẮC">
+                                            @foreach (var k in ViewBag.mienbac)
+                                            {
+                                                <option value=@k.macn>@k.Tencn</option>
+                                            }
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Default input -->
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-4 col-form-label" for="matdv">Trình dược viên <code class="bg-white">(*)</code></label>
+                                <div class="col-sm-8">
+                                    <select multiple  data-actions-box="true" data-selected-text-format="count > 1" name="matdv" title="Chọn..." class="selectpicker" id="matdv" data-live-search="true"></select>
+                                </div>
+                            </div>
+                            <input type="text" hidden id="tentdv" name="tentdv" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer modal-footer pt-1 pb-1">
+                    <button id="btnxem" type="button" class="btn btn-primary btn-sm transition-3d-hover mb-0">XEM</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row card">
+            <div class="card-header text-center">
+                <strong>DANH SÁCH KHÁCH HÀNG</strong>
+            </div>
+            <div class="card-body p-1" id="Viewtable">
+                
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalView" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:1024px" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">THÔNG TIN KHÁCH HÀNG</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view1">Mã khách hàng</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view1">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view2">Tên khách hàng</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view2">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view3">Địa chỉ</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view3">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view5">Người liên hệ</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view5">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view7">Ngày sinh</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view7">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view4">Số điện thoại</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view4">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view6">Đơn hàng gần nhất</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view6">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view8">Mã số thuế</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables-init.js?version=2"></script>
+<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script>
+        function CovertDatetime(i) {
+            var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+            return dformat;   // The function returns the product of p1 and p2
+        }
+        $(document).ready(function () {
+            $("#Viewtable").on("click", ".btnview", function () {
+                var makh = $(this).closest('tr').find('td:eq(0)').text();
+                var url = '@Url.Action("GetKhachHang", "Baocao")';
+                $.post(url, { makh: makh , macn: $("#chinhanh").val() },
+                              function (data) {
+                                  $("#view1").val(data.MAKH);
+                                  $("#view2").val(data.DONVI);
+                                  $("#view3").val(data.DIACHI);
+                                  $("#view4").val(data.DT);
+                                  $("#view5").val(data.TENNGUOILH);
+                                  $("#view8").val(data.MST);
+                                  if (data.DONHANGGANHAT != null) {
+                                      $("#view6").val(data.DONHANGGANHAT);
+                                  }
+                                  else {
+                                      $("#view6").val("N/A");
+                                  }
+                                  if (data.NGAYSINH != null) {
+                                      $("#view7").val(data.NGAYSINH);
+                                  }
+                                  else {
+                                      $("#view7").val("N/A");
+                                  }
+                              });
+            });
+            $("#chinhanh").change(function () {
+                $("#matdv").empty();
+                var url = '@Url.Action("GetTrinhDuocVien", "Home")';
+                $.post(url, { ChiNhanhId: $("#chinhanh").val() },
+                          function (data) {
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#matdv").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#btnxem").click(function () {
+              
+                if ($("#chinhanh").val() == "" || $("#matdv").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh hoặc trình dược viên", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialQLKH", "Baocao")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{matdv: ' + JSON.stringify($("#matdv").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $("#Viewtable").html(data);
+                            $('#example23').DataTable({
+                                "columnDefs": [{
+                                    "targets": 'no-sort',
+                                    "orderable": false,
+                                }],
+                                "order": [],
+                                buttons: [
+                                  'copy', 'excel'
+                                ]
+                            }
+                                );
+                            $('#loading').modal('hide')
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+        });
+
+    </script>
+}

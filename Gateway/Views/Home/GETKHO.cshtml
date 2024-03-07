@@ -1,0 +1,8 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListKho>
+<label class="my-1 mr-2 font-weight-bold" for="chon">KHO<code>(*)</code></label>
+<select class="selectpicker my-1 mr-sm-2 show-tick" name="kho" id="kho">
+    @foreach (var k in Model)
+    {
+        <option value="@k.noinhan">@k.noinhan</option>
+    }
+</select>

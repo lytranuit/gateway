@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBL_BINHLUAN">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nguoitao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="thangduuoc" Type="int" Nullable="false" />
+          <Property Name="namduuoc" Type="int" Nullable="false" />
+          <Property Name="nguoibinhluan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="noidung" Type="nvarchar(max)" />
+          <Property Name="thoigiantao" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_CHITIETPHANQUYEN">
+          <Key>
+            <PropertyRef Name="quyen" />
+          </Key>
+          <Property Name="quyen" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tenquyen" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TBL_DEMANDFC">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+            <PropertyRef Name="kenh" />
+            <PropertyRef Name="sub" />
+          </Key>
+          <Property Name="nguoitao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="thangduuoc" Type="int" Nullable="false" />
+          <Property Name="namduuoc" Type="int" Nullable="false" />
+          <Property Name="thang" Type="int" Nullable="false" />
+          <Property Name="nam" Type="int" Nullable="false" />
+          <Property Name="mahh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="kenh" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sub" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="soluong" Type="int" />
+          <Property Name="sotien" Type="money" />
+          <Property Name="ngayketthucthau" Type="smalldatetime" />
+          <Property Name="khoa" Type="bit" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+          <Property Name="trangthai" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DEMANFC_AUDIT">
+          <Key>
+            <PropertyRef Name="idaudit" />
+          </Key>
+          <Property Name="idaudit" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ngaythuchien" Type="smalldatetime" Nullable="false" />
+          <Property Name="lenh" Type="varchar" MaxLength="50" />
+          <Property Name="nguoitao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="thangduuoc" Type="int" Nullable="false" />
+          <Property Name="namduuoc" Type="int" Nullable="false" />
+          <Property Name="thang" Type="int" Nullable="false" />
+          <Property Name="nam" Type="int" Nullable="false" />
+          <Property Name="mahh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="kenh" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sub" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="soluong" Type="int" />
+          <Property Name="sotien" Type="money" />
+          <Property Name="ngayketthucthau" Type="smalldatetime" />
+          <Property Name="khoa" Type="bit" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+          <Property Name="trangthai" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_KENH">
+          <Key>
+            <PropertyRef Name="kenh" />
+          </Key>
+          <Property Name="kenh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="chitiet" Type="nvarchar" MaxLength="50" />
+          <Property Name="baogom" Type="varchar" MaxLength="5000" />
+          <Property Name="loaibo" Type="varchar" MaxLength="5000" />
+        </EntityType>
+        <EntityType Name="TBL_PHANQUYEN">
+          <Key>
+            <PropertyRef Name="nguoidung" />
+          </Key>
+          <Property Name="nguoidung" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="hoten" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="kenh" Type="varchar" MaxLength="50" />
+          <Property Name="quyen" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_QLSXAPPROVE">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+          </Key>
+          <Property Name="nguoitao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="thangduuoc" Type="int" Nullable="false" />
+          <Property Name="namduuoc" Type="int" Nullable="false" />
+          <Property Name="thang" Type="int" Nullable="false" />
+          <Property Name="nam" Type="int" Nullable="false" />
+          <Property Name="mahh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="soluong" Type="int" />
+          <Property Name="sotien" Type="money" />
+          <Property Name="ngayketthucthau" Type="varchar" MaxLength="100" />
+          <Property Name="khoa" Type="bit" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_SALEAPPROVE">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+            <PropertyRef Name="kenh" />
+            <PropertyRef Name="sub" />
+          </Key>
+          <Property Name="nguoitao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="thangduuoc" Type="int" Nullable="false" />
+          <Property Name="namduuoc" Type="int" Nullable="false" />
+          <Property Name="thang" Type="int" Nullable="false" />
+          <Property Name="nam" Type="int" Nullable="false" />
+          <Property Name="mahh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="kenh" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sub" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="soluong" Type="int" />
+          <Property Name="sotien" Type="money" />
+          <Property Name="ngayketthucthau" Type="smalldatetime" />
+          <Property Name="khoa" Type="bit" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_SCAPPROVE">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+          </Key>
+          <Property Name="nguoitao" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="thangduuoc" Type="int" Nullable="false" />
+          <Property Name="namduuoc" Type="int" Nullable="false" />
+          <Property Name="thang" Type="int" Nullable="false" />
+          <Property Name="nam" Type="int" Nullable="false" />
+          <Property Name="mahh" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="soluong" Type="int" />
+          <Property Name="sotien" Type="money" />
+          <Property Name="ngayketthucthau" Type="smalldatetime" />
+          <Property Name="khoa" Type="bit" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SCModelStoreContainer">
+          <EntitySet Name="TBL_BINHLUAN" EntityType="Self.TBL_BINHLUAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_CHITIETPHANQUYEN" EntityType="Self.TBL_CHITIETPHANQUYEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DEMANDFC" EntityType="Self.TBL_DEMANDFC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DEMANFC_AUDIT" EntityType="Self.TBL_DEMANFC_AUDIT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_KENH" EntityType="Self.TBL_KENH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_PHANQUYEN" EntityType="Self.TBL_PHANQUYEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_QLSXAPPROVE" EntityType="Self.TBL_QLSXAPPROVE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SALEAPPROVE" EntityType="Self.TBL_SALEAPPROVE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SCAPPROVE" EntityType="Self.TBL_SCAPPROVE" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBL_BINHLUAN" EntityType="SCModel.TBL_BINHLUAN" />
+          <EntitySet Name="TBL_CHITIETPHANQUYEN" EntityType="SCModel.TBL_CHITIETPHANQUYEN" />
+          <EntitySet Name="TBL_DEMANDFC" EntityType="SCModel.TBL_DEMANDFC" />
+          <EntitySet Name="TBL_DEMANFC_AUDIT" EntityType="SCModel.TBL_DEMANFC_AUDIT" />
+          <EntitySet Name="TBL_KENH" EntityType="SCModel.TBL_KENH" />
+          <EntitySet Name="TBL_PHANQUYEN" EntityType="SCModel.TBL_PHANQUYEN" />
+          <EntitySet Name="TBL_QLSXAPPROVE" EntityType="SCModel.TBL_QLSXAPPROVE" />
+          <EntitySet Name="TBL_SALEAPPROVE" EntityType="SCModel.TBL_SALEAPPROVE" />
+          <EntitySet Name="TBL_SCAPPROVE" EntityType="SCModel.TBL_SCAPPROVE" />
+        </EntityContainer>
+        <EntityType Name="TBL_BINHLUAN">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nguoitao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thangduuoc" Type="Int32" Nullable="false" />
+          <Property Name="namduuoc" Type="Int32" Nullable="false" />
+          <Property Name="nguoibinhluan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="noidung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thoigiantao" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="TBL_CHITIETPHANQUYEN">
+          <Key>
+            <PropertyRef Name="quyen" />
+          </Key>
+          <Property Name="quyen" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tenquyen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TBL_DEMANDFC">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+            <PropertyRef Name="kenh" />
+            <PropertyRef Name="sub" />
+          </Key>
+          <Property Name="nguoitao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thangduuoc" Type="Int32" Nullable="false" />
+          <Property Name="namduuoc" Type="Int32" Nullable="false" />
+          <Property Name="thang" Type="Int32" Nullable="false" />
+          <Property Name="nam" Type="Int32" Nullable="false" />
+          <Property Name="mahh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="kenh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sub" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="soluong" Type="Int32" />
+          <Property Name="sotien" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ngayketthucthau" Type="DateTime" Precision="0" />
+          <Property Name="khoa" Type="Boolean" Nullable="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="trangthai" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DEMANFC_AUDIT">
+          <Key>
+            <PropertyRef Name="idaudit" />
+          </Key>
+          <Property Name="idaudit" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ngaythuchien" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lenh" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nguoitao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thangduuoc" Type="Int32" Nullable="false" />
+          <Property Name="namduuoc" Type="Int32" Nullable="false" />
+          <Property Name="thang" Type="Int32" Nullable="false" />
+          <Property Name="nam" Type="Int32" Nullable="false" />
+          <Property Name="mahh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="kenh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sub" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="soluong" Type="Int32" />
+          <Property Name="sotien" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ngayketthucthau" Type="DateTime" Precision="0" />
+          <Property Name="khoa" Type="Boolean" Nullable="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="trangthai" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_KENH">
+          <Key>
+            <PropertyRef Name="kenh" />
+          </Key>
+          <Property Name="kenh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="chitiet" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="baogom" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="loaibo" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_PHANQUYEN">
+          <Key>
+            <PropertyRef Name="nguoidung" />
+          </Key>
+          <Property Name="nguoidung" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hoten" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kenh" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="quyen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_QLSXAPPROVE">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+          </Key>
+          <Property Name="nguoitao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thangduuoc" Type="Int32" Nullable="false" />
+          <Property Name="namduuoc" Type="Int32" Nullable="false" />
+          <Property Name="thang" Type="Int32" Nullable="false" />
+          <Property Name="nam" Type="Int32" Nullable="false" />
+          <Property Name="mahh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="soluong" Type="Int32" />
+          <Property Name="sotien" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ngayketthucthau" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="khoa" Type="Boolean" Nullable="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="TBL_SALEAPPROVE">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+            <PropertyRef Name="kenh" />
+            <PropertyRef Name="sub" />
+          </Key>
+          <Property Name="nguoitao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thangduuoc" Type="Int32" Nullable="false" />
+          <Property Name="namduuoc" Type="Int32" Nullable="false" />
+          <Property Name="thang" Type="Int32" Nullable="false" />
+          <Property Name="nam" Type="Int32" Nullable="false" />
+          <Property Name="mahh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="kenh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sub" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="soluong" Type="Int32" />
+          <Property Name="sotien" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ngayketthucthau" Type="DateTime" Precision="0" />
+          <Property Name="khoa" Type="Boolean" Nullable="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="TBL_SCAPPROVE">
+          <Key>
+            <PropertyRef Name="nguoitao" />
+            <PropertyRef Name="thangduuoc" />
+            <PropertyRef Name="namduuoc" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="mahh" />
+          </Key>
+          <Property Name="nguoitao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="thangduuoc" Type="Int32" Nullable="false" />
+          <Property Name="namduuoc" Type="Int32" Nullable="false" />
+          <Property Name="thang" Type="Int32" Nullable="false" />
+          <Property Name="nam" Type="Int32" Nullable="false" />
+          <Property Name="mahh" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="soluong" Type="Int32" />
+          <Property Name="sotien" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ngayketthucthau" Type="DateTime" Precision="0" />
+          <Property Name="khoa" Type="Boolean" Nullable="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SCModelStoreContainer" CdmEntityContainer="SCEntities">
+          <EntitySetMapping Name="TBL_BINHLUAN">
+            <EntityTypeMapping TypeName="SCModel.TBL_BINHLUAN">
+              <MappingFragment StoreEntitySet="TBL_BINHLUAN">
+                <ScalarProperty Name="thoigiantao" ColumnName="thoigiantao" />
+                <ScalarProperty Name="noidung" ColumnName="noidung" />
+                <ScalarProperty Name="nguoibinhluan" ColumnName="nguoibinhluan" />
+                <ScalarProperty Name="namduuoc" ColumnName="namduuoc" />
+                <ScalarProperty Name="thangduuoc" ColumnName="thangduuoc" />
+                <ScalarProperty Name="nguoitao" ColumnName="nguoitao" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_CHITIETPHANQUYEN">
+            <EntityTypeMapping TypeName="SCModel.TBL_CHITIETPHANQUYEN">
+              <MappingFragment StoreEntitySet="TBL_CHITIETPHANQUYEN">
+                <ScalarProperty Name="tenquyen" ColumnName="tenquyen" />
+                <ScalarProperty Name="quyen" ColumnName="quyen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DEMANDFC">
+            <EntityTypeMapping TypeName="SCModel.TBL_DEMANDFC">
+              <MappingFragment StoreEntitySet="TBL_DEMANDFC">
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="khoa" ColumnName="khoa" />
+                <ScalarProperty Name="ngayketthucthau" ColumnName="ngayketthucthau" />
+                <ScalarProperty Name="sotien" ColumnName="sotien" />
+                <ScalarProperty Name="soluong" ColumnName="soluong" />
+                <ScalarProperty Name="sub" ColumnName="sub" />
+                <ScalarProperty Name="kenh" ColumnName="kenh" />
+                <ScalarProperty Name="mahh" ColumnName="mahh" />
+                <ScalarProperty Name="nam" ColumnName="nam" />
+                <ScalarProperty Name="thang" ColumnName="thang" />
+                <ScalarProperty Name="namduuoc" ColumnName="namduuoc" />
+                <ScalarProperty Name="thangduuoc" ColumnName="thangduuoc" />
+                <ScalarProperty Name="nguoitao" ColumnName="nguoitao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DEMANFC_AUDIT">
+            <EntityTypeMapping TypeName="SCModel.TBL_DEMANFC_AUDIT">
+              <MappingFragment StoreEntitySet="TBL_DEMANFC_AUDIT">
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="khoa" ColumnName="khoa" />
+                <ScalarProperty Name="ngayketthucthau" ColumnName="ngayketthucthau" />
+                <ScalarProperty Name="sotien" ColumnName="sotien" />
+                <ScalarProperty Name="soluong" ColumnName="soluong" />
+                <ScalarProperty Name="sub" ColumnName="sub" />
+                <ScalarProperty Name="kenh" ColumnName="kenh" />
+                <ScalarProperty Name="mahh" ColumnName="mahh" />
+                <ScalarProperty Name="nam" ColumnName="nam" />
+                <ScalarProperty Name="thang" ColumnName="thang" />
+                <ScalarProperty Name="namduuoc" ColumnName="namduuoc" />
+                <ScalarProperty Name="thangduuoc" ColumnName="thangduuoc" />
+                <ScalarProperty Name="nguoitao" ColumnName="nguoitao" />
+                <ScalarProperty Name="lenh" ColumnName="lenh" />
+                <ScalarProperty Name="ngaythuchien" ColumnName="ngaythuchien" />
+                <ScalarProperty Name="idaudit" ColumnName="idaudit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_KENH">
+            <EntityTypeMapping TypeName="SCModel.TBL_KENH">
+              <MappingFragment StoreEntitySet="TBL_KENH">
+                <ScalarProperty Name="loaibo" ColumnName="loaibo" />
+                <ScalarProperty Name="baogom" ColumnName="baogom" />
+                <ScalarProperty Name="chitiet" ColumnName="chitiet" />
+                <ScalarProperty Name="kenh" ColumnName="kenh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_PHANQUYEN">
+            <EntityTypeMapping TypeName="SCModel.TBL_PHANQUYEN">
+              <MappingFragment StoreEntitySet="TBL_PHANQUYEN">
+                <ScalarProperty Name="quyen" ColumnName="quyen" />
+                <ScalarProperty Name="kenh" ColumnName="kenh" />
+                <ScalarProperty Name="hoten" ColumnName="hoten" />
+                <ScalarProperty Name="nguoidung" ColumnName="nguoidung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_QLSXAPPROVE">
+            <EntityTypeMapping TypeName="SCModel.TBL_QLSXAPPROVE">
+              <MappingFragment StoreEntitySet="TBL_QLSXAPPROVE">
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="khoa" ColumnName="khoa" />
+                <ScalarProperty Name="ngayketthucthau" ColumnName="ngayketthucthau" />
+                <ScalarProperty Name="sotien" ColumnName="sotien" />
+                <ScalarProperty Name="soluong" ColumnName="soluong" />
+                <ScalarProperty Name="mahh" ColumnName="mahh" />
+                <ScalarProperty Name="nam" ColumnName="nam" />
+                <ScalarProperty Name="thang" ColumnName="thang" />
+                <ScalarProperty Name="namduuoc" ColumnName="namduuoc" />
+                <ScalarProperty Name="thangduuoc" ColumnName="thangduuoc" />
+                <ScalarProperty Name="nguoitao" ColumnName="nguoitao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SALEAPPROVE">
+            <EntityTypeMapping TypeName="SCModel.TBL_SALEAPPROVE">
+              <MappingFragment StoreEntitySet="TBL_SALEAPPROVE">
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="khoa" ColumnName="khoa" />
+                <ScalarProperty Name="ngayketthucthau" ColumnName="ngayketthucthau" />
+                <ScalarProperty Name="sotien" ColumnName="sotien" />
+                <ScalarProperty Name="soluong" ColumnName="soluong" />
+                <ScalarProperty Name="sub" ColumnName="sub" />
+                <ScalarProperty Name="kenh" ColumnName="kenh" />
+                <ScalarProperty Name="mahh" ColumnName="mahh" />
+                <ScalarProperty Name="nam" ColumnName="nam" />
+                <ScalarProperty Name="thang" ColumnName="thang" />
+                <ScalarProperty Name="namduuoc" ColumnName="namduuoc" />
+                <ScalarProperty Name="thangduuoc" ColumnName="thangduuoc" />
+                <ScalarProperty Name="nguoitao" ColumnName="nguoitao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SCAPPROVE">
+            <EntityTypeMapping TypeName="SCModel.TBL_SCAPPROVE">
+              <MappingFragment StoreEntitySet="TBL_SCAPPROVE">
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="khoa" ColumnName="khoa" />
+                <ScalarProperty Name="ngayketthucthau" ColumnName="ngayketthucthau" />
+                <ScalarProperty Name="sotien" ColumnName="sotien" />
+                <ScalarProperty Name="soluong" ColumnName="soluong" />
+                <ScalarProperty Name="mahh" ColumnName="mahh" />
+                <ScalarProperty Name="nam" ColumnName="nam" />
+                <ScalarProperty Name="thang" ColumnName="thang" />
+                <ScalarProperty Name="namduuoc" ColumnName="namduuoc" />
+                <ScalarProperty Name="thangduuoc" ColumnName="thangduuoc" />
+                <ScalarProperty Name="nguoitao" ColumnName="nguoitao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

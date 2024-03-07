@@ -1,0 +1,342 @@
+﻿
+@{
+    ViewBag.Title = "Báo cáo kế hoạch";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 11px;
+        }
+    </style>
+}
+
+
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">DỰ ƯỚC</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">BÁO CÁO</li>
+        </ol>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="card-header col-xl-12 col-lg-12 col-md-12 mb-1">
+                <button id="btnin" type="button" class="btnsubmit btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-filter"></i> TÌM KIẾM</button>
+
+                <button type="button" onclick="window.location.reload()" class="btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-reply"></i> TẢI LẠI</button>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label font-weight-bold" for="formGroupExampleInput">Chọn dữ liệu<code class="bg-white">(*)</code></label>
+                <select name="chọn" title="Chọn..." class="selectpicker font-weight-bold" id="bang">
+                    @foreach (var item in ViewBag.phanquyen)
+                    {
+                        if (item == "ADMIN")
+                        {
+                            <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                            <option value="2">ROLLING FORECAST APPROVAL</option>
+                            <option value="3">NET SUPPLY REQUIREMENT</option>
+                            <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                            break;
+                        }
+                        else if (item == "SALEIMPORT" || item == "SALEAPPROVE")
+                        {
+                            <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                            <option value="2">ROLLING FORECAST APPROVAL</option>
+                            <option value="3">NET SUPPLY REQUIREMENT</option>
+                        }
+
+                        else if (item == "SCAPPROVE")
+                        {
+                            <option selected value="2">ROLLING FORECAST APPROVAL</option>
+                            <option value="3">NET SUPPLY REQUIREMENT</option>
+                            <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                        }
+                        else if (item == "PRODUCTAPPROVE")
+                        {
+                            <option selected value="3">NET SUPPLY REQUIREMENT</option>
+                            <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group  col-xl-3 col-md-3 col-sm-6 mb-1">
+                <label class="col-form-label font-weight-bold" for="chon">Kênh<code>(*)</code></label>
+                <select class="selectpicker show-tick" name="kenh" id="kenh">
+                    @foreach (var item in ViewBag.kenh)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-3 mb-1">
+                <label class="col-form-label font-weight-bold" for="formGroupExampleInput">Loại báo cáo<code class="bg-white">(*)</code></label>
+                <select name="loaibaocao" title="Chọn loại báo cáo..." class="selectpicker" id="loaibaocao">
+                    <option value="1">So sánh</option>
+                    <option value="2">Thực tế</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label font-weight-bold" for="formGroupExampleInput">Tháng<code class="bg-white">(*)</code></label>
+                <select name="thang" title="Chọn tháng..." class="selectpicker" id="thang">
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label font-weight-bold" for="formGroupExampleInput">Năm<code class="bg-white">(*)</code></label>
+                <select name="nam" title="Chọn năm..." class="selectpicker" id="nam">
+                    <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                    <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                    <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1 sosanh">
+                <label class="col-form-label font-weight-bold" for="formGroupExampleInput">Tháng so sánh<code class="bg-white">(*)</code></label>
+                <select name="thang" title="Chọn tháng..." class="selectpicker" id="thangsosanh">
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1 sosanh">
+                <label class="col-form-label font-weight-bold" for="formGroupExampleInput">Năm so sánh<code class="bg-white">(*)</code></label>
+                <select name="nam" title="Chọn năm..." class="selectpicker" id="namsosanh">
+                    <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                    <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                    <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                </select>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+        <div class="w3-row">
+            <div class="card mb-0">
+
+                <div class="card-body pb-0 pt-1">
+                    <div class="table-responsive" id="partialtable">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".sosanh").hide();
+            $("#loaibaocao").change(function () {
+                if ($("#loaibaocao").val() == 1) {
+                    $(".sosanh").show();
+                }
+                else {
+                    $(".sosanh").hide();
+                }
+            });
+            if (($("#bang").val() == 1) || ($("#bang").val() == 2)) {
+                $("#kenh").prop("disabled", false);
+                $('#kenh').selectpicker('refresh');
+            } else {
+                $("#kenh").prop("disabled", true);
+                $('#kenh').selectpicker('refresh');
+            }
+            $("#bang").change(function () {
+                if (($("#bang").val() == 1) || ($("#bang").val() == 2)) {
+                    $("#kenh").prop("disabled", false);
+                    $('#kenh').selectpicker('refresh');
+                } else {
+                    $("#kenh").prop("disabled", true);
+                    $('#kenh').selectpicker('refresh');
+                }
+            })
+            $("#btnin").click(function () {
+                if ($("#loaibaocao").val() == "" || $("#loaibaocao").val() == null) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn loại báo cáo !", "Thông báo")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        url: "@Url.Action("PartialBaocao", "Duuoc")",
+                        data: '{bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + ', loaibaocao: ' + JSON.stringify($("#loaibaocao").val()) + ', thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', thangsosanh: ' + JSON.stringify($("#thangsosanh").val()) + ', namsosanh: ' + JSON.stringify($("#namsosanh").val()) + '}',
+                        success: function (data) {
+
+                            $("#partialtable").html(data);
+                            $("#partialtable table").dataTable({
+                                "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                buttons: [
+                             'copy', 'excel'
+                                ]
+                            });
+                            $("#tabletext").text("Số hàng đã nhập vào hệ thống " + $("#exceltable > tbody > tr.tr-data").length);
+                            if ($("#exceltable > tbody > tr").length == 0) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Dữ liệu chưa được nhập vào !", "Thông báo")
+                            }
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không kết nối được dữ liệu ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });
+                }
+
+            });
+        });
+    </script>
+}
+

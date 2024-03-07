@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý chính sách đổi mật khẩu";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CheckBox.css">
+<link href="~/Content/bootstrap-select.css" rel="stylesheet">
+<link href="~/Content/Material.css" rel="stylesheet">
+<script src="~/Scripts/bootbox.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+<script>
+    $(document).ready(function () {
+        $("#pageheader").text("Quản lý chính sách đổi mật khẩu");
+    });
+</script>
+<div class="container-fluid">
+    <!-- Start Page Content -->
+    <div class="row">
+        <div class="col-12">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="card boxshadow">
+                    <div class="form-row">
+                        <!-- Default input -->
+                        <div class="form-group col-md-5">
+                            <label for="ngaykhoatk">Khóa tài khoản sau (ngày):</label>
+                            <input type="number" name="ngaykhoa" class="form-control" id="ngaykhoatk" placeholder="Ngày" value="@ViewBag.ngaykhoatk">
+                        </div>
+                        <!-- Default input -->
+                        <div class="form-group col-md-5">
+                            <label for="ngaydoimk">Đổi mật khẩu sau (ngày):</label>
+                            <input type="number" name="ngaydoi" class="form-control" id="ngaydoimk" placeholder="Ngày" value="@ViewBag.ngaydoimk">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="ngaydoimk">Version Android:</label>
+                            <input type="text" name="android" class="form-control" id="android" placeholder="Phiên bản Android" value="@ViewBag.android">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="ngaydoimk">Version IOS:</label>
+                            <input type="text" name="ios" class="form-control" id="ios" placeholder="Phiên bản IOS" value="@ViewBag.ios">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="ngaydoimk">Bảo trì hệ thống</label>
+                            <input type="text" name="baotri" class="form-control" placeholder="Chọn True hoặc False" value="@((ViewBag.baotri == true)?1:0)">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="ngaydoimk">Tin nhắn bảo trì</label>
+                            <input type="text" name="messbaotri" class="form-control" placeholder="Tin nhắn bảo trì" value="@ViewBag.messbaotri">
+                        </div>
+                        <div class="text-center mt-4 mb-2 col-md-2">
+                            <button id="submit1" type="submit" class="btn btn-outline-primary waves-effect waves-light">
+                                Thay đổi
+                                <i class="fa fa-edit ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="card boxshadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example2" class="display nowrap table table-hover table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tài khoản</th>
+                                    <th>Họ và tên</th>
+                                    <th>Lần cuối đổi mật khẩu</th>
+                                    <th>Lần cuối đăng nhập</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var i in ViewBag.list)
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@i.nguoidung</td>
+                                            <td>@i.hoten</td>
+                                            <td>@((i.ngaydoimk != null)?i.ngaydoimk.ToString("dd/MM/yyyy hh:mm:ss tt"):"N/A")</td>
+                                            <td>@((i.ngaydangnhap != null)?i.ngaydangnhap.ToString("dd/MM/yyyy hh:mm:ss tt"):"N/A")</td>
+                                        </tr>
+                                        count = count + 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End PAge Content -->
+</div>
+
+<script src="~/Content/AdminLayout/js/lib/datatables/datatables.min.js?version=1"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+<script>
+    $('#example2').DataTable({
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#submit1").click(function (e) {
+            if($("#ngaykhoatk").val() == "" || $("#ngaydoimk").val() == "")
+            {
+                e.preventDefault();
+                bootbox.alert({
+                    message: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Bạn chưa điền đủ ngày!',
+                    size: 'small'
+                });
+            }
+        });
+    });
+
+</script>
+<style>
+    tbody tr td {
+        color: black;
+    }
+
+    a, button {
+        color: #1b1c1d !important;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    thead tr th:last-child {
+        text-align: center !important;
+    }
+
+    tbody tr td:last-child {
+        text-align: left !important;
+    }
+</style>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_SALEAPPROVE>
+<table id="exceltable" class="table-bordered display nowrap">
+    <thead id="tableheader">
+        <tr>
+            <th rowspan="2">Local code</th>
+            <th rowspan="2">Product Name</th>
+            <th rowspan="2">Channel</th>
+            <th rowspan="2">Channel Categories</th>
+            @foreach (var i in Model.Select(n => new { n.thangduuoc, n.namduuoc }).Distinct().OrderBy(k => k.namduuoc).ThenBy(k => k.thangduuoc))
+            {
+                <th class="text-center" colspan="50">@i.thangduuoc/@i.namduuoc</th>
+            }
+
+            <th rowspan="2">Ngày kết thúc thầu</th>
+        </tr>
+        <tr>
+            @*<th>Local code</th>
+            <th>Channel</th>
+            <th>Sub Channel</th>*@
+           
+
+           
+            @foreach (var i in Model.Select(n => new { n.thangduuoc, n.namduuoc }).Distinct().OrderBy(k => k.namduuoc).ThenBy(k => k.thangduuoc))
+            {
+                foreach (var z in Model.Where(n => n.thangduuoc == i.thangduuoc && n.namduuoc == i.namduuoc).Select(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.nam).ThenBy(k => k.thang))
+                {
+                    <th>@(z.thang + "/" + z.nam)</th>
+                }
+                foreach (var z in Model.Where(n => n.thangduuoc == i.thangduuoc && n.namduuoc == i.namduuoc).Select(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.nam).ThenBy(k => k.thang))
+                {
+                    <th>Value @(z.thang + "/" + z.nam)</th>
+                }
+
+            }
+                @*<th>Ngày kết thúc thầu</th>*@
+
+
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+
+        @foreach (var i in Model.GroupBy(n => new { n.mahh, n.kenh, n.sub }))
+        {
+            <tr class="tr-data">
+                <td>@i.Key.mahh</td>
+                <td>@i.First().nguoitao</td>
+                <td>@i.Key.kenh</td>
+                <td>@i.Key.sub</td>
+                @foreach (var m in Model.Select(n => new { n.thangduuoc, n.namduuoc }).Distinct().OrderBy(k => k.namduuoc).ThenBy(k => k.thangduuoc))
+                {
+                    foreach (var z in Model.Where(n => n.thangduuoc == m.thangduuoc && n.namduuoc == m.namduuoc).Select(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.nam).ThenBy(k => k.thang))
+                    {
+                        <td>@string.Format("{0:0}", i.SingleOrDefault(n=> n.thangduuoc == m.thangduuoc && n.namduuoc == m.namduuoc && n.thang == z.thang && n.nam == z.nam).soluong)</td>
+                    }
+                    foreach (var z in Model.Where(n => n.thangduuoc == m.thangduuoc && n.namduuoc == m.namduuoc).Select(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.nam).ThenBy(k => k.thang))
+                    {
+                        <td>@string.Format("{0:0}", i.SingleOrDefault(n => n.thangduuoc == m.thangduuoc && n.namduuoc == m.namduuoc && n.thang == z.thang && n.nam == z.nam).sotien)</td>
+                    }
+                }
+                <td>@((i.OrderByDescending(n => n.ngayketthucthau).FirstOrDefault().ngayketthucthau != null) ? ((DateTime)(i.FirstOrDefault().ngayketthucthau)).ToString("dd/MM/yyyy") : "" )</td>
+            </tr>
+        }
+    </tbody>
+</table>

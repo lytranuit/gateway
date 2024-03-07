@@ -1,0 +1,223 @@
+﻿@model ApplicationChart.Models.ListDataKD
+<div class="card mb-0">
+    <div class="card-header">
+        Ngày tạo:
+        <strong>@DateTime.Now.ToString("dd/MM/yyyy")</strong>
+        <span class="float-right"> <strong>Trạng thái:</strong> Chờ duyệt</span>
+    </div>
+    <div class="card-body pb-0 pt-1 pl-2 pr-2">
+        <div class="row mb-1">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="khachhang">Khách hàng<code class="bg-white">(*)</code></label>
+                    @if (Model.ListKH.Count() == 1)
+                    {
+                        <select id="khachhang" class="selectpicker" data-live-search="true" name="option">
+                            @foreach (var i in Model.ListKH)
+                            {
+                                <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
+                            @foreach (var i in Model.ListKH)
+                            {
+                                <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                            }
+                        </select>
+                    }
+                </div>
+                <!-- Default input -->
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6" id="divmatdv">
+                <!-- Default input -->
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="khachhang">Hợp đồng<code class="bg-white">(*)</code></label>
+                    <select id="hopdong" title="Chọn hợp đồng" class="selectpicker" name="option">
+                        @if (Model.ListHopdong != null)
+                        {
+                            foreach (var i in Model.ListHopdong)
+                            {
+                                <option selected value="@i.MAHOPDONG">@i.MAHOPDONG - @i.TENHOPDONG</option>
+                            }
+                            <option value="TQG">TQG - THẦU QUỐC GIA</option>
+                            <option data-ck="null" value="OTC">OTC</option>
+                            <option data-ck="null" value="PY2018">PY2018 - THẦU 2018</option>
+                            <option data-ck="null" value="QT2018">QT2018 - GIÁ 2019</option>
+                            <option data-ck="null" value="92NS">92NS - THẦU 2018</option>
+                            <option data-ck="null" value="36NS">36NS - THẦU 2019</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <!-- Default input -->
+                <div class="form-group mb-2">
+                    <label class="col-form-label" for="editngaygiao">VAT</label>
+                    <select id="vat" class="selectpicker" name="option">
+                        <option value="5" selected>Tính 5%</option>
+                        <option value="10">Tính 10%</option>
+                        <option value="8">Tính 8%</option>
+                        <option value="0">Tính 0%</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="btn-group mb-2 w-100" id="themkhachhang">
+                    <span class="input-group-text btn-primary" id="basic-addon1">THÊM HÀNG HÓA</span>
+                    <select title="Chọn các sản phẩm (Tối đa 11 sản phẩm)" id="themsanpham" class="selectpicker selectui" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                        @*@foreach (var i in Model.ListHH)
+                            {
+                            <option data-dvt="@i.DVT" data-tenhh="@i.TENHH" title="@i.MAHH - @i.TENHH" data-subtext="(@i.DVT)" data-giaban="@i.GIABAN" data-sl1="@i.SL1" data-sl2="@i.SL2" data-sl3="@i.SL3" value="@i.MAHH">@i.MAHH - @i.TENHH</option>
+                            }*@
+                    </select>
+                    <button title="Thêm" id="add_row_them" class="btn btn-sm btn-primary waves-effect pull-left m-0" style="font-size:0.7rem"><i style="font-size:1.7em" class="fa fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive-sm">
+            <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+                <thead style="background-color:rgb(66, 133, 244)">
+                    <tr class="text-white">
+                        <th class="center">STT</th>
+                        <th>Sản phẩm</th>
+                        <th style="width:100px">Thùng</th>
+                        <th style="width:100px">Hộp</th>
+                        <th class="center">Số lượng</th>
+                        <th>Đơn giá (Có VAT)</th>
+                        <th>Thành tiền</th>
+                        <th style="width:90px">Số lô</th>
+                        <th style="width:70px">Hạn dùng</th>
+                        <th style="width:150px;">Ghi chú</th>
+                        <th style="width:20px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="tab_logic">
+                    @foreach (var i in Model.ListDDH)
+                    {
+                        <tr>
+                            <td class="text-center text-dark">@i.STT</td>
+                            <td class="left strong hanghoa text-dark" data-dvt="@i.DVT" data-tenhh="@i.TENHH" data-mahh="@i.MAHH">@i.MAHH - @i.TENHH</td>
+                            <td class="text-right paddingleft2 paddingright2"><input autocomplete="off" value="@string.Format(ViewBag.ss, "{0:n}",((int)(i.SOLUONG/Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3)))" onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>
+                            <td class="text-right paddingleft2 paddingright2"><input autocomplete="off" value="@string.Format(ViewBag.ss, "{0:n}",(((int)(i.SOLUONG%Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3))*Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL2/Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3))" onkeypress="validate(event)" data-sl="@Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL2" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>
+                            <td class="text-right paddingleft2 paddingright2 sl3 text-dark" data-sl="@Model.ListHH.First(n=>n.MAHH == i.MAHH).SL3">@string.Format(ViewBag.ss, "{0:n}", i.SOLUONG)</td>
+                            <td class="text-right paddingleft2 paddingright2 text-dark">@string.Format(ViewBag.ss, "{0:n}", i.GIABAN_VAT)</td>
+                            <td class="text-right paddingleft2 paddingright2 text-dark">@string.Format(ViewBag.ss, "{0:#,0}", (i.SOLUONG * i.GIABAN_VAT))</td>
+                            <td class="paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" maxlength="10" value="@i.MALO" type="text" class="form-control form-control-sm font-weight-normal malo"></td>
+                            <td class="paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" maxlength="6" value="@i.HANDUNG" type="text" class="form-control form-control-sm font-weight-normal handung"></td>
+                            <td class="text-right paddingleft2 paddingright2"><input value="@i.DATE" maxlength="30" autocomplete="on" type="text" class="form-control form-control-sm font-weight-normal datenote"></td>
+                            <td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <table class="table table-bordered mb-2">
+            <tbody>
+                <tr>
+                    <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+                    <td class="text-danger font-weight-bold text-right" id="tienvat">0.00</td>
+                    <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+                    <td class="text-danger font-weight-bold text-right" id="thanhtien">0.00</td>
+                    <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+                    <td class="text-danger font-weight-bold text-right" id="tongtien">0.00</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group p-0">
+            <textarea placeholder="Ghi chú" class="form-control rounded-0" id="ghichu" rows="3"></textarea>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Taodonhangkd.js?version=100"></script>
+<script>
+    $(document).ready(function () {
+        $("#hopdong").val('@Model.ListDDH.First().HOPDONG');
+        $("#vat").val('@Model.ListDDH.First().VAT');
+        $("#sodonhang").text('@Model.ListDDH.First().MADH');
+        var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
+        var count = 0;
+        $('#tablehanghoa > tbody  > tr').each(function () {
+            count = count + parseInt($(this).find("td:eq(6)").text().toString().replace(/[^\d.]/g, ''));
+        });
+        $("#tongtien").text(count.format());
+        $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
+        $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
+        $("#ghichu").val("@Model.ListDDH.First().GHICHU");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSanPhamHDKD", "Order")",
+            datatype: 'json',
+            contentType: "application/json",
+            data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+            error: function () {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+            },
+            success: function (data) {
+                $("#themsanpham").html(data);
+                $('.selectpicker').selectpicker('refresh');
+            },
+            timeout: 5000,
+        });
+        $("#hopdong").change(function () {
+            if ($("#tablehanghoa > tbody > tr").length != 0) {
+                $("#tablehanghoa > tbody").empty();
+                $("#tienvat").text("0.00");
+                $("#thanhtien").text("0.00");
+                $("#tongtien").text("0.00");
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSanPhamHDKD", "Order")",
+                datatype: 'json',
+                contentType: "application/json",
+                data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                error: function () {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                },
+                success: function (data) {
+                    $("#themsanpham").html(data);
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                timeout: 5000,
+            });
+
+        });
+    });
+</script>

@@ -1,0 +1,248 @@
+﻿@model ApplicationChart.Models.ListData
+@{
+    ViewBag.Title = "Tạo đơn hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        td .form-control {
+            font-size: 12px;
+            height: 32px;
+        }
+    </style>
+}
+@Html.AntiForgeryToken()
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">TẠO ĐƠN HÀNG</li>
+        </ol>
+    </div>
+    <div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+        <strong>THÔNG BÁO :</strong> Các sản phẩm <strong>60.P53-PYME ABZ, 60.P41-PYME FUCAN, 60.T07-TATACA</strong> đơn vị tính trong mục TẠO ĐƠN HÀNG TRÊN TẤT CẢ THIẾT BỊ sẽ là đơn vị <strong>VIÊN</strong>.
+    </div>
+    <div class="alert alert-danger mb-0 p-2 font-small" role="alert">
+        <strong>VIẾT TẮT :</strong> <strong>KSĐB :</strong> Kiểm soát đặc biệt, <strong>TPCN :</strong> Thực phẩm chức năng.
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    Ngày tạo:
+                    <strong>@DateTime.Now.ToString("dd/MM/yyyy")</strong>
+                    <span class="float-right"> <strong>Trạng thái:</strong> Chờ duyệt</span>
+                </div>
+                <div class="card-body pb-0 pt-1 pl-2 pr-2">
+                    <div class="row mb-1">
+                        <div class="col-sm-12 col-md-12 col-lg-9">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Khách hàng<code class="bg-white">(*)</code></label>
+                                <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
+                                    @foreach (var i in Model.ListKH)
+                                    {
+                                        <option data-phanloaikhachhang="@i.phanloaikhachhang" data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-matdv="@((User.Identity.Name == "HCM.ANHTIEN")?"":i.MATDV)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                    }
+                                </select>
+                            </div>
+                            <!-- Default input -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="editngaygiao">Hạn mức</label>
+                                <input id="hanmuc" class="form-control font-weight-normal m-0" value="" type="text" readonly autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Tiền nợ</label>
+                                <input id="tienno" class="form-control font-weight-normal m-0" value="" type="text" readonly autocomplete="off">
+                            </div>
+                            <!-- Default input -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Tiền nợ quá hạn (<a href="#!" class="text-danger font-weight-bold" data-toggle="modal" data-target="#modaltiennoquahan">Xem chi tiết</a>)</label>
+                                <input id="tiennoquahan" class="form-control font-weight-normal m-0" value="" type="text" readonly autocomplete="off">
+                            </div>
+                            <!-- Default input -->
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="editngaygiao">Ngày dự kiến giao hàng</label>
+                                <input class="form-control form-control1 NGAY font-weight-normal m-0" id="editngaygiao" placeholder="DD/MM/YYYY" type="text" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12 hidden" id="divmatdv">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Mã trình dược viên<code class="bg-white">(*)</code></label>
+                                <select id="matdv" class="selectpicker" name="option">
+                                    @foreach (var i in Model.ListTDV)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5">
+                            <div class="form-group mb-2">
+                                <label class="col-form-label" for="khuyenmai">Chương trình khuyến mãi</label>
+                                <select id="khuyenmai" title="Chọn chương trình khuyến mãi" class="selectpicker" data-live-search="true" name="option">
+                                    @foreach (var i in Model.ListCTKM)
+                                    {
+                                        <option data-bbtt="@i.BBTT" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-tichdiem="@i.TICHDIEM" data-mahh="@i.MAHH" data-ck="@((i.ck != null)?i.ck:0)" data-tokens="@i.MACTKM - @i.TENCTKM" tabindex="@i.TENCTKM" value="@i.MACTKM">@i.MACTKM - @i.TENCTKM</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4">
+                            <div class="form-group mb-2">
+                                <label class="col-form-label" for="cthotro">Chương trình hỗ trợ</label>
+                                <select id="cthotro" title="Chọn chương trình hỗ trợ" class="selectpicker" data-live-search="true" name="option">
+                                    <option value="" selected>Không</option>
+                                    @foreach (var i in Model.ListCTHT)
+                                    {
+                                        <option data-mactkm="@i.MACTKM" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-tichdiem="@i.TICHDIEM" data-mahh="@i.MAHH" data-tokens="@i.MACTHT - @i.TENCTHT" tabindex="@i.TENCTHT" value="@i.MACTHT">@i.MACTHT - @i.TENCTHT</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-2">
+                                <label class="col-form-label" for="editngaygiao">VAT</label>
+                                <select id="vat" class="selectpicker" name="option">
+                                    <option value="5" selected>5%</option>
+                                    <option value="8">8%</option>
+                                    <option value="10">10%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="btn-group mb-2 w-100" id="themkhachhang">
+                                <span class="input-group-text btn-primary" id="basic-addon1">THÊM HÀNG HÓA</span>
+                                <select title="Chọn các sản phẩm (Tối đa 10 sản phẩm)" id="themsanpham" class="selectpicker selectui" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                                    @foreach (var i in Model.ListHH)
+                                    {
+                                        if (i.phanphoi == 1)
+                                        {
+                                            <option data-phanphoi="1" disabled data-dvt="@i.DVT" data-tenhh="@i.TENHH" title="@i.MAHH - @i.TENHH" data-subtext="@i.ghichu" data-kiemsoat="@i.kiemsoat" data-giaban="@i.GIABAN" data-sl1="@i.SL1" data-sl2="@i.SL2" data-sl3="@i.SL3" value="@i.MAHH">@i.MAHH - @i.TENHH</option>
+                                        }
+                                        else
+                                        {
+                                            <option data-phanphoi="0" data-dvt="@i.DVT" data-tenhh="@i.TENHH" title="@i.MAHH - @i.TENHH" data-subtext="(@i.QUICACH)(@i.DVT)@((i.kiemsoat == 1)?" - (*KSĐB)":"")@((i.kiemsoat == 2) ? " - (*TPCN)":"")" data-kiemsoat="@i.kiemsoat" data-giaban="@i.GIABAN" data-sl1="@i.SL1" data-sl2="@i.SL2" data-sl3="@i.SL3" value="@i.MAHH">@i.MAHH - @i.TENHH</option>
+                                        }
+                                    }
+                                </select>
+                                <button title="Thêm" id="add_row_them" class="btn btn-sm btn-primary waves-effect pull-left m-0" style="font-size:0.7rem"><i style="font-size:1.7em" class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th class="center">STT</th>
+                                    <th>Sản phẩm</th>
+                                    <th style="width:100px">Thùng</th>
+                                    <th style="width:100px">Hộp</th>
+                                    <th class="center">Số lượng</th>
+                                    <th>Đơn giá (Có VAT)</th>
+                                    <th>Thành tiền</th>
+                                    <th style="width:100px">Chiết khấu(%)</th>
+                                    <th>Điểm tích lũy</th>
+                                    <th style="width:20px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tab_logic"></tbody>
+                        </table>
+                    </div>
+                    <table class="table table-bordered mb-2">
+                        <tbody>
+                            <tr>
+                                <td class="font-weight-bold w-15 text-center text-dark">TỔNG ĐIỂM TÍCH LŨY</td>
+                                <td class="text-danger font-weight-bold text-right" id="tongdiemtichluy">0</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+                                <td class="text-danger font-weight-bold text-right" id="tienvat">0.00</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN CHƯA VAT</td>
+                                <td class="text-danger font-weight-bold text-right" id="thanhtien">0.00</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+                                <td class="text-danger font-weight-bold text-right" id="tienck">0.00</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+                                <td class="text-danger font-weight-bold text-right" id="tongtien">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group p-0">
+                        <textarea placeholder="Ghi chú" class="form-control rounded-0" id="ghichu" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="card-footer modal-footer p-2">
+                    <button id="btnhuy" type="button" class="btn btn-danger btn-sm transition-3d-hover mb-0" data-dismiss="modal">Hủy</button>
+                    <button id="btnluu" type="button" class="btn btn-success btn-sm transition-3d-hover">Lưu</button>
+                    <button id="btnluuvatiep" type="button" class="btn btn-primary btn-sm transition-3d-hover">LƯU VÀ TIẾP TỤC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaltiennoquahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog mx-auto" role="document">
+        <div class="modal-content full-screen">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">CHI TIẾT TIỀN NỢ QUÁ HẠN</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <div class="table-responsive-sm">
+                    <table class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+                        <thead>
+                            <tr>
+                                <th class="font-weight-bold text-dark" scope="col">SCT</th>
+                                <th class="font-weight-bold text-dark" scope="col">Ngày</th>
+                                <th class="font-weight-bold text-dark" scope="col">Tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabletiennoquahan"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-sm btn-danger mt-0 mb-0" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(window).on('load resize', function () {
+            if ($(window).width() < 800 || $(window).height() < 500) {
+                window.location = "tao-moi-don-dat-hang-mobile"
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#khachhang").val('@ViewBag.makh');
+        });
+    </script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Scripts/Taodonhang.js?version=27042023"></script>
+}

@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "Tra cứu phiếu xổ số";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">TRA CỨU PHIẾU XỔ SỐ</li>
+        </ol>
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-xl-3 col-lg-3 col-md-6 mb-1">
+                <label class="col-form-label" for="chon">Chọn<code>(*)</code></label>
+                <select class="selectpicker show-tick" id="chon">
+                    <option selected value="1">Một chi nhánh</option>
+                    <option value="2">Nhiều chi nhánh</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
+                <select name="chinhanh" title="Chi nhánh..." class="selectpicker" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Trình dược viên</label>
+                <select name="matdv" data-live-search="true" class="selectpicker" id="matdv">
+                    <option selected value="ALL">TẤT CẢ</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Quí</label>
+                <select name="qui" class="selectpicker" id="qui">
+                    <option data-nam="2023" selected value="1">1 Năm 2023</option>
+                    <option data-nam="2022" value="1">1 Năm 2022</option>
+                    <option data-nam="2021" value="3">3 Năm 2021</option>
+                    <option data-nam="2021" value="4">4 Năm 2021</option>
+                </select>
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-search" aria-hidden="true"></i> <b>TÌM KIẾM</b></button>
+                <button style="height:auto;width:auto;" type="button" class="btn btn-danger btn-sm transition-3d-hover m-0" onClick="location.href='@Url.Action("quan-ly-don-dat-hang", "Order")';return false;"><i class="fa fa-arrow-left" aria-hidden="true"></i> <b>TẢI LẠI</b></button>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;">
+
+        <div class="" id="Viewtable">
+        </div>
+    </div>
+</div>
+@section scripts {
+
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnsubmit").click(function () {
+                if ($("#chinhanh").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialTracuuthecao", "Order")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{qui: ' + JSON.stringify($("#qui").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + ',nam: ' + JSON.stringify($("#qui option:selected").attr('data-nam')) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $("#Viewtable").html(data);
+                            $("#example").dataTable({
+                                "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                buttons: [
+                             'copy', 'excel'
+                                ]
+                            });
+                            $('#loading').modal('hide')
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $("#chinhanh").change(function () {
+                $("#matdv").empty();
+                var url = '@Url.Action("GetTrinhDuocVien", "Home")';
+                $.post(url, { ChiNhanhId: $("#chinhanh").val() },
+                          function (data) {
+                              $("#matdv").append('<option selected value="ALL">TẤT CẢ</option>');
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#matdv").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#chon").change(function () {
+                $("#PartialView").empty();
+                if ($("#chon").val() == 1) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                }
+                else {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').addClass('show-tick');
+                    $('#chinhanh').attr("multiple", "true");
+                    $('#chinhanh .bs-title-option').remove();
+                }
+                $('#chinhanh').selectpicker();
+                $('#chinhanh').selectpicker('deselectAll');
+            });
+        });
+    </script>
+}

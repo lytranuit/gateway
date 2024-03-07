@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCHANGHOA>
+<table id="example" class="table-bordered display nowrap">
+    <thead>
+        <tr>
+            <th class="text-center">Hành Động </th>
+            <th class="text-center">STT</th>
+       
+            <th class="text-center">Mã hàng hóa</th>
+            <th class="text-center">Tên hàng hóa</th>
+            <th class="text-center">DVT</th>
+            <th class="text-center">Nhóm</th>
+            <th class="text-center">Giá kê khai</th>
+            <th class="text-center">Quy cách</th>
+            <th class="text-center">Tên hoạt chất</th>
+            <th class="text-center">SDK</th>
+            <th class="text-center">Classification</th>
+            <th class="text-center">Sub Classification</th>
+            <th class="text-center">Therapeutic Area</th>
+            <th class="text-center">Xưởng SX</th>
+            <th class="text-center">CHC</th>
+            <th class="text-center">SAP CODE</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        <button value="@i.MAHH" title="Chỉnh sửa danh mục hàng hóa" type="button" class="btn m-0 btn-primary btnedit" data-toggle="modal" data-animation="bounce" data-target="#modaledit">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        @count
+                    </td>
+                 
+                    <td class="text-center">@i.MAHH</td>
+                    <td class="text-center">@i.TENHH</td>
+                    <td class="text-center">@i.DVT</td>
+                    <td class="text-center">@i.nhom</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.GIAKEKHAI)</td>
+                    <td class="text-center">@i.QUICACH</td>
+                    <td class="text-center">@i.tenhoatchat</td>
+                    <td class="text-center">@i.SDK</td>
+                    <td class="text-center">@i.Classification</td>
+                    <td class="text-center">@i.Sub_classification</td>
+                    <td class="text-center">@i.Therapeutic_area</td>
+                    <td class="text-center">@i.xuongsx</td>
+                    <td class="text-center">@i.chc</td>
+                    <td class="text-center">@i.SAP_code</td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+
+

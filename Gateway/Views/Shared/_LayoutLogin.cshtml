@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Title" content="Trang Gateway">
+    <meta http-equiv="content-language" content="vi" />
+    <meta name="theme-color" content="#f2546b">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="google-site-verification" content="cMekiQOeludJ19h6AHtMuohwKef1rqyxCFwgM9u8Ztk" />
+    <link rel="shortcut icon" href="~/Content/Layout1/images/logopmp1.png" />
+    <title>@ViewBag.Title</title>
+  
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/LayoutPro/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/LayoutPro/css/mdb.css?version=2" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/Content/MDB/css/style.css" rel="stylesheet">
+    @*<link href="~/Content/w3.css" rel="stylesheet">*@
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link href="~/Content/LoginCss.css?version=3" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading-animate.css?version=1">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading.css?version=1">
+    <script src="~/Content/loading/js/modal-loading.js?version=1"></script>
+  
+</head>
+<body class="creative-lp">
+    <script>
+        var loading = new Loading();
+    </script>
+    <header class="logo-center" style="border-bottom:7px solid #2FA95E">
+        <div class="container">
+            <div class="logo" style="margin-top:12px;margin-bottom:12px;">
+                <a href="https://pypharm.com.vn">
+                    <img alt="logo2" style="width:150px;" src="~/Content/Layout1/images/logopymestada_doc112.png"/>
+                </a>
+                <div class="float-right pt-3 pb-3">
+                    @if (ViewBag.flag == "en")
+                    {
+                        @Url.LangSwitcher("Vietnamese", ViewContext.RouteData, "vi")
+                    }
+                    else
+                    {
+                        @Url.LangSwitcher("English", ViewContext.RouteData, "en")
+                    }
+                </div>
+            </div>
+        </div>
+    </header>
+    @RenderBody()
+    <footer style="border-top:7px solid #2FA95E; margin-top:20px;">
+        <div class="container" style="height:62px;">
+            <img alt="logo" style="float:left" src="~/Content/Layout1/images/logopymestada_doc112.png" width="150"/>
+            <p style="padding-top:21px;">Copyright ©@DateTime.Now.Year All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+
+
+
+        var lang = "/" + '@ViewBag.flag';
+    </script>
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="~/Scripts/jquery-confirm.min.js?version=1"></script>
+    <script type="text/javascript" src="~/Content/MDB/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/mdb.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/md5.min.js"></script>
+    @*<script src="~/Scripts/JavaScript.js"></script>*@
+    <script type="text/javascript" language="javascript">
+        //Check if the top location is same as the current location
+        if (top.location.hostname != self.location.hostname) {
+            //If not then set the top to you current
+            top.location.href = self.location.href;
+        }
+    </script>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $(".modal-mask").css("display", "none");
+    });
+</script>

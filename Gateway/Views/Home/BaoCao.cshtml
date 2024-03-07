@@ -1,0 +1,947 @@
+﻿@model ApplicationChart.Models.BAOCAODATA
+@{
+    ViewBag.Title = "Báo Cáo BSC";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link rel="stylesheet" href="~/Content/BaoCaoStyle.css?version=25">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+    </style>
+}
+
+@using (Html.BeginForm("xem-bao-cao-bsc", "Home", FormMethod.Post))
+{
+    <div id="heightscreen">
+        <div class="w3-card w3-white" style="border-radius:0.25rem">
+            <ol class="breadcrumb" style="margin-top:45px;margin-bottom:2px;">
+                <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">@Html.Raw(GlobalRes.lbtrangchu.ToUpper())</a></li>
+                <li class="breadcrumb-item active w3-text-black">@Html.Raw(GlobalRes.lbbaocaobsc.ToUpper())</li>
+            </ol>
+        </div>
+        @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+            <strong>THÔNG BÁO : HIỆN TẠI HỆ THỐNG ĐANG BỊ QUÁ TẢI, ĐỂ ĐẢM BẢO VẬN HÀNH BÁO CÁO BSC CHỈ TRUY XUẤT ĐƯỢC DỮ LIỆU TỪ NGÀY 01.01.2023 - ĐẾN NAY</strong>
+        </div>*@
+        <div class="alert alert-danger mb-0 p-2 font-small" role="alert">
+            <strong>LƯU Ý : DOANH SỐ CHỈ ĐƯỢC TÍNH KHI CÓ SỐ HÓA ĐƠN ĐIỆN TỬ</strong>
+        </div>
+        @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+                <strong>CẬP NHẬT :</strong> Bổ sung 2 báo cáo thống kê doanh số <strong>CTKM, CTHT</strong> theo mã tỉnh tại <strong>loại báo cáo 25,26</strong>.
+            </div>*@
+        @Html.AntiForgeryToken()
+        <div class="w3-container box" style="text-align:center; margin-top:0px;margin-bottom:2px;background-color:white;">
+            <div id="content"></div>
+            <div class="w3-col l2 m6 s6 w3-padding pl-md-0 pl-lg-4">
+                <button id="btnin" type="submit" value="1" name="btnin" class="btn abc btn-success btn-sm transition-3d-hover m-0" formTarget="_blank"><i style="padding-right:10px;" class="fa fa-search" aria-hidden="true"></i>@Html.Raw(GlobalRes.lbtimkiem.ToUpper())</button>
+            </div>
+            @if (ViewBag.READ_ONLY == false)
+            {
+                <div class="w3-col l2 m6 s6 w3-dropdown-hover w3-padding paddingright">
+                    <button id="btnin" type="button" class="btn abc btn-danger tai m-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="padding-right:10px;" class="fa fa-download" aria-hidden="true"></i>@Html.Raw(GlobalRes.lbtaive.ToUpper())</button>
+                    <div id="taidrop" class="w3-dropdown-content w3-bar-block w3-border" style="right:0;padding:8px;">
+                        @if (ViewBag.pdf == true)
+                        {
+                            <button id="pdf" type="submit" name="btnin" value="2" class="w3-bar-item w3-button"><img style="margin-bottom:0;" src="~/Content/Image/pdf4.png">&nbsp; &nbsp; &nbsp; PDF</button>
+                        }
+                        @if (ViewBag.excel == true)
+                        {
+                            <button id="excel" type="submit" name="btnin" value="3" class="w3-bar-item w3-button"><img style="margin-bottom:0;" src="~/Content/Image/excel.png">&nbsp; &nbsp; &nbsp; EXCEL</button>
+                        }
+                        @if (ViewBag.word == true)
+                        {
+                            <button id="word" type="submit" name="btnin" value="4" class="w3-bar-item w3-button"><img style="margin-bottom:0;" src="~/Content/Image/word.png">&nbsp; &nbsp; &nbsp; WORD</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="w3-content w3-padding box" style="background-color:white;">
+            <div class="row p-2">
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbchon)<code>(*)</code></label>
+                    <select class="selectpicker my-1 mr-sm-2 show-tick" id="chon">
+                        <option selected value="0">@Html.Raw(GlobalRes.lbmotchinhanh)</option>
+                        <option value="1">@Html.Raw(GlobalRes.lbnhieuchinhanh)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="chinhanh">@Html.Raw(GlobalRes.lbchonchinhanh)<code>(*)</code></label>
+                    <select class="selectpicker my-1 mr-sm-2" data-dropdown-align-right="true" name="Checkboxlist1" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="donvi">
+                        <optgroup id="theomien" class="hidden" label="THEO MIỀN">
+                            <option value="HN,PT,TB,TNG,HP">@Html.Raw(GlobalRes.lbmienbac.ToUpper())</option>
+                            <option value="PY,QN,TT423,BD,DNA,GL,HUE,NA,NT,THO,BT">@Html.Raw(GlobalRes.lbmientrung.ToUpper())</option>
+                            <option value="PTTT,HCM,CHQ10,CT,CHPPSP,AG,CM,DN,LD,TG,TN,VL,BDG">@Html.Raw(GlobalRes.lbmiennam.ToUpper())</option>
+                        </optgroup>
+                        <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
+                            @foreach (var k in ViewBag.mientrung)
+                            {
+                                <option value="@k.macn">@k.Tencn</option>
+                            }
+                        </optgroup>
+                        <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
+                            @foreach (var k in ViewBag.miennam)
+                            {
+                                <option value="@k.macn">@k.Tencn</option>
+                            }
+                        </optgroup>
+                        <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
+                            @foreach (var k in ViewBag.mienbac)
+                            {
+                                <option value="@k.macn">@k.Tencn</option>
+                            }
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divngay">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbtungay)<code>(*)</code></label>
+                    <input type="text" autocomplete="off" name="tungay1" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2 w-100" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("01/MM/yyyy")" id="tungay">
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divngay">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbdenngay)<code>(*)</code></label>
+                    <input type="text" autocomplete="off" name="denngay1" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2 w-100" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="denngay">
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divnam" style="display:none;">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbqui)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="qui" id="qui">
+                        <option selected value="Quí 1">@Html.Raw(GlobalRes.lbqui) 1</option>
+                        <option value="Quí 2">@Html.Raw(GlobalRes.lbqui) 2</option>
+                        <option value="Quí 3">@Html.Raw(GlobalRes.lbqui) 3</option>
+                        <option value="Quí 4">@Html.Raw(GlobalRes.lbqui) 4</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divnam" style="display:none;">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbnam)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="nam" id="nam">
+                        <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                        <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                        <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                        <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-9 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbloaibaocao)<code>(*)</code></label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="loaibaocao" id="chonbaocao">
+                        @foreach (var i in Model.LOAIBC.OrderBy(n => n.TENBC))
+                        {
+                            <option value="@i.ID">@((ViewBag.flag == "vi") ? i.TENBC : i.REPORT)</option>
+                        }
+                        @if (((string[])(ViewBag.quyen.Split(','))).Contains("LAYDULIEU"))
+                        {
+                            <option value="44">41. LẤY DỮ LIỆU</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divtop" style="display:none;">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">TOP</label>
+                    <input type="number" name="top" id="top" value="50" step="10" min="10" class="form-control my-1 mr-sm-2 w-100" />
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbtruchietkhau)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="tienck" id="tienck">
+                        <option selected value="0">@Html.Raw(GlobalRes.lbkhong)</option>
+                        <option value="1">@Html.Raw(GlobalRes.lbco)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbbaocaotheo)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="loctheo" id="loctheo">
+                        <option selected value="1">@Html.Raw(GlobalRes.lbmahanghoa)</option>
+                        <option value="0">@Html.Raw(GlobalRes.lbsohoadon)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbmaphanloai)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="maphanloai" id="maphanloai">
+                      
+                        <option selected value="BAN,XK,TM">BAN,XK,TM</option>
+                        <option value="BAN,XK,TM,PP">BAN,XK,TM,PP</option>
+                        <option value="BAN,TM,PP">BAN,TM,PP</option>
+                        <option value="BAN,XK,TM,PP,KM">BAN,XK,TM,PP,KM</option>
+                        <option value="TH,NTH">TH,NTH</option>
+                        <option value="BAN">BAN</option>
+                        <option value="XK">XK</option>
+                        <option value="KM">KM</option>
+                        <option value="HM">HM</option>
+                        <option value="CN">CN</option>
+                        <option value="PP">PP</option>
+                        <option value="TM">TM</option>
+                        <option value="BAN,CK,CN,HM,KHAC,KM,MPC,NB,PP,QT,SD,TAM,UH,XK">BAN,CK,CN,HM,KHAC,KM,MPC,NB,PP,QT,SD,TAM,UH,XK</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbnhomhang)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="nhomhang" id="nhomhang" data-actions-box="true" multiple data-selected-text-format="count > 3">
+                        <option selected value="ALL">@Html.Raw(GlobalRes.lbtatca)</option>
+                        @foreach (var i in ViewBag.nhomhang)
+                        {
+                            <option value="@i.MANHOM">@i.MANHOM - @i.TENNHOM</option>
+                        }
+                        @*<option value="50,51,60,61,62,63,64,70">50,51,60,61,62,63,70</option>
+                            <option value="64.PME">64.PME</option>
+                            <option value="64.STA">64.STA</option>*@
+                        @*<option value="64">64.STA,64.PME - Hàng Stada</option>*@
+                        @*<option value="3">Nhóm hàng khác</option>*@
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="Checkboxlist2">@Html.Raw(GlobalRes.lbphanloaikhachhang)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="Checkboxlist2" id="Checkboxlist2">
+                        @if (ViewBag.otc.Count == 2)
+                        {
+                            <option value="ALL" checked>@Html.Raw(GlobalRes.lbtatca)</option>
+                            <option data-subtext="Khối khách hàng ETC" value="ETC">ETC</option>
+                            <option data-subtext="Khối khách OTC" value="OTC">OTC</option>
+                        }
+                        else
+                        {
+                            foreach (var i in ViewBag.otc)
+                            {
+                                if (i == "ETC")
+                                {
+                                    <option data-subtext="Khối khách hàng ETC" checked value="ETC">ETC</option>
+                                }
+                                if (i == "OTC")
+                                {
+                                    <option data-subtext="Khối khách OTC" checked value="OTC">OTC</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                @*<div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 poc">
+                        <label class="my-1 mr-2 font-weight-bold" for="Checkboxlist2">Hóa đơn POC</label>
+                        <select class="selectpicker show-tick my-1 mr-sm-2" name="poc" id="poc">
+                                <option value="0" checked>Không</option>
+                                <option value="1">Có</option>
+                                <option value="2">Chỉ dữ liệu POC</option>
+                        </select>
+                    </div>*@
+                @*<div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                        <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">Hàng Stada</label>
+                        <div class="funkyradio my-1 mr-sm-2">
+                            <div class="funkyradio-primary">
+                                <input type="checkbox" id="hangstada">
+                                <label style="font-size: 14px;" class="font-weight-bold" for="hangstada">Hàng Stada</label>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="form-group col-md-12 mb-1 pr-1 pl-1">
+                    <h5 class="card-title font-weight-bold">@Html.Raw(GlobalRes.lbcacboloc)</h5>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="phanloaichitiet">
+                            <label class="font-weight-bold" for="phanloaichitiet">P.loại CT khách hàng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="sanpham">
+                            <label class="font-weight-bold" for="sanpham">Chi tiết sản phẩm</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="khuvuc">
+                            <label class="font-weight-bold" for="khuvuc">Khu vực</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="khachhang">
+                            <label class="font-weight-bold" for="khachhang">Khách hàng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="trinhduocvien">
+                            <label class="font-weight-bold" for="trinhduocvien">Trình dược viên</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="khuyenmai">
+                            <label class="font-weight-bold" for="khuyenmai">CT Khuyến mãi</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="hotro">
+                            <label class="font-weight-bold" for="hotro">CT Hỗ trợ <code> (MỚI) </code></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="hopdong">
+                            <label class="font-weight-bold" for="hopdong">Hợp đồng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="loaihopdong">
+                            <label class="font-weight-bold" for="loaihopdong">Loại hợp đồng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="quanhuyen">
+                            <label class="font-weight-bold" for="quanhuyen">Quận/Huyện</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input value="true" name="spthauquocgia" type="checkbox" id="spthauquocgia">
+                            <label class="font-weight-bold" for="spthauquocgia">S.phẩm thầu quốc gia</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input value="true" name="spkhongkedon" type="checkbox" id="spkhongkedon">
+                            <label class="font-weight-bold" for="spkhongkedon">S.phẩm không kê đơn</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input value="true" name="nhomhangkhac" type="checkbox" id="nhomhangkhac">
+                            <label class="font-weight-bold" for="nhomhangkhac">Các nhóm hàng khác</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input value="true" name="cogia" type="checkbox" id="cogia">
+                            <label class="font-weight-bold" for="cogia">Sản phẩm giá khác 0</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input value="true" name="khonggia" type="checkbox" id="khonggia">
+                            <label class="font-weight-bold" for="khonggia">Sản phẩm giá bằng 0</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xl-3 pr-1 pl-1">
+                    <div class="funkyradio">
+                        <div class="funkyradio-primary">
+                            <input type="checkbox" id="loaikhachhang">
+                            <label class="font-weight-bold" for="loaikhachhang">Loại trừ khách hàng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 mb-1 pr-1 pl-1">
+                    <h5 class="card-title font-weight-bold">Các bộ lọc nâng cao</h5>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">Bộ lọc sản phẩm CHC</label>
+                    <select class="selectpicker my-1 mr-sm-2 show-tick" id="chc" name="chc">
+                        <option selected value="0">Không chọn</option>
+                        <option value="1">Chỉ chọn sản phẩm CHC</option>
+                        <option value="2">Loại trừ sản phẩm CHC</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="id03" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+            <div class="modal-content full-screen">
+                <div class="modal-header p-2">
+                    <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">PHÂN LOẠI CHI TIẾT KHÁCH HÀNG</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-2">
+                    <div class="container-fluid p-0">
+                        <div class="checkbox checkbox-primary m-0">
+                            <input id="CheckAll3" type="checkbox">
+                            <label for="CheckAll3">
+                                TẤT CẢ
+                            </label>
+                        </div>
+                        <hr />
+                        @foreach (var x in ViewBag.maplkh)
+                        {
+                            <div class="checkbox checkbox-primary">
+                                <input class="Checkboxlist3" value="@x.phanloaikhachhang" id="@('P' + x.phanloaikhachhang)" type="checkbox" name="Checkboxlist3">
+                                <label for="@('P' + x.phanloaikhachhang)">
+                                    @x.phanloaikhachhang &bull; @x.tenphanloai
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="id04" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+            <div class="modal-content full-screen">
+                <div class="modal-header p-2">
+                    <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">NHÓM HÀNG</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-2">
+                    <div class="container-fluid p-0">
+                        <div class="checkbox checkbox-primary m-0">
+                            <input id="CheckAll4" type="checkbox">
+                            <label for="CheckAll4">
+                                TẤT CẢ
+                            </label>
+                        </div>
+                        <hr />
+                        <div class="row pl-3 pr-3" id="Nhomcol">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="id05" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+            <div class="modal-content full-screen">
+                <div class="modal-header p-2">
+                    <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">CHI TIẾT SẢN PHẨM</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-2">
+                    <a class="btn btn-primary w-100 mb-2 mt-0 ml-0 mr-0" data-toggle="collapse" href="#exceltohtml" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        NHẬP MÃ HÀNG HÓA TỪ EXCEL
+                    </a>
+                    <div class="collapse mb-2" id="exceltohtml">
+                        <div class="card card-body">
+                            <textarea class="form-control" id="excelvalue" placeholder="Paste dữ liệu mã hàng hóa từ Excel vào đây..." rows="5"></textarea>
+                            <button id="btnexcel" type="button" class="btn btn-success text-center">Hoàn tất</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                        </div>
+                        <input id="timkieminput" onkeyup="myFunction()" type="text" class="form-control" placeholder="Nhập tên hoặc mã hàng hóa..." aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="container-fluid p-0">
+                        <div class="checkbox checkbox-primary m-0">
+                            <input id="CheckAll5" type="checkbox">
+                            <label for="CheckAll5">
+                                TẤT CẢ
+                            </label>
+                        </div>
+                        <hr class="mt-2 mb-2" />
+                        <label class="text-center w-100">Đã chọn <span id="sanphamcount">0</span> sản phẩm</label>
+                        <div class="overflow-auto" style="min-height:420px;" id="SanPhamList">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="id06" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+            <div class="modal-content full-screen">
+                <div class="modal-header p-2">
+                    <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">KHU VỰC</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                        </div>
+                        <input id="timkieminput5" onkeyup="myFunction5()" type="text" class="form-control" placeholder="Nhập tên hoặc mã khu vực..." aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="container-fluid p-0">
+                        <div class="checkbox checkbox-primary m-0">
+                            <input id="CheckAll6" type="checkbox">
+                            <label for="CheckAll6">
+                                TẤT CẢ
+                            </label>
+                        </div>
+                        <hr />
+                        <div class="overflow-auto" style="min-height:420px;" id="KhuVucList">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="id15" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabelloai">LOẠI TRỪ KHÁCH HÀNG</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <a class="btn btn-primary w-100 mb-2 mt-0 ml-0 mr-0" data-toggle="collapse" href="#exceltohtmlkhloai" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            NHẬP MÃ KHÁCH HÀNG TỪ EXCEL
+                        </a>
+                        <div class="collapse mb-2" id="exceltohtmlkhloai">
+                            <div class="card card-body">
+                                <textarea class="form-control" id="excelvaluekhloai" placeholder="Paste dữ liệu mã hàng hóa từ Excel vào đây..." rows="5"></textarea>
+                                <button id="btnexcelkhloai" type="button" class="btn btn-success text-center">Hoàn tất</button>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1loai"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input id="timkiemkhinput1loai" onkeyup="myFunction1loai()" type="text" class="form-control" placeholder="Nhập tên hoặc mã khách hàng..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="container-fluid p-0">
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll15" type="checkbox">
+                                <label for="CheckAll15">
+                                    TẤT CẢ (Tối đa 200 khách hàng)
+                                </label>
+                            </div>
+                            <hr class="mt-2 mb-2" />
+                            <label class="text-center w-100">Đã chọn <span id="sanphamcountkhloai">0</span> khách hàng</label>
+                            <div class="overflow-auto" style="min-height:420px;" id="KhachHangListloai">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id08" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">KHÁCH HÀNG</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <a class="btn btn-primary w-100 mb-2 mt-0 ml-0 mr-0" data-toggle="collapse" href="#exceltohtmlkh" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            NHẬP MÃ KHÁCH HÀNG TỪ EXCEL
+                        </a>
+                        <div class="collapse mb-2" id="exceltohtmlkh">
+                            <div class="card card-body">
+                                <textarea class="form-control" id="excelvaluekh" placeholder="Paste dữ liệu mã khách hàng từ Excel vào đây..." rows="5"></textarea>
+                                <button id="btnexcelkh" type="button" class="btn btn-success text-center">Hoàn tất</button>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input id="timkiemkhinput1" onkeyup="myFunction1()" type="text" class="form-control" placeholder="Nhập tên hoặc mã khách hàng..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="container-fluid p-0">
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll8" type="checkbox">
+                                <label for="CheckAll8">
+                                    TẤT CẢ (Tối đa 200 khách hàng)
+                                </label>
+                            </div>
+                            <hr class="mt-2 mb-2" />
+                            <label class="text-center w-100">Đã chọn <span id="sanphamcountkh">0</span> khách hàng</label>
+                            <div class="overflow-auto" style="min-height:420px;" id="KhachHangList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id09" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">KHUYẾN MÃI</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input id="timkiemkminput2" onkeyup="myFunction2()" type="text" class="form-control" placeholder="Nhập tên hoặc mã khuyến mãi..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="container-fluid p-0">
+                            <div class="media text-muted pt-3">
+                                <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184833aea89%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184833aea89%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.553498268127441%22%20y%3D%2216.89086518287659%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+                                <p class="media-body mb-0 small lh-125 border-bottom border-gray">
+                                    <strong class="d-block text-gray-dark">HIỆU LỰC</strong>
+
+                                </p>
+                            </div>
+                            <div class="media text-muted pt-3">
+                                <img data-src="holder.js/32x32?theme=thumb&amp;bg=e83e8c&amp;fg=e83e8c&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184833aea8a%20text%20%7B%20fill%3A%23e83e8c%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184833aea8a%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23e83e8c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.553498268127441%22%20y%3D%2216.89086518287659%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+                                <p class="media-body mb-0 small lh-125 border-bottom border-gray">
+                                    <strong class="d-block text-gray-dark">HẾT HẠN</strong>
+
+                                </p>
+                            </div>
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll9" type="checkbox">
+                                <label for="CheckAll9">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                            <hr />
+                            <div class="overflow-auto" style="min-height:420px;" id="KhuyenMaiList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id10" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">TRÌNH DƯỢC VIÊN</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input id="timkiemtdvinput" onkeyup="myFunction3()" type="text" class="form-control" placeholder="Nhập tên hoặc mã trình dược viên..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="container-fluid p-0">
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll10" type="checkbox">
+                                <label for="CheckAll10">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                            <hr />
+                            <div class="overflow-auto" style="min-height:420px;" id="TrinhDuocVienList">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">QUẬN / HUYỆN</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="container-fluid p-0">
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll11" type="checkbox">
+                                <label for="CheckAll11">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                            <hr />
+                            <div class="overflow-auto" style="min-height:420px;" id="QuanhuyenList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id12" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">HỢP ĐỒNG</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input id="timkiemhopdonginput" onkeyup="myFunction4()" type="text" class="form-control" placeholder="Nhập tên hoặc mã hợp đồng..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="container-fluid p-0">
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll12" type="checkbox">
+                                <label for="CheckAll12">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                            <hr />
+                            <div class="overflow-auto" style="min-height:420px;" id="HopDongList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id13" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">LOẠI HỢP ĐỒNG</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="container-fluid p-0">
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll13" type="checkbox">
+                                <label for="CheckAll13">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                            <hr />
+                            <div class="overflow-auto" style="min-height:420px;" id="LoaiHopDongList">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="id14" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto mt-0" role="document">
+                <div class="modal-content full-screen">
+                    <div class="modal-header p-2">
+                        <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">CHƯƠNG TRÌNH HỖ TRỢ</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input id="timkiemkminput6" onkeyup="myFunction6()" type="text" class="form-control" placeholder="Nhập tên hoặc mã ct hỗ trợ..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="container-fluid p-0">
+                            <div class="media text-muted pt-3">
+                                <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184833aea89%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184833aea89%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.553498268127441%22%20y%3D%2216.89086518287659%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+                                <p class="media-body mb-0 small lh-125 border-bottom border-gray">
+                                    <strong class="d-block text-gray-dark">HIỆU LỰC</strong>
+
+                                </p>
+                            </div>
+                            <div class="media text-muted pt-3">
+                                <img data-src="holder.js/32x32?theme=thumb&amp;bg=e83e8c&amp;fg=e83e8c&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184833aea8a%20text%20%7B%20fill%3A%23e83e8c%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184833aea8a%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23e83e8c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.553498268127441%22%20y%3D%2216.89086518287659%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+                                <p class="media-body mb-0 small lh-125 border-bottom border-gray">
+                                    <strong class="d-block text-gray-dark">HẾT HẠN</strong>
+                                </p>
+                            </div>
+                            <div class="checkbox checkbox-primary m-0">
+                                <input id="CheckAll14" type="checkbox">
+                                <label for="CheckAll14">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                            <hr />
+                            <div class="overflow-auto" style="min-height:420px;" id="HotroList">
+                                @foreach (var i in Model.CTHT)
+                                {
+                                    if (i.NGAYBATDAU <= DateTime.Today && i.NGAYKETTHUC >= DateTime.Today)
+                                    {
+                                        <div class="checkbox checkbox-primary Checkboxlist14 text-primary"><input class="Checkboxlist14" value="@i.MACTHT" id="@i.MACTHT" type="checkbox" name="Checkboxlist14"><label for="@i.MACTHT">@i.MACTHT &bull;  @i.TENCTHT </label></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="checkbox checkbox-primary Checkboxlist14 text-danger"><input class="Checkboxlist14" value="@i.MACTHT" id="@i.MACTHT" type="checkbox" name="Checkboxlist14"><label for="@i.MACTHT">@i.MACTHT &bull;  @i.TENCTHT </label></div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-2">
+                        <button type="button" class="btn btn-sm btn-primary mt-0 mb-0" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+@section scripts {
+
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    <script type="text/javascript" src="~/Scripts/BaoCaoJS.js?version=180623"></script>
+    @if (ViewBag.email == true)
+    {
+        <script>
+            $(".poc").hide();
+            $(document).ready(function () {
+
+                $.confirm({
+                    title: 'Cập nhật địa chỉ Email',
+                    content: '<div class="form-group mb-0"><label class="control-label font-weight-bold">Nhờ Anh/Chị bổ sung thông tin Email để tiện cho việc khôi phục mật khẩu khi quên !</label><input autofocus="" type="text" id="input-name" placeholder="Nhập địa chỉ Email (VD: abc@gmail.com)" class="form-control"></div>',
+                    buttons:
+            {
+                success:
+                {
+                    text: 'Cập nhật',
+                    btnClass: 'btn-success',
+                    action: function () {
+                        var input = this.$content.find('input#input-name');
+                        var errorText = this.$content.find('.text-danger');
+                        if (!input.val().trim()) {
+                            $.alert({
+                                title: "Lỗi",
+                                content: "Bạn chưa nhập địa chỉ Email !",
+                                type: 'red'
+                            });
+                            return false;
+                        }
+                        else {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("EditThongtin", "Home")",
+                                contentType: "application/json",
+                                datatype: 'json',
+                                data: '{email: ' + JSON.stringify(input.val()) + '}',
+                                error: function () {
+                                    toastr.options = {
+                                        "closeButton": true,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                                },
+                                success: function (data) {
+                                    toastr.options = {
+                                        "closeButton": true,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["success"]("Bạn đã cập nhật thành công địa chỉ Email, khi quên mật khẩu hãy nhập email này để hệ thống cấp lại mật khẩu !", "THÔNG BÁO")
+                                },
+                                timeout: 5000,
+                            });
+                        }
+                    }
+                },
+                //        cancel:
+                //{
+                //    text: 'Để sau',
+                //    btnClass: 'btn-danger',
+                //    action: function () {
+                //    }
+
+                //}
+            }
+                });
+            });
+        </script>
+
+    }
+}

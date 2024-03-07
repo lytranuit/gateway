@@ -1,0 +1,329 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListHangHoa>
+@{
+    ViewBag.Title = "Chi tiết hàng hóa";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 11px;
+        }
+    </style>
+}
+
+@using (Html.BeginForm("chi-tiet-hang-hoa", "Home", FormMethod.Post))
+{
+
+    <div id="heightscreen">
+        <div class="w3-card w3-white" style="border-radius:0.25rem">
+            <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+                <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">@Html.Raw(GlobalRes.lbtrangchu.ToUpper())</a></li>
+                <li class="breadcrumb-item active w3-text-black font-weight-normal">@Html.Raw(GlobalRes.lbchitiethanghoa.ToUpper())</li>
+            </ol>
+        </div>
+        @*<div class="alert alert-primary mb-0" role="alert">
+                <b>GHI CHÚ :</b> Nếu tìm kiếm không thấy khách hàng, CTKM hoặc sản phẩm thì chọn vào <a href="#" class="text-danger font-weight-bold">ĐÂY</a>
+            </div>*@
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-header">
+                        <button name="btnin" type="submit" value="1" formTarget="_blank" class="btnsubmit btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-filter"></i> @Html.Raw(GlobalRes.lbtimkiem.ToUpper())</button>
+                        <button name="btnin" type="submit" value="2" formTarget="_blank" class="btnsubmit btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-file-pdf-o"></i> DOWNLOAD PDF</button>
+                        <button name="btnin" type="submit" value="3" formTarget="_blank" class="btnsubmit btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-file-word-o"></i> DOWNLOAD WORD</button>
+                        <button name="btnin" type="submit" value="4" formTarget="_blank" class="btnsubmit btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-file-excel-o"></i> DOWNLOAD EXCEL</button>
+                        <button type="button" onClick="window.location.reload()" class="btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-reply"></i> @Html.Raw(GlobalRes.lbtailai.ToUpper())</button>
+                    </div>
+                    <div class="card-body pb-0 pt-1">
+                        <div class="form-row">
+                            <div class="form-group col-md-3 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbchon)<code>(*)</code></label>
+                                <select class="selectpicker my-1 mr-sm-2 show-tick" id="chon">
+                                    <option selected value="1">@Html.Raw(GlobalRes.lbmotchinhanh)</option>
+                                    <option value="2">@Html.Raw(GlobalRes.lbnhieuchinhanh)</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chinhanh">@Html.Raw(GlobalRes.lbchinhanh)<code>(*)</code></label>
+                                <select class="selectpicker my-1 mr-sm-2" name="macn" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
+                                    <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
+                                        @foreach (var k in ViewBag.mientrung)
+                                        {
+                                            <option value="@k.macn">@k.Tencn</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
+                                        @foreach (var k in ViewBag.miennam)
+                                        {
+                                            <option value="@k.macn">@k.Tencn</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
+                                        @foreach (var k in ViewBag.mienbac)
+                                        {
+                                            <option value="@k.macn">@k.Tencn</option>
+                                        }
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbtungay)<code>(*)</code></label>
+                                <input type="text" autocomplete="off" name="tungay" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("01/MM/yyyy")" id="tungay">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbdenngay)<code>(*)</code></label>
+                                <input type="text" autocomplete="off" name="denngay" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="denngay">
+                            </div>
+                            <div style="display:none" id="PartialViewkho" class="form-group col-md-3 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbkho)<code>(*)</code></label>
+                                <select class="selectpicker my-1 mr-sm-2 show-tick" name="kho" id="kho"></select>
+                            </div>
+                            <div class="form-group col-md-9 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbmahanghoa)</label>
+                                <select class="selectpicker my-1 mr-sm-2 show-tick" id="mahh" name="mahh" data-live-search="true">
+                                    @foreach (var i in Model)
+                                    {
+                                        <option value="@i.MAHH">@i.MAHH - @i.TENHH</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-body pb-0 pt-1">
+                        <div class="form-row" id="PartialResult">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".btnsubmit").click(function (e) {
+                if ($("#chinhanh").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn chi nhánh !", "Thông báo")
+                    e.preventDefault();
+                }
+                else if ($("#mahh").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn mã hàng hóa", "Thông báo")
+                    e.preventDefault();
+                }
+                else if ($("#denngay").val() == "" || $("#tungay").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn ngày !", "Thông báo")
+                    e.preventDefault();
+                }
+                else {
+                    @*$('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetPartialChitiethanghoa", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + ', mahh: ' + JSON.stringify($("#mahh").val()) + ', tungay: ' + JSON.stringify($("#tungay").val()) + ', denngay: ' + JSON.stringify($("#denngay").val()) + ', kho: ' + JSON.stringify($("#kho").val()) + '}',
+                        success: function (data) {
+                            $("#PartialResult").html(data);
+                            $("#example").dataTable({
+                                "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                buttons: [
+                             'copy', 'excel'
+                                ]
+                            });
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });*@
+                }
+            });
+            $('.form-control1').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            });
+            $("#chinhanh").change(function () {
+                if ($("#chinhanh").val() != "") {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GETKHO", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide');
+                        },
+                        success: function (data) {
+                            $("#PartialViewkho").html(data);
+                            $('#PartialViewkho .selectpicker').selectpicker();
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $("#chon").change(function () {
+                $("#PartialView").empty();
+                if ($("#chon").val() == 1) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                }
+                else {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').addClass('show-tick');
+                    $('#chinhanh').attr("multiple", "true");
+                    $('#chinhanh .bs-title-option').remove();
+                }
+                $('#chinhanh').selectpicker();
+                $('#chinhanh').selectpicker('deselectAll');
+            });
+        });
+    </script>
+}
+
+
+
+

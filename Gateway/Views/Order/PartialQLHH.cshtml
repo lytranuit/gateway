@@ -1,0 +1,123 @@
+﻿@model List<ApplicationChart.Models.dta_Products>
+    <table id="datatable-buttons" class="table-bordered display nowrap" style="width:50%">
+        <thead>
+            <tr>
+                <th class="center"></th>
+                <th class="center">STT</th>
+
+                <th class="text-center">Mã hàng hóa</th>
+                <th class="text-center">Tên hàng hóa</th>
+                <th class="text-center">Đvt</th>
+                <th class="text-center">Nhóm hàng</th>
+                <th class="text-center">Giá mua</th>
+                <th class="text-center">Giá bán</th>
+                <th class="text-center">Quy cách</th>
+                <th class="text-center">Tên hoạt chất</th>
+                <th class="text-center">SL1</th>
+                <th class="text-center">DVT1</th>
+                <th class="text-center">SL2</th>
+                <th class="text-center">DVT2</th>
+                <th class="text-center">SL3</th>
+                <th class="text-center">DVT3</th>
+                <th class="text-center">Hiển Thị</th>
+                <th class="text-center">SDK</th>
+                <th class="text-center">NSX</th>
+                <th class="text-center">Hoạt chất</th>
+                <th class="text-center">Dạng bào chế</th>
+                <th class="text-center">Đại diện</th>
+                <th class="text-center">Hàm lượng</th>
+                <th class="text-center">Quy cách hộp</th>
+                <th class="text-center">Thuốc kê đơn</th>
+                <th class="text-center">CHC</th>
+                <th class="text-center">Kiểm soát đặc biệt</th>
+           
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th class="center"></th>
+                <th class="center">STT</th>
+
+                <th class="text-center">Mã hàng hóa</th>
+                <th class="text-center">Tên hàng hóa</th>
+                <th class="text-center">Đvt</th>
+                <th class="text-center">Nhóm hàng</th>
+                <th class="text-center">Giá mua</th>
+                <th class="text-center">Giá bán</th>
+                <th class="text-center">Quy cách</th>
+                <th class="text-center">Tên hoạt chất</th>
+                <th class="text-center">SL1</th>
+                <th class="text-center">DVT1</th>
+                <th class="text-center">SL2</th>
+                <th class="text-center">DVT2</th>
+                <th class="text-center">SL3</th>
+                <th class="text-center">DVT3</th>
+                <th class="text-center">Hiển Thị</th>
+                <th class="text-center">SDK</th>
+                <th class="text-center">NSX</th>
+                <th class="text-center">Hoạt chất</th>
+                <th class="text-center">Dạng bào chế</th>
+                <th class="text-center">Đại diện</th>
+                <th class="text-center">Hàm lượng</th>
+                <th class="text-center">Quy cách hộp</th>
+                <th class="text-center">Thuốc kê đơn</th>
+                <th class="text-center">CHC</th>
+                <th class="text-center">Kiểm soát đặc biệt</th>
+
+            </tr>
+        </tfoot>
+        <tbody id="Partialtable">
+            @{
+                var count = 1;
+                foreach (var i in Model)
+                {
+                        <tr>
+                            <td class="p-1 align-middle text-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                        <span class="fa fa-caret-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu text-right">
+                                        <li><a class="btnchitiet" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Xem chi tiết</a></li>
+                                        <li><a class="btnedit" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
+
+                                        <li><a class="btneditprice" data-toggle="modal" data-backdrop="static" data-target="#ModalEditPrice">Thay đổi giá bán</a></li>
+
+                                        <li><a class="btnxoa">Yêu cầu xóa</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="text-center">@count</td>
+
+                            <td>@i.MAHH</td>
+                            <td>@i.TENHH</td>
+                            <td>@i.DVT</td>
+                            <td>@i.nhom</td>
+                            <td class="text-right">@string.Format("{0:#,##0.00}", i.GIAMUA)</td>
+                            <td class="text-right">@string.Format("{0:#,##0.00}", i.GIABAN)</td>
+                            <td>@i.QUICACH</td>
+                            <td>@i.tenhoatchat</td>
+                            <td class="text-right">@string.Format("{0:#,##0}", i.SL1)</td>
+                            <td>@i.DVT1</td>
+                            <td class="text-right">@string.Format("{0:#,##0}", i.SL2)</td>
+                            <td>@i.DVT2</td>
+                            <td class="text-right">@string.Format("{0:#,##0}", i.SL3)</td>
+                            <td>@i.DVT3</td>
+                            <td>@i.HIENTHI</td>
+                            <td>@i.SDK</td>
+                            <td>@i.nhasanxuat</td>
+                            <td>@i.hoatchat</td>
+                            <td>@i.dangbaoche</td>
+                            <td>@i.daidien</td>
+                            <td>@i.hamluong</td>
+                            <td>@i.quicachhop</td>
+                            <td>@i.thuockedon</td>
+                            <td>@i.chc</td>
+                            <td>@i.kiemsoatdacbiet</td>
+                        </tr>
+                    count = count + 1;
+                }
+            }
+        </tbody>
+    </table>
+    

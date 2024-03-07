@@ -1,0 +1,355 @@
+﻿@model ApplicationChart.Models.ListDataKD
+@{
+    ViewBag.Title = "Tạo đơn hàng về phòng supply chain (trên thiết bị di động)";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />*@
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .modal-header .close {
+            padding: 1rem;
+            margin: -8px -7px -13px auto;
+        }
+
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        .w-40 {
+            width: 40%;
+        }
+
+        .w-60 {
+            width: 60%;
+        }
+
+        .modal-dialog {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        .modal-content {
+            height: 100%;
+            min-height: 100%;
+            height: auto;
+            border-radius: 0;
+        }
+
+        #dmhh {
+            overflow-y: auto;
+        }
+
+        span.text {
+            font-size: 11px !important;
+        }
+
+        .checkbox, .radio {
+            margin-top: 6px !important;
+            margin-bottom: 6px !important;
+        }
+
+        .small, small {
+            font-size: 90%;
+        }
+
+        .font-small {
+            font-size: .85rem;
+        }
+
+        .dropdown-header, .dropdown-menu > li > a {
+            padding: 5px 8px;
+        }
+
+        #tablehanghoa > tbody > tr > td {
+            line-height: 20px;
+            font-size: 11px !important;
+        }
+
+        td .form-control {
+            height: 32px;
+        }
+
+        .bootstrap-select button.btn.btn-default {
+            font-size: 12px;
+        }
+
+        .checkbox {
+            font-size: 13px;
+        }
+    </style>
+}
+@Html.AntiForgeryToken()
+<div id="heightscreen" style="padding-bottom:200px;">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">PHÒNG SUPPLY CHAIN</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">TẠO ĐƠN HÀNG VỀ PHÒNG SUPPLY CHAIN</li>
+        </ol>
+    </div>
+    @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+            <strong>THÔNG BÁO :</strong> Hệ thống tạo đơn hàng về phòng KD chính thức hoạt động .
+        </div>*@
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header font-small">
+                    Ngày tạo:
+                    <strong>@DateTime.Now.ToString("dd/MM/yyyy")</strong>
+                    <span class="float-right"> <strong>Trạng thái:</strong> Chờ duyệt</span>
+                </div>
+                <div class="card-body pb-0 pt-1">
+                    <div class="row mb-1">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-3 col-md-3 col-lg-4 col-form-label" for="khachhang">Khách hàng<code class="bg-white">(*)</code></label>
+                                <div class="col-sm-9 col-md-9 col-lg-8">
+                                    @if (Model.ListKH.Count() == 1)
+                                    {
+                                        <select id="khachhang" class="selectpicker" data-live-search="true" name="option">
+                                            @foreach (var i in Model.ListKH)
+                                            {
+                                                <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
+                                            @foreach (var i in Model.ListKH)
+                                            {
+                                                <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                            }
+                                        </select>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-3 col-lg-4 col-form-label" for="khachhang">Hợp đồng<code class="bg-white">(*)</code></label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <select id="hopdong" title="Chọn hợp đồng" class="selectpicker" name="option">
+                                        @if (Model.ListHopdong != null)
+                                        {
+                                            foreach (var i in Model.ListHopdong)
+                                            {
+                                                <option data-ck="@i.ck" value="@i.MAHOPDONG">@i.MAHOPDONG - @i.TENHOPDONG</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-lg-4 col-form-label" for="vat">VAT</label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <select id="vat" class="selectpicker" name="option">
+                                        <option value="5" selected>Tính 5%</option>
+                                        <option value="8">Tính 8%</option>
+                                        <option value="10">Tính 10%</option>
+                                        <option value="0">Tính 0%</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 m-0">
+                            <button id="btnthemhh" type="button" data-toggle="modal" data-target="#modalhh" class="btn btn-success btn-sm transition-3d-hover w-100 m-0"><i class="fa fa-plus"></i> THÊM SẢN PHẨM</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2" style="display:table;">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:75%;">Sản phẩm</th>
+                                    <th style="width:20%">Hộp</th>
+                                    <th hidden class="center">Số lượng</th>
+                                    <th hidden>Đơn giá (Có VAT)</th>
+                                    <th hidden>Thành tiền</th>
+
+                                    <th style="width:20px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tab_logic"></tbody>
+                        </table>
+                    </div>
+                    <div class="row clearfix m-0">
+                        <table class="table table-bordered mb-2">
+                            <tbody>
+                                <tr>
+                                    <td class="font-weight-bold w-40 text-center text-dark">SL Sản phẩm</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="slsp">0</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-weight-bold w-40 text-center text-dark">TIỀN VAT</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tienvat">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="thanhtien">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold w-40 text-center text-dark">TỔNG TIỀN</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tongtien">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Ghi chú" class="form-control rounded-0" id="ghichu" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="card-footer modal-footer p-2">
+                    <button id="btnhuy" type="button" class="btn btn-danger btn-sm transition-3d-hover mb-0" data-dismiss="modal">Hủy</button>
+                    <button id="btnluu" type="button" class="btn btn-success btn-sm transition-3d-hover">Lưu</button>
+                    <button id="btnluuvatiep" type="button" class="btn btn-primary btn-sm transition-3d-hover">Lưu VÀ TIẾP TỤC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalhh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog mx-auto" role="document">
+        <div class="modal-content full-screen">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">DANH MỤC HÀNG HÓA</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <div class="input-group mb-1">
+                    <button id="btnthem" type="button" class="btn btn-sm btn-success m-0 mb-2 w-100">Thêm</button>
+                    <input autocomplete="off" onkeyup="myFunction()" type="text" class="form-control font-weight-normal border-right-0" id="timkiem" placeholder="Nhập tên hoặc mã hàng cần tìm tại đây">
+                    <div class="input-group-append">
+                        <button class="input-group-text bg-white p-2 border-left-0" id="btnclear"><i style="font-size:20px;" class="fa text-danger fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="container-fluid pt-2" id="dmhh">
+                    @*@foreach (var i in Model.ListHH)
+                        {
+                            <div class="checkbox checkbox-primary"><input data-giaban="@i.GIABAN" data-sl2="@i.SL2" data-sl3="@i.SL3" class="Checkboxlist2" id="@i.MAHH" type="checkbox" data-tenhh="@i.TENHH" data-dvt="@i.DVT" value="@i.MAHH" name="mahh"> <label for="@i.MAHH">@i.MAHH - @i.TENHH (@i.DVT)</label></div>
+                        }*@
+                </div>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-sm btn-danger mt-0 mb-0" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(window).on('load resize', function () {
+            if ($(window).width() >= 800) {
+                window.location = "tao-don-dat-hang-ve-sc"
+            }
+        });
+    </script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    @*<script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>*@
+    <script src="~/Scripts/Taodonhangscmobile.js?version=071222"></script>
+    <script>
+        $(document).ready(function () {
+            $("#khachhang").change(function () {
+                $("#hopdong").empty();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetHopDongSC", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#hopdong").append('<option data-ck="' + data[i].ck + '" value="' + data[i].MAHOPDONG + '">' + data[i].MAHOPDONG + " - " + data[i].TENHOPDONG + '</option>')
+                        }
+
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                    timeout: 5000,
+                });
+
+            });
+            $("#hopdong").change(function () {
+                if ($("#tablehanghoa > tbody > tr").length != 0) {
+                    $("#tablehanghoa > tbody").empty();
+                    $("#tienvat").text("0.00");
+                    $("#thanhtien").text("0.00");
+                    $("#tongtien").text("0.00");
+                    $("#slsp").text("0");
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSanPhamHDSCMobile", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        $("#dmhh").html(data);
+                    },
+                    timeout: 5000,
+                });
+
+            });
+        });
+    </script>
+}

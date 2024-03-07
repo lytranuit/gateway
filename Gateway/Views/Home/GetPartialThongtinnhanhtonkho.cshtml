@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ApplicationChart.Models.TTNHANHTONKHO>
+<table id="example" class="table-bordered display nowrap w-100">
+    <thead>
+        <tr>
+            <th>MÃ NHÓM</th>
+            <th>TÊN NHÓM</th>
+            <th>MÃ HH</th>
+            <th>TÊN HÀNG HÓA</th>
+            <th>ĐVT</th>
+            <th>MÃ LÔ</th>
+            <th>HẠN DÙNG</th>
+            <th>SL ĐẦU KỲ</th>
+            <th>SL NHẬP</th>
+            <th>SL XUẤT</th>
+            <th>SL CUỐI KỲ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>@i.MANHOM</td>
+                <td>@i.TENNHOM</td>
+                <td>@i.MAHH</td>
+                <td>@i.TENHH</td>
+                <td>@i.DVT</td>
+                <td>@i.MALO</td>
+                <td>@i.HANDUNG</td>
+                <td>@string.Format("{0:#,##0}", i.SL_TONDAUKY2)</td>
+                <td>@string.Format("{0:#,##0}", i.SL_NHAP2)</td>
+                <td>@string.Format("{0:#,##0}", i.SL_XUAT2)</td>
+                <td>@string.Format("{0:#,##0}", i.SL_TONCUOIKY2)</td>
+            </tr>
+        }
+    </tbody>
+</table>

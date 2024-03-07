@@ -1,0 +1,41 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.BANGSOLOHANDUNG>
+<table id="example" class="table table-bordered display nowrap w-100 text-dark">
+    <thead>
+        <tr>
+            <th class="text-center">MÃ HH</th>
+            <th class="text-center">TÊN HH</th>
+            <th class="text-center">ĐVT</th>
+            <th class="text-center">SỐ LƯỢNG</th>
+            <th class="text-center">MÃ LÔ</th>
+            <th class="text-center">HẠN DÙNG</th>
+            <th class="text-center">KHO</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="text-center">MÃ HH</th>
+            <th class="text-center">TÊN HH</th>
+            <th class="text-center">ĐVT</th>
+            <th class="text-center">SỐ LƯỢNG</th>
+            <th class="text-center">MÃ LÔ</th>
+            <th class="text-center">HẠN DÙNG</th>
+            <th class="text-center">KHO</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @foreach (var i in Model)
+        {
+            <tr class="chonmalo">
+                <td class="text-center">@i.MAHH</td>
+                <td>@i.TENHH</td>
+                <td>@i.DVT</td>
+                @*<td class="text-right">@string.Format("{0:#,##0}", i.soluong)</td>*@
+                <td class="text-right">@i.soluong</td>
+                <td class="text-center">@i.MALO</td>
+                <td class="text-center">@i.HANDUNG</td>
+                <td class="text-center">@i.KHO</td>
+            </tr>
+        }
+    </tbody>
+</table>

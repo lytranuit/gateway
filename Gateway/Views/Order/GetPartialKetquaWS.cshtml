@@ -1,0 +1,89 @@
+﻿@model APIInvoice.Data
+<table id="example" class="table-bordered display nowrap" style="width:50%">
+    <thead>
+        <tr>
+            <th class="center"></th>
+            <th class="center">STT</th>
+
+            <th class="text-center">Số HDNB</th>
+            <th class="text-center">Số HDDT</th>
+            <th class="text-center">Ngày lập HDDT</th>
+            <th class="text-center">Ngày phát hành</th>
+            <th class="text-center">Mã KH</th>
+            <th class="text-center">Đơn vị</th>
+            <th class="text-center">Ký hiệu</th>
+            <th class="text-center">Tổng tiền</th>
+            <th class="text-center">Thành tiền</th>
+            <th class="text-center">Tiền VAT</th>
+            <th class="text-center">Tiền CK</th>
+            <th class="text-center">Thuế suất</th>
+            <th class="text-center">Tình trạng hóa đơn</th>
+            <th class="text-center">Tình trạng thuế</th>
+           
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="center"></th>
+            <th class="center">STT</th>
+
+            <th class="text-center">Số HDNB</th>
+            <th class="text-center">Số HDDT</th>
+            <th class="text-center">Ngày lập HDDT</th>
+            <th class="text-center">Ngày phát hành</th>
+            <th class="text-center">Mã KH</th>
+            <th class="text-center">Đơn vị</th>
+            <th class="text-center">Ký hiệu</th>
+            <th class="text-center">Tổng tiền</th>
+            <th class="text-center">Thành tiền</th>
+            <th class="text-center">Tiền VAT</th>
+            <th class="text-center">Tiền CK</th>
+            <th class="text-center">Thuế suất</th>
+            <th class="text-center">Tình trạng hóa đơn</th>
+            <th class="text-center">Tình trạng thuế</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            var count = 1;
+            foreach (var i in Model.Item)
+            {
+                <tr>
+                    <td class="p-1 align-middle text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                <span class="fa fa-caret-down"></span>
+                            </button>
+                            <ul class="dropdown-menu text-right">
+@if (((string[])(ViewBag.quyen.Split(','))).Contains("QUANLYWS"))
+{
+                                <li><a target="_blank" data-sohdnb="@i.Fkey" data-sohddt="@Int32.Parse(i.InvoiceNo).ToString("00000000")" data-kyhieu="@i.Serial" href="/@ViewBag.flag/crm/xem-hoa-don-ws?sohdnb=@i.Fkey&kyhieu=@i.Serial" class="btnchitiet">Xem hóa đơn</a></li>
+                                <li><a target="_blank" data-sohdnb="@i.Fkey" data-sohddt="@Int32.Parse(i.InvoiceNo).ToString("00000000")" data-kyhieu="@i.Serial" href="/@ViewBag.flag/crm/xem-hoa-don-chuyen-doi-ws?sohdnb=@i.Fkey&kyhieu=@i.Serial" class="btnchitiet">Xem hóa đơn chuyển đổi</a></li>
+                                <li><a class="btnhuy" data-sohdnb="@i.Fkey" data-sohddt="@Int32.Parse(i.InvoiceNo).ToString("00000000")" data-kyhieu="@i.Serial">Hủy hóa đơn</a></li>
+                                <li><a class="btnthaythe" data-sohdnb="@i.Fkey" data-sohddt="@Int32.Parse(i.InvoiceNo).ToString("00000000")" data-kyhieu="@i.Serial">Thay thế hóa đơn</a></li>
+}
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="text-center">@count</td>
+                    <td>@i.Fkey</td>
+                    <td class="text-center">@Int32.Parse(i.InvoiceNo).ToString("00000000")</td>
+                    <td>@i.ArisingDate</td>
+                    <td>@i.PublishDate</td>
+                    <td>@i.CusCode</td>
+                    <td>@i.CusName</td>
+                    <td>@i.Serial</td>
+                    <td class="text-right">@string.Format("{0:#,##0.00}", i.Amount)</td>
+                    <td class="text-right">@string.Format("{0:#,##0.00}", i.Total)</td>
+                    <td class="text-right">@string.Format("{0:#,##0.00}", i.VATAmount)</td>
+                    <td class="text-right">@string.Format("{0:#,##0.00}", i.DiscountAmount)</td>
+                    <td>@i.VATRate %</td>
+                    <td>@i.Status</td>
+                    <td>@i.TThai</td>
+                   
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>

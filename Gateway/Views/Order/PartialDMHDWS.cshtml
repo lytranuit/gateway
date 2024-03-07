@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCHOPDONG_WS>
+<table id="example23" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th>Trạng thái</th>
+            <th>Mã chi nhánh</th>
+            <th>Mã khách hàng</th>
+            <th>Mã hợp đồng</th>
+            @*<th>Sản phẩm</th>*@
+            <th>Nội dung</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Đơn vị</th>
+            <th>Địa chỉ giao hàng</th>
+            <th>Người dùng</th>
+            <th>Ghi chú</th>
+            <th class="no-sort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @if (DateTime.Now < i.NGAYBATDAU)
+                        {
+                            <span style="font-size:11px;" class="badge badge-warning"> Chưa hiệu lực</span>
+                        }
+                        else
+                        {
+                            if (DateTime.Now < i.NGAYKETTHUC.AddDays(1))
+                            {
+                                <span style="font-size:11px;" class="badge badge-success">Hiệu lực</span>
+                            }
+                            else
+                            {
+                                <span style="font-size:11px;" class="badge badge-danger">Hết hạn</span>
+                            }
+                        }
+
+                    </td>
+                    <td class="text-center">@i.MACN</td>
+                    <td class="text-center">@i.MAKH</td>
+                    <td class="text-center">@i.MAHD</td>
+                    <td class="text-center">@i.noidung</td>
+                    <td class="text-center">@((i.NGAYBATDAU != null) ? ((DateTime)i.NGAYBATDAU).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td class="text-center">@((i.NGAYKETTHUC != null) ? ((DateTime)i.NGAYKETTHUC).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td class="text-center">@i.donvi</td>
+                    <td class="text-center">@i.diachigiaohang</td>
+                    <td class="text-center">@i.nguoidung</td>
+                    <td class="text-center">@i.GHICHU</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                <span class="fa fa-caret-down"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left dropdown-menu-right">
+                                <li><a class="btnchitiet" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Thông tin chi tiết</a></li>
+                                <li><a class="btnedit" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
+                                <li><a class="btnxoa">Xóa</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+
+
+

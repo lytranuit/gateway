@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListDMThau>
+<label class="my-1 mr-2 font-weight-bold" for="hopdong">Hợp đồng - Khách hàng<code>(*)</code></label>
+<select title="Chọn hợp đồng - khách hàng" multiple data-actions-box="true" name="mahd" data-selected-text-format="count > 1" data-live-search="true" class="selectpicker my-1 mr-sm-2" id="hopdong">
+    @if (Model.GroupBy(n => n.MACN).Count() == 1)
+    {
+        foreach (var i in Model)
+        {
+            <option value="{'MAHD':'@i.MAHD','MAKH':'@i.MAKH','DONVI':'@i.DONVI','MACN':'@i.MACN'}">@i.MAKH - @i.MAHD - @i.DONVI</option>
+        }
+    }
+    else
+    {
+        foreach (var i in Model)
+        {
+            <option value="{'MAHD':'@i.MAHD','MAKH':'@i.MAKH','DONVI':'@i.DONVI','MACN':'@i.MACN'}">@i.MACN - @i.MAKH - @i.MAHD - @i.DONVI</option>
+        }
+    }
+</select>

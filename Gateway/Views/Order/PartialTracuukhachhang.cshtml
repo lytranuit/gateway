@@ -1,0 +1,101 @@
+﻿@model ApplicationChart.Models.datatracuukhachhang
+<div class="row">
+    <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Mã KH - Tên cơ sở kinh doanh</label>
+            <input readonly autocomplete="off" value="@Model.thongtinkhachhang.makh - @Model.thongtinkhachhang.donvi" type="text" class="form-control" placeholder="Tài khoản">
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Địa chỉ</label>
+            <input readonly autocomplete="off" type="email" value="@Model.thongtinkhachhang.diachi" class="form-control form-control1" id="ttemail" placeholder="Email">
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Người đại diện</label>
+            <input readonly autocomplete="off" value="@Model.thongtinkhachhang.tennguoigd" type="text" class="form-control" placeholder="Họ và tên">
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Điện thoại liên hệ</label>
+            <input readonly autocomplete="off" type="text" value="@Model.thongtinkhachhang.dt" class="form-control">
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Mã tỉnh</label>
+            <input readonly autocomplete="off" type="text" value="@Model.thongtinkhachhang.matinh" class="form-control">
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Mã TDV</label>
+            <input readonly autocomplete="off" type="text" value="@Model.thongtinkhachhang.matdv" class="form-control">
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Loại BBTT ký</label>
+            <input readonly autocomplete="off" type="text" value="@((Model.thongtinbbtt.LoaiBBTT != null)?Model.thongtinbbtt.LoaiBBTT:"N/A")" class="form-control">
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Mức ký</label>
+            <input readonly autocomplete="off" type="text" value="@((Model.thongtinbbtt.Tong != null)?string.Format(" {0:#,##0}",Model.thongtinbbtt.Tong):"N/A")" class="form-control">
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Doanh số @Model.thongtinbbtt.LoaiBBTT</label>
+            <input readonly autocomplete="off" type="text" value="@((Model.thongtinbbtt.Doanhso != null)?string.Format(" {0:#,##0}",Model.thongtinbbtt.Doanhso):"N/A")" class="form-control">
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-3">
+        <div class="form-group">
+            <label class="font-weight-bold" for="donviedit">Ngày giao dịch gần nhất</label>
+            <input readonly autocomplete="off" type="text" value="@Model.thongtinkhachhang.ngaygdgannhat.ToString("dd/MM/yyyy")" class="form-control">
+        </div>
+    </div>
+
+</div>
+<table id="example" class="table-bordered display nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th class="center"></th>
+            <th class="text-center">Sản phẩm</th>
+            <th class="text-center">Số lượng</th>
+            <th class="text-center">Ngày giao dịch gần nhất</th>
+            <th class="text-center">CHBH đang hiệu lực</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="center"></th>
+            <th class="text-center">Sản phẩm</th>
+            <th class="text-center">Số lượng</th>
+            <th class="text-center">Ngày giao dịch gần nhất</th>
+            <th class="text-center">CHBH đang hiệu lực</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            var count = 1;
+            foreach (var i in Model.listdata)
+            {
+                <tr>
+                    <td class="text-center">@count</td>
+                    <td>@i.MAHH - @i.TENHH (@i.DVT)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.SOLUONG)</td>
+                    <td>@i.NGAY.ToString("dd/MM/yyyy")</td>
+                    <td>@String.Join(",", i.MAKM.ToArray())</td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>

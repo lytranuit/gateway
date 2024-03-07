@@ -1,0 +1,1083 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý kế hoạch";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .c-progress-steps li.warning span {
+            background: linear-gradient(14deg, #ffb822 0%, rgba(255, 184, 34, 0.6));
+            -webkit-box-shadow: 0 7px 14px 0 rgba(255, 184, 34, 0.5);
+            box-shadow: 0 7px 14px 0 rgba(255, 184, 34, 0.5);
+        }
+
+        .c-progress-steps li.warning {
+            color: #ffffff;
+            border-bottom-color: #ffb822;
+            font-weight: 500;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 11px;
+        }
+
+        .c-progress-steps li.warning:before {
+            color: #ffb822;
+            content: "\f192";
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50%;
+            border: 2px solid #ffb822;
+        }
+
+        .c-progress-steps li.current span {
+            background: linear-gradient(14deg, #0656ff 0%, rgba(6, 86, 255, 0.6));
+            -webkit-box-shadow: 0 7px 14px 0 rgb(6 86 255 / 50%);
+            box-shadow: 0 7px 14px 0 rgb(6 86 255 / 50%);
+        }
+
+        .c-progress-steps li span {
+            background-color: rgba(155, 167, 202, 0.1);
+            border-radius: 3px;
+            padding: 6px;
+            -webkit-box-shadow: 0px 0px 5px 0.25px #eff1f7;
+            box-shadow: 0px 0px 5px 0.25px #eff1f7;
+        }
+
+        .c-progress-steps li {
+            display: table-cell;
+            text-align: center;
+            padding: 0;
+            padding-bottom: 34px;
+            white-space: nowrap;
+            position: relative;
+            border-left-width: 0;
+            border-bottom-width: 4px;
+            border-bottom-style: solid;
+            border-bottom-color: #dbe0ec;
+        }
+
+            .c-progress-steps li span {
+                background-color: rgba(155, 167, 202, 0.1);
+                border-radius: 3px;
+                padding: 6px;
+                -webkit-box-shadow: 0px 0px 5px 0.25px #eff1f7;
+                box-shadow: 0px 0px 5px 0.25px #eff1f7;
+            }
+
+            .c-progress-steps li.done span {
+                background-color: rgba(155, 167, 202, 0.09);
+            }
+
+        .c-progress-steps {
+            display: table;
+            list-style-type: none;
+            margin: 20px auto;
+            padding: 0;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+            .c-progress-steps li.done {
+                border-bottom-color: #9ba7ca;
+                color: #9ba7ca;
+            }
+
+            .c-progress-steps li {
+                display: table-cell;
+                text-align: center;
+                padding: 0 !important;
+                padding-bottom: 34px !important;
+                white-space: nowrap;
+                position: relative;
+                border-left-width: 0;
+                border-bottom-width: 4px;
+                border-bottom-style: solid;
+                border-bottom-color: #dbe0ec;
+            }
+
+                .c-progress-steps li.current {
+                    color: #ffffff;
+                    border-bottom-color: #0656ff;
+                    font-weight: 500;
+                }
+
+            .c-progress-steps li {
+                position: relative;
+                font-size: 13px;
+                color: #b6c2e4;
+                padding: 16px 0 0 36px;
+            }
+
+                .c-progress-steps li:before {
+                    bottom: -15px;
+                    left: 50% !important;
+                    margin-left: -16px;
+                }
+
+                .c-progress-steps li:before {
+                    position: absolute;
+                    left: 0;
+                    font: normal normal normal 14px/1.4 FontAwesome;
+                    font-weight: 600;
+                    font-size: 18px;
+                    background-color: #ffffff;
+                    content: "\f111";
+                    width: 30px;
+                    height: 30px;
+                    display: inline-block;
+                    text-align: center;
+                    border-radius: 50%;
+                    border: 2px solid #dbe0ec;
+                }
+
+                .c-progress-steps li.current:before {
+                    color: #0656ff;
+                    content: "\f192";
+                }
+
+                .c-progress-steps li.current:before {
+                    color: #0656ff;
+                    content: "\f192";
+                    width: 30px;
+                    height: 30px;
+                    display: inline-block;
+                    text-align: center;
+                    border-radius: 50%;
+                    border: 2px solid #0656ff;
+                }
+
+                .c-progress-steps li:before {
+                    bottom: -15px;
+                    left: 50%;
+                    margin-left: -16px;
+                }
+
+                .c-progress-steps li:before {
+                    position: absolute;
+                    left: 0;
+                    font-weight: 600;
+                    font-size: 18px;
+                    background-color: #ffffff;
+                    content: "\f111";
+                    width: 30px;
+                    height: 30px;
+                    display: inline-block;
+                    text-align: center;
+                    border-radius: 50%;
+                    border: 2px solid #dbe0ec;
+                }
+
+                .c-progress-steps li.current span {
+                    background: linear-gradient(14deg, #0656ff 0%, rgba(6, 86, 255, 0.6));
+                    -webkit-box-shadow: 0 7px 14px 0 rgb(6 86 255 / 50%);
+                    box-shadow: 0 7px 14px 0 rgb(6 86 255 / 50%);
+                }
+    </style>
+}
+@Html.AntiForgeryToken()
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">DỰ ƯỚC</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ DỰ ƯỚC</li>
+        </ol>
+    </div>
+    @*<div class="alert alert-primary mb-0" role="alert">
+            <b>GHI CHÚ :</b> Nếu tìm kiếm không thấy khách hàng, CTKM hoặc sản phẩm thì chọn vào <a href="#" class="text-danger font-weight-bold">ĐÂY</a>
+        </div>*@
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="col-lg-12">
+                <ol class="c-progress-steps">
+                    <li class="c-progress-steps__step1"><span>ROLLING FORECAST PROPOSAL</span></li>
+                    <li class="c-progress-steps__step2"><span>ROLLING FORECAST APPROVAL</span></li>
+                    <li class="c-progress-steps__step3"><span>NET SUPPLY REQUIREMENT</span></li>
+                    <li class="c-progress-steps__step4"><span>PRODUCTION PLANNING APPROVAL</span></li>
+                    <li class="c-progress-steps__step5"><span>DONE</span></li>
+                </ol>
+                <!--end row-->
+            </div><!--end col-->
+            <!--end col-->
+        </div>
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <button id="btntimkiem" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-filter"></i> TÌM KIẾM</button>
+                    <button type="button" onClick="window.location.reload()" class="btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-reply"></i> TẢI LẠI</button>
+                </div>
+                <div class="card-body pb-0 pt-1">
+                    <div class="form-row">
+                        <div class="form-group col-md-2 mb-0">
+                            <label class="my-1 mr-2 font-weight-bold" for="chon">Tháng<code>(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" name="thang" id="thang">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2 mb-0">
+                            <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Năm<code>(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" name="nam" id="nam">
+                                <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                                <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                                <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                                <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Dữ liệu<code>(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" name="bang" id="bang">
+                              
+                                    @if (ViewBag.phanquyen.Contains("ADMIN"))
+                                    {
+                                        <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                                        <option value="2">ROLLING FORECAST APPROVAL</option>
+                                        <option value="3">NET SUPPLY REQUIREMENT</option>
+                                        <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                                       
+                                    }
+                                    else if (ViewBag.phanquyen.Contains("SALEAPPROVE"))
+                                    {
+                                        <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                                        <option value="2">ROLLING FORECAST APPROVAL</option>
+
+                                    }
+                                    else if (ViewBag.phanquyen.Contains("SALEIMPORT"))
+                                    {
+                                        <option selected value="1">ROLLING FORECAST PROPOSAL</option>
+                                    }
+
+                                    else if (ViewBag.phanquyen.Contains("SCAPPROVE"))
+                                    {
+                                        <option selected value="2">ROLLING FORECAST APPROVAL</option>
+                                        <option value="3">NET SUPPLY REQUIREMENT</option>
+                                        <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                                    }
+                                    else if (ViewBag.phanquyen.Contains("PRODUCTAPPROVE"))
+                               
+                                    {
+
+                                        <option selected value="3">NET SUPPLY REQUIREMENT</option>
+                                        <option value="4">PRODUCTION PLANNING APPROVAL</option>
+                                    }
+                              
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2 col-sm-6 mb-0 kenh">
+                            <label class="my-1 mr-2 font-weight-bold" for="chon">Kênh<code>(*)</code></label>
+                            @if (ViewBag.phanquyen.Contains("PRODUCTAPPROVE"))
+                            {
+                                <select disabled class="selectpicker my-1 mr-sm-2 show-tick" name="kenh" id="kenh">
+                                    @foreach (var item in ViewBag.kenh)
+                                    {
+
+                                        <option value="@item">@item</option>
+                                    }
+                                </select>
+
+                            }
+
+                            else
+                            {
+                                <select class="selectpicker my-1 mr-sm-2 show-tick" name="kenh" id="kenh">
+                                    @foreach (var item in ViewBag.kenh)
+                                    {
+
+                                        <option value="@item">@item</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-0">
+                            <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Loại tìm kiếm<code>(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" name="loai" id="loai">
+
+                                <option selected value="1">Chi tiết</option>
+                                <option value="0">Trạng thái</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="PartialView">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+        <div class="w3-row">
+            <div class="card mb-0">
+
+                <div class="card-body pb-0 pt-1">
+                    <div class="table-responsive" id="PartialResult">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="rejectmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">LÝ DO TỪ CHỐI</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0">
+                <form>
+                    <div class="form-group mb-0">
+                        <label for="message-text" class="col-form-label">Nội dung</label>
+                        <textarea class="form-control" id="lydo"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" id="guireject" class="btn btn-success mb-0">GỬI</button>
+                <button type="button" id="rejectclose" class="btn btn-danger" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#PartialResult").on("change", ".checkkhoa", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ActionKhoa", "Duuoc")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val())
+                            + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val())
+                            + ', khoa: ' + $(this).is(":checked") + '}',
+                    success: function (data) { }
+                });
+            });
+            if ($("#bang").val() == 1 || $("#bang").val() == 2) {
+                $("#kenh").prop("disabled", false);
+                $('#kenh').selectpicker('refresh');
+            } else {
+                $("#kenh").prop("disabled", true);
+                $('#kenh').selectpicker('refresh');
+            }
+            $("#bang").change(function () {
+                if (($("#bang").val() == 1 || $("#bang").val() == 2)) {
+                    $("#kenh").prop("disabled", false);
+                    $('#kenh').selectpicker('refresh');
+                } else {
+                    $("#kenh").prop("disabled", true);
+                    $('#kenh').selectpicker('refresh');
+                }
+            })
+            $("#btntimkiem").click(function () {
+                if ("@ViewBag.phanquyen.Contains("SCAPPROVE")" == "True" && $("#bang").val() == 2)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("CheckKenhSC", "Duuoc")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + '}',
+                        success: function (data) {
+                            if (data == 0) {
+
+                                $('#loading').modal('hide');
+                            } else {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Các kênh " + data + " chưa có dữ liệu", "Thông báo")
+                            $('#loading').modal('hide');
+                            }
+                        }
+                    });
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Progress", "Duuoc")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', kenh: ' + JSON.stringify($("#kenh").val())  + '}',
+                    success: function (data) {
+        if (data == 0) {
+                        $(".c-progress-steps > li").removeClass('current');
+                        $(".c-progress-steps > li").removeClass('warning');
+        } else if (data == 1) {
+                        $(".c-progress-steps > li").removeClass('current');
+                        $(".c-progress-steps > li").removeClass('warning');
+                        $(".c-progress-steps__step1").addClass('current');
+                        $(".c-progress-steps__step2").addClass('warning');
+        } else if (data == 2) {
+                        $(".c-progress-steps > li").removeClass('current');
+                        $(".c-progress-steps > li").removeClass('warning');
+                        $(".c-progress-steps__step1").addClass('current');
+                        $(".c-progress-steps__step2").addClass('current');
+                        $(".c-progress-steps__step3").addClass('warning');
+        } else if (data == 3) {
+                        $(".c-progress-steps > li").removeClass('current');
+                        $(".c-progress-steps > li").removeClass('warning');
+                        $(".c-progress-steps__step1").addClass('current');
+                        $(".c-progress-steps__step2").addClass('current');
+                        $(".c-progress-steps__step3").addClass('current');
+                        $(".c-progress-steps__step4").addClass('warning');
+        } else if(data == 4){
+                        $(".c-progress-steps > li").removeClass('current');
+                        $(".c-progress-steps > li").removeClass('warning');
+                        $(".c-progress-steps__step1").addClass('current');
+                        $(".c-progress-steps__step2").addClass('current');
+                        $(".c-progress-steps__step3").addClass('current');
+                        $(".c-progress-steps__step4").addClass('current');
+                        $(".c-progress-steps__step5").addClass('warning');
+        }
+                     else if(data == 5){
+                        $(".c-progress-steps > li").removeClass('current');
+                        $(".c-progress-steps > li").removeClass('warning');
+                        $(".c-progress-steps__step1").addClass('current');
+                        $(".c-progress-steps__step2").addClass('current');
+                        $(".c-progress-steps__step3").addClass('current');
+                        $(".c-progress-steps__step4").addClass('current');
+                        $(".c-progress-steps__step5").addClass('current');
+                    }
+    },
+                    error: function (request, status, error) {
+        toastr.options = {
+            "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                }
+    Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                    $('#loading').modal('hide');
+    },
+                    timeout: 20000,
+                });
+
+                if ($("#loai").val() == 0) {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialQLDUtrangthai", "Duuoc")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                        success: function (data) {
+                            $("#PartialResult").html(data);
+
+                            $("#PartialResult > table").dataTable({
+                                "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                buttons: [
+                             'copy', 'excel'
+                                ]
+                            });
+
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });
+                }
+
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialQLDUchitiet", "Duuoc")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify(($("#kenh").val())) + '}',
+                        success: function (data) {
+                            $("#PartialResult").html(data);
+
+                            
+                            setTimeout(function () {
+                                $("#PartialResult > table").dataTable({
+                                    "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                    buttons: [
+                                        'copy', 'excel'
+                                    ]
+                                });
+                            }, 1000); //delay is in milliseconds
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });
+                }
+            });
+            $("#PartialResult").on("click", "#btnapprove", function () {
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                $.ajax({
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    url: "@Url.Action("Deletedulieuapprove", "Duuoc")",
+                    data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                    success: function (data) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Approve", "Duuoc")",
+                            datatype: 'json',
+                        contentType: "application/json",
+                        data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                        success: function (data) {
+                            if (data == "1") {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["success"]("Phê duyệt thành công", "Thông báo")
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("Progress", "Duuoc")",
+                                    datatype: 'json',
+                                contentType: "application/json",
+                                data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', kenh: ' + JSON.stringify($("#kenh").val())  + '}',
+                                success: function (data) {
+                                    if (data == 0) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                    } else if (data == 1) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('warning');
+                                    } else if (data == 2) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('current');
+                                        $(".c-progress-steps__step3").addClass('warning');
+                                    } else if (data == 3) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('current');
+                                        $(".c-progress-steps__step3").addClass('current');
+                                        $(".c-progress-steps__step4").addClass('warning');
+                                    } else {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('current');
+                                        $(".c-progress-steps__step3").addClass('current');
+                                        $(".c-progress-steps__step4").addClass('current');
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                   
+                                },
+                                timeout: 20000,
+                                });
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("PartialQLDUchitiet", "Duuoc")",
+                                datatype: 'json',
+                            contentType: "application/json",
+                            data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                            success: function (data) {
+                                $("#PartialResult").html(data);
+                                $("#PartialResult > table").dataTable({
+                                    "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                    buttons: [
+                                 'copy', 'excel'
+                                    ]
+                                });
+                                $('#loading').modal('hide');
+                                  
+                            },
+                            error: function (request, status, error) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 20000,
+                            });
+                        if ($("#bang").val() == 1 || $("#bang").val() == 4) {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("SendMail", "Duuoc")",
+                                datatype: 'json',
+                            contentType: "application/json",
+                            data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                            success: function (data) {
+                                 
+                            },
+                            error: function (request, status, error) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 20000,
+                            });
+                    }
+
+                            $('#loading').modal('hide');
+            }
+                },
+                error: function (request, status, error) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                    $('#loading').modal('hide');
+                },
+            timeout: 20000,
+            });
+                    }
+                })
+                
+
+            });
+
+           $("#guireject").click(function () {
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Reject", "Duuoc")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val())
+                        + ', kenh: ' + JSON.stringify($("#kenh").val()) + ', lydo: ' + JSON.stringify($("#lydo").val()) + '}',
+                    success: function (data) {
+                        if (data == 1) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["success"]("Từ chối bảng kế hoạch thành công", "Thông báo")
+                            $('#rejectmodal').modal('hide');
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("PartialQLDUchitiet", "Duuoc")",
+                                datatype: 'json',
+                            contentType: "application/json",
+                            data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', bang: ' + JSON.stringify($("#bang").val()) + ', kenh: ' + JSON.stringify($("#kenh").val()) + '}',
+                            success: function (data) {
+                                $("#PartialResult").html(data);
+                                $("#PartialResult > table").dataTable({
+                                    "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                    buttons: [
+                                 'copy', 'excel'
+                                    ]
+                                });
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("Progress", "Duuoc")",
+                                    datatype: 'json',
+                                contentType: "application/json",
+                                data: '{thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', kenh: ' + JSON.stringify($("#kenh").val())  + '}',
+                                success: function (data) {
+                                    if (data == 0) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                    } else if (data == 1) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('warning');
+                                    } else if (data == 2) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('current');
+                                        $(".c-progress-steps__step3").addClass('warning');
+                                    } else if (data == 3) {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('current');
+                                        $(".c-progress-steps__step3").addClass('current');
+                                        $(".c-progress-steps__step4").addClass('warning');
+                                    } else {
+                                        $(".c-progress-steps > li").removeClass('current');
+                                        $(".c-progress-steps > li").removeClass('warning');
+                                        $(".c-progress-steps__step1").addClass('current');
+                                        $(".c-progress-steps__step2").addClass('current');
+                                        $(".c-progress-steps__step3").addClass('current');
+                                        $(".c-progress-steps__step4").addClass('current');
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                    $('#loading').modal('hide');
+                                },
+                                timeout: 20000,
+                                });
+                                $('#loading').modal('hide');
+                            },
+                            error: function (request, status, error) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 20000,
+                            });
+                        } else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        }
+                    },
+                    error: function (request, status, error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                        $('#loading').modal('hide');
+                    },
+                    timeout: 20000,
+                });
+
+            });
+            $('.amenu5').addClass('active');
+            $('.form-control1').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            })
+            $("#chon").change(function () {
+                $("#PartialView").empty();
+                if ($("#chon").val() == 1) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                }
+                else {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').addClass('show-tick');
+                    $('#chinhanh').attr("multiple", "true");
+                    $('#chinhanh .bs-title-option').remove();
+                }
+                $('#chinhanh').selectpicker();
+                $('#chinhanh').selectpicker('deselectAll');
+            });
+            $("#chinhanh").change(function () {
+                if ($("#chinhanh").val() != "") {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetPartialTimKiem", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide');
+                        },
+                        success: function (data) {
+                            $("#PartialView").html(data);
+                            $('#PartialView .selectpicker').selectpicker();
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+

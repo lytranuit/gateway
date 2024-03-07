@@ -1,0 +1,264 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Layout1/images/logopmpsmall.png">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap Core CSS -->
+    @*<link href="~/Content/AdminLayout/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">*@
+
+    <link href="~/Content/MDB/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Content/MDB/css/mdb.min.css" rel="stylesheet">
+    @*<script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Content/MDB/js/bootstrap.min.js"></script>*@
+    <link href="~/Content/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="~/Content/MDB/js/jquery-3.2.1.min.js"></script>
+    <link href="~/Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/AdminLayout/css/lib/calendar2/semantic.ui.min.css" rel="stylesheet">
+    @*<link href="~/Content/AdminLayout/css/lib/owl.carousel.min.css" rel="stylesheet" />
+        <link href="~/Content/AdminLayout/css/lib/owl.theme.default.min.css" rel="stylesheet" />*@
+    <link href="~/Content/AdminLayout/css/helper.css" rel="stylesheet">
+    <link href="~/Content/AdminLayout/css/style.css?version=22" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/Layout1/css/icon-font.min.css" type='text/css' />
+</head>
+<body class="fix-header fix-sidebar">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <!-- header header  -->
+        <div class="header">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/bao-cao-bsc">
+                        <!-- Logo icon -->
+                        <b><img src="~/Content/Layout1/images/logopmpsmall.png" alt="homepage" class="dark-logo" /></b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <img src="~/Content/Layout1/images/rsz_logopmpcrop.png" alt="homepage" class="dark-logo" />
+                        </span>
+                    </a>
+                </div>
+                <!-- End Logo -->
+                <div class="navbar-collapse">
+                    <!-- toggle and nav items -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <!-- Messages -->
+                        <li class="nav-item dropdown mega-dropdown">
+                            <a onclick="myFunction()" class="nav-link dropdown-toggle text-muted slide-menu slide-menu-open" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i id="font" class="fa fa-bars"></i></a>
+                        </li>
+                        <!-- End Messages -->
+                    </ul>
+                    <!-- User profile and search -->
+                    <ul class="navbar-nav my-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="~/Content/AdminLayout/images/oficcial-256.png" alt="user" class="profile-pic" />
+                                &nbsp;
+                                <b class="color-dark">Administrator <i style="font-size:10px;" class="fa fa-chevron-down" aria-hidden="true"></i></b>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right animated zoomIn">
+                                <ul class="dropdown-user">
+                                    <li>
+                                        <a href="/dang-nhap">
+                                            <i class="fa fa-home"></i>&nbsp; &nbsp; &nbsp;
+                                            Về trang chủ
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/dang-xuat">
+                                            <i class="fa fa-sign-out"></i>&nbsp; &nbsp; &nbsp;
+                                            Đăng xuất
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- End header header -->
+        <!-- Left Sidebar  -->
+        <div class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <div id="logopmp" style="padding-top:40px; padding-bottom:30px; text-align:center;">
+                        <a href="/bao-cao-bsc">
+                            <img src="~/Content/Layout1/images/logopmp.png" />
+                        </a>
+                    </div>
+                    <ul id="sidebarnav">
+                        <li class="nav-devider"></li>
+                        <li class="menu-active">
+                            <a class="has-arrow " href="/he-thong-quan-tri/tong-quan" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">TỔNG QUAN</span></a>
+                        </li>
+                        <li class="menu-active">
+                            <a class="has-arrow" href="/he-thong-quan-tri/quan-ly-tai-khoan" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">QUẢN LÝ TÀI KHOẢN</span></a>
+
+                        </li>
+                        <li class="menu-active">
+                            <a class="has-arrow" href="/he-thong-quan-tri/quan-ly-crm" aria-expanded="false"><i class="fa fa-user-secret"></i><span class="hide-menu">QUẢN LÝ CRM</span></a>
+
+                        </li>
+                        <li class="menu-active">
+                            <a class="has-arrow" href="/he-thong-quan-tri/quan-ly-so-luong-truy-cap" aria-expanded="false"><i class="fa fa-signal"></i><span class="hide-menu">QUẢN LÝ TRUY CẬP</span></a>
+                        </li>
+                        <li class="menu-active">
+                            <a class="has-arrow" href="/he-thong-quan-tri/quan-ly-lich-su-truy-cap" aria-expanded="false"><i class="fa fa-history"></i><span class="hide-menu">LỊCH SỬ ĐĂNG NHẬP</span></a>
+                        </li>
+                        <li class="menu-active">
+                            <a class="has-arrow" href="/he-thong-quan-tri/quan-ly-dang-nhap-that-bai" aria-expanded="false"><i class="fa fa-exclamation-triangle"></i><span class="hide-menu">DS ĐĂNG NHẬP THẤT BẠI</span></a>
+                        </li>
+                        <li class="menu-active">
+                            <a class="has-arrow" href="/he-thong-quan-tri/quan-ly-thay-doi-tai-khoan" aria-expanded="false"><i class="fa fa-calendar"></i><span class="hide-menu">QUẢN LÝ ĐỔI MẬT KHẨU</span></a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </div>
+        <!-- End Left Sidebar  -->
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+            <!-- Bread crumb -->
+            <div class="col main mt-3">
+                <div class="row page-titles boxshadow mb-2">
+                    <div class="col-md-12 align-self-center">
+                        <h3 class="text-dark"><a href="/dang-nhap" class="text-primary">Trang chủ</a> / <span id="pageheader">Tổng quan</span></h3>
+                    </div>
+                </div>
+            </div>
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+
+            <div class="container-fluid">
+                @RenderBody()
+                <!-- Start Page Content -->
+                <!-- End PAge Content -->
+            </div>
+            <!-- End Container fluid  -->
+            <!-- footer -->
+            <footer style="text-align:center; position:fixed" class="footer w3-display-bottomright">Pypharm © @DateTime.Now.Year All rights reserved.</footer>
+            <!-- End footer -->
+        </div>
+        <!-- End Page wrapper  -->
+    </div>
+    @*CHAT*@
+
+    <!-- End Wrapper -->
+    <!-- All Jquery -->
+    <script src="~/Content/MDB/js/jquery-3.2.1.min.js"></script>
+    @*//*@
+    <link rel="stylesheet" href="~/Content/jquery/jquery-ui/jquery-ui.min.css">
+    <script type="text/javascript" src="~/Content/jquery/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/Content/Chatbox/jquery.ui.chatbox.css">
+    <script src="~/Scripts/jquery.ui.chatbox.js?version=6"></script>
+    <script src="~/Scripts/ChatJS.js?version=38"></script>
+    @*//*@
+    <script type="text/javascript" src="~/Content/MDB/js/popper.min.js"></script>
+    @*<script type="text/javascript" src="~/Content/MDB/js/mdb.min.js"></script>*@
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Content/AdminLayout/js/lib/bootstrap/js/popper.min.js"></script>
+    <script src="~/Content/AdminLayout/js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <!--Menu sidebar -->
+    <script src="~/Content/AdminLayout/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="~/Content/AdminLayout/js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <!-- Amchart -->
+    <script src="~/Scripts/bootstrap4-alpha3.min.js"></script>
+    @*<script src="~/content/adminlayout/js/lib/owl-carousel/owl.carousel.min.js"></script>
+        <script src="~/content/adminlayout/js/lib/owl-carousel/owl.carousel-init.js"></script>*@
+    <script src="~/Content/AdminLayout/js/scripts.js"></script>
+    <!-- scripit init-->
+    <script src="~/Content/AdminLayout/js/custom.min.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+</body>
+
+</html>
+<style>
+    html {
+        overflow-x: unset !important;
+    }
+
+    footer {
+        padding: 5px 15px !important;
+    }
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container-fluid {
+        padding: 0 0px 25px;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 10rem;
+        padding: .5rem 0;
+        margin: .125rem 0 0;
+        font-size: 1rem;
+        color: #212529;
+        text-align: left;
+        list-style: none;
+        background-color: #fff !important;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15) !important;
+        border-radius: .25rem;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.post('@Url.Action("Beat", "Home")');
+        }, 10000);
+        $(".slide-menu").click(function () {
+            if ($('.slide-menu').attr('class').split(' ').pop() == "slide-menu-open") {
+                $(".slide-menu").removeClass("slide-menu-open").addClass("slide-menu-close");
+                $(".left-sidebar").addClass("abc");
+            }
+            else {
+                $(".slide-menu").removeClass("slide-menu-close").addClass("slide-menu-open");
+                $(".left-sidebar").removeClass("abc");
+            }
+        });
+    });
+
+</script>
+<script src="~/Scripts/JavaScript.js"></script>
+<script type="text/javascript" language="javascript">
+    //Check if the top location is same as the current location
+    if (top.location.hostname != self.location.hostname) {
+        //If not then set the top to you current
+        top.location.href = self.location.href;
+    }
+</script>

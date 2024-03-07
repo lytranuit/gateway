@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCKHOANTDV>
+<table id="exceltable" class="table-bordered display nowrap dataTable no-footer">
+    <thead id="tableheader">
+        <tr>
+            <th>MÃ CHI NHÁNH</th>
+            <th>THÁNG</th>
+            <th>NĂM</th>
+            <th>MÃ TRÌNH DƯỢC VIÊN</th>
+            <th>TÊN TRÌNH DƯỢC VIÊN</th>
+            <th>PHÂN LOẠI</th>
+            <th>MÃ TDV TỔ TRƯỞNG</th>
+            <th>DS KHOÁN</th>
+            <th>ID LOCAL TRÌNH DƯỢC</th>
+            <th>ID GLOBAL TRÌNH DƯỢC</th>
+            <th>ID GLOBAL TỔ TRƯỞNG</th>
+            <th>TÊN TỔ TRƯỞNG</th>
+            <th>ID GLOBAL QUẢN LÝ</th>
+            <th>TÊN QUẢN LÝ</th>
+            <th>ID GLOBAL GIÁM ĐỐC CN</th>
+            <th>TÊN GIÁM ĐỐC CN</th>
+            <th>ID GLOBAL GIÁM ĐỐC VÙNG</th>
+            <th>TÊN GIÁM ĐỐC VÙNG</th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        @foreach (var i in Model)
+        {
+            <tr class="tr-data">
+                <td class="text-center">@i.macn</td>
+                <td>@i.thang</td>
+                <td>@ViewBag.nam</td>
+                <td>@i.matdv</td>
+                <td></td>
+                <td>@i.phanloai</td>
+                <td>@i.matdvtotruong</td>
+                <td>@string.Format("{0:#,##0}", i.dskhoan)</td>
+                <td>@i.idglobal</td>
+                <td>@i.idlocal</td>
+                <td>@i.idglobal_supervisor</td>
+                <td></td>
+                <td>@i.idglobal_manager</td>
+                <td></td>
+                <td>@i.idglobal_director</td>
+                <td></td>
+                <td>@i.idglobal_region</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

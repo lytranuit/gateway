@@ -1,0 +1,117 @@
+﻿body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+.modal-header .close {
+    padding: 1rem;
+    margin: -8px -7px -13px auto;
+}
+a:focus, a:hover {
+    color: #666;
+    text-decoration: none;
+}
+
+li .a-sub-menu-1.active {
+    border-left: 4px solid #E62334 !important;
+}
+
+.active i {
+    color: #E62334;
+}
+
+.w3-animate-right {
+    position: relative;
+    animation: animateright 1s;
+}
+
+.w3-animate-bottom {
+    position: relative;
+    animation: animatebottom 1s !important;
+}
+
+.box {
+    /*border-radius: 0.25rem;*/
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.442);
+    /*box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);*/
+}
+
+.breadcrumb {
+    margin-bottom: 0.5rem;
+}
+
+.datepicker table tr td.active:hover, .datepicker table tr td.active:hover:hover, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled:hover:hover, .datepicker table tr td.active:focus, .datepicker table tr td.active:hover:focus, .datepicker table tr td.active.disabled:focus, .datepicker table tr td.active.disabled:hover:focus, .datepicker table tr td.active:active, .datepicker table tr td.active:hover:active, .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active, .datepicker table tr td.active.active, .datepicker table tr td.active:hover.active, .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:hover.active, .open .dropdown-toggle.datepicker table tr td.active, .open .dropdown-toggle.datepicker table tr td.active:hover, .open .dropdown-toggle.datepicker table tr td.active.disabled, .open .dropdown-toggle.datepicker table tr td.active.disabled:hover {
+    background-color: #008dff !important;
+    border-color: #008dff !important;
+}
+
+table th {
+    font-weight: 600;
+}
+
+#alertdropdown:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
+
+#heightscreen {
+    min-height: 800px;
+    padding:4px;
+}
+
+.dropdown-header {
+    font-weight: 600;
+}
+
+.transition-3d-hover:hover, .transition-3d-hover:focus {
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+}
+
+.lwc-chat-button {
+    z-index: 100;
+}
+
+#loading {
+    padding-right: 0px !important;
+}
+
+.marginimg {
+    margin-bottom: 0;
+    margin-left: 8px;
+    margin-right: 15px;
+}
+
+.bootstrap-select button.btn.btn-default {
+    background-color: white !important;
+    font-size: 13px;
+    box-shadow: none;
+}
+
+.btn, .btn-link, .dropdown-item {
+    font-weight: 400;
+}
+
+.jconfirm-box-container {
+    margin-left: 0% !important;
+}
+
+.jconfirm-buttons .btn-default {
+    background-color: #ecf0f1 !important;
+    color: #000;
+    text-shadow: none;
+    -webkit-transition: background .2s;
+    transition: background .2s;
+    color: #333 !important;
+}
+
+.bootstrap-select button {
+    margin: 0;
+    border: 1px solid #D1D3D4 !important;
+    border-radius: 5px;
+    color: #333 !important;
+    background-color: #e6e6e6 !important;
+    padding: .5rem 1rem !important;
+    padding-right: 25px !important;
+}
+
+.btn-default:not([disabled]):not(.disabled).active, .btn-default:not([disabled]):not(.disabled):active, .show > .btn-default.dropdown-toggle {
+    background-color: #e6e6e6 !important;
+}

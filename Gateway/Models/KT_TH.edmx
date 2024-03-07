@@ -1,0 +1,864 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KT_THModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="dta_Products">
+          <Key>
+            <PropertyRef Name="MAHH" />
+          </Key>
+          <Property Name="MAHH" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="TENHH" Type="nvarchar" MaxLength="150" />
+          <Property Name="DVT" Type="nvarchar" MaxLength="10" />
+          <Property Name="nhom" Type="varchar" MaxLength="20" />
+          <Property Name="GIAMUA" Type="money" />
+          <Property Name="GIABAN" Type="money" />
+          <Property Name="QUICACH" Type="nvarchar" MaxLength="50" />
+          <Property Name="tenhoatchat" Type="nvarchar" MaxLength="200" />
+          <Property Name="SL1" Type="money" />
+          <Property Name="DVT1" Type="nvarchar" MaxLength="50" />
+          <Property Name="SL2" Type="money" />
+          <Property Name="DVT2" Type="nvarchar" MaxLength="50" />
+          <Property Name="SL3" Type="money" />
+          <Property Name="DVT3" Type="nvarchar" MaxLength="50" />
+          <Property Name="HIENTHI" Type="bit" />
+          <Property Name="SDK" Type="nvarchar" MaxLength="50" />
+          <Property Name="ngayxuly" Type="smalldatetime" />
+          <Property Name="nhasanxuat" Type="nvarchar" MaxLength="150" />
+          <Property Name="hoatchat" Type="varchar" MaxLength="100" />
+          <Property Name="dangbaoche" Type="varchar" MaxLength="50" />
+          <Property Name="daidien" Type="nvarchar" MaxLength="50" />
+          <Property Name="hamluong" Type="varchar" MaxLength="150" />
+          <Property Name="quicachhop" Type="nvarchar" MaxLength="150" />
+          <Property Name="thuockedon" Type="bit" />
+          <Property Name="chc" Type="bit" />
+          <Property Name="kiemsoatdacbiet" Type="bit" />
+          <Property Name="Replacement_code" Type="varchar" MaxLength="20" />
+          <Property Name="SAP_code" Type="varchar" MaxLength="20" />
+          <Property Name="SAP_name" Type="varchar" MaxLength="200" />
+          <Property Name="Classification" Type="varchar" MaxLength="50" />
+          <Property Name="Sub_classification" Type="varchar" MaxLength="50" />
+          <Property Name="Therapeutic_area" Type="varchar" MaxLength="50" />
+          <Property Name="xuongsx" Type="varchar" MaxLength="100" />
+          <Property Name="GIAKEKHAI" Type="int" />
+        </EntityType>
+        <EntityType Name="dta_Products_pending">
+          <Key>
+            <PropertyRef Name="MAHH" />
+            <PropertyRef Name="ngay_yeu_cau" />
+            <PropertyRef Name="user_yeu_cau" />
+          </Key>
+          <Property Name="MAHH" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="TENHH" Type="nvarchar" MaxLength="150" />
+          <Property Name="DVT" Type="nvarchar" MaxLength="10" />
+          <Property Name="nhom" Type="varchar" MaxLength="20" />
+          <Property Name="GIAMUA" Type="money" />
+          <Property Name="GIABAN" Type="money" />
+          <Property Name="QUICACH" Type="nvarchar" MaxLength="50" />
+          <Property Name="tenhoatchat" Type="nvarchar" MaxLength="200" />
+          <Property Name="SL1" Type="money" />
+          <Property Name="DVT1" Type="nvarchar" MaxLength="50" />
+          <Property Name="SL2" Type="money" />
+          <Property Name="DVT2" Type="nvarchar" MaxLength="50" />
+          <Property Name="SL3" Type="money" />
+          <Property Name="DVT3" Type="nvarchar" MaxLength="50" />
+          <Property Name="HIENTHI" Type="bit" />
+          <Property Name="SDK" Type="nvarchar" MaxLength="50" />
+          <Property Name="ngayxuly" Type="smalldatetime" />
+          <Property Name="nhasanxuat" Type="nvarchar" MaxLength="150" />
+          <Property Name="hoatchat" Type="varchar" MaxLength="100" />
+          <Property Name="dangbaoche" Type="varchar" MaxLength="50" />
+          <Property Name="daidien" Type="nvarchar" MaxLength="50" />
+          <Property Name="hamluong" Type="varchar" MaxLength="150" />
+          <Property Name="quicachhop" Type="nvarchar" MaxLength="150" />
+          <Property Name="thuockedon" Type="bit" />
+          <Property Name="chc" Type="bit" />
+          <Property Name="kiemsoatdacbiet" Type="bit" />
+          <Property Name="Replacement_code" Type="varchar" MaxLength="20" />
+          <Property Name="SAP_code" Type="varchar" MaxLength="20" />
+          <Property Name="SAP_name" Type="varchar" MaxLength="200" />
+          <Property Name="Classification" Type="varchar" MaxLength="50" />
+          <Property Name="Sub_classification" Type="varchar" MaxLength="50" />
+          <Property Name="Therapeutic_area" Type="varchar" MaxLength="50" />
+          <Property Name="xuongsx" Type="varchar" MaxLength="100" />
+          <Property Name="GIAKEKHAI" Type="int" />
+          <Property Name="ngay_yeu_cau" Type="datetime" Nullable="false" />
+          <Property Name="user_yeu_cau" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sales_approve" Type="bit" />
+          <Property Name="ngay_sales_approve" Type="smalldatetime" />
+          <Property Name="user_sales_approve" Type="varchar" MaxLength="50" />
+          <Property Name="finance_approve" Type="bit" />
+          <Property Name="ngay_finance_approve" Type="smalldatetime" />
+          <Property Name="user_finance_approve" Type="varchar" MaxLength="50" />
+          <Property Name="mota" Type="nvarchar" MaxLength="1000" />
+          <Property Name="loaiyeucau" Type="varchar" MaxLength="50" />
+          <Property Name="lido" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="DTA_TONKHO_NHAP">
+          <Key>
+            <PropertyRef Name="mach" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="kho" />
+            <PropertyRef Name="mahh" />
+            <PropertyRef Name="malo" />
+            <PropertyRef Name="handung" />
+          </Key>
+          <Property Name="mach" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="thang" Type="int" Nullable="false" />
+          <Property Name="nam" Type="int" Nullable="false" />
+          <Property Name="kho" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="mahh" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tenhh" Type="nvarchar" MaxLength="150" />
+          <Property Name="dvt" Type="nchar" MaxLength="10" />
+          <Property Name="malo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="handung" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="slton" Type="money" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCCHUONGTRINHHOTRO">
+          <Key>
+            <PropertyRef Name="MACTHT" />
+          </Key>
+          <Property Name="MACTHT" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TENCTHT" Type="nvarchar" MaxLength="100" />
+          <Property Name="ngaybatdau" Type="smalldatetime" />
+          <Property Name="ngayketthuc" Type="smalldatetime" />
+          <Property Name="MAHH" Type="varchar(max)" />
+          <Property Name="PHAMVI" Type="varchar" MaxLength="500" />
+          <Property Name="HANMUC" Type="money" />
+          <Property Name="TICHDIEM" Type="int" />
+          <Property Name="GHICHU" Type="nvarchar(max)" />
+          <Property Name="FILEDATA" Type="varbinary(max)" />
+          <Property Name="MACTKM" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MACTHT" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MACTHT" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DSTU" Type="money" />
+          <Property Name="DSDEN" Type="money" />
+          <Property Name="ck" Type="float" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCHANGHOATICHDIEM">
+          <Key>
+            <PropertyRef Name="MACT" />
+            <PropertyRef Name="MAHH" />
+            <PropertyRef Name="DIEM" />
+          </Key>
+          <Property Name="MACT" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MAHH" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="SOLUONG" Type="int" />
+          <Property Name="HOP" Type="int" />
+          <Property Name="DIEM" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKHACHHANG_PENDING">
+          <Key>
+            <PropertyRef Name="macn" />
+            <PropertyRef Name="makh" />
+          </Key>
+          <Property Name="macn" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="phanloaikhachhang" Type="varchar" MaxLength="20" />
+          <Property Name="makh" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="donvi" Type="nvarchar" MaxLength="200" />
+          <Property Name="diachi" Type="nvarchar" MaxLength="200" />
+          <Property Name="tennguoigd" Type="nvarchar" MaxLength="100" />
+          <Property Name="masothue" Type="varchar" MaxLength="20" />
+          <Property Name="matdv" Type="varchar" MaxLength="20" />
+          <Property Name="matinh" Type="varchar" MaxLength="20" />
+          <Property Name="quanhuyen" Type="varchar" MaxLength="20" />
+          <Property Name="ghichu" Type="nvarchar" MaxLength="4000" />
+          <Property Name="tk" Type="varchar" MaxLength="10" />
+          <Property Name="nhom" Type="varchar" MaxLength="20" />
+          <Property Name="SP" Type="varchar" MaxLength="2000" />
+          <Property Name="GIASP" Type="varchar" MaxLength="2000" />
+          <Property Name="PHI" Type="varchar" MaxLength="2000" />
+          <Property Name="CP" Type="varchar" MaxLength="2000" />
+          <Property Name="TAIKHOAN" Type="varchar" MaxLength="50" />
+          <Property Name="NGANHANG" Type="nvarchar" MaxLength="200" />
+          <Property Name="ngayno" Type="int" />
+          <Property Name="phanloai" Type="varchar" MaxLength="20" />
+          <Property Name="hanmuc" Type="float" />
+          <Property Name="chitiet" Type="varchar" MaxLength="200" />
+          <Property Name="xeploai" Type="varchar" MaxLength="20" />
+          <Property Name="dt" Type="varchar" MaxLength="20" />
+          <Property Name="fax" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="150" />
+          <Property Name="tinhtrang" Type="nvarchar" MaxLength="50" />
+          <Property Name="ngaygddautien" Type="smalldatetime" />
+          <Property Name="ngaygdgannhat" Type="smalldatetime" />
+          <Property Name="solangd" Type="float" />
+          <Property Name="MACHUNG" Type="varchar" MaxLength="50" />
+          <Property Name="ngaysinh" Type="smalldatetime" />
+          <Property Name="gioitinh" Type="nvarchar" MaxLength="10" />
+          <Property Name="cmnd" Type="nvarchar" MaxLength="50" />
+          <Property Name="pheduyet" Type="bit" />
+          <Property Name="ngayyeucau" Type="smalldatetime" />
+          <Property Name="ngaypheduyet" Type="smalldatetime" />
+          <Property Name="lydo" Type="nvarchar" MaxLength="150" />
+          <Property Name="GIAYTOPHAPLY" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKM">
+          <Key>
+            <PropertyRef Name="MACTKM" />
+          </Key>
+          <Property Name="MACTKM" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TENCTKM" Type="nvarchar" MaxLength="100" />
+          <Property Name="ngaybatdau" Type="smalldatetime" />
+          <Property Name="ngayketthuc" Type="smalldatetime" />
+          <Property Name="MAHH" Type="varchar(max)" />
+          <Property Name="PHAMVI" Type="varchar" MaxLength="500" />
+          <Property Name="HANMUC" Type="money" />
+          <Property Name="TICHDIEM" Type="int" />
+          <Property Name="GHICHU" Type="nvarchar(max)" />
+          <Property Name="FILEDATA" Type="varbinary(max)" />
+          <Property Name="ck" Type="float" />
+          <Property Name="BBTT" Type="bit" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKM_CHITIET">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MACTKM" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MACTKM" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DSTU" Type="money" />
+          <Property Name="DSDEN" Type="money" />
+          <Property Name="ck" Type="float" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCNHOMSANPHAM">
+          <Key>
+            <PropertyRef Name="STT" />
+          </Key>
+          <Property Name="MANHOM" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TENNHOM" Type="nvarchar" MaxLength="50" />
+          <Property Name="STT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCPHANLOAIHD">
+          <Key>
+            <PropertyRef Name="MAPL" />
+          </Key>
+          <Property Name="MAPL" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TENPL" Type="nvarchar" MaxLength="200" />
+          <Property Name="TK" Type="varchar" MaxLength="20" />
+          <Property Name="TKHN" Type="varchar" MaxLength="20" />
+          <Property Name="MAPL_EN" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCSODANGKY">
+          <Key>
+            <PropertyRef Name="MAHH" />
+            <PropertyRef Name="SOLO" />
+            <PropertyRef Name="SODK" />
+          </Key>
+          <Property Name="MAHH" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="TENHH" Type="nvarchar" MaxLength="40" />
+          <Property Name="SOLO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SODK" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DVT" Type="nvarchar" MaxLength="10" />
+          <Property Name="HANDUNG" Type="varchar" MaxLength="10" />
+          <Property Name="NGUOITAO" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTINH">
+          <Key>
+            <PropertyRef Name="matinh" />
+          </Key>
+          <Property Name="matinh" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tentinh" Type="nvarchar" MaxLength="100" />
+          <Property Name="cl" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="KT_THModelStoreContainer">
+          <EntitySet Name="dta_Products" EntityType="Self.dta_Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dta_Products_pending" EntityType="Self.dta_Products_pending" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DTA_TONKHO_NHAP" EntityType="Self.DTA_TONKHO_NHAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCCHUONGTRINHHOTRO" EntityType="Self.TBL_DANHMUCCHUONGTRINHHOTRO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET" EntityType="Self.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCHANGHOATICHDIEM" EntityType="Self.TBL_DANHMUCHANGHOATICHDIEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCKHACHHANG_PENDING" EntityType="Self.TBL_DANHMUCKHACHHANG_PENDING" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCKM" EntityType="Self.TBL_DANHMUCKM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCKM_CHITIET" EntityType="Self.TBL_DANHMUCKM_CHITIET" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCNHOMSANPHAM" EntityType="Self.TBL_DANHMUCNHOMSANPHAM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCPHANLOAIHD" EntityType="Self.TBL_DANHMUCPHANLOAIHD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCSODANGKY" EntityType="Self.TBL_DANHMUCSODANGKY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCTINH" EntityType="Self.TBL_DANHMUCTINH" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KT_THModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBL_DANHMUCTINH">
+          <Key>
+            <PropertyRef Name="matinh" />
+          </Key>
+          <Property Name="matinh" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tentinh" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="cl" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="KT_THEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBL_DANHMUCTINH" EntityType="Self.TBL_DANHMUCTINH" />
+          <EntitySet Name="TBL_DANHMUCSODANGKY" EntityType="KT_THModel.TBL_DANHMUCSODANGKY" />
+          <EntitySet Name="TBL_DANHMUCCHUONGTRINHHOTRO" EntityType="KT_THModel.TBL_DANHMUCCHUONGTRINHHOTRO" />
+          <EntitySet Name="TBL_DANHMUCHANGHOATICHDIEM" EntityType="KT_THModel.TBL_DANHMUCHANGHOATICHDIEM" />
+          <EntitySet Name="DTA_TONKHO_NHAP" EntityType="KT_THModel.DTA_TONKHO_NHAP" />
+          <EntitySet Name="TBL_DANHMUCKHACHHANG_PENDING" EntityType="KT_THModel.TBL_DANHMUCKHACHHANG_PENDING" />
+          <EntitySet Name="TBL_DANHMUCPHANLOAIHD" EntityType="KT_THModel.TBL_DANHMUCPHANLOAIHD" />
+          <EntitySet Name="TBL_DANHMUCNHOMSANPHAM" EntityType="KT_THModel.TBL_DANHMUCNHOMSANPHAM" />
+          <EntitySet Name="TBL_DANHMUCKM_CHITIET" EntityType="KT_THModel.TBL_DANHMUCKM_CHITIET" />
+          <EntitySet Name="TBL_DANHMUCKM" EntityType="KT_THModel.TBL_DANHMUCKM" />
+          <EntitySet Name="TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET" EntityType="KT_THModel.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET" />
+          <EntitySet Name="dta_Products" EntityType="KT_THModel.dta_Products" />
+          <EntitySet Name="dta_Products_pending" EntityType="KT_THModel.dta_Products_pending" />
+          </EntityContainer>
+        <EntityType Name="TBL_DANHMUCSODANGKY">
+          <Key>
+            <PropertyRef Name="MAHH" />
+            <PropertyRef Name="SOLO" />
+            <PropertyRef Name="SODK" />
+          </Key>
+          <Property Name="MAHH" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="TENHH" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="SOLO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SODK" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DVT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="HANDUNG" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NGUOITAO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCCHUONGTRINHHOTRO">
+          <Key>
+            <PropertyRef Name="MACTHT" />
+          </Key>
+          <Property Name="MACTHT" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TENCTHT" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ngaybatdau" Type="DateTime" Precision="0" />
+          <Property Name="ngayketthuc" Type="DateTime" Precision="0" />
+          <Property Name="MAHH" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PHAMVI" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="HANMUC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TICHDIEM" Type="Int32" />
+          <Property Name="GHICHU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FILEDATA" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="MACTKM" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCHANGHOATICHDIEM">
+          <Key>
+            <PropertyRef Name="MACT" />
+            <PropertyRef Name="MAHH" />
+            <PropertyRef Name="DIEM" />
+          </Key>
+          <Property Name="MACT" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MAHH" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <Property Name="HOP" Type="Int32" />
+          <Property Name="DIEM" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DTA_TONKHO_NHAP">
+          <Key>
+            <PropertyRef Name="mach" />
+            <PropertyRef Name="thang" />
+            <PropertyRef Name="nam" />
+            <PropertyRef Name="kho" />
+            <PropertyRef Name="mahh" />
+            <PropertyRef Name="malo" />
+            <PropertyRef Name="handung" />
+          </Key>
+          <Property Name="mach" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="thang" Type="Int32" Nullable="false" />
+          <Property Name="nam" Type="Int32" Nullable="false" />
+          <Property Name="kho" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mahh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tenhh" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="dvt" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="malo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="handung" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="slton" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKHACHHANG_PENDING">
+          <Key>
+            <PropertyRef Name="macn" />
+            <PropertyRef Name="makh" />
+          </Key>
+          <Property Name="macn" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="phanloaikhachhang" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="makh" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="donvi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="diachi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="tennguoigd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="masothue" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="matdv" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="matinh" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="quanhuyen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ghichu" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="tk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="nhom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SP" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="GIASP" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="PHI" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CP" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="TAIKHOAN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NGANHANG" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ngayno" Type="Int32" />
+          <Property Name="phanloai" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hanmuc" Type="Double" />
+          <Property Name="chitiet" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="xeploai" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="dt" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="tinhtrang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ngaygddautien" Type="DateTime" Precision="0" />
+          <Property Name="ngaygdgannhat" Type="DateTime" Precision="0" />
+          <Property Name="solangd" Type="Double" />
+          <Property Name="MACHUNG" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ngaysinh" Type="DateTime" Precision="0" />
+          <Property Name="gioitinh" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="cmnd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pheduyet" Type="Boolean" />
+          <Property Name="ngayyeucau" Type="DateTime" Precision="0" />
+          <Property Name="ngaypheduyet" Type="DateTime" Precision="0" />
+          <Property Name="lydo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="GIAYTOPHAPLY" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCPHANLOAIHD">
+          <Key>
+            <PropertyRef Name="MAPL" />
+          </Key>
+          <Property Name="MAPL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TENPL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TK" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TKHN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MAPL_EN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCNHOMSANPHAM">
+          <Key>
+            <PropertyRef Name="STT" />
+          </Key>
+          <Property Name="MANHOM" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TENNHOM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="STT" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKM_CHITIET">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MACTKM" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MACTKM" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DSTU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DSDEN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ck" Type="Double" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKM">
+          <Key>
+            <PropertyRef Name="MACTKM" />
+          </Key>
+          <Property Name="MACTKM" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TENCTKM" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ngaybatdau" Type="DateTime" Precision="0" />
+          <Property Name="ngayketthuc" Type="DateTime" Precision="0" />
+          <Property Name="MAHH" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PHAMVI" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="HANMUC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TICHDIEM" Type="Int32" />
+          <Property Name="GHICHU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FILEDATA" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ck" Type="Double" />
+          <Property Name="BBTT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MACTHT" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MACTHT" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DSTU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DSDEN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ck" Type="Double" />
+        </EntityType>
+        <EntityType Name="dta_Products">
+          <Key>
+            <PropertyRef Name="MAHH" />
+          </Key>
+          <Property Name="MAHH" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="TENHH" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DVT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="nhom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="GIAMUA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="GIABAN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="QUICACH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tenhoatchat" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SL1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DVT1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SL2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DVT2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SL3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DVT3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HIENTHI" Type="Boolean" />
+          <Property Name="SDK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ngayxuly" Type="DateTime" Precision="0" />
+          <Property Name="nhasanxuat" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="hoatchat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="dangbaoche" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="daidien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hamluong" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="quicachhop" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="thuockedon" Type="Boolean" />
+          <Property Name="chc" Type="Boolean" />
+          <Property Name="kiemsoatdacbiet" Type="Boolean" />
+          <Property Name="Replacement_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SAP_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SAP_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Classification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sub_classification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Therapeutic_area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="xuongsx" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GIAKEKHAI" Type="Int32" />
+        </EntityType>
+        <EntityType Name="dta_Products_pending">
+          <Key>
+            <PropertyRef Name="MAHH" />
+            <PropertyRef Name="ngay_yeu_cau" />
+            <PropertyRef Name="user_yeu_cau" />
+          </Key>
+          <Property Name="MAHH" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="TENHH" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DVT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="nhom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="GIAMUA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="GIABAN" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="QUICACH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tenhoatchat" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SL1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DVT1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SL2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DVT2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SL3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DVT3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HIENTHI" Type="Boolean" />
+          <Property Name="SDK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ngayxuly" Type="DateTime" Precision="0" />
+          <Property Name="nhasanxuat" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="hoatchat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="dangbaoche" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="daidien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hamluong" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="quicachhop" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="thuockedon" Type="Boolean" />
+          <Property Name="chc" Type="Boolean" />
+          <Property Name="kiemsoatdacbiet" Type="Boolean" />
+          <Property Name="Replacement_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SAP_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SAP_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Classification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sub_classification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Therapeutic_area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="xuongsx" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GIAKEKHAI" Type="Int32" />
+          <Property Name="ngay_yeu_cau" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="user_yeu_cau" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sales_approve" Type="Boolean" />
+          <Property Name="ngay_sales_approve" Type="DateTime" Precision="0" />
+          <Property Name="user_sales_approve" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="finance_approve" Type="Boolean" />
+          <Property Name="ngay_finance_approve" Type="DateTime" Precision="0" />
+          <Property Name="user_finance_approve" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mota" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="loaiyeucau" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lido" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KT_THModelStoreContainer" CdmEntityContainer="KT_THEntities1">
+          <EntitySetMapping Name="TBL_DANHMUCTINH">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCTINH">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCTINH">
+                <ScalarProperty Name="matinh" ColumnName="matinh" />
+                <ScalarProperty Name="tentinh" ColumnName="tentinh" />
+                <ScalarProperty Name="cl" ColumnName="cl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCSODANGKY">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCSODANGKY">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCSODANGKY">
+                <ScalarProperty Name="NGUOITAO" ColumnName="NGUOITAO" />
+                <ScalarProperty Name="HANDUNG" ColumnName="HANDUNG" />
+                <ScalarProperty Name="DVT" ColumnName="DVT" />
+                <ScalarProperty Name="SODK" ColumnName="SODK" />
+                <ScalarProperty Name="SOLO" ColumnName="SOLO" />
+                <ScalarProperty Name="TENHH" ColumnName="TENHH" />
+                <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCCHUONGTRINHHOTRO">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCCHUONGTRINHHOTRO">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCCHUONGTRINHHOTRO">
+                <ScalarProperty Name="MACTKM" ColumnName="MACTKM" />
+                <ScalarProperty Name="FILEDATA" ColumnName="FILEDATA" />
+                <ScalarProperty Name="GHICHU" ColumnName="GHICHU" />
+                <ScalarProperty Name="TICHDIEM" ColumnName="TICHDIEM" />
+                <ScalarProperty Name="HANMUC" ColumnName="HANMUC" />
+                <ScalarProperty Name="PHAMVI" ColumnName="PHAMVI" />
+                <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+                <ScalarProperty Name="ngayketthuc" ColumnName="ngayketthuc" />
+                <ScalarProperty Name="ngaybatdau" ColumnName="ngaybatdau" />
+                <ScalarProperty Name="TENCTHT" ColumnName="TENCTHT" />
+                <ScalarProperty Name="MACTHT" ColumnName="MACTHT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCHANGHOATICHDIEM">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCHANGHOATICHDIEM">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCHANGHOATICHDIEM">
+                <ScalarProperty Name="DIEM" ColumnName="DIEM" />
+                <ScalarProperty Name="HOP" ColumnName="HOP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+                <ScalarProperty Name="MACT" ColumnName="MACT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DTA_TONKHO_NHAP">
+            <EntityTypeMapping TypeName="KT_THModel.DTA_TONKHO_NHAP">
+              <MappingFragment StoreEntitySet="DTA_TONKHO_NHAP">
+                <ScalarProperty Name="slton" ColumnName="slton" />
+                <ScalarProperty Name="handung" ColumnName="handung" />
+                <ScalarProperty Name="malo" ColumnName="malo" />
+                <ScalarProperty Name="dvt" ColumnName="dvt" />
+                <ScalarProperty Name="tenhh" ColumnName="tenhh" />
+                <ScalarProperty Name="mahh" ColumnName="mahh" />
+                <ScalarProperty Name="kho" ColumnName="kho" />
+                <ScalarProperty Name="nam" ColumnName="nam" />
+                <ScalarProperty Name="thang" ColumnName="thang" />
+                <ScalarProperty Name="mach" ColumnName="mach" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCKHACHHANG_PENDING">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCKHACHHANG_PENDING">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCKHACHHANG_PENDING">
+                <ScalarProperty Name="GIAYTOPHAPLY" ColumnName="GIAYTOPHAPLY" />
+                <ScalarProperty Name="lydo" ColumnName="lydo" />
+                <ScalarProperty Name="ngaypheduyet" ColumnName="ngaypheduyet" />
+                <ScalarProperty Name="ngayyeucau" ColumnName="ngayyeucau" />
+                <ScalarProperty Name="pheduyet" ColumnName="pheduyet" />
+                <ScalarProperty Name="cmnd" ColumnName="cmnd" />
+                <ScalarProperty Name="gioitinh" ColumnName="gioitinh" />
+                <ScalarProperty Name="ngaysinh" ColumnName="ngaysinh" />
+                <ScalarProperty Name="MACHUNG" ColumnName="MACHUNG" />
+                <ScalarProperty Name="solangd" ColumnName="solangd" />
+                <ScalarProperty Name="ngaygdgannhat" ColumnName="ngaygdgannhat" />
+                <ScalarProperty Name="ngaygddautien" ColumnName="ngaygddautien" />
+                <ScalarProperty Name="tinhtrang" ColumnName="tinhtrang" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="dt" ColumnName="dt" />
+                <ScalarProperty Name="xeploai" ColumnName="xeploai" />
+                <ScalarProperty Name="chitiet" ColumnName="chitiet" />
+                <ScalarProperty Name="hanmuc" ColumnName="hanmuc" />
+                <ScalarProperty Name="phanloai" ColumnName="phanloai" />
+                <ScalarProperty Name="ngayno" ColumnName="ngayno" />
+                <ScalarProperty Name="NGANHANG" ColumnName="NGANHANG" />
+                <ScalarProperty Name="TAIKHOAN" ColumnName="TAIKHOAN" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="PHI" ColumnName="PHI" />
+                <ScalarProperty Name="GIASP" ColumnName="GIASP" />
+                <ScalarProperty Name="SP" ColumnName="SP" />
+                <ScalarProperty Name="nhom" ColumnName="nhom" />
+                <ScalarProperty Name="tk" ColumnName="tk" />
+                <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+                <ScalarProperty Name="quanhuyen" ColumnName="quanhuyen" />
+                <ScalarProperty Name="matinh" ColumnName="matinh" />
+                <ScalarProperty Name="matdv" ColumnName="matdv" />
+                <ScalarProperty Name="masothue" ColumnName="masothue" />
+                <ScalarProperty Name="tennguoigd" ColumnName="tennguoigd" />
+                <ScalarProperty Name="diachi" ColumnName="diachi" />
+                <ScalarProperty Name="donvi" ColumnName="donvi" />
+                <ScalarProperty Name="makh" ColumnName="makh" />
+                <ScalarProperty Name="phanloaikhachhang" ColumnName="phanloaikhachhang" />
+                <ScalarProperty Name="macn" ColumnName="macn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCPHANLOAIHD">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCPHANLOAIHD">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCPHANLOAIHD">
+                <ScalarProperty Name="MAPL_EN" ColumnName="MAPL_EN" />
+                <ScalarProperty Name="TKHN" ColumnName="TKHN" />
+                <ScalarProperty Name="TK" ColumnName="TK" />
+                <ScalarProperty Name="TENPL" ColumnName="TENPL" />
+                <ScalarProperty Name="MAPL" ColumnName="MAPL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCNHOMSANPHAM">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCNHOMSANPHAM">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCNHOMSANPHAM">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="TENNHOM" ColumnName="TENNHOM" />
+                <ScalarProperty Name="MANHOM" ColumnName="MANHOM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCKM_CHITIET">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCKM_CHITIET">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCKM_CHITIET">
+                <ScalarProperty Name="ck" ColumnName="ck" />
+                <ScalarProperty Name="DSDEN" ColumnName="DSDEN" />
+                <ScalarProperty Name="DSTU" ColumnName="DSTU" />
+                <ScalarProperty Name="MACTKM" ColumnName="MACTKM" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCKM">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCKM">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCKM">
+                <ScalarProperty Name="BBTT" ColumnName="BBTT" />
+                <ScalarProperty Name="ck" ColumnName="ck" />
+                <ScalarProperty Name="FILEDATA" ColumnName="FILEDATA" />
+                <ScalarProperty Name="GHICHU" ColumnName="GHICHU" />
+                <ScalarProperty Name="TICHDIEM" ColumnName="TICHDIEM" />
+                <ScalarProperty Name="HANMUC" ColumnName="HANMUC" />
+                <ScalarProperty Name="PHAMVI" ColumnName="PHAMVI" />
+                <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+                <ScalarProperty Name="ngayketthuc" ColumnName="ngayketthuc" />
+                <ScalarProperty Name="ngaybatdau" ColumnName="ngaybatdau" />
+                <ScalarProperty Name="TENCTKM" ColumnName="TENCTKM" />
+                <ScalarProperty Name="MACTKM" ColumnName="MACTKM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET">
+            <EntityTypeMapping TypeName="KT_THModel.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET">
+                <ScalarProperty Name="ck" ColumnName="ck" />
+                <ScalarProperty Name="DSDEN" ColumnName="DSDEN" />
+                <ScalarProperty Name="DSTU" ColumnName="DSTU" />
+                <ScalarProperty Name="MACTHT" ColumnName="MACTHT" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dta_Products">
+            <EntityTypeMapping TypeName="KT_THModel.dta_Products">
+              <MappingFragment StoreEntitySet="dta_Products">
+                <ScalarProperty Name="GIAKEKHAI" ColumnName="GIAKEKHAI" />
+                <ScalarProperty Name="xuongsx" ColumnName="xuongsx" />
+                <ScalarProperty Name="Therapeutic_area" ColumnName="Therapeutic_area" />
+                <ScalarProperty Name="Sub_classification" ColumnName="Sub_classification" />
+                <ScalarProperty Name="Classification" ColumnName="Classification" />
+                <ScalarProperty Name="SAP_name" ColumnName="SAP_name" />
+                <ScalarProperty Name="SAP_code" ColumnName="SAP_code" />
+                <ScalarProperty Name="Replacement_code" ColumnName="Replacement_code" />
+                <ScalarProperty Name="kiemsoatdacbiet" ColumnName="kiemsoatdacbiet" />
+                <ScalarProperty Name="chc" ColumnName="chc" />
+                <ScalarProperty Name="thuockedon" ColumnName="thuockedon" />
+                <ScalarProperty Name="quicachhop" ColumnName="quicachhop" />
+                <ScalarProperty Name="hamluong" ColumnName="hamluong" />
+                <ScalarProperty Name="daidien" ColumnName="daidien" />
+                <ScalarProperty Name="dangbaoche" ColumnName="dangbaoche" />
+                <ScalarProperty Name="hoatchat" ColumnName="hoatchat" />
+                <ScalarProperty Name="nhasanxuat" ColumnName="nhasanxuat" />
+                <ScalarProperty Name="ngayxuly" ColumnName="ngayxuly" />
+                <ScalarProperty Name="SDK" ColumnName="SDK" />
+                <ScalarProperty Name="HIENTHI" ColumnName="HIENTHI" />
+                <ScalarProperty Name="DVT3" ColumnName="DVT3" />
+                <ScalarProperty Name="SL3" ColumnName="SL3" />
+                <ScalarProperty Name="DVT2" ColumnName="DVT2" />
+                <ScalarProperty Name="SL2" ColumnName="SL2" />
+                <ScalarProperty Name="DVT1" ColumnName="DVT1" />
+                <ScalarProperty Name="SL1" ColumnName="SL1" />
+                <ScalarProperty Name="tenhoatchat" ColumnName="tenhoatchat" />
+                <ScalarProperty Name="QUICACH" ColumnName="QUICACH" />
+                <ScalarProperty Name="GIABAN" ColumnName="GIABAN" />
+                <ScalarProperty Name="GIAMUA" ColumnName="GIAMUA" />
+                <ScalarProperty Name="nhom" ColumnName="nhom" />
+                <ScalarProperty Name="DVT" ColumnName="DVT" />
+                <ScalarProperty Name="TENHH" ColumnName="TENHH" />
+                <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dta_Products_pending">
+            <EntityTypeMapping TypeName="KT_THModel.dta_Products_pending">
+              <MappingFragment StoreEntitySet="dta_Products_pending">
+                <ScalarProperty Name="lido" ColumnName="lido" />
+                <ScalarProperty Name="loaiyeucau" ColumnName="loaiyeucau" />
+                <ScalarProperty Name="mota" ColumnName="mota" />
+                <ScalarProperty Name="user_finance_approve" ColumnName="user_finance_approve" />
+                <ScalarProperty Name="ngay_finance_approve" ColumnName="ngay_finance_approve" />
+                <ScalarProperty Name="finance_approve" ColumnName="finance_approve" />
+                <ScalarProperty Name="user_sales_approve" ColumnName="user_sales_approve" />
+                <ScalarProperty Name="ngay_sales_approve" ColumnName="ngay_sales_approve" />
+                <ScalarProperty Name="sales_approve" ColumnName="sales_approve" />
+                <ScalarProperty Name="user_yeu_cau" ColumnName="user_yeu_cau" />
+                <ScalarProperty Name="ngay_yeu_cau" ColumnName="ngay_yeu_cau" />
+                <ScalarProperty Name="GIAKEKHAI" ColumnName="GIAKEKHAI" />
+                <ScalarProperty Name="xuongsx" ColumnName="xuongsx" />
+                <ScalarProperty Name="Therapeutic_area" ColumnName="Therapeutic_area" />
+                <ScalarProperty Name="Sub_classification" ColumnName="Sub_classification" />
+                <ScalarProperty Name="Classification" ColumnName="Classification" />
+                <ScalarProperty Name="SAP_name" ColumnName="SAP_name" />
+                <ScalarProperty Name="SAP_code" ColumnName="SAP_code" />
+                <ScalarProperty Name="Replacement_code" ColumnName="Replacement_code" />
+                <ScalarProperty Name="kiemsoatdacbiet" ColumnName="kiemsoatdacbiet" />
+                <ScalarProperty Name="chc" ColumnName="chc" />
+                <ScalarProperty Name="thuockedon" ColumnName="thuockedon" />
+                <ScalarProperty Name="quicachhop" ColumnName="quicachhop" />
+                <ScalarProperty Name="hamluong" ColumnName="hamluong" />
+                <ScalarProperty Name="daidien" ColumnName="daidien" />
+                <ScalarProperty Name="dangbaoche" ColumnName="dangbaoche" />
+                <ScalarProperty Name="hoatchat" ColumnName="hoatchat" />
+                <ScalarProperty Name="nhasanxuat" ColumnName="nhasanxuat" />
+                <ScalarProperty Name="ngayxuly" ColumnName="ngayxuly" />
+                <ScalarProperty Name="SDK" ColumnName="SDK" />
+                <ScalarProperty Name="HIENTHI" ColumnName="HIENTHI" />
+                <ScalarProperty Name="DVT3" ColumnName="DVT3" />
+                <ScalarProperty Name="SL3" ColumnName="SL3" />
+                <ScalarProperty Name="DVT2" ColumnName="DVT2" />
+                <ScalarProperty Name="SL2" ColumnName="SL2" />
+                <ScalarProperty Name="DVT1" ColumnName="DVT1" />
+                <ScalarProperty Name="SL1" ColumnName="SL1" />
+                <ScalarProperty Name="tenhoatchat" ColumnName="tenhoatchat" />
+                <ScalarProperty Name="QUICACH" ColumnName="QUICACH" />
+                <ScalarProperty Name="GIABAN" ColumnName="GIABAN" />
+                <ScalarProperty Name="GIAMUA" ColumnName="GIAMUA" />
+                <ScalarProperty Name="nhom" ColumnName="nhom" />
+                <ScalarProperty Name="DVT" ColumnName="DVT" />
+                <ScalarProperty Name="TENHH" ColumnName="TENHH" />
+                <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

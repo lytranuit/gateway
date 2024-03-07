@@ -1,0 +1,286 @@
+﻿@model ApplicationChart.Models.LISTBAOCAOTONGHOPTUNGNGAYCRM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Báo cáo công tác trình dược</title>
+    <link rel="shortcut icon" href="~/Content/Layout1/images/logopmp1.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/LayoutPro/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/Datatable.css?version=5" rel="stylesheet">
+    <link href="~/Content/LayoutPro/css/mdb.css?version=2" rel="stylesheet">
+    <link href="~/Content/MDB/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading-animate.css?version=1">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading.css?version=1">
+    <link rel="stylesheet" href="~/Content/Baocaoview.css?version=2">
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=40">
+    <style>
+        .btn-floating.btn-sm i {
+            font-size: 0.99154rem;
+            line-height: 29.15385px;
+        }
+
+        .btn-floating.btn-sm {
+            width: 29.15385px;
+            height: 29.15385px;
+        }
+    </style>
+</head>
+<body class="creative-lp p-2">
+    <script>
+        var loading = new Loading();
+    </script>
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="card card-cascade narrower">
+                <div class="view view-cascade mdb-color lighten-3 card-header">
+                    <h5 class="mb-0 font-weight-bold text-center text-white">BÁO CÁO TỔNG HỢP TỪNG NGÀY</h5>
+                </div>
+
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.tungay.ToString("dd/MM/yyyy")"><label class="active disabled" data-error="" data-success="">TỪ NGÀY</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.denngay.ToString("dd/MM/yyyy")"><label class="active disabled" data-error="" data-success="">ĐẾN NGÀY</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.songaylamviec NGÀY"><label class="active disabled" data-error="" data-success="">NGÀY LÀM VIỆC</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h5><strong>Ý NGHĨA CÁC KÝ HIỆU</strong></h5>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <button type="button" class="btn btn-outline-dark btn-md btn-rounded Ripple-parent w-100">VÍ DỤ KẾ HOẠCH 4/10 => ĐÃ BÁO CÁO 4 TRÊN TỔNG 10 KẾ HOẠCH</button>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <button type="button" class="btn btn-brown btn-md btn-rounded Ripple-parent w-100">CHỦ NHẬT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-cascade narrower">
+                <div class="card-body p-2">
+                    <div class="tableFixHead">
+                        <table id="mytable" class="table table-bordered table-fixed table-hover">
+                            <thead>
+                                <tr class="text-dark text-center">
+                                    <th style="width:20px;" class="font-weight-bold">STT</th>
+                                    <th class="font-weight-bold">Tài khoản</th>
+                                    <th class="font-weight-bold" style="min-width:250px;">Họ và tên</th>
+                                    <th class="font-weight-bold" style="min-width:70px;">Chi nhánh</th>
+                                    <th class="font-weight-bold"></th>
+                                    @foreach (var i in ViewBag.alldate)
+                                    {
+                                        <th title="@i.Item3" class="font-weight-bold @i.Item2" style="min-width:32px;">@i.Item1</th>
+                                    }
+                                    <th class="font-weight-bold">TỔNG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var i in Model.data)
+                                    {
+                                        <tr>
+                                            <td rowspan="3" class="text-center" scope="row">@count</td>
+                                            <td rowspan="3" class="text-center">@i.taikhoan</td>
+                                            <td rowspan="3">@i.hovaten</td>
+                                            <td rowspan="3" class="text-center">@i.chinhanh</td>
+                                            <td class="font-weight-bold text-center">KẾ HOẠCH</td>
+                                            @foreach (var k in ViewBag.alldate)
+                                            {
+                                                if (i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3) != null)
+                                                {
+                                                    <td class="text-center">@i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3).dabaocao/@i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3).kehoach</td>
+
+                                                }
+                                                else
+                                                {
+
+                                                    <td class="text-center"></td>
+                                                }
+                                            }
+                                            <td class="text-center font-weight-bold text-danger">@i.chitietngay.Sum(z=>z.kehoach)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold text-center">ĐƠN HÀNG</td>
+                                            @foreach (var k in ViewBag.alldate)
+                                            {
+                                                if (i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3) != null)
+                                                {
+                                                    <td class="text-center">@i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3).donhang</td>
+                                                }
+                                                else
+                                                {
+
+                                                    <td class="text-center"></td>
+                                                }
+                                            }
+                                            <td class="text-center font-weight-bold text-danger">@i.chitietngay.Sum(z => z.donhang)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold text-center">GHÉ THĂM</td>
+                                            @foreach (var k in ViewBag.alldate)
+                                            {
+                                                if (i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3) != null)
+                                                {
+                                                    <td class="text-center">@i.chitietngay.SingleOrDefault(z => z.ngaythang.ToString("dd/MM/yyyy") == k.Item3).ghetham</td>
+                                                }
+                                                else
+                                                {
+
+                                                    <td class="text-center"></td>
+                                                }
+                                            }
+                                            <td class="text-center font-weight-bold text-danger">@i.chitietngay.Sum(z => z.ghetham)</td>
+                                        </tr>
+                                        count = count + 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/loading/js/modal-loading.js?version=1"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/Content/MDB/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/mdb.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        //Check if the top location is same as the current location
+        if (top.location.hostname != self.location.hostname) {
+            //If not then set the top to you current
+            top.location.href = self.location.href;
+        }
+    </script>
+</body>
+</html>
+<script>
+    Number.prototype.format = function () {
+        var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");
+        if (text != "NaN") {
+            return text + ".00";
+        }
+        else {
+            return text;
+        }
+    };
+</script>
+<script>
+
+    function CovertDatetime(i) {
+        var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+        var d = new Date(parseInt(milli));
+        var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2);
+        return dformat;   // The function returns the product of p1 and p2
+    }
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    });
+</script>
+
+<style>
+    table th {
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+    .input-group-prepend span {
+        font-size: 12px !important;
+        font-weight: bold;
+    }
+
+    table td {
+        font-size: 11px !important;
+        vertical-align: middle;
+    }
+
+    .input-group .input-group-text {
+        background-color: white;
+    }
+
+    #tablehanghoaview td {
+        font-size: 14px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    .col-form-label {
+        font-size: 12px;
+    }
+
+    table.table th, table.table td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .creative-lp .fa-2x {
+        margin-bottom: 0px;
+    }
+
+    /*thead, tbody {
+            display: block;
+        }*/
+    .tableFixHead {
+        overflow-y: auto;
+        max-height: 500px;
+    }
+
+        .tableFixHead table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .tableFixHead th,
+        .tableFixHead td {
+            padding: 8px 16px;
+        }
+
+        .tableFixHead th {
+            position: sticky;
+            top: 0;
+            background: #eee;
+        }
+
+    .Sunday {
+        background-color: #795548 !important;
+        color: #fff !important;
+    }
+
+    body {
+        font-weight: 400;
+    }
+
+    table td {
+        font-weight: 400;
+    }
+</style>

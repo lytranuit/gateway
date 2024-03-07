@@ -1,0 +1,246 @@
+﻿@{
+    ViewBag.Title = "Vị trí khách hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">VỊ TRÍ KHÁCH HÀNG</li>
+        </ol>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
+                <select name="chinhanh" title="Chi nhánh..." class="selectpicker" id="chinhanh">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Trình dược viên</label>
+                <select data-actions-box="true" multiple data-selected-text-format="count > 3" name="matdv" data-live-search="true" class="selectpicker" id="matdv"></select>
+            </div>
+            <div class="form-group col-xl-4 col-lg-4 col-md-4 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Khách hàng</label>
+                <select name="matdv" data-live-search="true" class="selectpicker" id="khachhang">
+                    <option selected value="ALL">TẤT CẢ</option>
+                </select>
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-search" aria-hidden="true"></i> <b>TÌM KIẾM</b></button>
+                <button style="height:auto;width:auto;" type="button" class="btn btn-danger btn-sm transition-3d-hover m-0" onClick="location.href='@Url.Action("quan-ly-don-dat-hang", "Order")';return false;"><i class="fa fa-arrow-left" aria-hidden="true"></i> <b>TẢI LẠI</b></button>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;">
+        <div style="width: 100%; height: 100%" id="partialview">
+            <div id="map_canvas" style="width:100%;height:400px;"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhqite1niMCtZawMgTaZQk9zjaE1__F40&callback=myMap"></script>
+    <script>
+        function convertday(day) {
+            var milli = day.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2) + ":" + ("00" + d.getSeconds()).slice(-2);
+            return dformat;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#chinhanh").change(function () {
+                $("#matdv").empty();
+                var url = '@Url.Action("GetTrinhDuocVien", "Home")';
+
+                $.post(url, { ChiNhanhId: $("#chinhanh").val() },
+                          function (data) {
+                             
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#matdv").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#matdv").change(function () {
+                $("#khachhang").empty();
+                var url = '@Url.Action("Getkhachhang", "Home")';
+                $.post(url, { ChiNhanhId: $("#chinhanh").val() },
+                          function (data) {
+                              $("#khachhang").append('<option selected value="ALL">TẤT CẢ</option>');
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#khachhang").append('<option tabindex="' + data[i].MAKH + '" value="' + data[i].MAKH + '">' + data[i].MAKH + " - " + data[i].DONVI + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#btnsubmit").click(function () {
+                if ($("#chinhanh").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialMapkhachhang", "Order")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{matdv: ' + JSON.stringify($("#matdv").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + ', makh: ' + JSON.stringify($("#khachhang").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+
+                            //for (var i = 0; i < data.length; i++) {
+
+                            //}
+                            if (data.length == 0) {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không có dữ liệu vị trí", "Thông báo")
+                            }
+                            else {
+                                var options = {
+                                    zoom: 10,
+                                    center: new google.maps.LatLng(data[0].latitude, data[0].longitude),
+
+                                    mapTypeControl: false
+                                };
+
+                                // init map
+                                var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+
+                                for (var i = 0; i < data.length; i++) {
+                                    // init markers
+                                    var marker = new google.maps.Marker({
+                                        position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                                        map: map,
+                                        title: data[i].makh + " - " + data[i].tenkh + "( " + data[i].usernhap + " - " + convertday(data[i].lastupdate) + " )"
+                                    });
+
+                                    // process multiple info windows
+                                    (function (marker, i) {
+                                        // add click event
+                                        google.maps.event.addListener(marker, 'click', function () {
+                                            infowindow = new google.maps.InfoWindow({
+                                                content: data[i].makh + " - " + data[i].tenkh + "( " + data[i].usernhap + " - " + convertday(data[i].lastupdate) + " )"
+                                            });
+                                            infowindow.open(map, marker);
+                                        });
+                                    })(marker, i);
+                                }
+                             
+                            }
+                            $('#loading').modal('hide')
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+
+            // map options
+
+
+        });
+    </script>
+}
+
+
+
+
+

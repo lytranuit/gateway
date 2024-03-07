@@ -1,0 +1,245 @@
+﻿@model IEnumerable<ApplicationChart.Models.KetquatimkiemX>
+@if (ViewBag.loaiphieu == "X")
+{
+    <table id="example" class="table-bordered display nowrap" style="width:50%">
+        <thead>
+            <tr>
+                <th class="center"></th>
+                <th class="center">STT</th>
+
+                <th class="text-center">Kí hiệu</th>
+                <th class="text-center">STT</th>
+                <th class="text-center">Đơn vị</th>
+                <th class="text-center">Số HĐ</th>
+                <th class="text-center">Ngày lập HĐ</th>
+                <th class="text-center">Mã HH</th>
+                <th class="text-center">Tên HH</th>
+                <th class="text-center">ĐVT</th>
+                <th class="text-center">Số lượng</th>
+                <th class="text-center">Đơn giá</th>
+                <th class="text-center">CK</th>
+                <th class="text-center">Thành tiền</th>
+                <th class="text-center">Số lô</th>
+                <th class="text-center">Hạn dùng</th>
+                <th class="text-center">Mã KH</th>
+                <th class="text-center">Tên KH</th>
+                <th class="text-center">Địa chỉ</th>
+                <th class="text-center">Ngày CTHĐ</th>
+                <th class="text-center">Kho nhập/Xuất</th>
+                <th class="text-center">Mã TT</th>
+                <th class="text-center">Thuế xuất</th>
+                <th class="text-center">Tên người GĐ</th>
+                <th class="text-center">Mã số thuế</th>
+                <th class="text-center">Mã TDV</th>
+                <th class="text-center">Mã CTKM</th>
+                <th class="text-center">Mã tỉnh</th>
+                <th class="text-center">Ngày giao hàng</th>
+                <th class="text-center">Hợp đồng</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th class="center"></th>
+                <th class="center">STT</th>
+
+                <th class="text-center">Kí hiệu</th>
+                <th class="text-center">STT</th>
+                <th class="text-center">Đơn vị</th>
+                <th class="text-center">Số HĐ</th>
+                <th class="text-center">Ngày lập HĐ</th>
+                <th class="text-center">Mã HH</th>
+                <th class="text-center">Tên HH</th>
+                <th class="text-center">ĐVT</th>
+                <th class="text-center">Số lượng</th>
+                <th class="text-center">Đơn giá</th>
+                <th class="text-center">CK</th>
+                <th class="text-center">Thành tiền</th>
+                <th class="text-center">Số lô</th>
+                <th class="text-center">Hạn dùng</th>
+                <th class="text-center">Mã KH</th>
+                <th class="text-center">Tên KH</th>
+                <th class="text-center">Địa chỉ</th>
+                <th class="text-center">Ngày CTHĐ</th>
+                <th class="text-center">Kho nhập/Xuất</th>
+                <th class="text-center">Mã TT</th>
+                <th class="text-center">Thuế xuất</th>
+                <th class="text-center">Tên người GĐ</th>
+                <th class="text-center">Mã số thuế</th>
+                <th class="text-center">Mã TDV</th>
+                <th class="text-center">Mã CTKM</th>
+                <th class="text-center">Mã tỉnh</th>
+                <th class="text-center">Ngày giao hàng</th>
+                <th class="text-center">Hợp đồng</th>
+            </tr>
+        </tfoot>
+        <tbody id="Partialtable">
+            @{
+                var count = 1;
+                foreach (var i in Model)
+                {
+                        <tr>
+                            <td class="text-center"><a target="_blank" href="/vi/he-thong/xem-hoa-don-dien-tu?sohdnb=@(i.FKEY)&macn=@(i.MACH)"><i class="fa fa-eye"></i></a></td>
+                            <td class="text-center">@count</td>
+
+                            <td>@i.KIHIEU</td>
+                            <td class="text-center">@i.STT</td>
+                            <td>@i.MACH</td>
+                            <td>@i.SOHD</td>
+                            <td>@i.NGAYLAPHD.ToString("dd/MM/yyyy")</td>
+                            <td>@i.MAHH</td>
+                            <td>@i.TENHH</td>
+                            <td>@i.DVT</td>
+                            <td class="text-right">@string.Format("{0:#,##0.00}", i.SOLUONG)</td>
+                            <td class="text-right">@string.Format("{0:#,##0.00}", i.DONGIA)</td>
+                            <td class="text-right">@string.Format("{0:#,##0.00}", i.TYLECK)</td>
+                            <td class="text-right">@string.Format("{0:#,##0}", i.THANHTIEN)</td>
+                            <td>@i.MALO</td>
+                            <td>@i.HANDUNG</td>
+                            <td>@i.MAKH</td>
+                            <td>@i.DONVI</td>
+                            <td>@i.DIACHI</td>
+                            <td>@i.NGAYCTKH.ToString("dd/MM/yyyy")</td>
+                            <td>@i.NHAPTAIKHO</td>
+                            <td>@i.MATT</td>
+                            <td class="text-right">@i.THUESUAT</td>
+                            <td>@i.TENNGUOIGD</td>
+                            <td>@i.MASOTHUE</td>
+                            <td>@i.MATDV</td>
+                            <td>@i.MAKM</td>
+                            <td>@i.MATINH</td>
+                            <td>@((i.NGAYGIAOHANG != null) ? ((DateTime)i.NGAYGIAOHANG).ToString("dd/MM/yyyy") : "N/A")</td>
+                            <td>@i.HOPDONG</td>
+                        </tr>
+                    count = count + 1;
+                }
+            }
+        </tbody>
+    </table>
+    <table class="table table-bordered mb-2 mt-2">
+        <tbody>
+            <tr>
+                <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN))</td>
+                <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100))</td>
+                <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+                <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN) + Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100) - Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+            </tr>
+
+        </tbody>
+    </table>
+                }
+                else
+                {
+                    <table id="example" class="table-bordered display nowrap" style="width:50%">
+                        <thead>
+                            <tr>
+                                <th class="center"></th>
+                                <th class="center">STT</th>
+                                <th class="text-center">Kí hiệu</th>
+                                <th class="text-center">STT</th>
+                                <th class="text-center">Đơn vị</th>
+                                <th class="text-center">Số HĐ</th>
+                                <th class="text-center">Ngày lập HĐ</th>
+                                <th class="text-center">Mã HH</th>
+                                <th class="text-center">Tên HH</th>
+                                <th class="text-center">ĐVT</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-center">Đơn giá</th>
+
+                                <th class="text-center">Thành tiền</th>
+                                <th class="text-center">Số lô</th>
+                                <th class="text-center">Hạn dùng</th>
+                                <th class="text-center">Mã KH</th>
+                                <th class="text-center">Tên KH</th>
+                                <th class="text-center">Địa chỉ</th>
+                                <th class="text-center">Ngày CTHĐ</th>
+                                <th class="text-center">Kho nhập/Xuất</th>
+                                <th class="text-center">Mã TT</th>
+                                <th class="text-center">Thuế xuất</th>
+                                <th class="text-center">Tên người GĐ</th>
+                                <th class="text-center">Mã số thuế</th>
+                                <th class="text-center">Ngày giao hàng</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th class="center"></th>
+                                <th class="center">STT</th>
+                                <th class="text-center">Kí hiệu</th>
+                                <th class="text-center">STT</th>
+                                <th class="text-center">Đơn vị</th>
+                                <th class="text-center">Số HĐ</th>
+                                <th class="text-center">Ngày lập HĐ</th>
+                                <th class="text-center">Mã HH</th>
+                                <th class="text-center">Tên HH</th>
+                                <th class="text-center">ĐVT</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-center">Đơn giá</th>
+
+                                <th class="text-center">Thành tiền</th>
+                                <th class="text-center">Số lô</th>
+                                <th class="text-center">Hạn dùng</th>
+                                <th class="text-center">Mã KH</th>
+                                <th class="text-center">Tên KH</th>
+                                <th class="text-center">Địa chỉ</th>
+                                <th class="text-center">Ngày CTHĐ</th>
+                                <th class="text-center">Kho nhập/Xuất</th>
+                                <th class="text-center">Mã TT</th>
+                                <th class="text-center">Thuế xuất</th>
+                                <th class="text-center">Tên người GĐ</th>
+                                <th class="text-center">Mã số thuế</th>
+
+                                <th class="text-center">Ngày giao hàng</th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody id="Partialtable">
+                            @{
+                                var count = 1;
+                                foreach (var i in Model)
+                                {
+                                                        <tr>
+
+                                                            <td class="text-center"><a target="_blank" href="/vi/he-thong/xem-hoa-don-dien-tu?sohdnb=@(i.FKEY)&macn=@(i.MACH)"><i class="fa fa-eye"></i></a></td>
+                                                            <td class="text-center">@count</td>
+
+                                                            <td>@i.KIHIEU</td>
+                                                            <td class="text-center">@i.STT</td>
+                                                            <td>@i.MACH</td>
+                                                            <td>@i.SOHD</td>
+                                                            <td>@i.NGAYLAPHD.ToString("dd/MM/yyyy")</td>
+                                                            <td>@i.MAHH</td>
+                                                            <td>@i.TENHH</td>
+                                                            <td>@i.DVT</td>
+                                                            <td class="text-right">@string.Format("{0:#,##0.00}", i.SOLUONG)</td>
+                                                            <td class="text-right">@string.Format("{0:#,##0.00}", i.DONGIA)</td>
+
+                                                            <td class="text-right">@string.Format("{0:#,##0}", i.THANHTIEN)</td>
+                                                            <td>@i.MALO</td>
+                                                            <td>@i.HANDUNG</td>
+                                                            <td>@i.MAKH</td>
+                                                            <td>@i.DONVI</td>
+                                                            <td>@i.DIACHI</td>
+                                                            <td>@i.NGAYCTKH.ToString("dd/MM/yyyy")</td>
+                                                            <td>@i.NHAPTAIKHO</td>
+                                                            <td>@i.MATT</td>
+                                                            <td class="text-right">@i.THUESUAT</td>
+                                                            <td>@i.TENNGUOIGD</td>
+                                                            <td>@i.MASOTHUE</td>
+
+
+
+                                                            <td>@((i.NGAYGIAOHANG != null) ? ((DateTime)i.NGAYGIAOHANG).ToString("dd/MM/yyyy") : "N/A")</td>
+
+                                                        </tr>
+                                    count = count + 1;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                                }
+
+

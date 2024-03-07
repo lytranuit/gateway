@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_PHANQUYEN>
+<table id="datatable" class="display nowrap table table-hover table-bordered w-100" cellspacing="0">
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>Tài khoản</th>
+            <th>Kênh</th>
+            <th>Quyền</th>
+            <th>Phân quyền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @count
+                    </td>
+                    <td class="text-center">@i.nguoidung</td>
+                    <td>@i.hoten</td>
+
+                    <td class="text-center">@i.kenh</td>
+                    <td class="text-center">@i.quyen</td>
+                    <td class="text-center">
+                        <button value="@i.nguoidung" title="Xem phân quyền" type="button" class="btn btn-primary btnview" data-toggle="modal" data-animation="bounce" data-target="#modalview">
+                            <i class="fa fa-binoculars"></i>
+                        </button>
+                        <button value="@i.nguoidung" title="Chỉnh sửa phân quyền" type="button" class="btn btn-primary btnedit" data-toggle="modal" data-animation="bounce" data-target="#modaledit">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+
+

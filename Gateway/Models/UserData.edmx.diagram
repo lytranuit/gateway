@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b3d4445efa3c4b4386f450cf224b02e5" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="ApplicationChartModel.DANHMUCPHANLOAIHD" Width="1.5" PointX="2.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.DIEUHUONG" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANGNHAPTHATBAI" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCKEHOACH" Width="1.5" PointX="8" PointY="0.875" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCNHOMHANG" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHANLOAIKHACHHANG" Width="1.5" PointX="10.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCSODANGKY" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_NGAYDOIMATKHAU" Width="1.5" PointX="11.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_NGAYKHOATK" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_QUANLYDANGNHAP" Width="1.5" PointX="12.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.KhuVuc" Width="1.5" PointX="5.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCKHACHHANGPHANPHOI" Width="4.125" PointX="11.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHANQUYENKD" Width="1.5" PointX="3" PointY="20.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCCHUKY" Width="1.5" PointX="16.625" PointY="3.875" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCCHUKYCN" Width="1.5" PointX="14.375" PointY="4" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCCHUKY_TBL_DANHMUCCHUKYCN" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCHOPDONGCHUNG" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.DTA_TOADOKHACHHANG" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_PHANQUYENCRM" Width="1.5" PointX="3" PointY="17.25" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_APPVERSION" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_BAOTRIAPP" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCTPCN" Width="1.5" PointX="3.375" PointY="9.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCMIEN" Width="1.5" PointX="7.375" PointY="14.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.DTA_GIAOHANG" Width="1.5" PointX="16.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCLOAIBAOCAO" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCSODANGKY_AUDIT" Width="1.5" PointX="16.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHANQUYENHCM" Width="1.5" PointX="3" PointY="24" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHANQUYENSC" Width="1.5" PointX="3" PointY="14.125" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DSKHOAN" Width="1.5" PointX="9.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCHANGHOAPHANPHOI" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.DTA_SOTHE" Width="1.5" PointX="15.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHSACHCHINHANH" Width="1.5" PointX="5.75" PointY="0.75" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCKEHOACH_TBL_DANHSACHCHINHANH" />
+        <EntityTypeShape EntityType="ApplicationChartModel.DTA_CONGTACTRINHDUOC" Width="1.5" PointX="8.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCCTHT_QUATANG" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCKM_QUATANG" Width="1.5" PointX="17.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHUPHI" Width="1.5" PointX="7.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_UPDATE_PROGRAM" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHANQUYENWS" Width="1.5" PointX="3" PointY="27.25" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCNGUOIDUNG" Width="1.5" PointX="0.75" PointY="18.25" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCPHANQUYENHCM_TBL_DANHMUCNGUOIDUNG" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCPHANQUYENKD_TBL_DANHMUCNGUOIDUNG" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCPHANQUYENSC_TBL_DANHMUCNGUOIDUNG" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCPHANQUYENWS_TBL_DANHMUCNGUOIDUNG" />
+        <AssociationConnector Association="ApplicationChartModel.FK_TBL_PHANQUYENCRM_ToTable" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

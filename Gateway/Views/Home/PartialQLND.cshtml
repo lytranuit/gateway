@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCNGUOIDUNG>
+<table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th>STT</th>
+            <th>Tài khoản</th>
+            <th>Họ tên</th>
+            <th>Chi Nhánh</th>
+            <th>Phân loại</th>
+            <th>Mã tỉnh</th>
+            <th>Mã TDV</th>
+            <th>Mã Quận/Huyện</th>
+            <th>Khóa</th>
+            <th class="no-sort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @count
+                    </td>
+                    <td class="text-center">@i.nguoidung</td>
+                    <td>@i.hoten</td>
+                    <td class="text-center">@(i.macn)</td>
+                    <td class="text-center">@(i.phanloai)</td>
+                    <td class="text-center">@i.matinh</td>
+                    <td class="text-center">@i.matdv</td>
+                    <td class="text-center">@i.maquan</td>
+                    @if (i.khoatk == true)
+                    {
+                        <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn mở khóa tài khoản này?');" checked></td>
+                    }
+                    else
+                    {
+                        <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn khóa tài khoản này?');"></td>
+                    }
+                    <td class="p-1 align-middle text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                <span class="fa fa-caret-down"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left dropdown-menu-right">
+                                <li><a class="btnedit" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
+                            </ul>
+                        </div>
+                    </td>
+
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+

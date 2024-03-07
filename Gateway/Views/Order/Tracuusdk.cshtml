@@ -1,0 +1,124 @@
+﻿    @model IEnumerable<ApplicationChart.Models.ListHangHoa>
+    @{
+        ViewBag.Title = "Tra cứu số đăng ký";
+        Layout = "~/Views/Shared/Layout1.cshtml";
+    }
+
+    @section styles {
+        <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+        <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+      <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 11px;
+        }
+    </style>
+    }
+    <div id="heightscreen">
+        <div class="w3-card w3-white" style="border-radius:0.25rem">
+            <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+                <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">PHÒNG KINH DOANH</a></li>
+                <li class="breadcrumb-item active w3-text-black font-weight-normal">TRA CỨU SỐ ĐĂNG KÝ</li>
+            </ol>
+        </div>
+    
+        @Html.AntiForgeryToken()
+    
+        <div class="w3-content p-1 box" style="background-color:white;">
+
+            <div class="" id="Viewtable">
+                <table id="example" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+                    <!--Table head-->
+                    <thead>
+                        <tr>
+                            <th class="text-center text-dark">MÃ HÀNG HÓA</th>
+                            <th class="text-center text-dark">TÊN HÀNG HÓA</th>
+                            <th class="text-center text-dark">ĐƠN VỊ TÍNH</th>
+                            <th class="text-center text-dark">SỐ ĐĂNG KÝ</th>
+                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var i in Model)
+                            {
+                                <tr>
+                                    <td class="text-center">@i.MAHH</td>
+                                    <td>@i.TENHH</td>
+                                    <td class="text-center">@i.DVT</td>
+                                    <td>@i.SDK</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <!--Table body-->
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+  
+        <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+      <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#example').DataTable({
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    }],
+                    "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                    "order": [],
+                    "scrollX": true, dom: 'Bfrtip',
+                    buttons: [
+                 'copy', 'excel'
+                    ]
+                });
+            });
+        </script>
+    }
+
+
+
+

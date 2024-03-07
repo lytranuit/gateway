@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCSODANGKY>
+<table id="example23" class="display nowrap table table-hover table-bordered">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th style="width:50px;">#</th>
+            <th>Mã HH</th>
+            <th>Tên HH</th>
+            <th>ĐVT</th>
+            <th>Số lô</th>
+            <th>Số đăng ký</th>
+            <th>Hạn dùng</th>
+            <th style="width:110px;">Hành động</th>
+        </tr>
+    </thead>
+    <!--Table head-->
+    <!--Table body-->
+    <tbody>
+        @{
+            int count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <th scope="row" class="text-center">@(count)</th>
+                    <td>@i.MAHH</td>
+                    <td>@i.TENHH</td>
+                    <td>@i.DVT</td>
+                    <td>@i.SOLO</td>
+                    <td>@i.SODK</td>
+                    <td>@i.HANDUNG</td>
+                    @if (User.Identity.Name.ToUpper() == i.NGUOITAO.ToUpper())
+                    {
+                        <td class="text-center" style="width:120px;"><button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnsuahh" data-toggle="modal" data-target="#ModalEdit"><i class="fa fa-2x fa-pencil"></i></button><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>
+                    }
+                    else
+                    {
+                        <td class="text-center" style="width:120px;"><button disabled type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover"><i class="fa fa-2x fa-pencil"></i></button><button disabled type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover"><i class="fa fa-2x fa-times"></i></button></td>
+                    }
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>

@@ -1,0 +1,468 @@
+﻿@model ApplicationChart.Models.LOCLAYDONHANG
+@{
+    ViewBag.Title = "Phân chia đơn hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .dataTables_wrapper {
+            width: 100%;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .modal-dialog {
+            margin: auto !important;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        td .form-control {
+            font-size: 12px;
+            height: 32px;
+        }
+
+        .font-small {
+            font-size: .85rem;
+        }
+
+        .dataTables_wrapper {
+            padding-top: 0px;
+        }
+
+        .modal-header .close {
+            padding: 1rem;
+            margin: -8px -7px -13px auto;
+        }
+
+        #dmhh {
+            overflow-y: auto;
+        }
+    </style>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div id="heightscreen">
+        <div class="w3-card w3-white" style="border-radius:0.25rem">
+            <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+                <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">GIAO HÀNG</a></li>
+                <li class="breadcrumb-item active w3-text-black font-weight-normal">PHÂN CHIA ĐƠN HÀNG</li>
+            </ol>
+        </div>
+        @*<div class="alert alert-primary mb-0" role="alert">
+                <b>GHI CHÚ :</b> Nếu tìm kiếm không thấy khách hàng, CTKM hoặc sản phẩm thì chọn vào <a href="#" class="text-danger font-weight-bold">ĐÂY</a>
+            </div>*@
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-header">
+                        <button id="btntimkiem" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-filter"></i> TÌM KIẾM</button>
+
+                    </div>
+
+                    <div class="card-body pb-0 pt-1">
+                        <div class="form-row">
+                            <div class="form-group col-md-3 col-sm-6 mb-0 divngay">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">Từ ngày<code>(*)</code></label>
+                                <input type="text" autocomplete="off" name="tungay" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="tungay">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 mb-0 divngay">
+                                <label class="my-1 mr-2 font-weight-bold" for="chon">Đến ngày<code>(*)</code></label>
+                                <input type="text" autocomplete="off" name="denngay" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="denngay">
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="mahh">Mã khu vực</label>
+                                <select title="Chọn khu vực" class="selectpicker show-tick my-1 mr-sm-2" data-live-search="true" multiple data-selected-text-format="count" id="matinh">
+                                    @foreach (var i in Model.khuvuc)
+                                    {
+                                        <option value="@i.matinh">@i.matinh - @i.tentinh</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="mahh">Mã trình dược viên</label>
+                                <select title="Chọn trình dược viên" class="selectpicker show-tick my-1 mr-sm-2" data-live-search="true" multiple data-selected-text-format="count" id="matdv">
+                                    @foreach (var i in Model.matdv)
+                                    {
+                                        <option value="@i.MATDV">@i.MATDV - @i.TENTDV</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 mb-0">
+                                <label class="my-1 mr-2 font-weight-bold" for="mahh">Mã khách hàng</label>
+                                <select title="Chọn khách hàng" class="selectpicker show-tick my-1 mr-sm-2" data-live-search="true" multiple data-selected-text-format="count" id="makh">
+                                    @foreach (var i in Model.makh)
+                                    {
+                                        <option value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-header">
+                        <label class="my-1 mr-2 font-weight-bold" for="mahh">Chọn người</label>
+                    </div>
+                    <div class="card-body pb-0 pt-1">
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-lg-9 mb-0">
+                                <select title="Chọn người giao hàng" class="selectpicker show-tick my-1 mr-sm-2" data-live-search="true" id="nguoigiaohang">
+                                    @foreach (var i in Model.nguoigiaohang)
+                                    {
+                                        <option data-hoten="@i.hoten" value="@i.nguoidung">@i.nguoidung - @i.hoten</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-3 mb-0">
+                                <button id="btnsubmit" type="button" class="btn btn-success btn-sm transition-3d-hover my-1 mr-sm-2 w-100"><i class="fa fa-filter"></i> HOÀN TẤT</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-body pb-0 pt-1">
+                        <div class="form-row w-100" id="PartialResult">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    @*<script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>*@
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.amenu6').addClass('active');
+            $('.form-control1').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            })
+            $("#PartialResult").on("click", ".btnhuy", function () {
+                var hang = $(this).closest('tr');
+                $.confirm({
+                    title: '<b>THÔNG BÁO</b>',
+                    content: 'Bạn có chắc chắn muốn hủy đơn hàng ' + hang.find('input').attr("data-sohd") + ' đã phân cho nhân viên giao hàng',
+                    buttons: {
+                        confirm: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("Deletedonhang", "Order")",
+                                    datatype: 'json',
+                                    contentType: "application/json",
+                                    data: '{sohd: ' + JSON.stringify(hang.find('input').attr("data-sohd")) + '}',
+                                    success: function (data) {
+                                        toastr.options = {
+                                            "closeButton": false,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["success"]("Xóa thành công hóa đơn " + hang.find('input').attr("data-sohd") + " đã giao cho nhân viên giao hàng", "Thông báo")
+                                        hang.find("input").addClass("checkdonhang").removeAttr("disabled").removeAttr("checked");
+                                    },
+                                    error: function (request, status, error) {
+                                        toastr.options = {
+                                            "closeButton": false,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                        $('#loading').modal('hide');
+                                    },
+                                    timeout: 20000,
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+            $("#btnsubmit").click(function () {
+                var matches = [];
+                var table = $("#example").dataTable();
+                var rowcollection = table.$(".checkdonhang:checked", { "page": "all" });
+
+                if ($("#nguoigiaohang").val() == "" || $("#nguoigiaohang").val() == null) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn người giao hàng !", "T hông báo")
+                }
+                else if (rowcollection.length == 0) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn hóa đơn nào !", "Thông báo")
+                }
+                else {
+                    $.confirm({
+                        title: '<b>THÔNG BÁO</b>',
+                        content: 'Bạn có chắc chắn muốn chọn <b class="text-danger">' + $("#nguoigiaohang").val() + " - " + $("#nguoigiaohang option:selected").attr("data-hoten") + '</b>',
+                        buttons: {
+                            confirm: {
+                                text: 'Chắc chắn',
+                                btnClass: 'btn-success',
+                                keys: ['enter'],
+                                action: function () {
+
+                                    rowcollection.each(function (index, elem) {
+
+                                        matches.push({
+                                            "sohd": $(elem).attr("data-sohd")
+                                                                           , "ngayhoadon": $(elem).attr("data-ngayhd")
+                                                                           , "makh": $(elem).attr("data-makh")
+                                                                           , "tenkh": $(elem).attr("data-donvi")
+                                                                           , "diachi": $(elem).attr("data-diachi")
+                                                                           , "matdv": $(elem).attr("data-matdv")
+                                                                           , "tongtien": $(elem).attr("data-tongtien")
+                                                                           , "taikhoan": $("#nguoigiaohang").val()
+                                            , "nguoigiaohang": $("#nguoigiaohang option:selected").attr("data-hoten")
+
+                                        });
+                                        $(elem).removeClass("checkdonhang").attr("disabled", true);
+                                    });
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("Adddonhang", "Order")",
+                                        datatype: 'json',
+                                        contentType: "application/json",
+                                        data: '{data: ' + JSON.stringify(matches) + '}',
+                                        success: function (data) {
+                                            toastr.options = {
+                                                "closeButton": false,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["success"]("Thêm thành công " + matches.length + " đơn hàng cần giao cho " + $("#nguoigiaohang").val() + " - " + $("#nguoigiaohang option:selected").attr("data-hoten") + " vào danh sách giao hàng", "Thông báo")
+
+                                        },
+                                        error: function (request, status, error) {
+                                            toastr.options = {
+                                                "closeButton": false,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                                            $('#loading').modal('hide');
+                                        },
+                                        timeout: 20000,
+                                    });
+                                }
+                            },
+                            cancel: {
+                                text: 'Hủy',
+                                btnClass: 'btn-danger',
+                                keys: ['esc'],
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            $("#btntimkiem").click(function () {
+                try {
+                    table.destroy();
+                }
+                catch (exception) {
+
+                }
+
+
+                if ($("#tungay").val() == "" || $("#denngay").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn ngày !", "Thông báo")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetPartialPhandonhang", "Order")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{tungay: ' + JSON.stringify($("#tungay").val()) + ', denngay: ' + JSON.stringify($("#denngay").val()) + ', makh: ' + JSON.stringify($("#makh").val()) + ', matinh: ' + JSON.stringify($("#matinh").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + '}',
+                        success: function (data) {
+                            $("#PartialResult").html(data);
+                            $("#example").dataTable({
+                                "ordering": false,
+                                "bDestroy": true,
+                                "iDisplayLength": 50, dom: 'Bfrtip',
+                                buttons: [
+                                    'copy', 'excel'
+                                ]
+                            });
+
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+

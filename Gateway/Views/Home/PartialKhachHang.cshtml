@@ -1,0 +1,7 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListKhachHang>
+@foreach (var i in Model)
+{
+    <div id="@("C" + i.MAKH)" class="checkbox checkbox-primary Checkboxlist8">
+        <input class="Checkboxlist8" value="@i.MAKH" id="@("CC" + i.MAKH)" type="checkbox" name="Checkboxlist8"><label for="@("CC" + i.MAKH)">@i.MAKH • @i.DONVI</label>
+    </div>
+}

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_SALEAPPROVE>
+<table id="exceltable" class="table-bordered display nowrap">
+    <thead id="tableheader">
+        <tr>
+            <th>Local code</th>
+            <th>Product Name</th>
+            <th>Channel</th>
+            <th>Channel Categories</th>
+            @*<th>M0</th>
+                <th>M1</th>
+                <th>M2</th>
+                <th>M3</th>
+                <th>M4</th>
+                <th>M5</th>
+                <th>M6</th>
+                <th>M7</th>
+                <th>M8</th>
+                <th>M9</th>
+                <th>M10</th>
+                <th>M11</th>
+                <th>M12</th>
+                <th>M13</th>
+                <th>M14</th>
+                <th>M15</th>
+                <th>M16</th>
+                <th>M17</th>
+                <th>M18</th>
+                <th>M19</th>
+                <th>M20</th>
+                <th>M21</th>
+                <th>M22</th>
+                <th>M23</th>
+                <th>M24</th>
+                <th>Value M0</th>
+                <th>Value M1</th>
+                <th>Value M2</th>
+                <th>Value M3</th>
+                <th>Value M4</th>
+                <th>Value M5</th>
+                <th>Value M6</th>
+                <th>Value M7</th>
+                <th>Value M8</th>
+                <th>Value M9</th>
+                <th>Value M10</th>
+                <th>Value M11</th>
+                <th>Value M12</th>
+                <th>Value M13</th>
+                <th>Value M14</th>
+                <th>Value M15</th>
+                <th>Value M16</th>
+                <th>Value M17</th>
+                <th>Value M18</th>
+                <th>Value M19</th>
+                <th>Value M20</th>
+                <th>Value M21</th>
+                <th>Value M22</th>
+                <th>Value M23</th>
+                <th>Value M24</th>*@
+            @foreach (var z in Model.GroupBy(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.Key.nam).ThenBy(k => k.Key.thang))
+            {
+                <th>@(z.Key.thang + "/" + z.Key.nam)</th>
+            }
+            @foreach (var z in Model.GroupBy(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.Key.nam).ThenBy(k => k.Key.thang))
+            {
+                <th>Value @(z.Key.thang + "/" + z.Key.nam)</th>
+            }
+            <th>Ngày kết thúc thầu</th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        @foreach (var i in Model.GroupBy(n => new { n.mahh, n.kenh, n.sub }))
+        {
+            <tr class="tr-data">
+                <td>@i.Key.mahh</td>
+                <td>@i.First().nguoitao</td>
+                <td>@i.Key.kenh</td>
+                <td>@i.Key.sub</td>
+                @foreach (var z in i.OrderBy(n => n.nam).ThenBy(n => n.thang))
+                {
+                    <td>@string.Format("{0:0}", z.soluong)</td>
+                }
+                @foreach (var z in i.OrderBy(n => n.nam).ThenBy(n => n.thang))
+                {
+                    <td>@string.Format("{0:0}", z.sotien)</td>
+                }
+                <td>@((i.OrderByDescending(n => n.ngayketthucthau).FirstOrDefault().ngayketthucthau != null) ? ((DateTime)(i.FirstOrDefault().ngayketthucthau)).ToString("dd/MM/yyyy") : "" )</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

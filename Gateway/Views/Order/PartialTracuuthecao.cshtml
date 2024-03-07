@@ -1,0 +1,42 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.Ketquathecao>
+<div class="w3-card w3-white" style="border-radius:0.25rem">
+    <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+        <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">TỔNG @Model.Sum(n=>n.soluongthe) PHIẾU</a></li>
+    
+    </ol>
+</div>
+<table id="example" class="table-bordered display nowrap w-100">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+
+            <th>STT</th>
+            <th>Mã KH</th>
+            <th>Tên Khách hàng</th>
+            <th>Số lượng phiếu</th>
+            <th>Số phiếu</th>
+
+        </tr>
+    </thead>
+    <!--Table head-->
+    <!--Table body-->
+    <tbody>
+        @{
+            var count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">@count</td>
+                    <td class="text-center">@i.MAKH</td>
+                    <td>@i.TENKH</td>
+                    <td>@i.soluongthe</td>
+                    <td>@String.Join(", ", i.listsothe.ToArray())</td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+

@@ -1,0 +1,247 @@
+﻿@model ApplicationChart.Models.LISTBAOCAOTONGHOPCRM
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Báo cáo công tác trình dược</title>
+    <link rel="shortcut icon" href="~/Content/Layout1/images/logopmp1.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/LayoutPro/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="~/Content/LayoutPro/css/mdb.css?version=2" rel="stylesheet">
+    <link href="~/Content/MDB/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading-animate.css?version=1">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading.css?version=1">
+    <link rel="stylesheet" href="~/Content/Baocaoview.css?version=2">
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=40">
+    <style>
+        .btn-floating.btn-sm i {
+            font-size: 0.99154rem;
+            line-height: 29.15385px;
+        }
+        table th {
+            font-size: 0.83rem;
+            font-weight: 400;
+        }
+        .btn-floating.btn-sm {
+            width: 29.15385px;
+            height: 29.15385px;
+        }
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body class="creative-lp p-2">
+    <script>
+        var loading = new Loading();
+    </script>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-cascade narrower">
+                <div class="view view-cascade mdb-color lighten-3 card-header">
+                    <h5 class="mb-0 font-weight-bold text-center text-white">BÁO CÁO TỔNG HỢP</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.tungay.ToString("dd/MM/yyyy")"><label class="active disabled" data-error="" data-success="">TỪ NGÀY</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.denngay.ToString("dd/MM/yyyy")"><label class="active disabled" data-error="" data-success="">ĐẾN NGÀY</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.songaylamviec NGÀY"><label class="active disabled" data-error="" data-success="">NGÀY LÀM VIỆC</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-cascade narrower">
+                <div class="card-body p-2">
+                    <table id="mytable" class="table-bordered display nowrap" style="width:100%">
+                        <thead>
+                            <tr class="text-dark text-center">
+                                <th style="width:20px;" class="font-weight-bold">STT</th>
+                                <th class="font-weight-bold">Họ và tên</th>
+                                <th class="font-weight-bold">Tài khoản</th>
+                                <th class="font-weight-bold">Số ngày báo cáo</th>
+                                <th class="font-weight-bold">Số lần ghé thăm</th>
+                                <th class="font-weight-bold">Tổng đơn hàng</th>
+                                <th class="font-weight-bold">Doanh số OTC</th>
+                                <th class="font-weight-bold">Doanh số ETC</th>
+                                <th class="font-weight-bold">Tổng doanh số</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                                foreach (var i in Model.data)
+                                {
+                                    <tr>
+                                        <th class="text-center" scope="row">@count</th>
+                                        <td>@i.hovaten</td>
+                                        <td>@i.taikhoan</td>
+                                        <td class="text-center">@i.songaybaocao</td>
+                                        <td class="text-center">@i.solantham</td>
+                                        <td class="text-center">@i.sodonhang</td>
+                                        <td class="text-right">@((i.doanhsootc != null) ? string.Format("{0:#,##0}", i.doanhsootc) : "N/A")</td>
+                                        <td class="text-right">@((i.doanhsoetc != null) ? string.Format("{0:#,##0}", i.doanhsoetc) : "N/A")</td>
+                                        <td class="text-right">@((i.doanhsootc != null) ? string.Format("{0:#,##0}", i.doanhsootc + i.doanhsoetc) : "N/A")</td>
+                                    </tr>
+                                    count = count + 1;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/loading/js/modal-loading.js?version=1"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/Content/MDB/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/mdb.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        //Check if the top location is same as the current location
+        if (top.location.hostname != self.location.hostname) {
+            //If not then set the top to you current
+            top.location.href = self.location.href;
+        }
+    </script>
+</body>
+</html>
+<script>
+    Number.prototype.format = function () {
+        var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");
+        if (text != "NaN") {
+            return text + ".00";
+        }
+        else {
+            return text;
+        }
+    };
+</script>
+<script>
+    function CovertDatetime(i) {
+        var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+        var d = new Date(parseInt(milli));
+        var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2);
+        return dformat;   // The function returns the product of p1 and p2
+    }
+    $(document).ready(function () {
+        $("#mytable").dataTable({
+            "iDisplayLength": 100, "scrollX": true, dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel'
+            ]
+        });
+    });
+
+</script>
+
+<style>
+    .input-group-prepend span {
+        font-size: 12px !important;
+        font-weight: bold;
+    }
+
+    .input-group .input-group-text {
+        background-color: white;
+    }
+
+    .col-form-label {
+        font-size: 12px;
+    }
+
+    table.table th, table.table td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .creative-lp .fa-2x {
+        margin-bottom: 0px;
+    }
+
+    /*thead, tbody {
+            display: block;
+        }*/
+    .tableFixHead {
+        overflow-y: auto;
+        max-height: 500px;
+    }
+
+        .tableFixHead table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .tableFixHead th,
+        .tableFixHead td {
+            padding: 8px 16px;
+        }
+
+        .tableFixHead th {
+            position: sticky;
+            top: 0;
+            background: #eee;
+        }
+
+    .Sunday {
+        background-color: #795548 !important;
+        color: #fff !important;
+    }
+
+    body {
+        font-weight: 400;
+    }
+
+    table td {
+        font-weight: 400;
+    }
+</style>

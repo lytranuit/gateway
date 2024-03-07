@@ -1,0 +1,334 @@
+﻿.checkbox label::after {
+    top: -1px;
+}
+
+.funkyradio {
+    width: 100%;
+}
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 100% !important;
+}
+
+.background1 {
+    color: #000 !important;
+    background: linear-gradient(to top, #ffffff 0%, #808080 100%);
+}
+
+.col-sm-1 {
+    font-size: 12px;
+    text-align: center;
+}
+
+input[type=number] {
+    width: 50px;
+}
+/* CSS REQUIRED */
+.state-icon {
+    left: -5px;
+}
+
+.fa-exclamation-triangle {
+    color: red;
+    font-size: 25px;
+}
+
+.caret {
+    display: none !important;
+}
+
+.nice-select .list {
+    overflow: scroll;
+}
+
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+.well .list-group {
+    margin-bottom: 0;
+}
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+    }
+/* Create a custom checkbox */
+.checkmark {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.btnmain {
+    font-size: 12px;
+    /*border-color: #C40C2C;
+    background: #f2546b;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2546b), color-stop(100%, #dc0b2a));
+    background: -webkit-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: -o-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: -ms-linear-gradient(top, #f2546b 0%, #dc0b2a 100%);
+    background: linear-gradient(to bottom, #f2546b 0%,#dc0b2a 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2546b', endColorstr='#dc0b2a',GradientType=0 );
+    color: #ffffff !important;
+    text-shadow: 0 -1px 0px #c40c28;*/
+}
+
+
+#checkboxlist {
+    background-color: white;
+    border: 1px solid #D1D3D4;
+    padding: 8px;
+}
+
+.card-title {
+    font-family: inherit;
+    border-bottom: 4px solid #999;
+    padding-bottom: 10px;
+}
+
+.card-block {
+    padding-top: 4px;
+}
+
+.col-sm-2.sidenav {
+    border: 3px solid black;
+    border-radius: 20px;
+}
+
+.navbar {
+    border: 3px solid black;
+    border-radius: 20px;
+    height: 120px;
+}
+
+.btn.abc {
+    transition: background-color 0.5s,font-weight 0.5s;
+    font-weight: normal;
+    margin-top: 5px;
+    height: 35px;
+    width: 90%;
+    border-radius: 5px;
+    /*box-shadow: 0 9px #999;*/
+}
+
+    .btn.abc:hover {
+        font-weight: bolder;
+    }
+
+    .btn.abc:active {
+        background: linear-gradient(to bottom, #f2546b 0%,#dc0b2a 100%);
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+.dropdown-toggle::after {
+    margin-left: 0;
+}
+
+#dvt {
+    color: red;
+    font-size: 16px;
+}
+
+.selec {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+}
+
+#chart {
+    border: 3px solid black;
+    border-radius: 20px;
+}
+
+.btn.dropdown-toggle.btn-default {
+    margin: 0;
+    border: 1px solid #D1D3D4;
+    border-radius: 5px;
+}
+
+.col-lg-6 {
+    text-align: center;
+}
+
+input[type=number] {
+    color: black;
+    background-color: white;
+    height: 32px;
+}
+
+
+.widget {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.card-title {
+    font-size: 16px;
+    text-align: center;
+    font-family: inherit;
+}
+
+.donvi1 {
+    width: 90%;
+}
+
+.container p {
+    color: black;
+}
+
+.card {
+    margin: 10px 0 0 0;
+}
+
+.btn-primary {
+    width: 100px;
+}
+
+.w3-red {
+    background-color: #FF6347 !important;
+}
+
+.w3-col {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.secdai {
+    width: 95%;
+}
+
+.quantity {
+    position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.quantity input {
+    width: 100%;
+    height: 40px;
+    line-height: 1.45;
+    float: left;
+    display: block;
+    padding: 0;
+    margin: 0;
+    padding-left: 20px;
+    border: 1px solid #D1D3D4;
+}
+
+    .quantity input:focus {
+        outline: 0;
+    }
+
+.quantity-nav {
+    float: left;
+    position: relative;
+    height: 42px;
+}
+
+.quantity-button {
+    position: relative;
+    cursor: pointer;
+    border-left: 1px solid #D1D3D4;
+    width: 20px;
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+    line-height: 1.7;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+    .quantity-button.quantity-up {
+        position: absolute;
+        height: 50%;
+        top: 0;
+        border-bottom: 1px solid #D1D3D4;
+    }
+
+    .quantity-button.quantity-down {
+        position: absolute;
+        bottom: 2px;
+        height: 50%;
+    }
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 100%;
+}
+
+button.btn.btn-default {
+    font-size: 14px;
+}
+
+.w3-xlarge {
+    font-size: 17px !important;
+}

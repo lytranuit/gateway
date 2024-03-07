@@ -1,0 +1,15 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET>
+@foreach (var i in Model)
+{
+    <tr data-repeater-item="">
+        <td>
+            <input readonly value="@(((decimal)i.DSTU).ToString("N",new System.Globalization.CultureInfo("en-US")))" type="text" class="form-control dstu">
+        </td>
+        <td><input readonly value="@(((decimal)i.DSDEN).ToString("N",new System.Globalization.CultureInfo("en-US")))" type="text" class="form-control dsden"></td>
+        <td><input readonly value="@i.ck" max="100" type="number" class="form-control tileck"></td>
+
+
+    </tr>
+
+}

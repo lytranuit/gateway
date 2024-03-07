@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ApplicationChart.Models.Quanlyhopdongthau>
+<table id="example" class="table-bordered display nowrap">
+    <thead>
+        <tr>
+            <th class="center">STT</th>
+
+            <th class="text-center">Mã CN</th>
+            <th class="text-center">Mã HD</th>
+            <th class="text-center">NỘI DUNG</th>
+            <th class="text-center">MÃ KH</th>
+            <th class="text-center">ĐƠN VỊ</th>
+            <th class="text-center">NGÀY BẮT ĐẦU</th>
+            <th class="text-center">NGÀY KẾT THÚC</th>
+            <th class="text-center">MÃ QĐ</th>
+            <th class="text-center">TÊN QĐ</th>
+            <th class="text-center">LOẠI QĐ</th>
+            <th class="text-center">HÀNG HÓA</th>
+          
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="center"></th>
+
+            <th class="text-center">Mã CN</th>
+            <th class="text-center">Mã HD</th>
+            <th class="text-center">NỘI DUNG</th>
+            <th class="text-center">MÃ KH</th>
+            <th class="text-center">ĐƠN VỊ</th>
+            <th class="text-center">NGÀY BẮT ĐẦU</th>
+            <th class="text-center">NGÀY KẾT THÚC</th>
+            <th class="text-center">MÃ QĐ</th>
+            <th class="text-center">TÊN QĐ</th>
+            <th class="text-center">LOẠI QĐ</th>
+            <th class="text-center">HÀNG HÓA</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            var count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">@count</td>
+
+                    <td>@i.MACN</td>
+                   
+                    <td>@i.MAHD</td>
+                    <td>@i.noidung</td>
+                  
+                    <td>@i.MAKH</td>
+                    <td>@i.donvi</td>
+                    <td>@((i.NGAYBATDAU != null)? ((DateTime)(i.NGAYBATDAU)).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td>@((i.NGAYKETTHUC != null) ? ((DateTime)(i.NGAYKETTHUC)).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td>@i.MAQD</td>
+                    <td>@i.TENQD</td>
+                    <td>@i.LOAIHD</td>
+                    <td>@foreach (var j in i.Listmahh)
+                    {
+                        <span>@j.MAHH: @j.SOLUONG</span>
+                        <br>
+                    }
+                    </td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>
+@*<table class="table table-bordered mb-2 mt-2">
+    <tbody>
+        <tr>
+            <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN))</td>
+            <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100))</td>
+            <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+            <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN) + Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100) - Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+        </tr>
+
+    </tbody>
+</table>*@

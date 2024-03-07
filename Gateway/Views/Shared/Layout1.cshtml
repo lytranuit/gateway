@@ -1,0 +1,638 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="shortcut icon" href="~/Content/Layout1/images/logopmp1.png" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2546b">
+    <meta name="description" content="Trang Gateway">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Báo cáo BSC" />
+    <link href="~/Content/Layout1/css/bootstrap.min.css?version=1" rel='stylesheet' type='text/css' />
+    <link href="~/Content/Layout1/css/style.css?version=1000" rel='stylesheet' type='text/css' />
+    <link href="~/Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'>
+    <link href="~/Content/bootstrap-select.css?version=2" rel="stylesheet">
+    <link href="~/Content/w3.css?version=8" rel="stylesheet">
+    <link href="~/Content/toastr.min.css" rel="stylesheet">
+    <link href="~/Content/MDB/css/mdb.min.css?version=9" rel="stylesheet">
+    <link href="~/Content/Order/bootstrap.min.css?version=21" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="~/Content/CheckBox.css?version=13">
+    <link href="~/Content/Layout1.css?version=8" rel="stylesheet">
+    <link href="~/Content/loading.css" rel="stylesheet" />
+    <style>
+        .sidebar-menu {
+            overflow-y: scroll;
+        }
+
+        .top_menu a.waves-effect {
+            height: 27px;
+        }
+    </style>
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div class="modal fade" id="hotromodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">LIÊN HỆ HỖ TRỢ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-2">
+                    <div class="form-group mb-0">
+                        <label class="font-weight-bold" for="email">
+                            HỖ TRỢ KINH DOANH
+                        </label>
+                        <div class="input-group pb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-home"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" value="PHÒNG MARKETING" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="font-weight-bold" for="email">
+                            ĐIỆN THOẠI
+                        </label>
+                        <div class="input-group pb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" value="" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group mb-0">
+                        <label class="font-weight-bold" for="email">
+                            HỖ TRỢ KỸ THUẬT
+                        </label>
+                        <div class="input-group pb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-home"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" value="PHÒNG TIN HỌC" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="font-weight-bold" for="email">
+                            ĐIỆN THOẠI
+                        </label>
+                        <div class="input-group pb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" value="" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    @*<div class="form-group mb-0">
+                            <label class="font-weight-bold" for="email">
+                                ĐIỆN THOẠI DI ĐỘNG
+                            </label>
+                            <div class="input-group pb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text pl-3 pr-3"><i class="fa fa-mobile"></i></span>
+                                </div>
+                                <input type="text" readonly class="form-control" value="038 7246802 (QUANG)" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>*@
+                    <div class="form-group mb-0">
+                        <label class="font-weight-bold" for="email">
+                            EMAIL
+                        </label>
+                        <div class="input-group pb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" value="" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    @*<div class="form-group text-center mb-1">
+                        Liên hệ trực tuyến với <strong style="color:#00AFF0">Skype</strong> bằng cách click tại <a class="font-weight-bold" style="color:deepskyblue" href="skype:live:nnquang95?chat">đây</a>
+                    </div>*@
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">ĐÓNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="gopymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ĐÓNG GÓP Ý KIẾN</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-0">
+                    <form>
+                        <div class="form-group mb-0">
+                            <label for="recipient-name" class="col-form-label">Tiêu đề</label>
+                            <input type="text" class="form-control" id="tieude">
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="message-text" class="col-form-label">Nội dung</label>
+                            <textarea class="form-control" id="noidung"></textarea>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="recipient-name" class="col-form-label">Email liên hệ</label>
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" id="guigopy" class="btn btn-success mb-0">GỬI</button>
+                    <button type="button" id="gopyclose" class="btn btn-danger" data-dismiss="modal">ĐÓNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-container sidebar-collapsed-back">
+        <div class="header-section">
+            <!--menu-right-->
+            <div class="top_menu">
+                <div class="w3-display-container header1 p-1">
+                    <a href="#" class="sidebar-icon text-primary border-0 box"><span class="fa fa-bars"></span></a>
+                    <div class="float-left p-2">
+                        @if (ViewBag.flag == "en")
+                        {
+                            @Url.LangSwitcher("Vietnamese", ViewContext.RouteData, "vi")
+                        }
+                        else
+                        {
+                            @Url.LangSwitcher("English", ViewContext.RouteData, "en")
+                        }
+                    </div>
+                    <div class="profile_details_left">
+                        @if (ViewBag.ten != null)
+                        {
+                            <div class="w3-dropdown-hover" style="margin-right:30px; float:right; background-color:white">
+                                <button id="logout" class="w3-btn w3-round-medium w3-white" style="font-weight:600;position:absolute;right:24px;padding: 6px 5px;"><img src="/Content/Layout1/images/User-Icon.png?version=1" class="w3-circle" alt="Norway"><span id="usernameheader">&nbsp;  @ViewBag.ten  &nbsp; <i style="font-size:10px;" class="fa fa-chevron-down" aria-hidden="true"></i></span></button>
+                                <div id="dropclick" class="w3-dropdown-content w3-bar-block w3-animate-opacity" style="padding:8px;position:fixed; right:54px; top:52px;border:1px solid #808080;border-top:4px solid #808080">
+                                    <a href="/@ViewBag.flag/doi-mat-khau" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-key" aria-hidden="true"></i>&nbsp; &nbsp;  @Html.Raw(GlobalRes.lbdoimatkhau)   &nbsp; &nbsp; &nbsp; </a>
+                                    <a href="/@ViewBag.flag/he-thong/thong-tin-cua-toi" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-user" aria-hidden="true"></i>&nbsp; &nbsp;  @Html.Raw(GlobalRes.lbthongtincuatoi) <span class="badge badge-danger"> Mới</span>&nbsp; &nbsp; &nbsp; </a>
+                                    @if (User.Identity.Name.ToUpper() == "ADMIN")
+                                    {
+                                        <a href="/he-thong-quan-tri/tong-quan" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-cog fa-spin" aria-hidden="true"></i>&nbsp; &nbsp;  Quản trị người dùng   &nbsp; &nbsp; &nbsp; </a>
+                                        <a href="/@ViewBag.flag/he-thong/ConfigSource" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-database" aria-hidden="true"></i>&nbsp; &nbsp;  Cấu hình dữ liệu   &nbsp; &nbsp; &nbsp; </a>
+                                        <a href="/@ViewBag.flag/he-thong/Syncsodangky" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-retweet" aria-hidden="true"></i>&nbsp; &nbsp;  Đồng bộ dữ liệu SDK   &nbsp; &nbsp; &nbsp; </a>
+                                        <a href="/@ViewBag.flag/he-thong/Synctenhh" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-retweet" aria-hidden="true"></i>&nbsp; &nbsp;  Đồng bộ dữ liệu hàng hóa   &nbsp; &nbsp; &nbsp; </a>
+                                        <a href="/@ViewBag.flag/he-thong/lay-hop-dong-thau" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-retweet" aria-hidden="true"></i>&nbsp; &nbsp;  Lấy hợp đồng thầu   &nbsp; &nbsp; &nbsp; </a>
+                                    }
+                                    <a href="/@ViewBag.flag/he-thong/huong-dan-su-dung-website" class="w3-bar-item w3-button w3-hover-gray" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>&nbsp; &nbsp;  @Html.Raw(GlobalRes.lbhuongdansudung)  &nbsp; &nbsp; &nbsp; </a>
+                                    <button class="w3-bar-item w3-button w3-hover-gray" data-toggle="modal" data-target="#hotromodal"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp; &nbsp;  @Html.Raw(GlobalRes.lblienhehotro)  &nbsp; &nbsp; &nbsp; </button>
+                                    <button class="w3-bar-item w3-button w3-hover-gray" data-toggle="modal" data-target="#gopymodal"><i class="fa fa-comment" aria-hidden="true"></i>&nbsp; &nbsp;  @Html.Raw(GlobalRes.lbdonggopykien)  &nbsp; &nbsp; &nbsp; </button>
+                                    <a href="/@ViewBag.flag/dang-xuat" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; &nbsp;  @Html.Raw(GlobalRes.lbdangxuat)  &nbsp; &nbsp; &nbsp; </a>
+                                </div>
+                            </div>
+                        }
+                        <ul class="nofitications-dropdown">
+                            <li class="dropdown note float-right" style="right:1px">
+                                <a title="Đăng xuất" class="btn btn-sm" id="alertdropdown" href="/@ViewBag.flag/dang-xuat" aria-expanded="false" style="margin-top:3px;padding-right:13px;margin-bottom:0px;"><i class="fa fa-power-off"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="left-content">
+            <div class="inner-content">
+                <div class="outter-wp">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <header class="logo"></header>
+            <!--/down-->
+            <div class="down">
+                <img class="mb-0" src="~/Content/Layout1/images/logopymestada_doc112.png" width="150"/>
+            </div>
+            <!--//down-->
+            <div class="menu">
+                <ul class="bmenu" id="menu" style="border-top:1px solid #cccccca3;">
+
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLHH1") || ((string[])(ViewBag.quyen.Split(','))).Contains("QLHH2"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/san-pham/quan-ly-san-pham" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/product.png"><span class="align-middle">QUẢN LÝ SẢN PHẨM</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("CAP2") || ((string[])(ViewBag.quyen.Split(','))).Contains("CAP1") || ((string[])(ViewBag.quyen.Split(','))).Contains("ADMIN"))
+                    {
+
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/bao-cao-bsc" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/pdf.png?version=1"><span class="align-middle">@Html.Raw(GlobalRes.lbbaocaobsc.ToUpper())</span></a>
+                        </li>
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse6" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/chart.png?version=1"><span class="align-middle">@Html.Raw(GlobalRes.lbbieudo.ToUpper())</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse6">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/doanh-so-theo-thang"><i class="fa fa-circle-o"></i> @Html.Raw(GlobalRes.lbdoanhsotheothang.ToUpper())</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/so-sanh-theo-nam"><i class="fa fa-circle-o"></i> @Html.Raw(GlobalRes.lbsosanhtheonam.ToUpper())</a>
+                            </div>
+                        </li>
+                        if (((string[])(ViewBag.quyen.Split(','))).Contains("CAP2"))
+                        {
+                            <li class="sub-menu-1">
+                                <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/chi-tiet-cong-no" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/congno.png?version=3"><span class="align-middle">CHI TIẾT CÔNG NỢ</span></a>
+                            </li>
+
+                        }
+                    }
+                    @*@if (((string[])(ViewBag.quyen.Split(','))).Contains("CHART"))
+        {
+
+        }*@
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("GIAYTO"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/quan-ly-giay-to-phap-ly" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/import.png"><span class="align-middle">QL GIẤY TỜ PHÁP LÝ</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("NHAPTON"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/bao-cao-ton-kho" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/import.png"><span class="align-middle">NHẬP TỒN KHO</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("NHAPKHOANTDV"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/nhap-khoan-tdv" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/upload.png"><span class="align-middle">NHẬP KHOÁN TDV</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("QUANLYKHOANTDV"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/quan-ly-khoan-tdv" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/man.png"><span class="align-middle">QUẢN LÝ KHOÁN TDV</span></a>
+                        </li>
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/quan-ly-phu-phi" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/man.png"><span class="align-middle">QUẢN LÝ PHỤ PHÍ</span></a>
+                        </li>
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/tinh-phu-phi" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/man.png"><span class="align-middle">TÍNH PHỤ PHÍ</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("KETOAN"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse5" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/ketoan.png?version=1"><span class="align-middle">KẾ TOÁN</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse5">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/ke-toan/thong-ke-tai-khoan"><i class="fa fa-circle-o"></i> THỐNG KÊ TÀI KHOẢN</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/ke-toan/thong-ke-chi-tiet-tai-khoan"><i class="fa fa-circle-o"></i> THỐNG KÊ CT TÀI KHOẢN</a>
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("TDTHAU"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/quan-ly-thau/theo-doi-hang-thau" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/thau.png"><span class="align-middle">THEO DÕI HÀNG THẦU</span></a>
+                        </li>
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/quan-ly-hop-dong-thau" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/product.png"><span class="align-middle">QL HỢP ĐỒNG THẦU</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("TRACUU"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/tim-kiem-hoa-don" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/tracuu.png?version=2"><span class="align-middle">TRA CỨU HÓA ĐƠN</span></a>
+                        </li>
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/ky-han-no" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/congno.png?version=3"><span class="align-middle">IN KỲ HẠN NỢ</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("TONKHO"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse7" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/warehouse.png"><span class="align-middle">@Html.Raw(GlobalRes.lbtonkho.ToUpper())</span><span class="fa fa-angle-down"></span></a>
+                            <div id="collapse7" class="collapse">
+
+
+                                @if (!((string[])(ViewBag.quyen.Split(','))).Contains("CAP1"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/chi-tiet-hang-hoa"><i class="fa fa-circle-o"></i> @Html.Raw(GlobalRes.lbchitiethanghoa.ToUpper())</a>
+                                    @*<a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/thong-tin-nhanh-ton-kho"><i class="fa fa-circle-o"></i> @Html.Raw(GlobalRes.lbtonkhosolohandung.ToUpper())</a>*@
+                                }
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/ton-kho"><i class="fa fa-circle-o"></i> @Html.Raw(GlobalRes.lbtonkhotong.ToUpper())</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/tra-cuu-ton-kho-nhap"><i class="fa fa-circle-o"></i> TRA CỨU TỒN KHO NHẬP</a>
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("BBTT"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/theo-doi-bbtt" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/bbtt.png?version=2"><span class="align-middle">THEO DÕI HĐ MUA BÁN</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("KHUYENMAICN"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/crm/quan-ly-chuong-trinh-ban-hang-chi-nhanh" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/bbtt.png?version=2"><span class="align-middle">QL CT BÁN HÀNG CHI NHÁNH</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("KHUYENMAI"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse8" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/seo.png?version=2"><span class="align-middle">QUẢN LÝ CRM</span><span class="fa fa-angle-down"></span></a>
+                            <div id="collapse8" class="collapse">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-chuong-trinh-ban-hang"><i class="fa fa-circle-o"></i> QL CHƯƠNG TRÌNH BÁN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-chuong-trinh-ho-tro"><i class="fa fa-circle-o"></i> QL CHƯƠNG TRÌNH HỖ TRỢ</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-hang-hoa"><i class="fa fa-circle-o"></i> QUẢN LÝ HÀNG HÓA</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-quy-doi-diem-tich-luy"><i class="fa fa-circle-o"></i> QL QUY ĐỔI ĐIỂM TÍCH LŨY</a>
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("HANGHOA"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse88" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/pharmacy.png"><span class="align-middle">QUẢN LÝ HÀNG HÓA</span><span class="fa fa-angle-down"></span></a>
+                            <div id="collapse88" class="collapse">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-danh-muc-hang-hoa"><i class="fa fa-circle-o"></i> DANH MỤC HÀNG HÓA</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-thay-doi"><i class="fa fa-circle-o"></i> QUẢN LÝ THAY ĐỔI</a>
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("THUNO"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse55" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">THU NỢ</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse55">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/nhap-thu-no"><i class="fa fa-circle-o"></i> NHẬP DỮ LIỆU</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/bao-cao-thu-no"><i class="fa fa-circle-o"></i> BÁO CÁO THU NỢ</a>
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DUUOC"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse11" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/graph.png"><span class="align-middle">KẾ HOẠCH</span><span class="fa fa-angle-down"></span></a>
+                            <div id="collapse11" class="collapse">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/du-uoc/nhap-du-lieu"><i class="fa fa-circle-o"></i> NHẬP DỮ LIỆU</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/du-uoc/quan-ly-du-uoc"><i class="fa fa-circle-o"></i> QUẢN LÝ KẾ HOẠCH </a>
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLDUUOC"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/du-uoc/quan-ly-nguoi-dung"><i class="fa fa-circle-o"></i> PHÂN QUYỀN NGƯỜI DÙNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/du-uoc/danh-muc-hang-hoa"><i class="fa fa-circle-o"></i> DANH MỤC HÀNG HÓA</a>
+                                }
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/du-uoc/bao-cao"><i class="fa fa-circle-o"></i> BÁO CÁO</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/du-uoc/bao-cao-ton-kho"><i class="fa fa-circle-o"></i> BÁO CÁO TỒN KHO</a>
+
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("ADMIN"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/quan-ly-phan-mem" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/users.png"><span class="align-middle">QUẢN LÝ PHẦN MỀM</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLNGUOIDUNG"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/quan-ly-nguoi-dung" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/users.png"><span class="align-middle">QUẢN LÝ NGƯỜI DÙNG</span></a>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("GIAOHANG") || ((string[])(ViewBag.quyen.Split(','))).Contains("QLGIAOHANG"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse9" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/giaohang.png?version=2"><span class="align-middle">GIAO HÀNG</span><span class="fa fa-angle-down"></span></a>
+                            <div id="collapse9" class="collapse">
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("GIAOHANG"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/lay-don-hang"><i class="fa fa-circle-o"></i> LẤY ĐƠN HÀNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/trang-thai-don-hang"><i class="fa fa-circle-o"></i> TRẠNG THÁI ĐƠN HÀNG</a>
+                                }
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLGIAOHANG"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/phan-don-hang"><i class="fa fa-circle-o"></i> PHÂN CHIA ĐƠN HÀNG</a>
+
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-da-giao"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG ĐÃ GIAO</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANG") || ((string[])(ViewBag.quyen.Split(','))).Contains("KEHOACH") || ((string[])(ViewBag.quyen.Split(','))).Contains("KHUYENMAI"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse2" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/crm.png"><span class="align-middle">CRM</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse2">
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANG"))
+                                {
+                                    if (ViewBag.dathang == 1)
+                                    {
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/danh-sach-don-dat-hang"><i class="fa fa-circle-o"></i> DANH SÁCH ĐƠN HÀNG</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangclass" href="/crm/tao-moi-don-dat-hang"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tao-don-dat-hang-etc"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG ETC</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-the-cao"><i class="fa fa-circle-o"></i> TRA CỨU PHIẾU XỔ SỐ</a>
+                                    }
+                                    else if (ViewBag.dathang == 0)
+                                    {
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-dat-hang"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-the-cao"><i class="fa fa-circle-o"></i> TRA CỨU PHIẾU XỔ SỐ</a>
+                                    }
+                                    else if (ViewBag.dathang == 2)
+                                    {
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-dat-hang"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-the-cao"><i class="fa fa-circle-o"></i> TRA CỨU PHIẾU XỔ SỐ</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/danh-sach-don-dat-hang"><i class="fa fa-circle-o"></i> ĐƠN HÀNG ĐÃ TẠO</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangclass" href="/@ViewBag.flag/crm/tao-moi-don-dat-hang"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tao-don-dat-hang-etc"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG ETC</a>
+                                    }
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/danh-sach-khach-hang-cho-duyet"><i class="fa fa-circle-o"></i> DS KHÁCH HÀNG CHỜ DUYỆT</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-khach-hang"><i class="fa fa-circle-o"></i> TRA CỨU KHÁCH HÀNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tim-kiem-khach-hang"><i class="fa fa-circle-o"></i> TÌM KIẾM KHÁCH HÀNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/nhap-the-cao"><i class="fa fa-circle-o"></i> NHẬP PHIẾU XỔ SỐ</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/chuong-trinh-khuyen-mai-chi-nhanh"><i class="fa fa-circle-o"></i> DANH SÁCH CT KHUYẾN MÃI</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/chuong-trinh-ban-hang"><i class="fa fa-circle-o"></i> CT BÁN HÀNG - HỖ TRỢ CHUNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-quy-doi-diem-tich-luy"><i class="fa fa-circle-o"></i> QL QUY ĐỔI ĐIỂM TÍCH LŨY</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/huong-dan-crm"><i class="fa fa-circle-o"></i> HƯỚNG DẪN CRM</a>
+                                }
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("KEHOACH"))
+                                {
+                                    if (ViewBag.dathang != 0)
+                                    {
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/ke-hoach-cong-tac"><i class="fa fa-circle-o"></i> KẾ HOẠCH TRÌNH DƯỢC</a>
+                                    }
+                                    if (ViewBag.dathang == 1)
+                                    {
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/ke-hoach-hom-nay"><i class="fa fa-circle-o"></i> KẾ HOẠCH HÔM NAY</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/thu-thap-vi-tri-khach-hang"><i class="fa fa-circle-o"></i> THU THẬP VỊ TRÍ</a>
+                                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/vi-tri-khach-hang"><i class="fa fa-circle-o"></i> VỊ TRÍ KHÁCH HÀNG</a>
+                                    }
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/danh-sach-khach-hang"><i class="fa fa-circle-o"></i> DANH MỤC KHÁCH HÀNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/bao-cao-cong-tac-trinh-duoc"><i class="fa fa-circle-o"></i> BC CÔNG TÁC TRÌNH DƯỢC</a>
+                                }
+                            </div>
+                        </li>
+                    }
+
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("QUANLYWS") || ((string[])(ViewBag.quyen.Split(','))).Contains("KINHDOANHWS") || ((string[])(ViewBag.quyen.Split(','))).Contains("KHOWS"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse52" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">QUẢN LÝ WS</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse52">
+
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("KINHDOANHWS"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ws"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/phat-hanh-hoa-don-ws"><i class="fa fa-circle-o"></i> PHÁT HÀNH HÓA ĐƠN ĐIỆN TỬ</a>
+                                }
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QUANLYWS") || ((string[])(ViewBag.quyen.Split(','))).Contains("KINHDOANHWS"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tim-kiem-hoa-don-ws"><i class="fa fa-circle-o"></i> TRA CỨU HÓA ĐƠN ĐIỆN TỬ</a>
+                                }
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QUANLYWS"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/danh-muc-hop-dong-ws"><i class="fa fa-circle-o"></i> DANH MỤC HỢP ĐỒNG WS</a>
+
+                                }
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("KHOWS") || ((string[])(ViewBag.quyen.Split(','))).Contains("KINHDOANHWS"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-kho-ws"><i class="fa fa-circle-o"></i> QUẢN LÝ KHO</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGWS"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse51" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">ĐƠN HÀNG WS</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse51">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangwsclass" href="/@ViewBag.flag/crm/tao-don-dat-hang-ws"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ws"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGSC"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse5" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. SUPPLY CHAIN</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse5">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangscclass" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-sc"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-sc"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHSC"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-sc"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG SC</a>
+                                }
+                            </div>
+                        </li>
+                    }
+
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGKD"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse3" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. KINH DOANH PY</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse3">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangkdclass" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-phong-kinh-doanh"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-phong-kinh-doanh"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHKD"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-kinh-doanh"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG KD</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGHCM"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse4" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. KINH DOANH HCM</span><span class="fa fa-angle-down"></span></a>
+                            <div class="collapse" id="collapse4">
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-hcm"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-hcm"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
+                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHHCM"))
+                                {
+                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-hcm"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG HCM</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                    @if (!((string[])(ViewBag.quyen.Split(','))).Contains("CAP1"))
+                    {
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" href="#" data-toggle="modal" data-target="#hotromodal" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/help.png"><span class="align-middle">LIÊN HỆ HỖ TRỢ</span></a>
+                        </li>
+                        <li class="sub-menu-1">
+                            <a class="a-sub-menu-1 noa" href="#" data-toggle="modal" data-target="#gopymodal" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/feedback.png"><span class="align-middle">ĐÓNG GÓP Ý KIẾN</span></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="loading" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body pt-2 pb-0">
+                    <div class="container w-100">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="loader">
+                                    <div class="loader-inner">
+                                        <div class="loading one"></div>
+                                    </div>
+                                    <div class="loader-inner">
+                                        <div class="loading two"></div>
+                                    </div>
+                                    <div class="loader-inner">
+                                        <div class="loading three"></div>
+                                    </div>
+                                    <div class="loader-inner">
+                                        <div class="loading four"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <h5 class="text-center w-100">@((ViewBag.flag == "vi") ? "ĐANG TẢI DỮ LIỆU" : "LOADING ...")</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+
+
+        var lang = "/" + '@ViewBag.flag';
+    </script>
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    @*<script src="~/Scripts/angular.min.js"></script>*@
+    <script src="~/Content/Layout1/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-confirm.min.js?version=2"></script>
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Content/input-mask/jquery.inputmask.js" type="text/javascript"></script>
+    <script src="~/Content/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
+    <script src="~/Scripts/init.js?version=270422" type="text/javascript"></script>
+    @if (ViewBag.flag == "vi")
+    {
+        <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=2"></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="~/Scripts/bootstrap-datepicker-en.js?version=2"></script>
+    }
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" language="javascript">
+
+        //Check if the top location is same as the current location
+        if (top.location.hostname != self.location.hostname) {
+            //If not then set the top to you current
+            top.location.href = self.location.href;
+        }
+    </script>
+</body>
+</html>

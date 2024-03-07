@@ -1,0 +1,329 @@
+﻿@model ApplicationChart.Models.BAOCAODATA
+@{
+    ViewBag.Title = "Báo Cáo BSC";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link rel="stylesheet" href="~/Content/BaoCaoStyle.css?version=25">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+    </style>
+}
+
+@using (Html.BeginForm("xem-bao-cao-bsc", "Home", FormMethod.Post))
+{
+    <div id="heightscreen">
+        <div class="w3-card w3-white" style="border-radius:0.25rem">
+            <ol class="breadcrumb" style="margin-top:45px;margin-bottom:2px;">
+                <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">@Html.Raw(GlobalRes.lbtrangchu.ToUpper())</a></li>
+                <li class="breadcrumb-item active w3-text-black">@Html.Raw(GlobalRes.lbbaocaobsc.ToUpper())</li>
+            </ol>
+        </div>
+        @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+                <strong>CẬP NHẬT :</strong> Bổ sung 2 báo cáo thống kê doanh số <strong>CTKM, CTHT</strong> theo mã tỉnh tại <strong>loại báo cáo 25,26</strong>.
+            </div>*@
+        @Html.AntiForgeryToken()
+        <div class="w3-container box" style="text-align:center; margin-top:0px;margin-bottom:2px;background-color:white;">
+            <div id="content"></div>
+            <div class="w3-col l2 m6 s6 w3-padding pl-md-0 pl-lg-4">
+                <button id="btnin" type="submit" value="1" name="btnin" class="btn abc btn-success transition-3d-hover m-0" formTarget="_blank"><i style="padding-right:10px;" class="fa fa-search" aria-hidden="true"></i>@Html.Raw(GlobalRes.lbtimkiem.ToUpper())</button>
+            </div>
+            @if (ViewBag.READ_ONLY == false)
+            {
+                <div class="w3-col l2 m6 s6 w3-dropdown-hover w3-padding paddingright">
+                    <button id="btnin" type="button" class="btn abc btn-danger tai m-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="padding-right:10px;" class="fa fa-download" aria-hidden="true"></i>@Html.Raw(GlobalRes.lbtaive.ToUpper())</button>
+                    <div id="taidrop" class="w3-dropdown-content w3-bar-block w3-border" style="right:0;padding:8px;">
+                        @if (ViewBag.pdf == true)
+                        {
+                            <button id="pdf" type="submit" name="btnin" value="2" class="w3-bar-item w3-button"><img style="margin-bottom:0;" src="~/Content/Image/pdf4.png">&nbsp; &nbsp; &nbsp; PDF</button>
+                        }
+                        @if (ViewBag.excel == true)
+                        {
+                            <button id="excel" type="submit" name="btnin" value="3" class="w3-bar-item w3-button"><img style="margin-bottom:0;" src="~/Content/Image/excel.png">&nbsp; &nbsp; &nbsp; EXCEL</button>
+                        }
+                        @if (ViewBag.word == true)
+                        {
+                            <button id="word" type="submit" name="btnin" value="4" class="w3-bar-item w3-button"><img style="margin-bottom:0;" src="~/Content/Image/word.png">&nbsp; &nbsp; &nbsp; WORD</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="w3-content w3-padding box" style="background-color:white;">
+            <div class="row p-2">
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbchon)<code>(*)</code></label>
+                    <select class="selectpicker my-1 mr-sm-2 show-tick" id="chon">
+                        <option selected value="0">@Html.Raw(GlobalRes.lbmotchinhanh)</option>
+                        <option value="1">@Html.Raw(GlobalRes.lbnhieuchinhanh)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="chinhanh">@Html.Raw(GlobalRes.lbchonchinhanh)<code>(*)</code></label>
+                    <select class="selectpicker my-1 mr-sm-2" data-dropdown-align-right="true" name="Checkboxlist1" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="donvi">
+                        <optgroup id="theomien" class="hidden" label="THEO MIỀN">
+                            <option value="HN,PT,TB,TNG,HP">@Html.Raw(GlobalRes.lbmienbac.ToUpper())</option>
+                            <option value="PY,QN,TT423,BD,DNA,GL,HUE,NA,NT,THO">@Html.Raw(GlobalRes.lbmientrung.ToUpper())</option>
+                            <option value="PTTT,HCM,CHQ10,CT,CHPPSP,AG,CM,DN,LD,TG,TN,VL,BDG,BT">@Html.Raw(GlobalRes.lbmiennam.ToUpper())</option>
+                        </optgroup>
+                        <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
+                            @foreach (var k in ViewBag.mientrung)
+                            {
+                                <option value="@k.macn">@k.Tencn</option>
+                            }
+                        </optgroup>
+                        <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
+                            @foreach (var k in ViewBag.miennam)
+                            {
+                                <option value="@k.macn">@k.Tencn</option>
+                            }
+                        </optgroup>
+                        <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
+                            @foreach (var k in ViewBag.mienbac)
+                            {
+                                <option value="@k.macn">@k.Tencn</option>
+                            }
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divngay">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbtungay)<code>(*)</code></label>
+                    <input type="text" autocomplete="off" name="tungay1" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2 w-100" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("01/MM/yyyy")" id="tungay">
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divngay">
+                    <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbdenngay)<code>(*)</code></label>
+                    <input type="text" autocomplete="off" name="denngay1" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2 w-100" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="denngay">
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divnam" style="display:none;">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbqui)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="qui" id="qui">
+                        <option selected value="Quí 1">@Html.Raw(GlobalRes.lbqui) 1</option>
+                        <option value="Quí 2">@Html.Raw(GlobalRes.lbqui) 2</option>
+                        <option value="Quí 3">@Html.Raw(GlobalRes.lbqui) 3</option>
+                        <option value="Quí 4">@Html.Raw(GlobalRes.lbqui) 4</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divnam" style="display:none;">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbnam)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="nam" id="nam">
+                        <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                        <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                        <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                        <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-9 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbloaibaocao)<code>(*)</code></label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="loaibaocao" id="chonbaocao">
+                        @{  var count = 1;
+                            foreach (var i in Model.LOAIBC.Where(n => n.RUTGON == true).OrderBy(n => n.TENBC))
+                            {
+                                <option value="@i.ID">@count. @((ViewBag.flag == "vi") ? i.TENBC : i.REPORT)</option>
+                                count = count + 1;
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divtop" style="display:none;">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">TOP</label>
+                    <input type="number" name="top" id="top" value="50" step="10" min="10" class="form-control my-1 mr-sm-2 w-100" />
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbtruchietkhau)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="tienck" id="tienck">
+                        <option selected value="0">@Html.Raw(GlobalRes.lbkhong)</option>
+                        <option value="1">@Html.Raw(GlobalRes.lbco)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbbaocaotheo)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="loctheo" id="loctheo">
+                        <option selected value="1">@Html.Raw(GlobalRes.lbmahanghoa)</option>
+                        <option value="0">@Html.Raw(GlobalRes.lbsohoadon)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbmaphanloai)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="maphanloai" id="maphanloai">
+                        @if (ViewBag.flag == "vi")
+                        {
+                            <option selected value="BAN,XK">BAN,XK</option>
+
+                            <option value="BAN">BAN</option>
+
+                            <option value="XK">XK</option>
+                        }
+                        else
+                        {
+                            <option selected value="BAN,XK">SALES,EXPORT</option>
+
+                            <option value="BAN">SALES</option>
+
+                            <option value="XK">EXPORT</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbnhomhang)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="nhomhang" id="nhomhang" data-actions-box="true" multiple data-selected-text-format="count > 3">
+                        <option selected value="ALL">@Html.Raw(GlobalRes.lbtatca)</option>
+                        @foreach (var i in ViewBag.nhomhang)
+                        {
+                            <option value="@i.MANHOM">@i.MANHOM - @i.TENNHOM</option>
+                        }
+                        @*<option value="50,51,60,61,62,63,64,70">50,51,60,61,62,63,70</option>
+                            <option value="64.PME">64.PME</option>
+                            <option value="64.STA">64.STA</option>*@
+                        @*<option value="64">64.STA,64.PME - Hàng Stada</option>*@
+                        @*<option value="3">Nhóm hàng khác</option>*@
+                    </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                    <label class="my-1 mr-2 font-weight-bold" for="Checkboxlist2">@Html.Raw(GlobalRes.lbphanloaikhachhang)</label>
+                    <select class="selectpicker show-tick my-1 mr-sm-2" name="Checkboxlist2" id="Checkboxlist2">
+                        @if (ViewBag.otc.Count == 2)
+                        {
+                            <option value="ALL" checked>@Html.Raw(GlobalRes.lbtatca)</option>
+                            <option data-subtext="Khối khách hàng ETC" value="ETC">ETC</option>
+                            <option data-subtext="Khối khách OTC" value="OTC">OTC</option>
+                        }
+                        else
+                        {
+                            foreach (var i in ViewBag.otc)
+                            {
+                                if (i == "ETC")
+                                {
+                                    <option data-subtext="Khối khách hàng ETC" checked value="ETC">ETC</option>
+                                }
+                                if (i == "OTC")
+                                {
+                                    <option data-subtext="Khối khách OTC" checked value="OTC">OTC</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                @*<div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                        <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">Hàng Stada</label>
+                        <div class="funkyradio my-1 mr-sm-2">
+                            <div class="funkyradio-primary">
+                                <input type="checkbox" id="hangstada">
+                                <label style="font-size: 14px;" class="font-weight-bold" for="hangstada">Hàng Stada</label>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+                            }
+@section scripts {
+
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    <script type="text/javascript" src="~/Scripts/BaoCaoJS.js?version=260423"></script>
+    @*@if (ViewBag.email == true)
+        {
+            <script>
+                $(document).ready(function () {
+                    $.confirm({
+                        title: 'Cập nhật địa chỉ Email',
+                        content: '<div class="form-group mb-0"><label class="control-label font-weight-bold">Nhờ Anh/Chị bổ sung thông tin Email để tiện cho việc khôi phục mật khẩu khi quên !</label><input autofocus="" type="text" id="input-name" placeholder="Nhập địa chỉ Email (VD: abc@gmail.com)" class="form-control"></div>',
+                        buttons:
+                {
+                    success:
+                    {
+                        text: 'Cập nhật',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            var input = this.$content.find('input#input-name');
+                            var errorText = this.$content.find('.text-danger');
+                            if (!input.val().trim()) {
+                                $.alert({
+                                    title: "Lỗi",
+                                    content: "Bạn chưa nhập địa chỉ Email !",
+                                    type: 'red'
+                                });
+                                return false;
+                            }
+                            else {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("EditThongtin", "Home")",
+                                    contentType: "application/json",
+                                    datatype: 'json',
+                                    data: '{email: ' + JSON.stringify(input.val()) + '}',
+                                    error: function () {
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                                    },
+                                    success: function (data) {
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["success"]("Bạn đã cập nhật thành công địa chỉ Email, khi quên mật khẩu hãy nhập email này để hệ thống cấp lại mật khẩu !", "THÔNG BÁO")
+                                    },
+                                    timeout: 5000,
+                                });
+                            }
+                        }
+                    },
+            //        cancel:
+            //{
+            //    text: 'Để sau',
+            //    btnClass: 'btn-danger',
+            //    action: function () {
+            //    }
+
+            //}
+                }
+                    });
+                });
+            </script>
+
+        }*@
+}

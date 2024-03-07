@@ -1,0 +1,669 @@
+﻿@model ApplicationChart.Models.LISTBAOCAOCHITIETNGAYCRM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Báo cáo công tác trình dược</title>
+    <link rel="shortcut icon" href="~/Content/Layout1/images/logopmp1.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/LayoutPro/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/Datatable.css?version=5" rel="stylesheet">
+    <link href="~/Content/LayoutPro/css/mdb.css?version=2" rel="stylesheet">
+    <link href="~/Content/MDB/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading-animate.css?version=1">
+    <link rel="stylesheet" href="~/Content/loading/css/modal-loading.css?version=1">
+    <link rel="stylesheet" href="~/Content/Baocaoview.css?version=2">
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=40">
+    <style>
+        .btn-floating.btn-sm i {
+            font-size: 0.99154rem;
+            line-height: 29.15385px;
+        }
+
+        .btn-floating.btn-sm {
+            width: 29.15385px;
+            height: 29.15385px;
+        }
+
+        td, th {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="creative-lp p-2">
+    <script>
+        var loading = new Loading();
+    </script>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-cascade narrower">
+                <div class="view view-cascade mdb-color lighten-3 card-header">
+                    <h5 class="mb-0 font-weight-bold text-center text-white">BÁO CÁO CHI TIẾT TRÌNH DƯỢC VIÊN</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.tencn"><label class="active disabled" data-error="" data-success="">CHI NHÁNH</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.taikhoan"><label class="active disabled" data-error="" data-success="">TÀI KHOẢN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.hovaten"><label class="active disabled" data-error="" data-success="">HỌ VÀ TÊN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@Model.tungay.ToString("dd/MM/yyyy") - @Model.denngay.ToString("dd/MM/yyyy")"><label class="active disabled" data-error="" data-success="">THỜI GIAN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h5><strong>Ý NGHĨA CÁC KÝ HIỆU</strong></h5>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn btn-success btn-md btn-rounded Ripple-parent w-100"><i class="fa fa-check mr-2"></i>Ghé thăm</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn btn-danger btn-md btn-rounded Ripple-parent w-100"><i class="fa fa-times mr-2"></i>Không ghé thăm</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn btn-warning btn-md btn-rounded Ripple-parent w-100"><i class="fa fa-exclamation mr-2"></i>Chưa báo cáo</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn btn-primary btn-md btn-rounded Ripple-parent w-100"><i class="fa fa-shopping-cart mr-2"></i>Có đơn hàng</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn btn-info btn-md btn-rounded Ripple-parent w-100"><i class="fa fa-shopping-cart mr-2"></i>Đơn hàng trên hệ thống</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn success-color-dark btn-md btn-rounded Ripple-parent w-100"><i class="fa fa-shopping-cart mr-2"></i>CÓ ĐƠN HÀNG + ĐƠN HÀNG TRÊN HỆ THỐNG</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn btn-brown btn-md btn-rounded Ripple-parent w-100">CHỦ NHẬT</button>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <button type="button" class="btn mdb-color lighten-5 text-dark btn-md btn-rounded Ripple-parent w-100">KHÁCH HÀNG QUA CTY DƯỢC ĐỊA PHƯƠNG</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-cascade narrower">
+                    <div class="card-header p-2">
+                        <button class="btn btn-md btn-primary" id="btnclick">ẨN/HIỆN THÔNG TIN CHI TIẾT</button>
+                        <button class="btn btn-md btn-secondary" id="btnhide">ẨN/HIỆN KHÁCH HÀNG KHÔNG CÓ KẾ HOẠCH</button>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="tableFixHead table-responsive">
+                            <table id="mytable" class="table table-bordered table-fixed table-hover">
+                                <thead>
+                                    <tr class="text-dark text-center">
+                                        <th style="width:20px;" class="font-weight-bold">STT</th>
+                                        <th class="font-weight-bold">Mã KH</th>
+                                        <th class="font-weight-bold" style="min-width:250px;">Tên khách hàng</th>
+                                        <th class="font-weight-bold">Địa chỉ</th>
+                                        <th hidden class="font-weight-bold" style="min-width:70px;">ĐT liên hệ</th>
+                                        @foreach (var i in ViewBag.alldate)
+                                        {
+                                            <th title="@i.Item3" class="font-weight-bold @i.Item2" style="min-width:32px;">@i.Item1</th>
+                                        }
+                                        <th style="min-width:32px;" class="font-weight-bold">A</th>
+                                        <th style="min-width:32px;" class="font-weight-bold">B</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int count = 1;
+                                        foreach (var i in Model.data)
+                                        {
+                                            <tr>
+                                                <th class="text-center" scope="row">@count</th>
+                                                <td class="text-center">@i.MAKH</td>
+                                                <td>@i.DONVI</td>
+                                                <td>@i.DIACHI</td>
+                                                <td hidden>@i.DT</td>
+                                                @foreach (var k in ViewBag.alldate)
+                                                {
+                                                    <td class="@k.Item1 text-center"></td>
+                                                }
+                                                <td class="A text-center font-weight-bold"></td>
+                                                <td class="B text-center font-weight-bold"></td>
+                                            </tr>
+                                            count = count + 1;
+                                        }
+                                        <tr class="yellow accent-3">
+                                            <th class="text-center" scope="row"></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td hidden></td>
+                                            @foreach (var k in ViewBag.alldate)
+                                            {
+                                                <td class="@k.Item1 font-weight-bold text-danger text-center">0</td>
+                                            }
+                                            <td class="A text-center font-weight-bold text-white red lighten-1"></td>
+                                            <td class="B text-center font-weight-bold text-white red lighten-1"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row col-6 p-4 ml-2">
+                            <table class="table table-bordered table-hover p-3">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="font-weight-bold text-center"></th>
+                                        <th class="font-weight-bold text-center">Tổng lần thăm</th>
+                                        <th class="font-weight-bold text-center">Tổng đơn hàng</th>
+                                        <th class="font-weight-bold text-center">Bình quân viếng thăm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="text-center font-weight-bold" scope="row">Tuần 1</th>
+                                        <td class="text-center">@ViewBag.tuan11</td>
+                                        <td class="text-center">@ViewBag.tuan12</td>
+                                        <td class="binhquan1 text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center font-weight-bold" scope="row">Tuần 2</th>
+                                        <td class="text-center">@ViewBag.tuan21</td>
+                                        <td class="text-center">@ViewBag.tuan22</td>
+                                        <td class="binhquan2 text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center font-weight-bold" scope="row">Tuần 3</th>
+                                        <td class="text-center">@ViewBag.tuan31</td>
+                                        <td class="text-center">@ViewBag.tuan32</td>
+                                        <td class="binhquan3 text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center font-weight-bold" scope="row">Tuần 4</th>
+                                        <td class="text-center">@ViewBag.tuan41</td>
+                                        <td class="text-center">@ViewBag.tuan42</td>
+                                        <td class="binhquan4 text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center font-weight-bold" scope="row">Tháng</th>
+                                        <td class="tongtham text-center"></td>
+                                        <td class="tongdonhang text-center"></td>
+                                        <td class="binhquan text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center font-weight-bold" scope="row">DOANH SỐ</th>
+                                        <td class="text-center text-danger font-weight-bold" colspan="3">@((ViewBag.doanhso != null) ? string.Format("{0:#,##0}", ViewBag.doanhso) : "N/A")</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="ModalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-left:0px;">
+        <div class="modal-dialog modal-dialog-centered scrollable-auto-y" style="max-width:1280px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title font-weight-bold p-2">THÔNG TIN ĐƠN HÀNG <span class="text-danger" id="viewdonhang"></span></h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Ngày đặt hàng:
+                        <strong id="viewngaydat"></strong>
+                        <span class="float-right"> <strong>Trạng thái:</strong> <span id="trangthai"></span></span>
+                    </div>
+                    <div class="card-header" id="divduyet">
+                        Ngày duyệt:
+                        <strong id="viewngayduyet"></strong>
+                        <span class="float-right"> <strong>Số hóa đơn:</strong> <span id="sohd"></span></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12 col-md-12 col-lg-7">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-md-3 col-lg-4 col-form-label" for="viewkhachhang">Khách hàng</label>
+                                    <div class="col-sm-9 col-md-9 col-lg-8">
+                                        <input readonly type="text" class="form-control" id="viewkhachhang" placeholder="Chọn khách hàng">
+                                    </div>
+                                </div>
+                                <!-- Default input -->
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-5">
+                                <!-- Default input -->
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-lg-4 col-form-label" for="editngaygiao">Ngày dự kiến giao hàng</label>
+                                    <div class="col-sm-9 col-lg-8">
+                                        <input readonly class="form-control" id="viewngaygiao" placeholder="DD/MM/YYYY" type="text" data-validation="digit" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-7">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-lg-4 col-form-label" for="viewkhuyenmai">Chương trình khuyến mãi</label>
+                                    <div class="col-sm-9 col-lg-8">
+                                        <input readonly type="text" class="form-control" id="viewkhuyenmai" placeholder="Chương trình khuyến mãi">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-5">
+                                <!-- Default input -->
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-lg-4 col-form-label" for="vat">VAT</label>
+                                    <div class="col-sm-9 col-lg-8">
+                                        <input readonly class="form-control" id="viewvat" type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive-sm">
+                            <table id="tablehanghoaview" class="table table-hover table-responsive-md table-fixed table-bordered">
+                                <thead style="background-color:rgb(66, 133, 244)">
+                                    <tr class="text-white">
+                                        <th style="width:50px;" class="center">STT</th>
+                                        <th style="width:350px">Sản phẩm</th>
+                                        <th style="width:150px" class="center">Số lượng</th>
+                                        <th style="width:100px" class="center">Đơn giá (Có VAT)</th>
+                                        <th style="width:100px" class="center">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="container-fluid p-0">
+                            <table class="table table-bordered mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="font-weight-bold w-15 text-center">TIỀN VAT</td>
+                                        <td class="text-danger font-weight-bold text-right" id="viewtienvat">0.00</td>
+                                        <td class="font-weight-bold w-15 text-center">THÀNH TIỀN</td>
+                                        <td class="text-danger font-weight-bold text-right" id="viewthanhtien">0.00</td>
+                                        <td class="font-weight-bold w-15 text-center">TỔNG TIỀN</td>
+                                        <td class="text-danger font-weight-bold text-right" id="viewtongtien">0.00</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="row pt-1 pr-3 pl-3" id="divghichu">
+                            <div class="form-group w-100 mb-0">
+                                <label class="col-form-label" for="ghichu">Ghi chú</label>
+                                <textarea readonly class="form-control" id="ghichu" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modalclose" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header p-2">
+                    <h6 class="modal-title font-weight-bold p-2">Thông báo</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Khách hàng không có đơn hàng trong ngày này !</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary waves-effect" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modaldonhang" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header p-2">
+                    <h6 class="modal-title font-weight-bold p-2">CÁC ĐƠN HÀNG</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-2" id="bodydonhang">
+
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-sm btn-secondary waves-effect" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/loading/js/modal-loading.js?version=1"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/Content/MDB/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/Content/MDB/js/mdb.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        //Check if the top location is same as the current location
+        if (top.location.hostname != self.location.hostname) {
+            //If not then set the top to you current
+            top.location.href = self.location.href;
+        }
+    </script>
+</body>
+</html>
+<script>
+    Number.prototype.format = function () {
+        var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");
+        if (text != "NaN") {
+            return text + ".00";
+        }
+        else {
+            return text;
+        }
+    };
+</script>
+<script>
+    function CovertDatetime(i) {
+        var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+        var d = new Date(parseInt(milli));
+        var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2);
+        return dformat;   // The function returns the product of p1 and p2
+    }
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        var data = @Html.Raw(Json.Encode(ViewBag.data));
+        var data1 = @Html.Raw(Json.Encode(ViewBag.result));
+        $(".modal-mask").css("display", "none");
+        var asum = 0;
+        var bsum= 0;
+        var abot = 0 ;
+        var bbot = 0;
+        $('#mytable > tbody > tr').not(':last').each(function () {
+            var makh = $(this).find('td').eq(0).text();
+            for (var i = 0; i < data.length; i++){
+                if(data[i].makh == makh)
+                {
+                    if(data[i].loai == 1)
+                    {
+                        $(this).find('.' + data[i].ngay).append('<a class="btn-floating btn-sm btn-success"><i class="fa fa-check"></i></a>');
+                    }
+                    else if(data[i].loai == 2)
+                    {
+                        $(this).find('.' + data[i].ngay).append('<a class="btn-floating btn-sm btn-primary"><i class="fa fa-shopping-cart"></i></a>');
+                    }
+                    else if(data[i].loai == 3)
+                    {
+                        $(this).find('.' + data[i].ngay).append('<a class="btn-floating btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="'+ data[i].ghichu +'"><i class="fa fa-times"></i></a>');
+                    }
+                    else if(data[i].loai == 4)
+                    {
+                        $(this).find('.' + data[i].ngay).append('<a class="btn-floating btn-sm btn-warning"><i class="fa fa-exclamation"></i></a>');
+                    }
+                        //else if(data[i].loai == 5)
+                        //{
+                        //    $(this).find('.' + data[i].ngay).append('<i class="fa fa-2x fa-shopping-cart text-danger align-middle"></i>');
+                        //}
+                    else if(data[i].loai == 6)
+                    {
+                        $(this).find('.' + data[i].ngay).append('<a class="btn-floating btn-sm btn-info"><i class="fa fa-shopping-cart"></i></a>');
+                    }
+                    else if(data[i].loai == 7)
+                    {
+                        $(this).find('.' + data[i].ngay).append('<a class="btn-floating btn-sm success-color-dark"><i class="fa fa-shopping-cart"></i></a>');
+                    }
+                }
+            }
+            $(this).find('.A').text($(this).find('.btn-success .fa-check').length + $(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length);
+            $(this).find('.B').text($(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length);
+
+            asum = asum + $(this).find('.btn-success .fa-check').length + $(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length;
+            bsum = bsum + $(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length;
+            if($(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length == 0)
+            {
+                abot = abot + $(this).find('.btn-success .fa-check').length;
+            }
+        });
+        for (var i = 0; i < data1.length; i++){
+            $('#mytable > tbody > tr').last().find('.' + data1[i].Item2).html(data1[i].Item1);
+        }
+        $('#mytable > tbody > tr').last().find('.A').html(asum);
+        $('.tongtham').text(asum);
+        $('.tongdonhang').text(bsum);
+        $('.binhquan').text((asum / @Model.data.Count()).toFixed(2));
+        $('.binhquan1').text((@ViewBag.tuan11 / @Model.data.Count()).toFixed(2));
+        $('.binhquan2').text((@ViewBag.tuan21 / @Model.data.Count()).toFixed(2));
+        $('.binhquan3').text((@ViewBag.tuan31 / @Model.data.Count()).toFixed(2));
+        $('.binhquan4').text((@ViewBag.tuan41 / @Model.data.Count()).toFixed(2));
+        $('#mytable > tbody > tr').last().find('.B').html(bsum);
+        $("#loaibaocao1").css("display","none");
+        $('#mytable td:nth-child(5),#mytable th:nth-child(5)').hide();
+        $('#mytable td:nth-child(4),#mytable th:nth-child(4)').hide();
+        $("#btnclick").click(function(){
+            $('#mytable td:nth-child(5),#mytable th:nth-child(5)').toggle();
+            $('#mytable td:nth-child(4),#mytable th:nth-child(4)').toggle();
+        });
+        $("#btnhide").click(function(){
+            $('#mytable > tbody > tr').not(':last').each(function () {
+                if($(this).find(".fa").length == 0)
+                {
+                    $(this).toggle();
+                }
+            });
+        });
+        $("#bodydonhang").on("click", ".btnxemdonhang", function () {
+            $("#modaldonhang").modal("hide");
+            var url = '@Url.Action("GetEditDonHang", "Baocao")';
+            $.post(url, { madh: $(this).val() , matdv: "@Model.taikhoan" , macn : "@Model.macn"},
+                function (data) {
+
+                    if(data.length == 0)
+                    {
+                        $("#modalclose").modal("show");
+                    }
+                    else{
+
+                        if (data[0].NgayGiao != null) {
+                            var milli1 = data[0].NgayGiao.replace(/\/Date\((-?\d+)\)\//, '$1');
+                            var d1 = new Date(parseInt(milli1));
+                            var dformat1 = ("00" + d1.getDate()).slice(-2) + "/" + ("00" + (d1.getMonth() + 1)).slice(-2) + "/" + d1.getFullYear();
+                            $("#viewngaygiao").val(dformat1);
+                        }
+                        else {
+                            $("#viewngaygiao").val("N/A");
+                        }
+                        if (data[0].DUYETDH == null) {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#trangthai").text("Từ chối");
+                            $("#divduyet").show();
+                            if(data[0].NGAYTHUCHIEN != null)
+                            {
+                                $("#viewngayduyet").text(CovertDatetime(data[0].NGAYTHUCHIEN));
+                            }
+                            else {
+                                $("#viewngayduyet").text("N/A");
+                            }
+                            $("#sohd").text("N/A");
+                        }
+                        else if (data[0].DUYETDH == false) {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#trangthai").text("Chờ duyệt");
+                            $("#divduyet").hide();
+
+                        }
+                        else {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#trangthai").text("Đã duyệt");
+                            $("#divduyet").show();
+                            if (data[0].NGAYTHUCHIEN != null) {
+                                $("#viewngayduyet").text(CovertDatetime(data[0].NGAYTHUCHIEN));
+                            }
+                            else {
+                                $("#viewngayduyet").text("N/A");
+                            }
+                            $("#sohd").text(data[0].SOHD);
+                        }
+                        $("#viewdonhang").empty();
+                        $("#viewdonhang").append(data[0].MADH);
+                        $("#viewngaydat").empty();
+                        $("#viewngaydat").append(CovertDatetime(data[0].NgayDat));
+                        $("#tablehanghoaview > tbody").empty();
+                        $("#viewkhachhang").val(data[0].MAKH + " - " + data[0].DONVI);
+                        $("#viewvat").val(data[0].VAT + "%");
+                        var float = (data[0].VAT / (100 + data[0].VAT));
+                        if (data[0].MACTKM != null) {
+                            $("#viewkhuyenmai").val(data[0].MACTKM + " - " + data[0].TENCTKM);
+                        }
+                        else {
+                            $("#viewkhuyenmai").val("N/A");
+                        }
+                        //$("#trinhduocvienedit").val(data[0].MATDV);
+
+                        for (var i = 0; i < data.length; i++) {
+                            $("#tablehanghoaview").find("tbody").append(
+                             '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                           + '<td class="text-center text-dark font-weight-normal">' + data[i].STT + '</td>'
+                           + '<td class="left strong text-dark font-weight-normal">' + data[i].MAHH + " - " + data[i].TENHH + " (" + data[i].DVT + ")" + '</td>'
+
+                           + '<td class="text-right text-dark font-weight-normal">' + data[i].SOLUONG.format() + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + data[i].GIABAN_VAT.format() + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
+
+                           + '</tr>');
+                        }
+                        var tongtien = 0;
+                        $('#tablehanghoaview > tbody > tr').each(function () {
+                            tongtien = tongtien + parseInt($(this).find("td:eq(4)").text().replace(/[^\d.]/g, ''));
+
+                        });
+                        $("#viewtienvat").text(Math.floor(tongtien * float).format());
+                        $("#viewtongtien").text(tongtien.format());
+                        $("#viewthanhtien").text((tongtien - Math.floor(tongtien * float)).format());
+                        $("#ModalView").modal('show');
+                    }
+                });
+        });
+        $("#mytable").on("click", ".btn-info, .success-color-dark", function () {
+            $("#bodydonhang").empty();
+            var $tr = $(this).closest('tr');
+            var $td = $(this).closest('td');
+            var $th = $td.closest('table').find('th').eq($td.index()).attr('title');
+
+            $.post('@Url.Action("GetSoDonHang", "Baocao")', { makh: $(this).closest('tr').find('td:eq(0)').text() , ngay: $th , matdv: "@Model.taikhoan" , macn : "@Model.macn"},
+               function (data) {
+                   if(data.length != 0)
+                   {
+                       for (var i = 0; i < data.length; i++) {
+                           $("#bodydonhang").append("<button type='button' value='"+ data[i].SODH +"' class='btn btn-primary btn-md btnxemdonhang'>ĐƠN HÀNG SỐ " + data[i].SODH + " ("+ ((data[i].DUYET == true)?"Đã duyệt":"Chờ duyệt") +")" + "</button></br>")
+                       }
+                   }
+                   else
+                   {
+                       $("#bodydonhang").append("<p>Không có đơn hàng nào của khách hàng "+ $tr.find('td:eq(0)').text() +" trong ngày này !</p>");
+                   }
+               });
+            $("#modaldonhang").modal("show");
+        });
+    });
+
+</script>
+<style>
+    table th {
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+    .input-group-prepend span {
+        font-size: 12px !important;
+        font-weight: bold;
+    }
+
+    table td {
+        font-size: 11px !important;
+        vertical-align: middle;
+    }
+
+    .input-group .input-group-text {
+        background-color: white;
+    }
+
+    #tablehanghoaview td {
+        font-size: 14px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    .col-form-label {
+        font-size: 12px;
+    }
+
+    table.table th, table.table td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .creative-lp .fa-2x {
+        margin-bottom: 0px;
+    }
+
+    /*thead, tbody {
+            display: block;
+        }*/
+    .tableFixHead {
+        overflow-y: auto;
+        max-height: 500px;
+    }
+
+        .tableFixHead table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .tableFixHead th,
+        .tableFixHead td {
+            padding: 8px 16px;
+        }
+
+        .tableFixHead th {
+            position: sticky;
+            top: 0;
+            background: #eee;
+        }
+
+    .Sunday {
+        background-color: orange !important;
+    }
+
+    body {
+        font-weight: 400;
+    }
+
+    table td {
+        font-weight: 400;
+    }
+</style>

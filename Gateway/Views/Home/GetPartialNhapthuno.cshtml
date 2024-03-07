@@ -1,0 +1,128 @@
+﻿@model ApplicationChart.Models.DTA_KEHOACHTHUNO
+    <div class="w-100 text-center"><button id="btnluu" data-macn="@ViewBag.macn" data-thang="@ViewBag.thang" data-nam="@ViewBag.nam" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-save"></i> LƯU DỮ LIỆU</button></div>
+<table id="example" class="table-bordered display nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th class="center">STT</th>
+
+            @*<th class="text-center">MACN</th>*@
+            <th class="text-center">MÃ KH</th>
+            <th class="text-center">PL</th>
+            <th width="50px;" class="text-center">ĐƠN VỊ</th>
+            <th class="text-center">TDV</th>
+            <th class="text-center">TỔNG NỢ @ViewBag.ngaycuoithangtruoc</th>
+            <th class="text-center">NỢ QUÁ HẠN</th>
+            <th class="text-center">NỢ QUÁ HẠN < 30</th>
+            <th class="text-center">NỢ QUÁ HẠN 31-60</th>
+            <th class="text-center">NỢ QUÁ HẠN 61-120</th>
+            <th class="text-center">NỢ QUÁ HẠN 121-360</th>
+            <th class="text-center">NỢ QUÁ HẠN > 361</th>
+            <th class="text-center">CÒN PHẢI THU TRONG THÁNG @ViewBag.thangnam </th>
+            <th class="text-center">Số bán lũy kế từ đầu tháng đến ngày @DateTime.Today.ToString("d/M/yy")</th>
+            @foreach (var z in ViewBag.weekends)
+            {
+                <th class="text-center">KẾ HOẠCH @z</th>
+            }
+            <th class="text-center">TỔNG NỢ CUỐI THÁNG @ViewBag.thangnam</th>
+            <th class="text-center">NỢ QUÁ HẠN CUỐI THÁNG @ViewBag.thangnam</th>
+            <th class="text-center">SỐ THỰC THU ĐẾN TUẦN BÁO CÁO</th>
+            <th class="text-center">SO SÁNH THỰC THU VỚI KẾ HOẠCH</th>
+            <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GIẢI TRÌNH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="center">STT</th>
+
+            @*<th class="text-center">MACN</th>*@
+            <th class="text-center">MÃ KH</th>
+            <th class="text-center">PL</th>
+            <th width="50px;" class="text-center">ĐƠN VỊ</th>
+            <th class="text-center">TDV</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n=>n.OI_balance))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.OI_Balance_Overdue))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.QUAHAN_1_30))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.QUAHAN_31_60))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.QUAHAN_61_120))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.QUAHAN_121_360))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.QUAHAN_LON_360))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.OI_Balance_Overdue))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.PSNO))</th>
+            @foreach (var z in ViewBag.weekends)
+            {
+                <th class="text-right @z.Replace(" ","").Replace("/","")">@((Model.KH.Where(n =>n.NGAY == z).Count() != 0) ? string.Format("{0:#,##0}", Model.KH.Where(n => n.NGAY == z).Sum(n=>n.TIENTHU)) : "0")</th>
+            }
+          
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.OI_balance + n.PSNO - n.PSCO))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n=> n.OI_Balance_Overdue - n.PSCO))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.PSCO))</th>
+            <th class="text-center">SO SÁNH THỰC THU VỚI KẾ HOẠCH</th>
+            <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GIẢI TRÌNH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            var count = 1;
+            foreach (var i in Model.DATA)
+            {
+                <tr>
+                    <td class="text-center">@count</td>
+
+                    @*<td>@i.TENCH</td>*@
+                    <td class="text-center">@i.MAKH1</td>
+                    <td>@i.PHANLOAI</td>
+                    <td>@i.DONVI</td>
+                    <td>@i.MATDV</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.OI_balance)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.OI_Balance_Overdue)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.QUAHAN_1_30)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.QUAHAN_31_60)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.QUAHAN_61_120)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.QUAHAN_121_360)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.QUAHAN_LON_360)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.OI_Balance_Overdue)</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.PSNO)</td>
+                    @foreach (var z in ViewBag.weekends)
+                    {
+                        if (ViewBag.disable == 1)
+                        {
+                            <td><input readonly value="@((Model.KH.SingleOrDefault(n=>n.MAKH == i.MAKH1 && n.NGAY == z)!= null)? string.Format("{0:#,##0}", Model.KH.SingleOrDefault(n => n.MAKH == i.MAKH1 && n.NGAY == z).TIENTHU) :"")" data-makh="@i.MAKH1" data-tenkh="@i.DONVI" data-phanloai="@i.PHANLOAI" data-matdv="@i.MATDV" data-ngayreplace="@z.Replace(" ","").Replace("/","")" data-ngay="@z" autocomplete="off" onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl @z.Replace(" ","").Replace("/","")"></td>
+                        }
+                        else
+                        {
+                            <td><input value="@((Model.KH.SingleOrDefault(n=>n.MAKH == i.MAKH1 && n.NGAY == z)!= null)? string.Format("{0:#,##0}", Model.KH.SingleOrDefault(n => n.MAKH == i.MAKH1 && n.NGAY == z).TIENTHU) :"")" data-makh="@i.MAKH1" data-tenkh="@i.DONVI" data-phanloai="@i.PHANLOAI" data-matdv="@i.MATDV" data-ngayreplace="@z.Replace(" ","").Replace("/","")" data-ngay="@z" autocomplete="off" onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl @z.Replace(" ","").Replace("/","")"></td>
+                        }
+                    }
+                    <td class="text-right">@string.Format("{0:#,##0}", (i.OI_balance + i.PSNO - i.PSCO)) </td>
+                    <td class="text-right">@string.Format("{0:#,##0}", (i.OI_Balance_Overdue - i.PSCO))</td>
+                    <td class="text-right psco">@string.Format("{0:#,##0}", i.PSCO)</td>
+                    @if ((decimal)Model.KH.Where(n => n.MAKH == i.MAKH1).Sum(n => n.TIENTHU) != 0)
+                    {
+                        <td class="text-center tile">@(Math.Floor((((decimal)i.PSCO) / ((decimal)Model.KH.Where(n => n.MAKH == i.MAKH1).Sum(n => n.TIENTHU)) * 100)) + "%")</td>
+                    }
+                    else
+                    {
+                        <td class="text-center tile">0%</td>
+                    }
+                    <td><input autocomplete = "off" value="@((Model.KH.FirstOrDefault(n=>n.MAKH == i.MAKH1)!= null)?Model.KH.FirstOrDefault(n=>n.MAKH == i.MAKH1).GIAITRINH:"")" type="text" class="form-control form-control-sm font-weight-normal giaitrinh"></td>
+                </tr>
+                count = count + 1;
+            }
+            }
+    </tbody>
+</table>
+@*<table class="table table-bordered mb-2 mt-2">
+    <tbody>
+        <tr>
+            <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN))</td>
+            <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100))</td>
+            <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+            <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+            <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN) + Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100) - Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+        </tr>
+
+    </tbody>
+</table>*@

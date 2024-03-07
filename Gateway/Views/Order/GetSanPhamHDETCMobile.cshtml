@@ -1,0 +1,5 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListHangHoa>
+@foreach (var i in Model)
+{
+    <div class="checkbox checkbox-primary"><input data-giaban="@i.GIABAN" data-sl2="@i.SL2" data-sl3="@i.SL3" class="Checkboxlist2" id="@i.MAHH" type="checkbox" data-tenhh="@i.TENHH" data-dvt="@i.DVT" value="@i.MAHH" name="mahh"> <label for="@i.MAHH">@i.MAHH - @i.TENHH (@i.DVT)</label></div>
+}

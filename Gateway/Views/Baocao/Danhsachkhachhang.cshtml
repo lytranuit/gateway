@@ -1,0 +1,324 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListKhachHang>
+@{
+    ViewBag.Title = "Danh mục khách hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=8" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=42">
+    @*<link href="~/Content/bootstrap-select.css?version=1" rel="stylesheet">*@
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">DANH MỤC KHÁCH HÀNG</li>
+        </ol>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-1" style="background-color:white;margin-top:3px;">
+
+        <div class="w3-row card">
+            <div class="card-header text-center">
+                <strong>DANH SÁCH KHÁCH HÀNG</strong>
+            </div>
+            <div class="card-body p-1">
+                <table id="example23" class="display nowrap table table-hover table-bordered">
+                    <thead style="background-color:rgb(66, 133, 244);">
+                        <tr class="text-white">
+                            <th style="width:50px;">#</th>
+                            <th>Mã KH</th>
+                            <th>Tên khách hàng</th>
+                            <th>Địa chỉ</th>
+                            <th>Ngày sinh</th>
+                            <th>ĐT liên hệ</th>
+                            <th style="width:110px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int count = 1;
+                            foreach (var i in Model)
+                            {
+                                <tr id="@(i.MAKH.Replace(".",""))">
+                                    <th scope="row" class="text-center">@(count)</th>
+                                    <td class="text-center">@i.MAKH</td>
+                                    <td>@i.DONVI</td>
+                                    <td>@i.DIACHI</td>
+                                    <td class="text-center">@((i.NGAYSINH != null) ? ((DateTime)(i.NGAYSINH)).ToString("dd/MM/yyyy") : "N/A")</td>
+                                    <td>@i.DT</td>
+                                    <td class="p-1 align-middle text-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                                <span class="fa fa-caret-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu text-left dropdown-menu-right">
+                                                <li><a class="btnview" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Thông tin chi tiết</a></li>
+                                                <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                count = count + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:600px" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">THAY ĐỔI THÔNG TIN KHÁCH HÀNG</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="donviedit">Mã KH - Tên khách hàng</label>
+                                <input readonly autocomplete="off" type="text" class="form-control" id="donviedit" placeholder="Tên khách hàng">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="donviedit">Ngày tháng năm sinh</label>
+                                <input autocomplete="off" type="text" class="form-control form-control1" id="ngaysinhedit" placeholder="Nhập ngày sinh dạng dd/mm/yyyy" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="donviedit">Điện thoại liên hệ</label>
+                                <input autocomplete="off" type="text" class="form-control" placeholder="Nhập số điện thoại" id="dtedit" data-inputmask='"mask": "099999999999"' data-mask>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnedit" type="button" class="btn btn-primary btn-sm transition-3d-hover mb-0">Thay đổi</button>
+                <button type="button" class="btn btn-danger btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalView" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:1024px" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">THÔNG TIN KHÁCH HÀNG</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view1">Mã khách hàng</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view1">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view2">Tên khách hàng</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view2">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view3">Địa chỉ</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view3">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view5">Người liên hệ</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view5">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view7">Ngày sinh</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view7">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view4">Số điện thoại</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view4">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="view6">Đơn hàng gần nhất</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="view6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/moment.js"></script>
+   
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables-init.js?version=2"></script>
+    <script>
+        function CovertDatetime(i) {
+            var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+            return dformat;   // The function returns the product of p1 and p2
+        }
+        $(document).ready(function () {
+            $('.form-control1').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            });
+            $("#btnedit").click(function () {
+                if ($("#dtedit").val() == "" || $("#ngaysinhedit").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa điền đủ thông tin khách hàng!", "Thông báo")
+                }
+                else {
+                    $.confirm({
+                        title: '<b>THÔNG BÁO</b>',
+                        content: 'Bạn có chắc chắn muốn thay đổi thông tin khách hàng này?',
+                        buttons: {
+                            confirm: {
+                                text: 'Chắc chắn',
+                                btnClass: 'btn-success',
+                                keys: ['enter'],
+                                action: function () {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("EditKhachHang", "Baocao")",
+                                        contentType: "application/json",
+                                        datatype: 'json',
+                                        data: '{makh: ' + JSON.stringify($("#donviedit").attr("data-makh")) + ', dt: ' + JSON.stringify($("#dtedit").val().replace(/_/g, "")) + ', ngaysinh: ' + JSON.stringify($("#ngaysinhedit").val()) + '}',
+                                        error: function () {
+                                            toastr.options = {
+                                                "closeButton": true,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                                        },
+                                        success: function (data) {
+                                            toastr.options = {
+                                                "closeButton": true,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["success"]("Thay đổi thành công !", "THÔNG BÁO")
+                                            $('#ModalEdit').modal('hide')
+                                            $("#" + $("#donviedit").attr("data-makh").replace(".","")).find("td:eq(3)").text($("#ngaysinhedit").val());
+                                            $("#" + $("#donviedit").attr("data-makh").replace(".","")).find("td:eq(4)").text($("#dtedit").val().replace(/_/g, ""));
+                                        },
+                                        timeout: 5000,
+                                    });
+                                }
+                            },
+                            cancel: {
+                                text: 'Hủy',
+                                btnClass: 'btn-danger',
+                                keys: ['esc'],
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            $("#example23").on("click", ".btnview", function () {
+                var makh = $(this).closest('tr').find('td:eq(0)').text();
+                var url = '@Url.Action("GetKhachHang", "Baocao")';
+                $.post(url, { makh: makh },
+                              function (data) {
+                                  $("#view1").val(data.MAKH);
+                                  $("#view2").val(data.DONVI);
+                                  $("#view3").val(data.DIACHI);
+                                  $("#view4").val(data.DT);
+                                  $("#view5").val(data.TENNGUOILH);
+
+                                  if (data.DONHANGGANHAT != "/Date(-62135596800000)/") {
+                                      var date = new Date(data.DONHANGGANHAT.match(/\d+/)[0] * 1);
+                                      $("#view6").val(moment(date).format('DD/MM/YYYY'));
+                                  }
+                                  else {
+                                      $("#view6").val("N/A");
+                                  }
+                                  if (data.NGAYSINH != null) {
+                                      var date = new Date(data.NGAYSINH.match(/\d+/)[0] * 1);
+                                      $("#view7").val(moment(date).format('DD/MM/YYYY'));
+                                  }
+                                  else {
+                                      $("#view7").val("N/A");
+                                  }
+                              });
+            });
+            $("#example23").on("click", ".btnsuakh", function () {
+                var hang = $(this).closest('tr').find("td:eq(0)").text();
+                var url = '@Url.Action("GetKhachHang", "Baocao")';
+                $.post(url, { makh: hang },
+                    function (data) {
+                        $("#donviedit").val(data.MAKH + " - " + data.DONVI);
+                        $("#donviedit").attr("data-makh", data.MAKH);
+                        $("#dtedit").val(data.DT);
+                        if (data.NGAYSINH == null) {
+                            $("#ngaysinhedit").datepicker("setDate", "");
+                        }
+                        else {
+                            $("#ngaysinhedit").datepicker("setDate", CovertDatetime(data.NGAYSINH));
+                        }
+                    });
+            });
+        });
+
+    </script>
+}

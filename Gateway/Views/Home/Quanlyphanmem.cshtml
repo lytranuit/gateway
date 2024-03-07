@@ -1,0 +1,170 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_UPDATE_PROGRAM1>
+@{
+    ViewBag.Title = "Quản lý phần mềm";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        .overflow-auto {
+            overflow: auto !important;
+        }
+
+        .checkbox {
+            font-size: 15px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">HỆ THỐNG</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ PHẦN MỀM</li>
+        </ol>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        @using (Html.BeginForm("AddFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="mactkm">Tên phần mềm <code>*</code></label>
+                        <input name="tenphanmem" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                    </div>
+                </div>
+             
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="mactkm">Version <code>*</code></label>
+                        <input name="phienban" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="fileinput">File <code>*</code></label>
+                        <input type="file" name="postedFile" class="form-control-file" id="fileinput" accept=".exe">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="btnadd" class="btn btn-success btn-sm mb-0">HOÀN TẤT</button>
+        }
+        @*<div class="row pt-2 pb-2">
+                    <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-success btn-sm transition-3d-hover font-weight-bold w-auto" data-backdrop="static" data-toggle="modal" data-target="#ModalAdd">
+                            <i class="fa fa-plus"></i> THÊM
+                        </button>
+                        <a class="btn btn-primary btn-sm transition-3d-hover font-weight-bold w-auto" href="/vi/crm/tai-chi-tiet-khuyen-mai"><i class="fa fa-download" aria-hidden="true"></i> TẢI CHI TIẾT KHUYẾN MÃI</a>
+                        <button type="button" class="btn btn-danger btn-sm transition-3d-hover font-weight-bold w-auto" onClick="window.location.reload();"><i class="fa fa-refresh" aria-hidden="true"></i> TẢI LẠI</button>
+                    </div>
+                </div>
+            </div>*@
+
+
+
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;" id="Viewtable">
+        <table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+            <!--Table head-->
+            <thead style="background-color:rgb(66, 133, 244);">
+                <tr class="text-white">
+                    <th>STT</th>
+                    <th>TÊN PHẦN MỀM</th>
+                    <th>VERSION</th>
+                    <th>NGÀY</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var count = 1;
+                    foreach (var i in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @count
+                            </td>
+                            <td>@i.tenphanmem</td>
+                       
+                            <td>@i.phienban</td>
+                            <td>@(((DateTime)i.ngay).ToString("dd/MM/yyyy HH:mm"))</td>
+
+                        </tr>
+                        count = count + 1;
+                    }
+                }
+            </tbody>
+            <!--Table body-->
+        </table>
+    </div>
+
+    @section scripts {
+
+        @*<script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>*@
+        <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+        <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+        <script src="~/Content/plugins/repeater/jquery.repeater.min.js"></script>
+        <script>
+            Number.prototype.format = function () {
+                var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");
+                if (text != "NaN") {
+                    return text;
+                }
+                else {
+                    return "N/A";
+                }
+            };
+        </script>
+        <script>
+           
+            $(document).ready(function () {
+                $('.selectpicker').selectpicker();
+                
+                $("#btnadd").click(function (e) {
+                    var prevent = 0;
+                    if ($("#tenphanmem").val() == "" || $("#dulieu").val() == "" || $("#version").val() == "") {
+                        e.preventDefault();
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Bạn chưa điền đầy đủ thông tin bắt buộc", "Lỗi")
+                        prevent = 1;
+                        return false;
+                    }
+
+                });
+               
+            });
+        </script>
+    }

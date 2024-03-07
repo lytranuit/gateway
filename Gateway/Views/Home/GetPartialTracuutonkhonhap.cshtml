@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_TONKHO_NHAP>
+    <table id="example" class="table-bordered display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th class="center"></th>
+
+                <th class="text-center">MÃ CN</th>
+                <th class="text-center">MÃ KHO</th>
+                <th class="text-center">MÃ HH</th>
+                <th class="text-center">TÊN HÀNG HÓA</th>
+                <th class="text-center">ĐVT</th>
+                <th class="text-center">SL TỒN</th>
+                <th class="text-center">MÃ LÔ</th>
+                <th class="text-center">HẠN DÙNG</th>
+                <th class="text-center">TRẠNG THÁI (1 = GOOD , 0 = NOGOOD)</th>
+              
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th class="center"></th>
+
+                <th class="text-center">MÃ CN</th>
+                <th class="text-center">MÃ KHO</th>
+                <th class="text-center">MÃ HH</th>
+                <th class="text-center">TÊN HÀNG HÓA</th>
+                <th class="text-center">ĐVT</th>
+                <th class="text-center">SL TỒN</th>
+                <th class="text-center">MÃ LÔ</th>
+                <th class="text-center">HẠN DÙNG</th>
+                <th class="text-center">TRẠNG THÁI (1 = GOOD , 0 = NOGOOD)</th>
+
+            </tr>
+        </tfoot>
+        <tbody id="Partialtable">
+            @{
+                var count = 1;
+                foreach (var i in Model)
+                {
+                    <tr>
+                        <td class="text-center">@count</td>
+
+                        <td>@i.mach</td>
+                        <td>@i.kho</td>
+                        <td>@i.mahh</td>
+                        <td>@i.tenhh</td>
+                        <td>@i.dvt</td>
+                        <td class="text-right">@Convert.ToInt32(i.slton)</td>
+                        <td>@i.malo</td>
+                        <td>@i.handung</td>
+                        <td>@i.trangthai</td>
+                      
+                    </tr>
+                    count = count + 1;
+                }
+            }
+        </tbody>
+    </table>
+    <table class="table table-bordered mb-2 mt-2">
+        <tbody>
+            <tr>
+                <td class="font-weight-bold w-15 text-center text-dark">SỐ LƯỢNG CHI NHÁNH</td>
+                <td class="text-danger font-weight-bold text-right">@Model.Select(n=>n.mach).Distinct().Count()</td>
+               
+            </tr>
+
+        </tbody>
+    </table>
+               
+
+
+

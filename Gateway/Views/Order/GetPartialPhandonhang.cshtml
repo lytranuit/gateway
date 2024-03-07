@@ -1,0 +1,49 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.DATALAYDONHANG>
+<table id="example" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1" style="width:100%">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th class="no-sort"></th>
+            <th>SỐ HD - NGÀY HD - MÃ TDV</th>
+            <th>THÔNG TIN KHÁCH HÀNG</th>
+            <th>TỔNG TIỀN</th>
+            <th>HỦY</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            foreach (var i in Model)
+            {
+                <tr>
+                    @if (i.check == true)
+                    {
+                        <td class="text-center">
+                            <div class="form-check pl-2 pr-4">
+                                <input data-tongtien="@i.TONGTIEN_CT_HOADON" data-makh="@i.MAKH" data-donvi="@i.DONVI" data-diachi="@i.DIACHI" data-sohd="@i.SOHD" data-ngayhd="@i.NGAYLAPHD" data-matdv="@i.MATDV" class="form-check-input" type="checkbox" id="@i.SOHD" checked disabled>
+                                <label class="form-check-label" for="@i.SOHD">
+                                </label>
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center">
+                            <div class="form-check pl-2 pr-4">
+                                <input data-tongtien="@i.TONGTIEN_CT_HOADON" data-makh="@i.MAKH" data-donvi="@i.DONVI" data-diachi="@i.DIACHI" data-sohd="@i.SOHD" data-ngayhd="@i.NGAYLAPHD" data-matdv="@i.MATDV" class="form-check-input checkdonhang" type="checkbox" value="" id="@i.SOHD">
+                                <label class="form-check-label" for="@i.SOHD">
+                                </label>
+                            </div>
+                        </td>
+                    }
+                    <td><b class="text-danger">@i.SOHD</b> - @i.NGAYLAPHD.ToString("dd/MM/yyyy") - @i.MATDV</td>
+                    <td>@i.MAKH - @i.DONVI - @i.DIACHI</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.TONGTIEN_CT_HOADON)</td>
+                    <td class="text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnhuy m-0 p-2"><i class="fa fa-2x fa-remove"></i></button></td>
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>

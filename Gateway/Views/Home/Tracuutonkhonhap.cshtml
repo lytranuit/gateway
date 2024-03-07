@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "Tra cứu tồn kho nhập";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 11px;
+        }
+    </style>
+}
+@Html.AntiForgeryToken()
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">TRANG CHỦ</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">TRA CỨU TỒN KHO NHẬP</li>
+        </ol>
+    </div>
+    @*<div class="alert alert-primary mb-0" role="alert">
+            <b>GHI CHÚ :</b> Nếu tìm kiếm không thấy khách hàng, CTKM hoặc sản phẩm thì chọn vào <a href="#" class="text-danger font-weight-bold">ĐÂY</a>
+        </div>*@
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <button id="btntimkiem" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-filter"></i> TÌM KIẾM</button>
+                    <button type="button" onClick="window.location.reload()" class="btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-reply"></i> TẢI LẠI</button>
+                </div>
+                <div class="card-body pb-0 pt-1">
+                    <div class="form-row">
+                        <div class="form-group col-md-3 mb-0">
+                            <label class="my-1 mr-2 font-weight-bold" for="chon">Chọn<code>(*)</code></label>
+                            <select class="selectpicker my-1 mr-sm-2 show-tick" id="chon">
+                                <option selected value="1">Một chi nhánh</option>
+                                <option value="2">Nhiều chi nhánh</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 mb-0">
+                            <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Chi nhánh<code>(*)</code></label>
+                            <select class="selectpicker my-1 mr-sm-2" name="macn" title="Chọn chi nhánh" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
+                                <optgroup label="MIỀN TRUNG">
+                                    @foreach (var k in ViewBag.mientrung)
+                                    {
+                                        <option value=@k.macn>@k.Tencn</option>
+                                    }
+                                </optgroup>
+                                <optgroup label="MIỀN NAM">
+                                    @foreach (var k in ViewBag.miennam)
+                                    {
+                                        <option value=@k.macn>@k.Tencn</option>
+                                    }
+                                </optgroup>
+                                <optgroup label="MIỀN BẮC">
+                                    @foreach (var k in ViewBag.mienbac)
+                                    {
+                                        <option value=@k.macn>@k.Tencn</option>
+                                    }
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
+                            <label class="my-1 mr-2 font-weight-bold" for="chon">Tháng<code>(*)</code></label>
+                            <select class="selectpicker my-1 mr-sm-2 show-tick" name="thang" id="thang">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
+                            <label class="my-1 mr-2 font-weight-bold" for="chon">Năm<code>(*)</code></label>
+                            <select class="selectpicker my-1 mr-sm-2 show-tick" name="nam" id="nam">
+                                <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                                <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                                <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                                <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row" id="PartialView">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-body pb-0 pt-1">
+                    <div class="form-row" id="PartialResult">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=99"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btntimkiem").click(function () {
+                if ($("#chinhanh").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn chi nhánh !", "Thông báo")
+                }
+                else if ($("#tungay").val() == "" || $("#denngay").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng chọn ngày !", "Thông báo")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetPartialTracuutonkhonhap", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + ', thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + '}',
+                        success: function (data) {
+                            $("#PartialResult").html(data);
+                            if('@Model' == 'False')
+                            {
+                                $("#example").dataTable({
+                                    "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                    buttons: [
+                                 'copy', 'excel'
+                                    ]
+                                });
+                            }
+                            else
+                            {
+                                $("#example").dataTable({
+                                    "iDisplayLength": 50, "scrollX": true,
+                                });
+                            }
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 20000,
+                    });
+                }
+            });
+         
+            $('.form-control1').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            })
+            $("#chon").change(function () {
+                $("#PartialView").empty();
+                if ($("#chon").val() == 1) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                }
+                else {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').addClass('show-tick');
+                    $('#chinhanh').attr("multiple", "true");
+                    $('#chinhanh .bs-title-option').remove();
+                }
+                $('#chinhanh').selectpicker();
+                $('#chinhanh').selectpicker('deselectAll');
+            });
+         
+        });
+    </script>
+}

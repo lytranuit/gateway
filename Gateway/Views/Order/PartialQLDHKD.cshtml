@@ -1,0 +1,134 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_DONDATHANG_KD>
+<table id="example" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+    <!--Table head-->
+    <thead>
+        <tr>
+          
+            <th class="no-sort text-center">
+                <input type="checkbox" id="checkall">
+            </th>
+            <th class="text-center text-dark">Số ĐH</th>
+            <th class="text-center text-dark">Ngày đặt hàng</th>
+            <th class="text-center text-dark">Tên khách hàng</th>
+            <th class="text-center text-dark">Người tạo</th>
+            <th class="text-center text-dark">Hợp đồng</th>
+            <th class="text-center text-dark" hidden>Mã CN</th>
+            <th class="no-sort text-center text-dark">Trạng thái</th>
+            <th class="text-center text-dark">Xem</th>
+        </tr>
+    </thead>
+
+    <!--Table head-->
+    <!--Table body-->
+    <tbody>
+        @{
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center align-middle">
+                        <input class="checkdonhang" type="checkbox" name="check" value="@i.MADH">
+                    </td>
+                    <td class="text-center">@i.MADH</td>
+                    <td class="text-center">@i.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@i.MAKH - @i.DONVI</td>
+                    <td>@i.USERTAO</td>
+                    <td>@i.HOPDONG</td>
+                    <td hidden>@i.MACH</td>
+                    @if (i.DUYETDH == false)
+                    {
+                        <td class="text-center" title="Chờ duyệt"><span hidden>3</span><i class="fa fa-exclamation-triangle fa-2x" style="color:orange;" aria-hidden="true"></i></td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm p-2 btn-primary waves-effect" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-angle-down pl-1 pr-1"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng khu vực</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng chi tiết</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng khu vực chi tiết</button>
+                                    <button class="dropdown-item btnxemhd" data-toggle="modal" data-target="#ModalView" type="button">Xem</button>
+                                    @*@if (ViewBag.quanly == "QUANLY")
+                                    {
+                                        <button class="dropdown-item btnkhoa" type="button">Khóa đơn hàng</button>
+                                    }*@
+                                    @if (i.USERTAO == User.Identity.Name.ToUpper())
+                                    {
+                                        <button class="dropdown-item btnsuahd" type="button">Thay đổi</button>
+                                        <button class="dropdown-item btnxoahd" type="button">Xóa</button>
+                                    }
+
+                                </div>
+                            </div>
+                        </td>
+                    }
+                    @if (i.DUYETDH == null)
+                    {
+                        <td class="text-center" title="Từ chối"><span hidden>4</span><i class="fa fa-times-circle fa-2x" style="color:red;" aria-hidden="true"></i></td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm p-2 btn-primary waves-effect" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-angle-down pl-1 pr-1"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng khu vực</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng chi tiết</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng khu vực chi tiết</button>
+                                    <button class="dropdown-item btnxemhd" data-toggle="modal" data-target="#ModalView" type="button">Xem</button>
+                                </div>
+                            </div>
+                        </td>
+                    }
+                    else if (i.DUYETDH == true && i.NGAYLAPHD != null)
+                    {
+                        <td class="text-center" title="Đã duyệt"><span hidden>2</span><i class="fa fa-check-circle fa-2x" style="color:#228117;" aria-hidden="true"></i></td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm p-2 btn-primary waves-effect" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-angle-down pl-1 pr-1"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng khu vực</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng chi tiết</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng khu vực chi tiết</button>
+                                    <button class="dropdown-item btnxemhd" data-toggle="modal" data-target="#ModalView" type="button">Xem</button>
+                                </div>
+                            </div>
+                        </td>
+                    }
+                    else if (i.DUYETDH == true && i.NGAYLAPHD == null)
+                    {
+                        <td class="text-center" title="Đang xử lý">
+                            <span hidden>5</span>
+                            <i class="fa fa-spinner fa-spin fa-2x text-dark" aria-hidden="true"></i>
+                        </td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm p-2 btn-primary waves-effect" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-angle-down pl-1 pr-1"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                                    @*@if (ViewBag.quanly == "QUANLY")
+                                    {
+                                        <button class="dropdown-item btnkhoa" type="button">Mở khóa đơn hàng</button>
+                                    }*@
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=1')" type="button">In đơn hàng khu vực</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng chi tiết</button>
+                                    <button class="dropdown-item btninhd" onclick="window.open('/@ViewBag.flag/crm/in-don-dat-hang-kd-khu-vuc?madh=@(i.MADH)&loai=2')" type="button">In đơn hàng khu vực chi tiết</button>
+                                    <button class="dropdown-item btnxemhd" data-toggle="modal" data-target="#ModalView" type="button">Xem</button>
+                                </div>
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+
+
+

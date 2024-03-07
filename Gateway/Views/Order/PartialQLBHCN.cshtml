@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListKhuyenMai>
+<table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th>Trạng thái</th>
+            <th>Mã CTBH</th>
+            <th>Tên CTBH</th>
+            <th>Từ ngày</th>
+            <th>Đến ngày</th>
+            <th>Sản phẩm</th>
+            <th class="no-sort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @if (DateTime.Now < i.ngayketthuc.Value.AddDays(1))
+                        {
+                            <span style="font-size:11px;" class="badge badge-success">Hiệu lực</span>
+                        }
+                        else
+                        {
+                            <span style="font-size:11px;" class="badge badge-danger">Hết hạn</span>
+                        }
+                    </td>
+                    <td class="text-center">@i.MAKM</td>
+                    <td>@i.TENKM</td>
+                    <td class="text-center">@((i.ngaybatdau != null) ? ((DateTime)i.ngaybatdau).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td class="text-center">@((i.ngayketthuc != null) ? ((DateTime)i.ngayketthuc).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td class="text-center">@((i.MAHH != null) ? i.MAHH.Split(',').Count().ToString() + " Sản phẩm" : "Tất cả")</td>
+                    <td class="p-1 align-middle text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                <span class="fa fa-caret-down"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left dropdown-menu-right">
+                                <li><a class="btnchitiet" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Thông tin chi tiết</a></li>
+                           
+                                <li><a class="btnedit" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
+                                <li><a class="btneditfile" data-toggle="modal" data-backdrop="static" data-target="#ModalFile">Thay đổi File</a></li>
+                                <li><a class="btnxoa">Xóa</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+

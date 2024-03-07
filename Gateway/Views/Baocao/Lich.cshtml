@@ -1,0 +1,661 @@
+﻿
+@{
+    ViewBag.Title = "Kế hoạch trình dược";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=8" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link href='~/Content/Calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=42">
+    <link href='~/Content/Calendar/fullcalendar.css?version=6' rel='stylesheet' />
+    <link href="~/Content/Lich.css?version=14" rel="stylesheet">
+    <style>
+        .btn.btn-sm {
+            padding: .5rem 1.6rem;
+            font-size: .75rem;
+        }
+
+        #tablecreate {
+            display: table !important;
+        }
+
+        .dropdown-menu {
+            font-size: 11px;
+            max-width: 100%;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+    </style>
+}
+<style>
+    .p-0 {
+        padding: 0 !important;
+    }
+</style>
+@Html.AntiForgeryToken()
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">KẾ HOẠCH TRÌNH DƯỢC</li>
+        </ol>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0 p-2">
+                <a class="font-weight-bold text-center" target="_blank" href="/Content/QUYDINH.pdf">CÁC QUY ĐỊNH VÀ LƯU Ý KHI SỬ DỤNG</a>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div id='wrap' class="p-xl-2 p-lg-0">
+                    <div id='calendar'></div>
+                    <div style='clear:both'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered scrollable-auto-y mt-md-auto" style="max-width:800px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">BÁO CÁO KẾ HOẠCH NGÀY <span class="text-danger" id="ngay"></span></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <div class="container-fluid p-0">
+                    <div class="themkhachhang">
+                        <select title="Chọn khách hàng" id="khachhangthem" class="selectpicker" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                            @foreach (var i in ViewBag.KH)
+                            {
+                                <option value="@i.MAKH" tabindex="@i.DONVI">@i.MAKH - @i.DONVI</option>
+                            }
+                        </select>
+                        <button title="Thêm" id="add_row_them" class="btn btn-sm btn-success waves-effect font-weight-bold w-100 pull-left ml-0 mr-0 mt-2 mb-2 pl-2 pr-2 themkhachhang"><i class="fa fa-plus"></i> THÊM KHÁCH HÀNG</button>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table id="tabletdv" class="table table-hover table-fixed table-bordered mb-0">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:35px;" class="text-center">STT</th>
+                                    <th class="text-center">Khách hàng</th>
+                                    <th style="width:77px;" class="text-center">Đã tới</th>
+                                    <th id="thxoa" style="width:35px;" class="text-center">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" id="btnluutatca" class="btn btn-sm btn-success mb-0"><i class="fa fa-check"></i> LƯU TẤT CẢ</button>
+                <button id="btnthemkhachhang" onclick="location.reload();" type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered scrollable-auto-y modal-lg mt-md-auto" role="document" style="max-width:800px;">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">KẾ HOẠCH NGÀY <span class="text-danger" id="ngaycreate"></span></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <div class="container-fluid p-0">
+                    <select title="Chọn khách hàng" id="khachhang" class="selectpicker" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                        @foreach (var i in ViewBag.KH)
+                        {
+                            <option value="@i.MAKH" tabindex="@i.DONVI">@i.MAKH - @i.DONVI</option>
+                        }
+                    </select>
+                    <button title="Thêm" id="add_row" class="btn btn-sm btn-success w-100 waves-effect pull-left mt-2 mb-2 ml-0 mr-0 pl-2 pr-2 font-weight-bold"><i class="fa fa-plus"></i> THÊM KHÁCH HÀNG</button>
+                    <div class="table-responsive-sm">
+                        <table id="tablecreate" class="table table-hover table-fixed table-bordered mb-0">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:35px;" class="text-center">STT</th>
+                                    <th class="text-center">Khách hàng</th>
+                                    <th style="width:35px;" class="text-center">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" id="btncreate" class="btn btn-sm btn-success mb-0"><i class="fa fa-check"></i> LƯU</button>
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=4"></script>
+    <script src='~/Content/Calendar/fullcalendar.js?version=10'></script>
+    <script src='~/Scripts/moment.js'></script>
+    <script src='~/Scripts/LichJS.js?version=51'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhqite1niMCtZawMgTaZQk9zjaE1__F40&callback=myMap"></script>
+    <script>
+        $(document).ready(function () {
+            $('#external-events div.external-event').each(function () {
+                var eventObject = {
+                    title: $.trim($(this).text())
+                };
+                $(this).data('eventObject', eventObject);
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true,
+                    revertDuration: 0
+                });
+            });
+
+            $("#tabletdv").on("click", ".btnadddonhang", function () {
+                var makh = $(this).closest('tr').find("td:eq(1)").attr("data-makh");
+                if(screen.width < 800 || screen.height < 500)
+                {
+                    var url = '@Url.Action("tao-moi-don-dat-hang-mobile", "Order")?makh=' + makh;
+                    window.open(url,"_blank");
+                }
+                else
+                {
+                    var url = '@Url.Action("tao-moi-don-dat-hang", "Order")?makh=' + makh;
+                    window.open(url,"_blank");
+                }
+            });
+            $("#tabletdv").on("click", ".btngps", function () {
+                var hang  = $(this);
+                var makh = $(this).closest('tr').find("td:eq(1)").attr("data-makh");
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (p) {
+                        var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+                        var mapOptions = {
+                            center: LatLng,
+                            zoom: 13,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        };
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Sosanhtoado", "BaoCao")",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{makh: ' + JSON.stringify(makh) + ', ngay: ' + JSON.stringify($("#ngay").text()) + ', latitude: ' + JSON.stringify(p.coords.latitude) + ', longitude: ' + JSON.stringify(p.coords.longitude) + '}',
+                            success: function (data) {
+                                if(data == 1)
+                                {
+                                    hang.removeClass("btn-primary").addClass("btn-success").prop('disabled', true);
+                                    hang.find('i').removeClass('fa-map-marker').addClass('fa-check');
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["success"]("Xác nhận GPS thành công", "Thông báo")
+                                }
+                                else if(data == 0)
+                                {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Khoảng cách của bạn so với vị trí khách hàng lớn hơn 100m. Vui lòng lại gần hơn", "Thông báo")
+                                }
+                                else if(data == 2)
+                                {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Chưa cập nhật vị trí khách hàng", "Thông báo")
+                                }
+                            },
+                            error: function (request, status, error) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            },
+                            timeout: 20000,
+                        });
+                    });
+                } else {
+                    alert('Trình duyệt của bạn không hỗ trợ lấy GPS vui lòng chuyển trình duyệt khác');
+                }
+
+            });
+            $("#tabletdv").on("click", ".btndelete", function () {
+                var x = this;
+                $.confirm({
+                    title: '<b>THÔNG BÁO</b>',
+                    content: 'Bạn có chắc chắn muốn xóa kế hoạch này ?',
+                    buttons: {
+                        confirm: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+                                $(x).closest('tr').next('tr').remove();
+                                $(x).closest('tr').remove();
+                                var i = 1;
+                                $("#tabletdv > tbody >tr.stt").each(function () {
+                                    $(this).closest('tr').find('td:eq(0)').empty();
+                                    $(this).closest('tr').find('td:eq(0)').append(i);
+                                    i = i + 1;
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+            $(".sidebar-icon").click(function(){
+                $('#calendar').empty();
+                setTimeout(function(){
+                    var calendar = $('#calendar').fullCalendar({
+                        header: {
+                            left: 'title',
+                            center: 'month',
+                            right: 'prev,next today'
+                        },
+                        editable: true,
+                        firstDay: 1,
+                        selectable: true,
+                        defaultView: 'month',
+
+                        axisFormat: 'h:mm',
+                        columnFormat: {
+                            month: 'ddd',
+                            week: 'ddd d',
+                            day: 'dddd M/d',
+                            agendaDay: 'dddd d'
+                        },
+                        titleFormat: {
+                            month: 'MMMM yyyy',
+                            week: "MMMM yyyy",
+                            day: 'MMMM yyyy'
+                        },
+                        allDaySlot: false,
+                        selectHelper: true,
+                        select: function (start, end, allDay) {
+                            var datelock = new Date(start);
+                            datelock.setDate(datelock.getDate() + 7);
+                            var x = new Date('@DateTime.Now.ToString("yyyy-MM-dd")');
+                            x.setHours(0,0,0,0);
+                            var ngay = moment(start).format("DD/MM/YYYY");
+                            var url = '@Url.Action("GetKehoach", "Baocao")';
+                            if(x.getTime() === start.getTime())
+                            {
+                                $("#btnluutatca").css("display","block");
+                                //$("#thluu").css("display","table-cell");
+                                $("#thxoa").css("display","table-cell");
+                                $(".themkhachhang").css("display","block");
+                                $("#ngay").text(ngay);
+                                $("#tabletdv > tbody").empty();
+                                $.post(url, { ngay: ngay },
+                          function (data) {
+                              for (var i = 0; i < data.length; i++) {
+                                  var check = (data[i].checkin == true) ? " checked" : "";
+                                  var hidden = (data[i].checkin == true) ? " hidden" : "";
+                                  var block = (data[i].checkin == false) ? " hidden" : "";
+                                  $("#tabletdv").find("tbody").append(
+                                   '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
+                                 + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                                 + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">' + data[i].makh + " - " + data[i].tenkh + '</td>'
+                                 + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' 
+                                 + ((data[i].checkgps == 1)?'<button type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
+                                     //+ '<td class="text-center text-dark"><button type="button" class="btn btn-primary btnluu"><i class="fa fa-check-circle"></i></button></td>'
+                                 + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
+                                 + '</tr><tr><td colspan="3"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                                  $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                                  if (data[i].ketqua != null) {
+                                      $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+                                      if(data[i].ketqua == 1)
+                                      {
+                                          $("#tabletdv > tbody > tr").last().find("button.btnadddonhang").addClass("hidden");
+                                      }
+                                  }
+                              }
+                          });
+                                $('#ModalView').modal({ backdrop: 'static', keyboard: false })
+                            }
+                            else if (x > start && x < moment(datelock).startOf('isoweek')) {
+                                $("#btnluutatca").css("display","block");
+                                $("#thxoa").css("display","none");
+                                $(".themkhachhang").css("display","none");
+                                $("#ngay").text(ngay);
+                                $("#tabletdv > tbody").empty();
+                                $.post(url, { ngay: ngay },
+                          function (data) {
+                              for (var i = 0; i < data.length; i++) {
+                                  var check = (data[i].checkin == true) ? " checked" : "";
+                                  var hidden = (data[i].checkin == true) ? " hidden" : "";
+                                  var block = (data[i].checkin == false) ? " hidden" : "";
+                                  $("#tabletdv").find("tbody").append(
+                                   '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
+                                 + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                                 + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                                 + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' + ((data[i].checkgps == 1)?'<button  disabled type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button  disabled type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
+                                 + '</tr><tr><td colspan="2"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                                  $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                                  if (data[i].ketqua != null) {
+                                      $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+
+                                      if(data[i].ketqua == 1)
+                                      {
+                                          $("#tabletdv > tbody > tr").last().find("button.btnadddonhang").addClass("hidden");
+                                      }
+                                  }
+                              }
+                          });
+                                $('#ModalView').modal({ backdrop: 'static', keyboard: false })
+                            }
+                            else if(x > start && x >= moment(datelock).startOf('isoweek'))
+                            {
+                                $("#btnluutatca").css("display","none");
+                                //$("#thluu").css("display","none");
+                                $("#thxoa").css("display","none");
+                                $(".themkhachhang").css("display","none");
+                                $("#ngay").text(ngay);
+                                $("#tabletdv > tbody").empty();
+                                $.post(url, { ngay: ngay },
+                          function (data) {
+                              for (var i = 0; i < data.length; i++) {
+                                  var check = (data[i].checkin == true) ? " checked" : "";
+                                  var hidden = (data[i].checkin == true) ? " hidden" : "";
+                                  var block = (data[i].checkin == false) ? " hidden" : "";
+                                  $("#tabletdv").find("tbody").append(
+                                   '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                                 + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                                 + '<td class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                                 + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
+                                + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><select disabled class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></td>');
+                                  $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                                  if (data[i].ketqua != null) {
+                                      $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+                                  }
+                              }
+                          });
+
+                                $('#ModalView').modal({ backdrop: 'static', keyboard: false })
+                            }
+                            else {
+                                $("#ngaycreate").text(ngay);
+                                $("#tablecreate > tbody").empty();
+                                $.post(url, { ngay: ngay },
+                            function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    $("#tablecreate").find("tbody").append(
+                                     '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                                   + '<td class="text-center text-dark">' + (i + 1) + '</td>'
+                                   + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                                   + '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
+                                   + '</tr>');
+                                }
+                            });
+                                $('#ModalCreate').modal({ backdrop: 'static', keyboard: false })
+                            }
+                            calendar.fullCalendar('unselect');
+                        },
+                        events:
+                            dataevent
+                ,
+                    });
+                }, 1000);
+            });
+            var dataevent = [];
+            var datetimenow = new Date('@DateTime.Now.ToString("yyyy-MM-dd")');
+            var array = @Html.Raw(Json.Encode(ViewBag.data));
+            for(var i=0;i<array.length;i++)
+            {
+                var someDate = moment(array[i].ngay, "DD/MM/YYYY").toDate();
+                if(array[i].khoa == false && datetimenow > someDate)
+                {
+                    dataevent.push({
+                        title: array[i].soluong + " KH"
+                              ,start: someDate
+                              , end: someDate
+                              , allDay: true
+                              , className: 'important'
+                    });
+                }
+                else if(array[i].khoa == true && datetimenow > someDate){
+                    dataevent.push({
+                        title: array[i].soluong + " KH"
+                               ,start: someDate
+                               , end: someDate
+                               , allDay: true
+                               , className: 'success'
+                    });
+                }
+                else
+                {
+                    dataevent.push({
+                        title: array[i].soluong + " KH"
+                              ,start: someDate
+                              , end: someDate
+                              , allDay: true
+
+                    });
+                }
+            }
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'title',
+                    center: 'month',
+                    right: 'prev,next today'
+                },
+                editable: true,
+                firstDay: 1,
+                selectable: true,
+                defaultView: 'month',
+
+                axisFormat: 'h:mm',
+                columnFormat: {
+                    month: 'ddd',
+                    week: 'ddd d',
+                    day: 'dddd M/d',
+                    agendaDay: 'dddd d'
+                },
+                titleFormat: {
+                    month: 'MMMM yyyy',
+                    week: "MMMM yyyy",
+                    day: 'MMMM yyyy'
+                },
+                allDaySlot: false,
+                selectHelper: true,
+                select: function (start, end, allDay) {
+                    var datelock = new Date(start);
+                    datelock.setDate(datelock.getDate() + 7 );
+                    var x = new Date('@DateTime.Now.ToString("yyyy-MM-dd")');
+                    x.setHours(0,0,0,0);
+                    var ngay = moment(start).format("DD/MM/YYYY");
+                    var url = '@Url.Action("GetKehoach", "Baocao")';
+                    if(x.getTime() === start.getTime())
+                    {
+                        $("#btnluutatca").css("display","block");
+                        $("#thxoa").css("display","table-cell");
+                        $(".themkhachhang").css("display","block");
+                        $("#ngay").text(ngay);
+                        $("#tabletdv > tbody").empty();
+                        $.post(url, { ngay: ngay },
+                  function (data) {
+                      for (var i = 0; i < data.length; i++) {
+                          var check = (data[i].checkin == true) ? " checked" : "";
+                          var hidden = (data[i].checkin == true) ? " hidden" : "";
+                          var block = (data[i].checkin == false) ? " hidden" : "";
+                          $("#tabletdv").find("tbody").append(
+                           '<tr class="stt">'
+                         + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                         + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - "  + data[i].tenkh + '</td>'
+                         + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>'+ ((data[i].checkgps == 1)?'<button type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
+                            + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
+                         + '</tr><tr><td colspan="3"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                          $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                          if (data[i].ketqua != null) {
+                              $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+                              if(data[i].ketqua == 1)
+                              {
+                                  $("#tabletdv > tbody > tr").last().find("button.btnadddonhang").addClass("hidden");
+                              }
+                          }
+                      }
+                  });
+                        $('#ModalView').modal({ backdrop: 'static', keyboard: false })
+                    }
+                    else if (x > start && x < moment(datelock).startOf('isoweek')) {
+                        $("#btnluutatca").css("display","block");
+                        //$("#thluu").css("display","table-cell");
+                        $("#thxoa").css("display","none");
+                        $(".themkhachhang").css("display","none");
+                        $("#ngay").text(ngay);
+                        $("#tabletdv > tbody").empty();
+                        $.post(url, { ngay: ngay },
+                  function (data) {
+                      for (var i = 0; i < data.length; i++) {
+                          var check = (data[i].checkin == true) ? " checked" : "";
+                          var hidden = (data[i].checkin == true) ? " hidden" : "";
+                          var block = (data[i].checkin == false) ? " hidden" : "";
+                          $("#tabletdv").find("tbody").append(
+                           '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
+                         + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                         + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                         + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' + ((data[i].checkgps == 1)?'<button disabled type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button disabled type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
+                             //+ '<td class="text-center text-dark"><button type="button" class="btn btn-primary btnluu"><i class="fa fa-check-circle"></i></button></td>'
+                         + '</tr><tr><td colspan="2"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                          $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                          if (data[i].ketqua != null) {
+                              $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+                              if(data[i].ketqua == 1)
+                              {
+                                  $("#tabletdv > tbody > tr").last().find("button.btnadddonhang").addClass("hidden");
+                              }
+                          }
+                      }
+                  });
+                        $('#ModalView').modal({ backdrop: 'static', keyboard: false })
+                    }
+                    else if(x > start && x >= moment(datelock).startOf('isoweek'))
+                    {
+                        $("#btnluutatca").css("display","none");
+                        //$("#thluu").css("display","none");
+                        $("#thxoa").css("display","none");
+                        $(".themkhachhang").css("display","none");
+                        $("#ngay").text(ngay);
+                        $("#tabletdv > tbody").empty();
+                        $.post(url, { ngay: ngay },
+                  function (data) {
+                      for (var i = 0; i < data.length; i++) {
+                          var check = (data[i].checkin == true) ? " checked" : "";
+                          var hidden = (data[i].checkin == true) ? " hidden" : "";
+                          var block = (data[i].checkin == false) ? " hidden" : "";
+                          $("#tabletdv").find("tbody").append(
+                           '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                         + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                         + '<td class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                         + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
+                         + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><select disabled class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></tr>');
+                          $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                          if (data[i].ketqua != null) {
+                              $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+                          }
+                      }
+                  });
+                        $('#ModalView').modal({ backdrop: 'static', keyboard: false })
+                    }
+                    else {
+                        $("#ngaycreate").text(ngay);
+                        $("#tablecreate > tbody").empty();
+                        $.post(url, { ngay: ngay },
+                    function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#tablecreate").find("tbody").append(
+                             '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                           + '<td class="text-center text-dark">' + (i + 1) + '</td>'
+                           + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                           + '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
+                           + '</tr>');
+                        }
+                    });
+                        $('#ModalCreate').modal({ backdrop: 'static', keyboard: false })
+                    }
+                    calendar.fullCalendar('unselect');
+                },
+                events:
+                    dataevent
+                ,
+            });
+        });
+    </script>
+}
+
+
+

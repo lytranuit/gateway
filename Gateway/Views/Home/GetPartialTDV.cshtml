@@ -1,0 +1,9 @@
+﻿@model ApplicationChart.Models.Dulieutimkiem
+<label class="my-1 mr-2 font-weight-bold" for="loaihd">Mã TDV</label>
+<select title="Chọn TDV" class="selectpicker show-tick my-1 mr-sm-2" multiple data-actions-box="true" data-selected-text-format="count > 3" data-live-search="true" id="matdv">
+    @foreach (var i in Model.TDV)
+    {
+        <option value="@i.MATDV">@i.MATDV - @i.TENTDV</option>
+    }
+</select>
+

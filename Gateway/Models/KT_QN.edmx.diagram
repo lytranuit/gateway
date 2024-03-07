@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d4e263c6019d481c81bdcb7ccc0fd685" Name="Diagram1" ZoomLevel="96">
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCBIENBANTHOATHUAN" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KT_QNModel.DTA_DONDATHANG" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCKHOANTDV" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCKHOANTDV_PHI" Width="1.5" PointX="9.375" PointY="8.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCTDV" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="KT_QNModel.DTA_TONKHO_NHAP" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="KT_QNModel.DTA_DONDATHANG_KD" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCHANGHOA" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCHOPDONGCHUNG" Width="1.5" PointX="3.375" PointY="9.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_DANHMUCHOPDONG_WS" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="KT_QNModel.DTA_DONDATHANG_WS" Width="1.5" PointX="3.375" PointY="11.75" />
+        <EntityTypeShape EntityType="KT_QNModel.TBL_CT_DANHMUCHOPDONG_WS" Width="1.5" PointX="11.375" PointY="5.75" />
+        <EntityTypeShape EntityType="KT_QNModel.DTA_CT_HOADON_XUAT" Width="1.5" PointX="11.375" PointY="9.75" />
+        <EntityTypeShape EntityType="KT_QNModel.DTA_HOADON_XUAT" Width="1.5" PointX="13.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

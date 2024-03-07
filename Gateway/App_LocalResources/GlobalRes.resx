@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lbbaocaobsc" xml:space="preserve">
+    <value>Báo cáo BSC</value>
+  </data>
+  <data name="lbbaocaotheo" xml:space="preserve">
+    <value>Báo cáo theo</value>
+  </data>
+  <data name="lbbieudo" xml:space="preserve">
+    <value>Biểu đồ</value>
+  </data>
+  <data name="lbcacboloc" xml:space="preserve">
+    <value>Các bộ lọc</value>
+  </data>
+  <data name="lbcaplaimatkhau" xml:space="preserve">
+    <value>Cấp lại mật khẩu</value>
+  </data>
+  <data name="lbchaomung" xml:space="preserve">
+    <value>Chào mừng đến với Gateway</value>
+  </data>
+  <data name="lbchinhanh" xml:space="preserve">
+    <value>Chi nhánh</value>
+  </data>
+  <data name="lbchitietdoanhso" xml:space="preserve">
+    <value>Chi tiết doanh số</value>
+  </data>
+  <data name="lbchitiethanghoa" xml:space="preserve">
+    <value>Chi tiết hàng hóa</value>
+  </data>
+  <data name="lbchon" xml:space="preserve">
+    <value>Chọn</value>
+  </data>
+  <data name="lbchonchinhanh" xml:space="preserve">
+    <value>Chọn chi nhánh</value>
+  </data>
+  <data name="lbco" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="lbcoitnhat1chuhoa" xml:space="preserve">
+    <value>Có ít nhất một chữ hoa</value>
+  </data>
+  <data name="lbcoitnhat1chuso" xml:space="preserve">
+    <value>Có ít nhất một chứ số</value>
+  </data>
+  <data name="lbcoitnhat1chuthuong" xml:space="preserve">
+    <value>Có ít nhất một chữ thường</value>
+  </data>
+  <data name="lbdangnhap" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="lbdangxuat" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="lbdenngay" xml:space="preserve">
+    <value>Đến ngày</value>
+  </data>
+  <data name="lbdenthang" xml:space="preserve">
+    <value>Đến tháng</value>
+  </data>
+  <data name="lbdienthoailienhe" xml:space="preserve">
+    <value>Điện thoại liên hệ</value>
+  </data>
+  <data name="lbdoanhsochitiet" xml:space="preserve">
+    <value>Doanh số chi tiết</value>
+  </data>
+  <data name="lbdoanhsophanloaikh" xml:space="preserve">
+    <value>Doanh số phân loại khách hàng</value>
+  </data>
+  <data name="lbdoanhsotheothang" xml:space="preserve">
+    <value>Doanh số theo tháng</value>
+  </data>
+  <data name="lbdoanhthuchinhanh" xml:space="preserve">
+    <value>Doanh thu chi nhánh</value>
+  </data>
+  <data name="lbdoanhthuhangthang" xml:space="preserve">
+    <value>Doanh thu hàng tháng</value>
+  </data>
+  <data name="lbdoanhthuotcetc" xml:space="preserve">
+    <value>Doanh thu OTC/ETC</value>
+  </data>
+  <data name="lbdoanhthuvungmien" xml:space="preserve">
+    <value>Doanh thu vùng miền</value>
+  </data>
+  <data name="lbdodaiitnhat6kytu" xml:space="preserve">
+    <value>Độ dài ít nhất 6 ký tự</value>
+  </data>
+  <data name="lbdoimatkhau" xml:space="preserve">
+    <value>Đổi mật khẩu</value>
+  </data>
+  <data name="lbdong" xml:space="preserve">
+    <value>Đóng</value>
+  </data>
+  <data name="lbdonggopykien" xml:space="preserve">
+    <value>Đóng góp ý kiến</value>
+  </data>
+  <data name="lbdonvitinh" xml:space="preserve">
+    <value>Đơn vị tính</value>
+  </data>
+  <data name="lbdonvitinhtydong" xml:space="preserve">
+    <value>Đơn vị tính : Tỷ đồng</value>
+  </data>
+  <data name="lberror" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="lbhaydiendayduthongtin" xml:space="preserve">
+    <value>Hãy điền đầy đủ thông tin</value>
+  </data>
+  <data name="lbhovaten" xml:space="preserve">
+    <value>Họ và tên</value>
+  </data>
+  <data name="lbhuongdansudung" xml:space="preserve">
+    <value>Hướng dẫn sử dụng</value>
+  </data>
+  <data name="lbhuy" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="lbin" xml:space="preserve">
+    <value>In</value>
+  </data>
+  <data name="lbkho" xml:space="preserve">
+    <value>Kho</value>
+  </data>
+  <data name="lbkhong" xml:space="preserve">
+    <value>Không</value>
+  </data>
+  <data name="lblandaudangnhap" xml:space="preserve">
+    <value>Đây là lần đăng nhập đầu tiên. Xin vui lòng đổi mật khẩu !</value>
+  </data>
+  <data name="lblienhehotro" xml:space="preserve">
+    <value>Liên hệ hỗ trợ</value>
+  </data>
+  <data name="lbloaibaocao" xml:space="preserve">
+    <value>Loại báo cáo</value>
+  </data>
+  <data name="lbmahanghoa" xml:space="preserve">
+    <value>Mã hàng hóa</value>
+  </data>
+  <data name="lbmaphanloai" xml:space="preserve">
+    <value>Mã phân loại</value>
+  </data>
+  <data name="lbmatkhau" xml:space="preserve">
+    <value>Mật Khẩu</value>
+  </data>
+  <data name="lbmatkhaucu" xml:space="preserve">
+    <value>Mật khẩu cũ</value>
+  </data>
+  <data name="lbmatkhaumoi" xml:space="preserve">
+    <value>Mật khẩu mới</value>
+  </data>
+  <data name="lbmatkhaumoikhongduoctrung" xml:space="preserve">
+    <value>Mật khẩu mới không được trùng với mật khẩu cũ. Vui lòng thử lại !</value>
+  </data>
+  <data name="lbmienbac" xml:space="preserve">
+    <value>Miền bắc</value>
+  </data>
+  <data name="lbmiennam" xml:space="preserve">
+    <value>Miền nam</value>
+  </data>
+  <data name="lbmientrung" xml:space="preserve">
+    <value>Miền trung</value>
+  </data>
+  <data name="lbmotchinhanh" xml:space="preserve">
+    <value>Một chi nhánh</value>
+  </data>
+  <data name="lbnam" xml:space="preserve">
+    <value>Năm</value>
+  </data>
+  <data name="lbngay" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="lbnhaplaichinhxac" xml:space="preserve">
+    <value>Nhập lại chính xác</value>
+  </data>
+  <data name="lbnhaplaimatkhaukhongdung" xml:space="preserve">
+    <value>Nhập lại mật khẩu cũ không đúng. Vui lòng thử lại !</value>
+  </data>
+  <data name="lbnhaplaimatkhaumoi" xml:space="preserve">
+    <value>Nhập lại mật khẩu mới</value>
+  </data>
+  <data name="lbnhapmatkhaucu" xml:space="preserve">
+    <value>Nhập lại mật khẩu cũ</value>
+  </data>
+  <data name="lbnhapmatkhaumoi" xml:space="preserve">
+    <value>Nhập mật khẩu mới</value>
+  </data>
+  <data name="lbnhaptentaikhoan" xml:space="preserve">
+    <value>Nhập tên tài khoản</value>
+  </data>
+  <data name="lbnhaptentaikhoan1" xml:space="preserve">
+    <value>Nhập tên tài khoản của bạn</value>
+  </data>
+  <data name="lbnhieuchinhanh" xml:space="preserve">
+    <value>Nhiều chi nhánh</value>
+  </data>
+  <data name="lbnhomhang" xml:space="preserve">
+    <value>Nhóm hàng</value>
+  </data>
+  <data name="lbphanloaichitietkhachhang" xml:space="preserve">
+    <value>P.Loại chi tiết khách hàng</value>
+  </data>
+  <data name="lbphanloaikhachhang" xml:space="preserve">
+    <value>P.Loại khách hàng</value>
+  </data>
+  <data name="lbplkh" xml:space="preserve">
+    <value>P.Loại khách hàng</value>
+  </data>
+  <data name="lbquenmatkhau" xml:space="preserve">
+    <value>Quên mật khẩu</value>
+  </data>
+  <data name="lbqui" xml:space="preserve">
+    <value>Quí</value>
+  </data>
+  <data name="lbsohoadon" xml:space="preserve">
+    <value>Số hóa đơn</value>
+  </data>
+  <data name="lbsoluongnhap" xml:space="preserve">
+    <value>Số lượng nhập</value>
+  </data>
+  <data name="lbsoluongton" xml:space="preserve">
+    <value>Số lượng tồn</value>
+  </data>
+  <data name="lbsoluongtoncuoiky" xml:space="preserve">
+    <value>Số lượng tồn cuối kỳ</value>
+  </data>
+  <data name="lbsoluongtondauky" xml:space="preserve">
+    <value>Số lượng tồn đầu kỳ</value>
+  </data>
+  <data name="lbsoluongxuat" xml:space="preserve">
+    <value>Số lượng xuất</value>
+  </data>
+  <data name="lbsosanhnam" xml:space="preserve">
+    <value>So sánh năm</value>
+  </data>
+  <data name="lbsosanhtheonam" xml:space="preserve">
+    <value>So sánh theo năm</value>
+  </data>
+  <data name="lbtaiexcel" xml:space="preserve">
+    <value>Tải Excel</value>
+  </data>
+  <data name="lbtaikhoan" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="lbtaikhoanbikhoa" xml:space="preserve">
+    <value>Tài khoản đã bị khóa sau một thời gian dài không sử dụng! Vui lòng liên hệ : &lt;br /&gt; - Phòng Tin Học</value>
+  </data>
+  <data name="lbtaikhoanmatkhausai" xml:space="preserve">
+    <value>Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại !</value>
+  </data>
+  <data name="lbtailai" xml:space="preserve">
+    <value>Tải lại</value>
+  </data>
+  <data name="lbtaipdf" xml:space="preserve">
+    <value>Tải PDF</value>
+  </data>
+  <data name="lbtaive" xml:space="preserve">
+    <value>Tải về</value>
+  </data>
+  <data name="lbtaiword" xml:space="preserve">
+    <value>Tải Word</value>
+  </data>
+  <data name="lbtatca" xml:space="preserve">
+    <value>Tất cả</value>
+  </data>
+  <data name="lbtenhanghoa" xml:space="preserve">
+    <value>Tên hàng hóa</value>
+  </data>
+  <data name="lbthaydoi" xml:space="preserve">
+    <value>Thay đổi</value>
+  </data>
+  <data name="lbtheodoihangthau" xml:space="preserve">
+    <value>Theo dõi hàng thầu</value>
+  </data>
+  <data name="lbtheomien" xml:space="preserve">
+    <value>Theo miền</value>
+  </data>
+  <data name="lbthongbao" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="lbthongtincuatoi" xml:space="preserve">
+    <value>Thông tin của tôi</value>
+  </data>
+  <data name="lbtiledoanhthuetcotc" xml:space="preserve">
+    <value>Tỉ lệ doanh thu ETC/OTC</value>
+  </data>
+  <data name="lbtiledoanhthuphanloaikh" xml:space="preserve">
+    <value>Tỉ lệ doanh thu phân loại khách hàng</value>
+  </data>
+  <data name="lbtiledoanhthuphanloaikhachhang" xml:space="preserve">
+    <value>Tỉ lệ doanh thu phân loại khách hàng</value>
+  </data>
+  <data name="lbtiledoanhthuvungmien" xml:space="preserve">
+    <value>Tỉ lệ doanh thu vùng miền</value>
+  </data>
+  <data name="lbtimkiem" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="lbtongdoanhthu" xml:space="preserve">
+    <value>TỔNG DOANH THU</value>
+  </data>
+  <data name="lbtongtientop" xml:space="preserve">
+    <value>TỔNG TIỀN TOP</value>
+  </data>
+  <data name="lbtonkho" xml:space="preserve">
+    <value>Tồn kho</value>
+  </data>
+  <data name="lbtonkhosolohandung" xml:space="preserve">
+    <value>Tồn kho SL-HD</value>
+  </data>
+  <data name="lbtonkhotong" xml:space="preserve">
+    <value>Tồn kho tổng</value>
+  </data>
+  <data name="lbtopdoanhthukh" xml:space="preserve">
+    <value>Top doanh thu khách hàng</value>
+  </data>
+  <data name="lbtopdoanhthukhuvuc" xml:space="preserve">
+    <value>Top doanh thu khu vực</value>
+  </data>
+  <data name="lbtopdoanhthumahh" xml:space="preserve">
+    <value>Top doanh thu mã hàng hóa</value>
+  </data>
+  <data name="lbtophanghoa" xml:space="preserve">
+    <value>Top hàng hóa</value>
+  </data>
+  <data name="lbtopkhachhang" xml:space="preserve">
+    <value>Top khách hàng</value>
+  </data>
+  <data name="lbtopkhuvuc" xml:space="preserve">
+    <value>Top khu vực</value>
+  </data>
+  <data name="lbtrangchu" xml:space="preserve">
+    <value>Trang chủ</value>
+  </data>
+  <data name="lbtruchietkhau" xml:space="preserve">
+    <value>Trừ tiền chiết khấu</value>
+  </data>
+  <data name="lbtungay" xml:space="preserve">
+    <value>Từ ngày</value>
+  </data>
+  <data name="lbtuthang" xml:space="preserve">
+    <value>Từ tháng</value>
+  </data>
+  <data name="lbvetrangchu" xml:space="preserve">
+    <value>Về trang chủ</value>
+  </data>
+  <data name="lbvuilongdienthongtin" xml:space="preserve">
+    <value>Vui lòng điền đầy đủ thông tin tài khoản và mật khẩu !</value>
+  </data>
+  <data name="lbvuilongnhaptentaikhoan" xml:space="preserve">
+    <value>Vui lòng nhập tên tài khoản !</value>
+  </data>
+  <data name="lbxem" xml:space="preserve">
+    <value>Xem</value>
+  </data>
+  <data name="lbxemtructiep" xml:space="preserve">
+    <value>Xem</value>
+  </data>
+</root>

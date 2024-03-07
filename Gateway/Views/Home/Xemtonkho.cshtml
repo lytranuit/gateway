@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_TONKHO_NHAP>
+<tr>
+    <th>MÃ KHO</th>
+    <th>MÃ HÀNG HÓA</th>
+    <th>TÊN HÀNG HÓA</th>
+    <th>ĐVT</th>
+    <th>SL TỒN</th>
+    <th>MÃ LÔ</th>
+    <th>HẠN DÙNG</th>
+    <th>TRẠNG THÁI</th>
+</tr>
+@foreach(var i in Model)
+{
+    <tr>
+        <td>@i.kho</td>
+        <td>@i.mahh</td>
+        <td>@i.tenhh</td>
+        <td>@i.dvt</td>
+        <td>@string.Format("{0:n}", i.slton)</td>
+        <td>@i.malo</td>
+        <td>@i.handung</td>
+        <td>@((i.trangthai == 1)?"GOOD":"NO GOOD")</td>
+    </tr>
+}

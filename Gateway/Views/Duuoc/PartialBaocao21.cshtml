@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DEMANDFC>
+<table id="exceltable" class="table-bordered display nowrap">
+    <thead id="tableheader">
+        <tr>
+            <th>Local code</th>
+            <th>Product Name</th>
+            <th>Channel</th>
+            <th>Inventory @ViewBag.thangnam</th>
+            @for (int i = 1; i < 13; i++)
+            {
+                <th class="text-center @((i < ViewBag.thang)?"bg-success":"")">@(i + "/" + ViewBag.nam)</th>
+            }
+            @for (int i = 1; i < 13; i++)
+            {
+                <th class="text-center @((i < ViewBag.thang)?"bg-success":"")">Value @(i + "/" + ViewBag.nam)</th>
+            }
+            @*@foreach (var z in Model.GroupBy(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.Key.nam).ThenBy(k => k.Key.thang))
+                {
+
+                }
+                @foreach (var z in Model.GroupBy(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.Key.nam).ThenBy(k => k.Key.thang))
+                {
+                    <th>Value @(z.Key.thang + "/" + z.Key.nam)</th>
+                }*@
+            <th>Ngày kết thúc thầu</th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        @foreach (var i in Model.Where(n=>n.thang != 0).GroupBy(n => new { n.mahh, n.kenh }))
+        {
+            <tr class="tr-data">
+                <td>@i.Key.mahh</td>
+                <td>@i.First().nguoitao</td>
+                <td>@i.Key.kenh</td>
+                <td>@string.Format("{0:0}", Model.Where(n => n.thang == 0 && n.mahh == i.Key.mahh).Sum(n => n.soluong))</td>
+                @for (int z = 1; z < 13; z++)
+                {
+
+                    <td class="@((z < ViewBag.thang)?"bg-success":"")">@string.Format("{0:0}", i.Where(n => n.thang == z).Sum(n => n.soluong))</td>
+                }
+                @for (int z = 1; z < 13; z++)
+                {
+                    <td class="@((z < ViewBag.thang)?"bg-success":"")">@string.Format("{0:0}", i.Where(n => n.thang == z).Sum(n => n.sotien))</td>
+                }
+                <td>@((i.OrderByDescending(n => n.ngayketthucthau).FirstOrDefault().ngayketthucthau != null) ? ((DateTime)(i.FirstOrDefault().ngayketthucthau)).ToString("dd/MM/yyyy") : "" )</td>
+            </tr>
+        }
+        @foreach (var i in Model.Where(n => n.thang == 0))
+        {
+            if (Model.Where(n => n.mahh == i.mahh).Count() == 1)
+            {
+                <tr class="tr-data">
+                    <td>@i.mahh</td>
+                    <td></td>
+                    <td>@string.Format("{0:0}", Model.Where(n => n.thang == 0 && n.mahh == i.mahh).Sum(n => n.soluong))</td>
+                    @for (int z = 1; z < 13; z++)
+                    {
+
+                        <td class="@((z < ViewBag.thang)?"bg-success":"")">0</td>
+                    }
+                    @for (int z = 1; z < 13; z++)
+                    {
+                        <td class="@((z < ViewBag.thang)?"bg-success":"")">0</td>
+                    }
+                    <td></td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

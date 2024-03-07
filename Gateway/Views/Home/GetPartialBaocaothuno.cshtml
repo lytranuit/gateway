@@ -1,0 +1,78 @@
+﻿
+@model ApplicationChart.Models.DTA_KEHOACHTHUNO
+
+<table id="example" class="table-bordered display nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th class="center">STT</th>
+
+            @*<th class="text-center">MACN</th>*@
+            <th class="text-center">TÊN CHI NHÁNH</th>
+            <th class="text-center">PHÂN LOẠI</th>
+
+            <th class="text-center">TỔNG NỢ ĐẦU KỲ</th>
+            <th class="text-center">QUÁ HẠN ĐẦU KỲ</th>
+            <th class="text-center">MUA TRONG KỲ</th>
+            <th class="text-center">KẾ HOẠCH THU TRONG KỲ</th>
+            <th class="text-center">THỰC THU TRONG KỲ</th>
+            <th class="text-center">TỔNG NỢ CUỐI KỲ</th>
+            <th class="text-center">QUÁ HẠN CUỐI KỲ</th>
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="center">STT</th>
+
+            @*<th class="text-center">MACN</th>*@
+            <th class="text-center">TÊN CHI NHÁNH</th>
+            <th class="text-center">PHÂN LOẠI</th>
+
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.OI_balance))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.OI_Balance_Overdue))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.PSNO))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.KH.Sum(n => n.TIENTHU))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", Model.DATA.Sum(n => n.PSCO))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", (Model.DATA.Sum(n => n.OI_balance) + Model.DATA.Sum(n => n.PSNO) - Model.DATA.Sum(n => n.PSCO)))</th>
+            <th class="text-right">@string.Format("{0:#,##0}", (Model.DATA.Sum(n => n.OI_Balance_Overdue) - Model.DATA.Sum(n => n.PSCO)))</th>
+
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            var count = 1;
+            foreach (var i in Model.DATA.GroupBy(n => new { n.MACH, n.PHANLOAI }))
+            {
+                <tr>
+                    <td class="text-center">@count</td>
+                    @*<td>@i.TENCH</td>*@
+                    <td class="text-center">@i.Key.MACH</td>
+                    <td>@i.Key.PHANLOAI</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.Sum(n => n.OI_balance))</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.Sum(n => n.OI_Balance_Overdue))</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.Sum(n => n.PSNO))</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", Model.KH.Where(n => n.MACN == i.Key.MACH && n.PHANLOAI == i.Key.PHANLOAI).Sum(n => n.TIENTHU))</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", i.Sum(n => n.PSCO))</td>
+                    <td class="text-right">@string.Format("{0:#,##0}", (i.Sum(n => n.OI_balance) + i.Sum(n => n.PSNO) - i.Sum(n => n.PSCO))) </td>
+                    <td class="text-right">@string.Format("{0:#,##0}", (i.Sum(n => n.OI_Balance_Overdue) - i.Sum(n => n.PSCO)))</td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>
+@*<table class="table table-bordered mb-2 mt-2">
+        <tbody>
+            <tr>
+                <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN))</td>
+                <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100))</td>
+                <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+                <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+                <td class="text-danger font-weight-bold text-right">@string.Format("{0:#,##0}", Model.Sum(cl => cl.THANHTIEN) + Model.Sum(cl => (cl.THANHTIEN - Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)) * cl.THUESUAT / 100) - Model.Sum(cl => Math.Round((cl.THANHTIEN * ((decimal)cl.TYLECK) / 100), 0, MidpointRounding.AwayFromZero)))</td>
+            </tr>
+
+        </tbody>
+    </table>*@

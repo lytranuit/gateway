@@ -1,0 +1,527 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=42">
+    <style>
+        .text-muted {
+            font-size: 100%;
+            color: black !important;
+        }
+
+        .active .text-muted {
+            color: white !important;
+        }
+
+        body {
+            padding-right: 0px !important;
+        }
+    </style>
+}
+
+@if (ViewBag.msg != null)
+{
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            Command: toastr["error"]("Thêm không thành công ! @ViewBag.msg", "Thông báo")
+        });
+    </script>
+}
+@if (ViewBag.msg1 != null)
+{
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            Command: toastr["success"]("@ViewBag.msg1", "Thông báo")
+        });
+    </script>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">HỆ THỐNG</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ SẢN PHẨM</li>
+        </ol>
+    </div>
+
+    <div id="maindiv" class="w3-content w3-padding hidden box p-0 pt-1" style="background-color:white;margin-top:3px;">
+        <div class="w3-row divhidden">
+            <!-- / Collapsible element -->
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="card mb-0">
+                    <a aria-expanded="true" id="btncollape" class="card-header rotate" href="#collapsekhachhang" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapsekhachhang">
+                        <strong><i id="collapeicon" class="fa fa-angle-right mr-2" style="font-size:18px;"></i>Thêm mới thông tin sản phẩm</strong>
+                    </a>
+                    <div class="collapse in" aria-expanded="true" id="collapsekhachhang">
+                        <div class="card-body pt-2 pb-0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="MAHH">Mã hàng hóa <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-8">
+                                            <select name="MAHH" class="selectpicker" id="MAHH" data-live-search="true">
+                                                <option disabled selected>Chọn hàng hóa</option>
+                                                @foreach (var i in ViewBag.datahanghoa)
+                                                {
+                                                    <option data-dvt="@i.DVT" data-sdk="@i.SDK" data-subtext="@i.TENHH" value="@i.MAHH">@i.MAHH</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="TENHH">Tên hàng hóa</label>
+                                        <div class="col-sm-8">
+                                            <input readonly autocomplete="off" type="text" class="form-control" name="TENHH" id="TENHH" placeholder="Tên hàng hóa">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="DVT">Đơn vị tính</label>
+                                        <div class="col-sm-8">
+                                            <input readonly autocomplete="off" type="text" class="form-control" id="DVT" name="DVT" placeholder="Đơn vị tính">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 hidden-sm">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="HANDUNG">Hạn dùng</label>
+                                        <div class="col-sm-8">
+                                            <input maxlength="6" autocomplete="off" type="text" class="form-control" id="HANDUNG" name="HANDUNG" placeholder="Hạn dùng theo định dạng ddMMyy">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="SOLO">Số lô <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-8">
+                                            <input maxlength="20" autocomplete="off" type="text" class="form-control" id="SOLO" name="SOLO" placeholder="Số lô">
+                                        </div>
+                                    </div>
+                                    <!-- Default input -->
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="SODK">Số đăng ký <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-8">
+                                            <input maxlength="30" autocomplete="off" type="text" class="form-control" name="SODK" id="SODK" placeholder="Số đăng ký">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer modal-footer pt-1 pb-1">
+                            <button id="btnthem" type="submit" class="btn btn-primary btn-sm transition-3d-hover">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="w3-row card">
+            <div class="card-header text-center">
+                <strong>DANH MỤC SẢN PHẨM - SỐ ĐĂNG KÝ</strong>
+            </div>
+            <div class="card-body p-1" id="Partialview">
+                @{ Html.RenderAction("PartialQLHH", "QLSP"); }
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:1024px" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">Thông tin hàng hóa&nbsp;</h5>
+                <h5 class="modal-title font-weight-bold" id="editdonhang"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="pt-2 pb-0">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="MAHH">Mã hàng hóa <span class="text-danger">(*)</span></label>
+                                    <div class="col-sm-8">
+                                        <select disabled class="selectpicker" id="MAHH1" data-live-search="true">
+                                            <option disabled selected>Chọn hàng hóa</option>
+                                            @foreach (var i in ViewBag.datahanghoa)
+                                            {
+                                                <option data-dvt="@i.DVT" data-sdk="@i.SDK" data-subtext="@i.TENHH" value="@i.MAHH">@i.MAHH</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="TENHH1">Tên hàng hóa</label>
+                                    <div class="col-sm-8">
+                                        <input readonly autocomplete="off" type="text" class="form-control" id="TENHH1" placeholder="Tên hàng hóa">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="DVT1">Đơn vị tính</label>
+                                    <div class="col-sm-8">
+                                        <input readonly autocomplete="off" type="text" class="form-control" id="DVT1" placeholder="Đơn vị tính">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 hidden-sm">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="HANDUNG1">Hạn dùng</label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="6" autocomplete="off" type="text" class="form-control" id="HANDUNG1" placeholder="Hạn dùng theo định dạng ddMMyy">
+                                    </div>
+                                </div>
+                                <div hidden class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="HANDUNGOLD">Hạn dùng</label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="6" autocomplete="off" type="text" class="form-control" id="HANDUNGOLD" placeholder="Hạn dùng theo định dạng ddMMyy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="SOLO">Số lô <span class="text-danger">(*)</span></label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="20" autocomplete="off" type="text" class="form-control" id="SOLO1" placeholder="Số lô">
+                                    </div>
+                                </div>
+                                <div hidden class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="SOLOOLD">Số lô</label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="20" autocomplete="off" type="text" class="form-control" id="SOLOOLD" placeholder="Số lô">
+                                    </div>
+                                </div>
+                                <!-- Default input -->
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="SODK1">Số đăng ký <span class="text-danger">(*)</span></label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="30" autocomplete="off" type="text" class="form-control" id="SODK1" placeholder="Số đăng ký">
+                                    </div>
+                                </div>
+                                <div hidden class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="SODKOLD">Số đăng ký</label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="30" autocomplete="off" type="text" class="form-control" id="SODKOLD" placeholder="Số đăng ký">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer pt-1 pb-1">
+                        <button id="btnedit" type="button" class="btn btn-primary btn-sm transition-3d-hover mb-0">Thay đổi</button>
+                        <button type="button" class="btn btn-secondary btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=7"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables-init.js?version=2"></script>
+    <script>
+        $(document).ready(function () {
+            $("#maindiv").removeClass("hidden");
+            $('.selectpicker').selectpicker();
+            $("#MAHH").change(function () {
+                $("#TENHH").val($(this).find("option:selected").attr("data-subtext"));
+                $("#DVT").val($(this).find("option:selected").attr("data-dvt"));
+                $("#SODK").val($(this).find("option:selected").attr("data-sdk"));
+            });
+            $("#MAHH1").change(function () {
+                $("#TENHH1").val($(this).find("option:selected").attr("data-subtext"));
+                $("#DVT1").val($(this).find("option:selected").attr("data-dvt"));
+                $("#SODK1").val($(this).find("option:selected").attr("data-sdk"));
+            });
+            $("#btnedit").click(function () {
+                if ($("#SOLO1").val() == "" || $("#SODK1").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Xin hãy điền đầy đủ thông tin", "Thông báo")
+                }
+                else {
+                    $.confirm({
+                        title: '<b>THÔNG BÁO</b>',
+                        content: 'Bạn có chắc chắn muốn thay đổi thông tin này ?',
+                        buttons: {
+                            confirm: {
+                                text: 'Chắc chắn',
+                                btnClass: 'btn-success',
+                                keys: ['enter'],
+                                action: function () {
+
+                                    var url1 = '@Url.Action("EditQLHH", "QLSP")';
+                                    $.post(url1, { MAHH: $("#MAHH1").val(), SODK: $("#SODK1").val(), SOLO: $("#SOLO1").val(), DVT: $("#DVT1").val(), TENHH: $("#TENHH1").val(), SOLOOLD: $("#SOLOOLD").val(), SODKOLD: $("#SODKOLD").val(), HANDUNG: $("#HANDUNG1").val() },
+                                        function (data) {
+                                            if (data == 1) {
+                                                toastr.options = {
+                                                    "closeButton": false,
+                                                    "debug": false,
+                                                    "newestOnTop": true,
+                                                    "progressBar": true,
+                                                    "positionClass": "toast-top-right",
+                                                    "preventDuplicates": false,
+                                                    "onclick": null,
+                                                    "showDuration": "300",
+                                                    "hideDuration": "1000",
+                                                    "timeOut": "5000",
+                                                    "extendedTimeOut": "1000",
+                                                    "showEasing": "swing",
+                                                    "hideEasing": "linear",
+                                                    "showMethod": "fadeIn",
+                                                    "hideMethod": "fadeOut"
+                                                }
+                                                Command: toastr["warning"]("Thay đổi thông tin hàng hóa không thành công lí do trùng hoặc không hợp lệ !", "Thông báo")
+                                            }
+                                            else {
+                                                var url = '@Url.Action("PartialQLHH", "QLSP")';
+                                                $.ajax({
+                                                    url: url,
+                                                    dataType: 'html',
+                                                    success: function (data) {
+
+                                                        $('#Partialview').html(data);
+                                                        var table = $('#example23').DataTable({
+                                                        });
+                                                        toastr.options = {
+                                                            "closeButton": false,
+                                                            "debug": false,
+                                                            "newestOnTop": true,
+                                                            "progressBar": true,
+                                                            "positionClass": "toast-top-right",
+                                                            "preventDuplicates": false,
+                                                            "onclick": null,
+                                                            "showDuration": "300",
+                                                            "hideDuration": "1000",
+                                                            "timeOut": "5000",
+                                                            "extendedTimeOut": "1000",
+                                                            "showEasing": "swing",
+                                                            "hideEasing": "linear",
+                                                            "showMethod": "fadeIn",
+                                                            "hideMethod": "fadeOut"
+                                                        }
+                                                        Command: toastr["success"]("Thay đổi thông tin thành công !", "Thông báo")
+                                                        $('.modal').modal('hide');
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    return false;
+                                }
+                            },
+                            cancel: {
+                                text: 'Hủy',
+                                btnClass: 'btn-danger',
+                                keys: ['esc'],
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
+                }
+
+            });
+            $("#btnthem").click(function (e) {
+                if ($("#MAHH").val() == null || $("#SOLO").val() == "" || $("#SODK").val() == "") {
+                    e.preventDefault();
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa điền đủ thông tin !", "Thông báo")
+                }
+            });
+            $("#Partialview").on("click", ".btnsuahh", function (e) {
+
+                $('#MAHH1').selectpicker('val', $(this).closest('tr').find('td:eq(0)').text());
+                $("#TENHH1").val($('#MAHH1').find("option:selected").attr("data-subtext"));
+                $("#DVT1").val($('#MAHH1').find("option:selected").attr("data-dvt"));
+                $("#SOLO1").val($(this).closest('tr').find('td:eq(3)').text());
+                $("#SODK1").val($(this).closest('tr').find('td:eq(4)').text());
+                $("#HANDUNG1").val($(this).closest('tr').find('td:eq(5)').text());
+                $("#SOLOOLD").val($(this).closest('tr').find('td:eq(3)').text());
+                $("#SODKOLD").val($(this).closest('tr').find('td:eq(4)').text());
+                $("#HANDUNGOLD").val($(this).closest('tr').find('td:eq(5)').text());
+            });
+            //$(".btnsuahh").live("click", function (e) {
+
+            //    $('#MAHH1').selectpicker('val', $(this).closest('tr').find('td:eq(0)').text());
+            //    $("#TENHH1").val($('#MAHH1').find("option:selected").attr("data-subtext"));
+            //    $("#DVT1").val($('#MAHH1').find("option:selected").attr("data-dvt"));
+            //    $("#SOLO1").val($(this).closest('tr').find('td:eq(2)').text());
+            //    $("#SODK1").val($(this).closest('tr').find('td:eq(3)').text());
+            //    $("#SOLOOLD").val($(this).closest('tr').find('td:eq(2)').text());
+            //    $("#SODKOLD").val($(this).closest('tr').find('td:eq(3)').text());
+            //});
+            $("#Partialview").on("click", ".btnxoahh", function (e) {
+
+                var mahh = $(this).closest('tr').find('td:eq(0)').text();
+                var sodk = $(this).closest('tr').find('td:eq(4)').text();
+                var solo = $(this).closest('tr').find('td:eq(3)').text();
+                var url = '@Url.Action("DelQLHH", "QLSP")';
+                $.confirm({
+                    title: '<b>THÔNG BÁO</b>',
+                    content: 'Bạn có chắc chắn muốn xóa hàng hóa này ?',
+                    buttons: {
+                        confirm: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+
+                                $.post(url, { MAHH: mahh, SODK: sodk, SOLO: solo },
+                                    function (data) {
+                                        if (data == 1) {
+                                            toastr.options = {
+                                                "closeButton": false,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["warning"]("Xóa thông tin hàng hóa không thành công !", "Thông báo")
+                                        }
+                                        else if (data == 0) {
+                                            var url = '@Url.Action("PartialQLHH", "QLSP")';
+                                            $.ajax({
+                                                url: url,
+                                                dataType: 'html',
+                                                success: function (data) {
+                                                    $('#Partialview').html(data);
+                                                    var table = $('#example23').DataTable({
+                                                    });
+                                                    toastr.options = {
+                                                        "closeButton": false,
+                                                        "debug": false,
+                                                        "newestOnTop": true,
+                                                        "progressBar": true,
+                                                        "positionClass": "toast-top-right",
+                                                        "preventDuplicates": false,
+                                                        "onclick": null,
+                                                        "showDuration": "300",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "5000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "fadeOut"
+                                                    }
+                                                    Command: toastr["success"]("Xóa thông tin hàng hóa thành công !", "Thông báo")
+                                                    $('.modal').modal('hide');
+                                                }
+                                            });
+                                        }
+                                    });
+                                return false;
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

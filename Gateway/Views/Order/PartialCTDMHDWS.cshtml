@@ -1,0 +1,16 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.TBL_CT_DANHMUCHOPDONG_WS>
+@foreach (var i in Model)
+{
+
+    <tr data-repeater-item="">
+        <td>
+            <input readonly value="@i.MAHH" type="text" class="form-control mahh">
+        </td>
+        <td><input readonly value="@i.SODK" type="text" class="form-control sodk"></td>
+        <td><input readonly value="@string.Format(ViewBag.sss, "{0:n0}", i.GIASP)" type="text" class="form-control giasp"></td>
+        <td><input readonly value="@string.Format(ViewBag.sss, "{0:n0}", i.SOLUONGQUI)" type="text" class="form-control slqui"></td>
+        <td><input readonly value="@string.Format(ViewBag.sss, "{0:n0}", i.SOLUONGNAM)" type="text" class="form-control slnam"></td>
+    </tr>
+
+}

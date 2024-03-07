@@ -1,0 +1,458 @@
+﻿@model ApplicationChart.Models.ListDataKD
+@{
+    ViewBag.Title = "TẠO ĐƠN ĐẶT HÀNG VỀ PHÒNG SUPPLY CHAIN";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />*@
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        /*.bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }*/
+
+        /*.selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }*/
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        td .form-control {
+            font-size: 12px;
+            height: 32px;
+        }
+
+        td {
+            color: black !important;
+        }
+    </style>
+}
+@Html.AntiForgeryToken()
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">PHÒNG SUPPLY CHAIN</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">TẠO ĐƠN HÀNG VỀ PHÒNG SUPPLY CHAIN</li>
+        </ol>
+    </div>
+    @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+            <strong>THÔNG BÁO :</strong> Hệ thống tạo đơn hàng về phòng KD chính thức hoạt động .
+        </div>*@
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    Ngày tạo:
+                    <strong>@DateTime.Now.ToString("dd/MM/yyyy")</strong>
+                    <span class="float-right"> <strong>Trạng thái:</strong> Chờ duyệt</span>
+                </div>
+                <div class="card-body pb-0 pt-1 pl-2 pr-2">
+                    <div class="row mb-1">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Khách hàng<code class="bg-white">(*)</code></label>
+                                @if (Model.ListKH.Count() == 1)
+                                {
+                                    <select id="khachhang" class="selectpicker" data-live-search="true" name="option">
+                                        @foreach (var i in Model.ListKH)
+                                        {
+                                            <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
+                                        @foreach (var i in Model.ListKH)
+                                        {
+                                            <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                        }
+                                    </select>
+                                }
+                            </div>
+                            <!-- Default input -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6" id="divmatdv">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Hợp đồng<code class="bg-white">(*)</code></label>
+                                <select id="hopdong" title="Chọn hợp đồng" class="selectpicker" name="option">
+                                    @if (Model.ListHopdong != null)
+                                    {
+                                        foreach (var i in Model.ListHopdong)
+                                        {
+                                            <option data-ck="@i.ck" value="@i.MAHOPDONG">@i.MAHOPDONG - @i.TENHOPDONG</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <!-- Default input -->
+                            <div class="form-group mb-2">
+                                <label class="col-form-label" for="editngaygiao">VAT</label>
+                                <select id="vat" class="selectpicker" name="option">
+                                    <option value="5" selected>Tính 5%</option>
+                                    <option value="8">Tính 8%</option>
+                                    <option value="10">Tính 10%</option>
+                                    <option value="0">Tính 0%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="btn-group mb-2 w-100" id="themkhachhang">
+                                <span class="input-group-text btn-primary" id="basic-addon1">THÊM HÀNG HÓA</span>
+                                <select title="Chọn các sản phẩm (Không giới hạn số lượng sản phẩm)" id="themsanpham" class="selectpicker selectui" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                                    @*@foreach (var i in Model.ListHH)
+                                        {
+                                            <option data-dvt="@i.DVT" data-tenhh="@i.TENHH" title="@i.MAHH - @i.TENHH" data-subtext="(@i.DVT)" data-giaban="@i.GIABAN" data-sl1="@i.SL1" data-sl2="@i.SL2" data-sl3="@i.SL3" value="@i.MAHH">@i.MAHH - @i.TENHH</option>
+                                        }*@
+                                </select>
+                                <button title="Thêm" id="add_row_them" class="btn btn-sm btn-primary waves-effect pull-left m-0" style="font-size:0.7rem"><i style="font-size:1.7em" class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div id="accordion">
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Thêm hàng hóa số lượng bằng file Excel
+                                            </button>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <a target="_blank" href="~/Content/mautaodonhang.xlsx">Tải file excel mẫu</a>
+                                            <div class="form-group mb-0">
+                                                <label class="my-1 mr-2 font-weight-bold" for="chon">Nhập file Excel hàng hóa</label>
+                                                <input type="file" class="form-control-file  my-1 mr-sm-2" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="fileexcel">
+                                            </div>
+                                            <table id="exceltable" class="table table-bordered text-dark"></table>
+                                            <button onclick="ExportToTable()" type="button" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-eye"></i> XEM</button>
+                                            <button type="button" class="btn btn-success btn-sm transition-3d-hover m-0" id="btnhoantat"><i class="fa fa-check"></i> NHẬP</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:20px;" class="center">STT</th>
+                                    <th>Sản phẩm</th>
+
+                                    <th style="width:60px">Thùng</th>
+                                    <th style="width:100px">Hộp</th>
+                                    <th class="center">Số lượng</th>
+                                    <th>Đơn giá (Có VAT)</th>
+                                    <th>Thành tiền</th>
+                                    <th style="width:90px">Số lô</th>
+                                    <th style="width:70px">Hạn dùng</th>
+                                    <th style="width:150px;">Ghi chú</th>
+                                    <th style="width:20px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tab_logic"></tbody>
+                        </table>
+                    </div>
+                    <table class="table table-bordered mb-2">
+                        <tbody>
+                            <tr>
+                                <td class="font-weight-bold w-15 text-center text-dark">TỔNG SỐ LƯỢNG</td>
+                                <td class="text-danger font-weight-bold text-center"><span id="tongthung">0</span> THÙNG <span id="tonghop">0</span> HỘP</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+                                <td class="text-danger font-weight-bold text-right" id="tienvat">0.00</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+                                <td class="text-danger font-weight-bold text-right" id="thanhtien">0.00</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+                                <td class="text-danger font-weight-bold text-right" id="tongtien">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group p-0">
+                        <textarea placeholder="Ghi chú" class="form-control rounded-0" id="ghichu" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="card-footer modal-footer p-2">
+                    <button id="btnhuy" type="button" class="btn btn-danger btn-sm transition-3d-hover mb-0" data-dismiss="modal">Hủy</button>
+                    <button id="btnluu" type="button" class="btn btn-success btn-sm transition-3d-hover">Lưu</button>
+                    <button id="btnluuvatiep" type="button" class="btn btn-primary btn-sm transition-3d-hover">LƯU VÀ TIẾP TỤC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(window).on('load resize', function () {
+            if ($(window).width() < 800 || $(window).height() < 500) {
+                window.location = "tao-don-dat-hang-ve-sc-mobile"
+            }
+        });
+    </script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>*@
+    <script src="~/Scripts/Taodonhangsc.js?version=071222"></script>
+    <script>
+        function ExportToTable() {
+            $('#exceltable').empty();
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            /*Checks whether the file is a valid excel file*/
+            if (regex.test($("#fileexcel").val().toLowerCase())) {
+                var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+                if ($("#fileexcel").val().toLowerCase().indexOf(".xlsx") > 0) {
+                    xlsxflag = true;
+                }
+                /*Checks whether the browser supports HTML5*/
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        /*Converts the excel data in to object*/
+                        if (xlsxflag) {
+                            var workbook = XLSX.read(data, { type: 'binary' });
+                        }
+                        else {
+                            var workbook = XLS.read(data, { type: 'binary' });
+                        }
+                        /*Gets all the sheetnames of excel in to a variable*/
+                        var sheet_name_list = workbook.SheetNames;
+
+                        var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                        sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                            /*Convert the cell value to Json*/
+                            if (xlsxflag) {
+                                var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                            }
+                            else {
+                                var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                            }
+                            if (exceljson.length > 0 && cnt == 0) {
+                                BindTable(exceljson, '#exceltable');
+                                cnt++;
+                            }
+                        });
+                        $("#tabletext").text($("#exceltable > tr").not(':first').length + " hàng hợp lệ được nhập từ file Excel");
+                        $('#exceltable').show();
+                    }
+                    if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                        reader.readAsArrayBuffer($("#fileexcel")[0].files[0]);
+                    }
+                    else {
+                        reader.readAsBinaryString($("#fileexcel")[0].files[0]);
+                    }
+                }
+                else {
+                    alert("Sorry! Your browser does not support HTML5!");
+                }
+            }
+            else {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                Command: toastr["warning"]("Kiểm tra lại tên file excel không được có dấu và ký tự đặc biệt !", "Thông báo")
+                $("#tabletext").text("");
+            }
+        }
+        function isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+                   !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        }
+        function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/
+            var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+            for (var i = 0; i < jsondata.length; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                    var cellValue = jsondata[i][columns[colIndex]];
+                    if (cellValue == null)
+                        cellValue = "";
+                    row$.append($('<td/>').html(cellValue));
+                }
+
+                $(tableid).append(row$);
+
+            }
+        }
+        function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+            for (var i = 0; i < jsondata.length; i++) {
+                var rowHash = jsondata[i];
+                for (var key in rowHash) {
+                    if (rowHash.hasOwnProperty(key)) {
+                        if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+                            columnSet.push(key);
+                            headerTr$.append($('<th/>').html(key));
+                        }
+                    }
+                }
+            }
+            $(tableid).append(headerTr$);
+            return columnSet;
+        }
+        $(document).ready(function () {
+            $("#khachhang").change(function () {
+                $("#hopdong").empty();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetHopDongSC", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#hopdong").append('<option data-ck="' + data[i].ck + '" value="' + data[i].MAHOPDONG + '">' + data[i].MAHOPDONG + " - " + data[i].TENHOPDONG + '</option>')
+                        }
+
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#btnhoantat").click(function () {
+                if (document.getElementById("fileexcel").files.length == 0) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Kiểm tra lại tên file excel không được có dấu và ký tự đặc biệt !", "Thông báo")
+                }
+                else {
+                    //ExportToTable()
+                    var listhh = [];
+
+                    $("#exceltable > tr").not(':first').each(function () {
+
+                        listhh.push($(this).find('td:eq(0)').text());
+                    });
+                    $('#themsanpham').selectpicker('val', listhh).trigger('change');
+
+                    $("#add_row_them").click();
+                    $("#exceltable > tr").not(':first').each(function () {
+                        //alert("." + $(this).find('td:eq(0)').text().replace(".", "") + " .sl1");
+                        $('#tablehanghoa > tbody').find("." + $(this).find('td:eq(0)').text().replace(".", "") + " .sl1").val($(this).find('td:eq(1)').text().replace(" ", "")).trigger("change");
+                        $('#tablehanghoa > tbody').find("." + $(this).find('td:eq(0)').text().replace(".", "") + " .sl2").val($(this).find('td:eq(2)').text().replace(" ", "")).trigger("change");
+                        $('#tablehanghoa > tbody').find("." + $(this).find('td:eq(0)').text().replace(".", "") + " .datenote").val($(this).find('td:eq(3)').text().replace(" ", ""));
+                    });
+                }
+            });
+            $("#hopdong").change(function () {
+                if ($("#tablehanghoa > tbody > tr").length != 0) {
+                    $("#tablehanghoa > tbody").empty();
+                    $("#tienvat").text("0.00");
+                    $("#thanhtien").text("0.00");
+                    $("#tongtien").text("0.00");
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSanPhamHDSC", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        $("#themsanpham").html(data);
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                    timeout: 5000,
+                });
+            });
+        });
+    </script>
+}
+
+
+
+

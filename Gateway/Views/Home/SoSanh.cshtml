@@ -1,0 +1,300 @@
+﻿
+@{
+    ViewBag.Title = Html.Raw(GlobalRes.lbsosanhtheonam.ToUpper());
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link rel="stylesheet" href="~/Content/SoSanhStyle.css?version=15">
+    <link rel="stylesheet" href="~/Content/BaoCaoStyle.css?version=25">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:45px;margin-bottom:2px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">@Html.Raw(GlobalRes.lbbieudo.ToUpper())</a></li>
+            <li class="breadcrumb-item active w3-text-black">@Html.Raw(GlobalRes.lbsosanhtheonam.ToUpper())</li>
+        </ol>
+    </div>
+    <div class="w3-container box" style="text-align:center; margin-top:0px;margin-bottom:2px;background-color:white;">
+        <div id="content"></div>
+        <div class="w3-col l2 m6 s6 w3-padding pl-md-0 pl-lg-4">
+
+            <button type="button" id="submit" class="btn btn-success abc btnmain transition-3d-hover m-0"><i style="padding-right:10px;" class="fa fa-search" aria-hidden="true"></i> @Html.Raw(GlobalRes.lbtimkiem.ToUpper())</button>
+        </div>
+        <div class="w3-col l2 m6 s6 w3-padding paddingright">
+
+            <button id="btnin" type="button" class="btn btn-danger abc btnmain transition-3d-hover m-0"><i style="padding-right:10px;" class="fa fa-print" aria-hidden="true"></i> @Html.Raw(GlobalRes.lbin.ToUpper())</button>
+        </div>
+    </div>
+    <div class="w3-content w3-padding box" style="max-width:1564px;font-size:13px; background-color:white;">
+        <div class="row p-2">
+            <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="chon">@Html.Raw(GlobalRes.lbbieudo.ToUpper())<code>(*)</code></label>
+                <select class="selectpicker my-1 mr-sm-2 show-tick" id="chon">
+                    <option selected value="0">@Html.Raw(GlobalRes.lbmotchinhanh)</option>
+                    <option value="1">@Html.Raw(GlobalRes.lbnhieuchinhanh)</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="chinhanh">@Html.Raw(GlobalRes.lbchinhanh)<code>(*)</code></label>
+                <select class="selectpicker my-1 mr-sm-2" data-dropdown-align-right="true" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="Checkboxlist1">
+                    <optgroup id="theomien" class="hidden" label="THEO MIỀN">
+                        <option value="HN,PT,TB,TNG">@Html.Raw(GlobalRes.lbmienbac.ToUpper())</option>
+                        <option value="PY,QN,TT423,BD,DNA,GL,HUE,NA,NT,QT">@Html.Raw(GlobalRes.lbmientrung.ToUpper())</option>
+                        <option value="PTTT,HCM,CHQ10,AG,CM,DN,LD,TG,TN,VL,DNO">@Html.Raw(GlobalRes.lbmiennam.ToUpper())</option>
+                    </optgroup>
+                    <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value="@k.macn">@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value="@k.macn">@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value="@k.macn">@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbtuthang)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" id="tuthang">
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbdenthang)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" id="denthang">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-12 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbsosanhnam)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" id="nam">
+                    <option value="@DateTime.Now.Year">@DateTime.Now.Year - @(DateTime.Now.Year - 1)</option>
+                    <option value="@(DateTime.Now.Year-1)">@(DateTime.Now.Year - 1) - @(DateTime.Now.Year - 2)</option>
+                    @*<option value="@(DateTime.Now.Year-2)">@(DateTime.Now.Year - 2) - @(DateTime.Now.Year - 3)</option>
+                    <option value="@(DateTime.Now.Year-3)">@(DateTime.Now.Year - 3) - @(DateTime.Now.Year - 4)</option>*@
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="Checkboxlist2">@Html.Raw(GlobalRes.lbphanloaikhachhang)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" id="Checkboxlist2">
+                    <option value="null" checked>@Html.Raw(GlobalRes.lbtatca)</option>
+                    <option data-subtext="Khối khách hàng ETC" value="ETC">ETC</option>
+                    <option data-subtext="Khối khách OTC" value="OTC">OTC</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbmaphanloai)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" id="maphanloai">
+
+                    @if (ViewBag.flag == "vi")
+                    {
+                        <option selected value="null">BAN,XK</option>
+
+                        <option value="BAN">BAN</option>
+
+                        <option value="XK">XK</option>
+                    }
+                    else
+                    {
+                        <option selected value="null">SALES,EXPORT</option>
+
+                        <option value="BAN">SALES</option>
+
+                        <option value="XK">EXPORT</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbnhomhang)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" name="nhomhang" id="nhomhang" data-actions-box="true" multiple data-selected-text-format="count > 3">
+                    <option selected value="ALL">@Html.Raw(GlobalRes.lbtatca)</option>
+                    @foreach (var i in ViewBag.nhomhang)
+                    {
+                        <option value="@i.MANHOM">@i.MANHOM - @i.TENNHOM</option>
+                    }
+                    @*<option value="64">64.STA,64.PME - Hàng Stada</option>*@
+                    @*<option value="3">Nhóm hàng khác</option>*@
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
+                <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbphanloaichitietkhachhang)</label>
+                <select class="selectpicker show-tick my-1 mr-sm-2" id="Checkboxlist3" multiple data-selected-text-format="count > 1" data-actions-box="true">
+                    <option selected value="null">@Html.Raw(GlobalRes.lbtatca)</option>
+                    @foreach (var x in ViewBag.maplkh)
+                    {
+                        <option value="@x.phanloaikhachhang">@x.phanloaikhachhang &bull; @x.tenphanloai</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    @*<div class="w3-container box" style="text-align:center;margin-top:2px;background-color:white;">
+            <div class="w3-row" style="padding-top:10px;">
+                <div class="w3-col l4 m12 s12">
+                    <h6 style="color:black; font-size:12px;" class="text-center"><b>IN BÁO CÁO NHANH</b></h6>
+                </div>
+                <div class="w3-col l4 m6 s12 mb-2">
+                    <select id="baocaonhanh" name="baocaonhanh" class="selectpicker secdai show-tick" title="Loại báo cáo">
+                        <option value="2">1. BÁO CÁO TỔNG HỢP DOANH THU</option>
+                        <option value="3">2. BÁO CÁO DOANH SỐ CHI TIẾT KHU VỰC</option>
+                    </select>
+                </div>
+                <div class="w3-col l4 m6 s12 mb-2">
+                    <button style="margin-top:0px;" type="submit" id="btndoanhthu" name="submit" value="2" class="btn abc btnmain baocao transition-3d-hover" formTarget="_blank">IN BÁO CÁO</button>
+                </div>
+            </div>
+        </div>*@
+    <div class="w3-container box" style="text-align:center;margin-top:2px;margin-bottom:10px;background-color:white;">
+        <h4 style="color:#2FA95E!important;"><b>@Html.Raw(GlobalRes.lbdonvitinhtydong.ToUpper())</b></h4>
+    </div>
+    <div class="w3-row" id="divprint">
+        <div class="w3-col l12 sidenav">
+            <div class="w3-row">
+                <div id="ChiTiet" class="city">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12">
+                            <div class="card box" style="width:100%;">
+                                <div class="card-block">
+                                    <h6 class="card-title">@Html.Raw(GlobalRes.lbdoanhthuchinhanh.ToUpper())</h6>
+                                    <div id="chartContainer" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-col l7 m12">
+                            <div class="card box" style="width:100%; height:490px">
+                                <div class="card-block">
+                                    <h6 class="card-title">@Html.Raw(GlobalRes.lbdoanhthuvungmien.ToUpper())</h6>
+                                    <div id="chartContainer3" style="height: 410px; width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-col l5 m12">
+                            <div class="card box" style="width:100%; height:490px;">
+                                <div class="card-block">
+                                    <h6 class="card-title">@Html.Raw(GlobalRes.lbdoanhthuotcetc.ToUpper())</h6>
+                                    <div id="chartContainer6" style="height: 410px; width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12">
+                            <div class="card box" style="width:100%;">
+                                <div class="card-block">
+                                    <h6 class="card-title">@Html.Raw(GlobalRes.lbtopdoanhthukhuvuc.ToUpper())</h6>
+                                    <div class="w3-row">
+                                        <div class="w3-col l12 m12">
+                                            <div id="chartContainer5" style="width: 100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-col l12 m12">
+                            <div class="card box" style="width:100%; height:600px">
+                                <div class="card-block">
+                                    <h6 class="card-title">@Html.Raw(GlobalRes.lbdoanhthuhangthang.ToUpper())</h6>
+                                    <div id="chartContainer2" style="height: 530px; width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12">
+                            <div class="card box" style="width:100%;">
+                                <div class="card-block">
+                                    <h6 class="card-title">@Html.Raw(GlobalRes.lbtiledoanhthuphanloaikhachhang.ToUpper())</h6>
+                                    <div class="w3-row">
+                                        <div class="w3-col l6 m12 s12">
+                                            <div id="chartContainer7" style="height: 420px; width: 100%;"></div>
+                                        </div>
+                                        <div class="w3-col l6 m12 s12">
+                                            <div id="chartContainer71" style="height: 420px; width: 100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="w3-col l12 m12" style="margin-bottom:15px;">
+                                <div class="card box">
+                                    <div class="card-block">
+                                        <h6 class="card-title">DOANH SỐ / KẾ HOẠCH</h6>
+                                        <div class="w3-row">
+                                            <div class="w3-col l6 m12 s12">
+                                                <div id="chartContainer8" style="height: 420px; width: 100%;"></div>
+                                            </div>
+                                            <div class="w3-col l6 m12 s12">
+                                                <div id="chartContainer81" style="height: 420px; width: 100%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="/Scripts/bootstrap-select.js"></script>
+    <script src="/Scripts/canvasjs.min.js"></script>
+    <script src="~/Scripts/SoSanhJS.js?version=31042022"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#denthang").val(@DateTime.Today.Month).selectpicker('refresh');;
+            $("#nam").val(@DateTime.Today.Year).selectpicker('refresh');;
+
+        });
+    </script>
+}

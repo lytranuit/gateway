@@ -1,0 +1,89 @@
+﻿@{
+    
+    var Group = (List<ApplicationChart.Models.TTNHANHTONKHO>
+    )Model;
+    var a = 1;
+}
+<table id="example" class="table-bordered display nowrap w-100">
+    <thead>
+        <tr>
+            <th>
+                @Html.Raw(GlobalRes.lbmahanghoa.ToUpper())
+            </th>
+            <th>
+                @Html.Raw(GlobalRes.lbtenhanghoa.ToUpper())
+            </th>
+            <th>
+                @Html.Raw(GlobalRes.lbdonvitinh.ToUpper())
+            </th>
+            <th>
+                @Html.Raw(GlobalRes.lbsoluongtondauky.ToUpper())
+            </th>
+            <th>
+                @Html.Raw(GlobalRes.lbsoluongnhap.ToUpper())
+            </th>
+            <th>
+                @Html.Raw(GlobalRes.lbsoluongxuat.ToUpper())
+            </th>
+            <th>
+                @Html.Raw(GlobalRes.lbsoluongtoncuoiky.ToUpper())
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+            @foreach (var group in Group.GroupBy(n => n.MAHH).OrderBy(k => k.Key))
+            {
+                <tr>
+                    <td>
+                        @group.Key
+                    </td>
+                    <td>
+                        <b>@group.First().TENHH</b>
+                    </td>
+                    <td>
+                        <b>@group.First().DVT</b>
+                    </td>
+                    <td>
+                        <b>@string.Format("{0:n0}", group.Sum(n => n.SL_TONDAUKY2))</b>
+                    </td>
+                    <td>
+                        <b>@string.Format("{0:n0}", group.Sum(n => n.SL_NHAP2))</b>
+                    </td>
+                    <td>
+                        <b>@string.Format("{0:n0}", group.Sum(n => n.SL_XUAT2))</b>
+                    </td>
+                    <td>
+                        <b>@string.Format("{0:n0}", group.Sum(n => n.SL_TONCUOIKY2))</b>
+                    </td>
+                </tr>
+                @*var i = 1;
+                foreach (var item in group.OrderByDescending(n => n.SL_TONCUOIKY2))
+                {
+                    <tr class="show-mhh w3-animate-top @group.Key.Replace(".",string.Empty)" style="display:none;">
+                        <td>
+                            @i
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TENDVBC)
+                        </td>
+                        <td></td>
+                        <td class="CTright">
+                            @string.Format("{0:n0}", item.SL_TONDAUKY2)
+                        </td>
+                        <td class="CTright">
+                            @string.Format("{0:n0}", item.SL_NHAP2)
+                        </td>
+                        <td class="CTright">
+                            @string.Format("{0:n0}", item.SL_XUAT2)
+                        </td>
+                        <td class="CTright">
+                            @string.Format("{0:n0}", item.SL_TONCUOIKY2)
+                        </td>
+                    </tr>
+                    i = i + 1;
+                }*@
+            }
+        
+    </tbody>
+</table>

@@ -1,0 +1,1419 @@
+﻿@model ApplicationChart.Models.ListDataHoaDonWS
+@{
+    ViewBag.Title = "PHÁT HÀNH HÓA ĐƠN WHOLESALES";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />*@
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        /*.bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }*/
+
+        /*.selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }*/
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        td .form-control {
+            font-size: 12px;
+            height: 32px;
+        }
+
+        td {
+            color: black !important;
+        }
+    </style>
+}
+@Html.AntiForgeryToken()
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">PHÒNG KINH DOANH</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">PHÁT HÀNH HÓA ĐƠN WHOLESALES</li>
+        </ol>
+    </div>
+    @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+            <strong>THÔNG BÁO :</strong> Hệ thống tạo đơn hàng về phòng KD chính thức hoạt động .
+        </div>*@
+    <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    @*<button id="btninmau" type="button" class="btn btn-secondary btn-sm transition-3d-hover m-0"><i class="fa fa-file-invoice"></i> XEM MẪU HDDT</button>*@
+                    <button id="btnphathanh" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-check"></i> PHÁT HÀNH HDDT</button>
+                    <button id="btninmau" type="button" class="btn btn-secondary btn-sm transition-3d-hover m-0"><i class="fa fa-print"></i> XEM MẪU HÓA ĐƠN</button>
+                    @if (Model.ListDDH != null)
+                    {
+                        <button value="@Model.ListDDH.First().MADH" id="btntuchoi" type="button" class="btn btn-danger btn-sm transition-3d-hover m-0"><i class="fa fa-times"></i> TỪ CHỐI</button>
+                    }
+
+                    <button type="button" onClick="window.location.reload()" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-reply"></i> TẢI LẠI</button>
+                </div>
+                <div class="card-body pb-0 pt-1 pl-2 pr-2">
+                    <div class="row mb-1">
+                        <div class="form-group col-md-3 col-lg-3 col-sm-6 mb-0">
+                            <label class="col-form-label" for="chon">Ngày lập hóa đơn<code>(*)</code></label>
+                            <input readonly type="text" autocomplete="off" name="tungay" placeholder="DD/MM/YYYY" class="form-control" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="ngaylaphd">
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloai">Ký hiệu - mẫu<code class="bg-white">(*)</code></label>
+                                <select id="kyhieu" title="Chọn ký hiệu" class="selectpicker" name="option">
+                                    <option selected value="K23TPP">K23TPP</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloai">Tính chất hóa đơn<code class="bg-white">(*)</code></label>
+                                <select id="tinhchathoadon" title="Chọn phân loại" class="selectpicker" name="option">
+                                    <option selected value="0">0 - Hàng hóa, dịch vụ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloai">Phân loại hóa đơn<code class="bg-white">(*)</code></label>
+                                <select id="phanloai" title="Chọn phân loại" class="selectpicker" name="option">
+                                    <option selected value="WS">WS</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Mã khách hàng - Đơn vị<code class="bg-white">(*)</code></label>
+
+                                <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
+                                    @foreach (var i in Model.ListKH)
+                                    {
+                                        <option data-matinh="@i.MATINH" data-nganhang="@i.nganhang" data-taikhoan="@i.taikhoan" data-tennguoigd="@i.tennguoigd" data-diachi="@i.DIACHI" data-masothue="@i.masothue" data-email="@i.email" data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                    }
+                                </select>
+
+                            </div>
+                            <!-- Default input -->
+                        </div>
+
+                        @*<div class="form-group col-md-6 col-sm-6 mb-0">
+                                <label class="col-form-label" for="chon">Tên khách hàng</label>
+                                <input readonly type="text" autocomplete="off" id="tennguoigd" class="form-control">
+                            </div>*@
+                        <div class="form-group col-md-6 col-sm-6 mb-0">
+                            <label class="col-form-label" for="chon">Địa chỉ</label>
+                            <input readonly type="text" autocomplete="off" id="diachi" class="form-control">
+                        </div>
+                        <div class="form-group col-md-3 col-sm-6 mb-0">
+                            <label class="col-form-label" for="chon">Mã số thuế</label>
+                            <input readonly type="text" autocomplete="off" id="masothue" class="form-control">
+                        </div>
+                        <div class="form-group col-md-3 col-sm-6 mb-0">
+                            <label class="col-form-label" for="chon">Email nhận hóa đơn</label>
+                            <input readonly type="text" autocomplete="off" id="emailkh" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 mb-0">
+                            <label class="col-form-label" for="chon">Địa chỉ giao hàng</label>
+                            @if (Model.ListDDH != null)
+                            {
+                                <input readonly value="@Model.ListDDH.First().DIACHIGIAOHANG" type="text" autocomplete="off" id="diachigiaohang" class="form-control">
+                            }
+                            else
+                            {
+                                <input readonly type="text" autocomplete="off" id="diachigiaohang" class="form-control">
+                            }
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 mb-0">
+                            <label class="col-form-label" for="chon">Họ tên người mua hàng</label>
+                            <input type="text" autocomplete="off" id="tennguoigd" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 mb-0">
+                            <label class="col-form-label" for="chon">Số tài khoản</label>
+                            <input type="text" autocomplete="off" id="taikhoan" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 mb-0">
+                            <label class="col-form-label" for="chon">Ngân hàng</label>
+                            <input type="text" autocomplete="off" id="nganhang" class="form-control">
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="khachhang">Hợp đồng<code class="bg-white">(*)</code></label>
+                                <select id="hopdong" title="Chọn hợp đồng" class="selectpicker" name="option"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloaihh">Phân loại HH<code class="bg-white">(*)</code></label>
+                                <select id="phanloaihh" title="Chọn phân loại hàng hóa" class="selectpicker" name="option">
+                                    <option selected value="TP">TP - Thành phẩm</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloai">Kho xuất<code class="bg-white">(*)</code></label>
+                                <select id="kho" title="Chọn phân loại" class="selectpicker" name="option">
+                                    <option selected value="CN PHU YEN">CN PHU YEN</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloai">Phương pháp tính thuế<code class="bg-white">(*)</code></label>
+                                <select id="pptt" title="Chọn phân loại" class="selectpicker" name="option">
+                                    <option selected value="5">Tính 5%</option>
+                                    <option value="10">Tính 10%</option>
+                                    <option value="8">Tính 8%</option>
+                                    <option value="2">Tính 2%</option>
+                                    <option value="2">Tính 0%</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="phanloai">Hình thức thanh toán<code class="bg-white">(*)</code></label>
+                                <select id="httt" title="Chọn phân loại" class="selectpicker" name="option">
+                                    <option selected value="CK">CK - Chuyển khoản</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <div class="btn-group mb-2 w-100" id="themkhachhang">
+                                <span class="input-group-text btn-primary" id="basic-addon1">THÊM HÀNG HÓA</span>
+                                <select title="Chọn các sản phẩm" id="themsanpham" class="selectpicker selectui" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                                    @*@foreach (var i in Model.ListHH)
+                                        {
+                                            <option data-dvt="@i.DVT" data-tenhh="@i.TENHH" title="@i.MAHH - @i.TENHH" data-subtext="(@i.DVT)" data-giaban="@i.GIABAN" data-sl1="@i.SL1" data-sl2="@i.SL2" data-sl3="@i.SL3" value="@i.MAHH">@i.MAHH - @i.TENHH</option>
+                                        }*@
+                                </select>
+                                <button title="Thêm" id="add_row_them" class="btn btn-sm btn-primary waves-effect pull-left m-0" style="font-size:0.7rem"><i style="font-size:1.7em" class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        @*<div class="col-lg-12">
+                                <div id="accordion">
+                                    <div class="card">
+                                        <div class="card-header p-0" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Thêm hàng hóa số lượng bằng file Excel
+                                                </button>
+                                            </h5>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <a target="_blank" href="~/Content/mautaodonhang.xlsx">Tải file excel mẫu</a>
+                                                <div class="form-group mb-0">
+                                                    <label class="my-1 mr-2 font-weight-bold" for="chon">Nhập file Excel hàng hóa</label>
+                                                    <input type="file" class="form-control-file  my-1 mr-sm-2" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="fileexcel">
+                                                </div>
+                                                <table id="exceltable" class="table table-bordered text-dark"></table>
+                                                <button onclick="ExportToTable()" type="button" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-eye"></i> XEM</button>
+                                                <button type="button" class="btn btn-success btn-sm transition-3d-hover m-0" id="btnhoantat"><i class="fa fa-check"></i> NHẬP</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>*@
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:20px;" class="center">STT</th>
+                                    <th>Sản phẩm</th>
+                                    <th>ĐVT</th>
+                                    <th style="width:80px">Thùng</th>
+                                    <th style="width:100px">Hộp</th>
+                                    <th class="center">Số lượng</th>
+
+                                    <th style="width:100px">Số lô</th>
+                                    <th style="width:100px">Hạn dùng</th>
+
+                                    <th style="width:20px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tab_logic">
+                                @{
+                                    if (Model.ListDDH != null)
+                                    {
+
+                                        foreach (var i in Model.ListDDH)
+                                        {
+
+                                            <tr>
+                                                <td class="text-center text-dark">@i.STT</td>
+
+                                                <td class="left strong hanghoa text-dark" data-dvt="@i.DVT" data-tenhh="@i.TENHH" data-mahh="@i.MAHH">@i.MAHH - @i.TENHH</td>
+                                                <td class="text-center text-dark">@i.DVT</td>
+                                                <td class="text-right paddingleft2 paddingright2"><input autocomplete="off" value="@string.Format(ViewBag.sss, "{0:n0}",((int)(i.SOLUONG/Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3)))" onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>
+                                                <td class="text-right paddingleft2 paddingright2"><input autocomplete="off" value="@string.Format(ViewBag.sss, "{0:n0}",(((int)(i.SOLUONG%Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3))*Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL2/Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3))" onkeypress="validate(event)" data-sl="@Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL2" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>
+                                                <td class="text-right paddingleft2 paddingright2 sl3 text-dark" data-sl="@Model.ListHH.First(n=>n.MAHH == i.MAHH).SL3">@string.Format(ViewBag.sss, "{0:n0}", i.SOLUONG)</td>
+                                                <td class="paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" maxlength="10" placeholder="@i.MALO" type="text" class="form-control form-control-sm font-weight-normal malo"></td>
+                                                <td class="paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" maxlength="6" placeholder="@i.HANDUNG" type="text" class="form-control form-control-sm font-weight-normal handung"></td>
+
+                                                <td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <table class="table table-bordered mb-2">
+                        <tbody>
+                            <tr>
+                                <td class="font-weight-bold w-15 text-center text-dark">TỔNG SỐ LƯỢNG</td>
+                                <td class="text-danger font-weight-bold text-center"><span id="tongthung">0</span> THÙNG <span id="tonghop">0</span> HỘP</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group p-0">
+                        <textarea placeholder="Ghi chú" class="form-control rounded-0" id="ghichu" rows="3"></textarea>
+                    </div>
+                </div>
+                @*<div class="card-footer modal-footer p-2">
+                        <button id="btnhuy" type="button" class="btn btn-danger btn-sm transition-3d-hover mb-0" data-dismiss="modal">Hủy</button>
+                        <button id="btnluu" type="button" class="btn btn-success btn-sm transition-3d-hover">Lưu</button>
+                        <button id="btnluuvatiep" type="button" class="btn btn-primary btn-sm transition-3d-hover">LƯU VÀ TIẾP TỤC</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalhh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content full-screen">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">DANH MỤC SỐ LÔ HẠN DÙNG <b id="chonmahh"></b></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <b hidden id="chonindex"></b>
+                <div class="container-fluid pt-2" id="dmhh">
+
+                </div>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-sm btn-danger mt-0 mb-0" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(window).on('load resize', function () {
+            if ($(window).width() < 800 || $(window).height() < 500) {
+                window.location = "tao-don-dat-hang-ws"
+            }
+        });
+    </script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>*@
+    @*<script src="~/Scripts/Taodonhangws.js?version=061022"></script>*@
+    <script>
+
+        Number.prototype.format = function () {
+            var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");
+            if (text != "NaN") {
+                return text;
+            }
+            else {
+                return text;
+            }
+        };
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+                // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    </script>
+
+    <script>
+        function ExportToTable() {
+            $('#exceltable').empty();
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            /*Checks whether the file is a valid excel file*/
+            if (regex.test($("#fileexcel").val().toLowerCase())) {
+                var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+                if ($("#fileexcel").val().toLowerCase().indexOf(".xlsx") > 0) {
+                    xlsxflag = true;
+                }
+                /*Checks whether the browser supports HTML5*/
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        /*Converts the excel data in to object*/
+                        if (xlsxflag) {
+                            var workbook = XLSX.read(data, { type: 'binary' });
+                        }
+                        else {
+                            var workbook = XLS.read(data, { type: 'binary' });
+                        }
+                        /*Gets all the sheetnames of excel in to a variable*/
+                        var sheet_name_list = workbook.SheetNames;
+
+                        var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                        sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                            /*Convert the cell value to Json*/
+                            if (xlsxflag) {
+                                var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                            }
+                            else {
+                                var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                            }
+                            if (exceljson.length > 0 && cnt == 0) {
+                                BindTable(exceljson, '#exceltable');
+                                cnt++;
+                            }
+                        });
+                        $("#tabletext").text($("#exceltable > tr").not(':first').length + " hàng hợp lệ được nhập từ file Excel");
+                        $('#exceltable').show();
+                    }
+                    if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                        reader.readAsArrayBuffer($("#fileexcel")[0].files[0]);
+                    }
+                    else {
+                        reader.readAsBinaryString($("#fileexcel")[0].files[0]);
+                    }
+                }
+                else {
+                    alert("Sorry! Your browser does not support HTML5!");
+                }
+            }
+            else {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                Command: toastr["warning"]("Kiểm tra lại tên file excel không được có dấu và ký tự đặc biệt !", "Thông báo")
+                $("#tabletext").text("");
+            }
+        }
+        function isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+                   !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        }
+        function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/
+            var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+            for (var i = 0; i < jsondata.length; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                    var cellValue = jsondata[i][columns[colIndex]];
+                    if (cellValue == null)
+                        cellValue = "";
+                    row$.append($('<td/>').html(cellValue));
+                }
+
+                $(tableid).append(row$);
+
+            }
+        }
+
+        function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+            for (var i = 0; i < jsondata.length; i++) {
+                var rowHash = jsondata[i];
+                for (var key in rowHash) {
+                    if (rowHash.hasOwnProperty(key)) {
+                        if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+                            columnSet.push(key);
+                            headerTr$.append($('<th/>').html(key));
+                        }
+                    }
+                }
+            }
+            $(tableid).append(headerTr$);
+            return columnSet;
+        }
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+            $("table").on("focus", "input:text", function () { $(this).select(); });
+            $("#tablehanghoa").on("change", ".sl2", function () {
+                var x = $(this).closest('tr');
+                if ($(this).val() == "") {
+                    $(this).val('0');
+                }
+                var number = parseInt($(this).val().toString().replace(/[^\d.]/g, ''));
+                if (number > 2147483647) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Số lượng bạn nhập quá lớn !", "Cảnh báo")
+                    $(this).val("");
+                }
+                else {
+                    $(this).val(number.format());
+                    var soluong = 0;
+                    if (x.find(".sl1").val() != "") {
+                        soluong = (number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl1").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl1").attr("data-sl"));
+                    }
+                    else {
+                        soluong = (number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl"));
+                    }
+                    x.find(".sl3").text(soluong.format());
+                    var hop = 0;
+                    $('#tablehanghoa > tbody  > tr').each(function () {
+                        var MAHH = $("option:selected", this).val();
+                        if (MAHH == "") {
+                            return false;
+                        }
+
+                        if ($(this).find(".sl2").val() != "") {
+                            hop = hop + parseInt($(this).find(".sl2").val().replace(/[^\d.]/g, ''));
+                        }
+                    });
+
+                    $("#tonghop").text(hop);
+
+                }
+
+            });
+            $("#dmhh").on("click", ".chonmalo", function () {
+
+                $("#tablehanghoa > tbody > tr").eq($("#chonindex").text()).find(".malo").val($(this).find("td").eq(4).text());
+                $("#tablehanghoa > tbody > tr").eq($("#chonindex").text()).find(".handung").val($(this).find("td").eq(5).text());
+            });
+            $("#tablehanghoa").on("focus", ".malo", function () {
+                var x = $(this).closest('tr');
+                $("#chonindex").text((x.index('tr') - 1));
+                $("#chonmahh").text(x.find('.hanghoa').attr('data-mahh'));
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSolohandung", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{mahh: ' + JSON.stringify(x.find('.hanghoa').attr('data-mahh')) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        $('#dmhh').html(data);
+                    },
+                    timeout: 50000,
+                });
+                $('#modalhh').modal('show');
+
+            });
+            $("#tablehanghoa").on("change", ".sl1", function () {
+                var x = $(this).closest('tr');
+                if ($(this).val() == "") {
+                    $(this).val('0');
+                }
+                var number = parseInt($(this).val().toString().replace(/[^\d.]/g, ''));
+                if (number > 2147483647) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Số lượng bạn nhập quá lớn !", "Cảnh báo")
+                    $(this).val("");
+                }
+                else {
+                    $(this).val(number.format());
+                    var soluong = 0;
+                    if (x.find(".sl2").val() != "") {
+                        soluong = (number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl2").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl2").attr("data-sl"));
+                    }
+                    else {
+                        soluong = (number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl"));
+                    }
+                    x.find(".sl3").text(soluong.format());
+                    var thung = 0;
+                    $('#tablehanghoa > tbody  > tr').each(function () {
+                        var MAHH = $("option:selected", this).val();
+                        if (MAHH == "") {
+                            return false;
+                        }
+
+
+                        if ($(this).find(".sl1").val() != "") {
+                            thung = thung + parseInt($(this).find(".sl1").val().replace(/[^\d.]/g, ''));
+                        }
+                    });
+                    $("#tongthung").text(thung);
+                }
+            });
+            $("#btntuchoi").click(function () {
+                $.confirm({
+                    title: 'Bạn có chắc chắn từ chối đơn hàng <b>' + $("#btntuchoi").val() + '</b> ?',
+                    content: '<div class="form-group mb-0"><label class="control-label font-italic">Lý do từ chối</label><input autofocus="" type="text" id="input-name" placeholder="Nhập lý do từ chối" class="form-control"></div>',
+                    buttons: {
+                        success: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            action: function () {
+                                var input = this.$content.find('input#input-name');
+                                var errorText = this.$content.find('.text-danger');
+                                if (!input.val().trim()) {
+                                    $.alert({
+                                        title: "Thông báo",
+                                        content: "Bạn vui lòng điền lý do từ chối",
+                                        type: 'red'
+                                    });
+                                    return false;
+                                } else {
+
+                                    var url = lang + '/crm/TuchoidonhangWS';
+                                    $.ajax({
+                                        url: url,
+                                        type: "POST",
+                                        datatype: 'json',
+                                        contentType: "application/json;charset=utf-8",
+                                        data: '{madh: ' + JSON.stringify($("#btntuchoi").val()) + ',lydo: ' + JSON.stringify(input.val()) + '}',
+                                        success: function (data) {
+                                            if (data == 0) {
+                                                toastr.options = {
+                                                    "closeButton": false,
+                                                    "debug": false,
+                                                    "newestOnTop": true,
+                                                    "progressBar": true,
+                                                    "positionClass": "toast-top-right",
+                                                    "preventDuplicates": false,
+                                                    "onclick": null,
+                                                    "showDuration": "300",
+                                                    "hideDuration": "1000",
+                                                    "timeOut": "5000",
+                                                    "extendedTimeOut": "1000",
+                                                    "showEasing": "swing",
+                                                    "hideEasing": "linear",
+                                                    "showMethod": "fadeIn",
+                                                    "hideMethod": "fadeOut"
+                                                }
+                                                Command: toastr["warning"]("Từ chối không thành công vui lòng thử lại !", "Thông báo")
+                                            }
+                                            else {
+
+                                                $.confirm({
+                                                    title: '<b>THÔNG BÁO</b>',
+                                                    content: 'Đã từ chối thành công đơn hàng số <b>' + $("#btntuchoi").val() + '</b>.',
+                                                    buttons: {
+
+                                                        cancel: {
+                                                            text: 'Đóng',
+                                                            btnClass: 'btn-danger',
+                                                            keys: ['esc'],
+                                                            action: function () {
+
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        error: function (request, status, error) {
+                                            toastr.options = {
+                                                "closeButton": false,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["warning"]("Không thành công. Vui lòng kiểm tra lại kết nối Internet !", "Thông báo")
+                                        },
+                                        timeout: 5000,
+                                    });
+
+
+                                }
+                            }
+                        },
+                        cancel: {
+                            text: 'Đóng',
+                            btnClass: 'btn-danger',
+                            action: function () {
+
+                            }
+
+                        }
+                    }
+                });
+
+            });
+            $("#btninmau").click(function () {
+                var prevent = 0;
+                $('#tablehanghoa > tbody > tr').each(function () {
+                    if ($(this).find('.sl3').text() == 0 || $(this).find('.sl3').text() == "") {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Xin điền đẩy đủ số lượng cho sản phẩm thứ " + $(this).find('td:eq(0)').text() + " hoặc xóa sản phẩm", "Thông báo")
+                        prevent = 1;
+                        return false;
+                    }
+                });
+
+                if (prevent == 0) {
+                    if ($("#khachhang").val() == "" || $("#tablehanghoa > tbody > tr").length == 0 || $("#hopdong").val() == "") {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Xin điền đầy đủ thông tin hóa đơn", "Thông báo")
+                    }
+                    else {
+                        $('#loading').modal({ backdrop: 'static', keyboard: false });
+                        var url = lang + '/crm/Hoadonmau';
+                        var data = {
+                            "MADH": '@ViewBag.madh'
+                            , "KYHIEU": $("#kyhieu").val()
+                            , "TINHCHATHOADON": $("#tinhchathoadon").val()
+                            , "PHANLOAI": $("#phanloai").val()
+                              , "MAKH": $("#khachhang").val()
+                              , "MATINH": $("#khachhang option:selected").attr('data-matinh')
+                            , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                               , "TENNGUOIGD": $("#khachhang option:selected").attr('data-tennguoigd')
+                             , "TAIKHOAN": $("#khachhang option:selected").attr('data-taikhoan')
+                              , "NGANHANG": $("#khachhang option:selected").attr('data-nganhang')
+                             , "TENNGUOIGD": $("#khachhang option:selected").attr('data-tennguoigd')
+                              , "DIACHI": $("#diachi").val()
+                            , "MASOTHUE": $("#masothue").val()
+                              , "EMAILKH": $("#emailkh").val()
+                            , "DIACHIGIAOHANG": $("#diachigiaohang").val()
+                              , "MAHD": $("#hopdong").val()
+                            , "PHANLOAIHH": $("#phanloaihh").val()
+                              , "KHO": $("#kho").val()
+                            , "PPTT": $("#pptt").val()
+                              , "HTTT": $("#httt").val()
+                        };
+                        var data1 = [];
+                        $("#tablehanghoa > tbody >tr").each(function () {
+                            data1.push({
+                                "STT": $(this).closest('tr').find('td:eq(0)').text()
+                                , "MAHH": $(this).find('td:eq(1)').attr("data-mahh")
+                                , "TENHH": $(this).find('td:eq(1)').attr("data-tenhh")
+                                , "DVT": $(this).find('td:eq(1)').attr("data-dvt")
+                                , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                   , "THUNG": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                 , "HOP": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                , "MALO": $(this).find(".malo").val()
+                                , "HANDUNG": $(this).find(".handung").val()
+
+                            });
+                        });
+
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json;charset=utf-8",
+                            data: '{hoadon: ' + JSON.stringify(data) + ',chitiet: ' + JSON.stringify(data1) + '}',
+                            success: function (data) {
+                                $('#loading').modal('hide');
+                                var w = window.open('about:blank');
+                                w.document.open();
+                                w.document.write(data);
+                                w.document.close();
+                            },
+                            error: function (request, status, error) {
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": true,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                Command: toastr["warning"]("Không thành công. Vui lòng kiểm tra lại kết nối Internet !", "Thông báo")
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 50000,
+                        });
+
+                    }
+                }
+            });
+            $("#btnphathanh").click(function () {
+                var prevent = 0;
+                $('#tablehanghoa > tbody > tr').each(function () {
+                    if ($(this).find('.sl3').text() == 0 || $(this).find('.sl3').text() == "") {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Xin điền đẩy đủ số lượng cho sản phẩm thứ " + $(this).find('td:eq(0)').text() + " hoặc xóa sản phẩm", "Thông báo")
+                        prevent = 1;
+                        return false;
+                    }
+                });
+
+                if (prevent == 0) {
+                    if ($("#khachhang").val() == "" || $("#tablehanghoa > tbody > tr").length == 0 || $("#hopdong").val() == "") {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Xin điền đầy đủ thông tin hóa đơn", "Thông báo")
+                    }
+                    else {
+
+                        $.confirm({
+                            title: '<b>THÔNG BÁO</b>',
+                            content: 'Bạn có chắc chắn muốn phát hành hóa đơn này ?',
+                            buttons: {
+                                confirm: {
+                                    text: 'Chắc chắn',
+                                    btnClass: 'btn-success',
+                                    keys: ['enter'],
+                                    action: function () {
+                                        $('#loading').modal({ backdrop: 'static', keyboard: false });
+                                        var url = lang + '/crm/AddHoadonWS';
+                                        var data = {
+                                            "MADH": '@ViewBag.madh'
+                                            , "KYHIEU": $("#kyhieu").val()
+                                            , "TINHCHATHOADON": $("#tinhchathoadon").val()
+                                            , "PHANLOAI": $("#phanloai").val()
+                                              , "MAKH": $("#khachhang").val()
+                                            , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                                               , "TENNGUOIGD": $("#khachhang option:selected").attr('data-tennguoigd')
+                                            , "TAIKHOAN": $("#khachhang option:selected").attr('data-taikhoan')
+                                            , "MATINH": $("#khachhang option:selected").attr('data-matinh')
+                                              , "NGANHANG": $("#khachhang option:selected").attr('data-nganhang')
+                                             , "TENNGUOIGD": $("#khachhang option:selected").attr('data-tennguoigd')
+                                              , "DIACHI": $("#diachi").val()
+                                            , "MASOTHUE": $("#masothue").val()
+                                              , "EMAILKH": $("#emailkh").val()
+                                            , "DIACHIGIAOHANG": $("#diachigiaohang").val()
+                                              , "MAHD": $("#hopdong").val()
+                                            , "PHANLOAIHH": $("#phanloaihh").val()
+                                              , "KHO": $("#kho").val()
+                                            , "PPTT": $("#pptt").val()
+                                              , "HTTT": $("#httt").val()
+                                        };
+                                        var data1 = [];
+                                        $("#tablehanghoa > tbody >tr").each(function () {
+                                            data1.push({
+                                                "STT": $(this).closest('tr').find('td:eq(0)').text()
+                                                , "MAHH": $(this).find('td:eq(1)').attr("data-mahh")
+                                                , "TENHH": $(this).find('td:eq(1)').attr("data-tenhh")
+                                                , "DVT": $(this).find('td:eq(1)').attr("data-dvt")
+                                                , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                   , "THUNG": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                 , "HOP": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                , "MALO": $(this).find(".malo").val()
+                                                , "HANDUNG": $(this).find(".handung").val()
+
+                                            });
+                                        });
+
+                                        $.ajax({
+                                            url: url,
+                                            type: "POST",
+                                            datatype: 'json',
+                                            contentType: "application/json;charset=utf-8",
+                                            data: '{hoadon: ' + JSON.stringify(data) + ',chitiet: ' + JSON.stringify(data1) + '}',
+                                            success: function (data) {
+                                                $('#loading').modal('hide');
+                                                if (data.Status == 0) {
+                                                    toastr.options = {
+                                                        "closeButton": false,
+                                                        "debug": false,
+                                                        "newestOnTop": true,
+                                                        "progressBar": true,
+                                                        "positionClass": "toast-top-right",
+                                                        "preventDuplicates": false,
+                                                        "onclick": null,
+                                                        "showDuration": "300",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "5000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "fadeOut"
+                                                    }
+                                                    Command: toastr["warning"]("Lỗi !" + data.Message, "Thông báo")
+                                                }
+                                                else {
+                                                    $.confirm({
+                                                        title: '<b>THÔNG BÁO</b>',
+                                                        content: 'Đã phát thành công đơn hóa đơn số <b>' + data.Message + '</b> - Ký hiệu <b>' + $("#kyhieu").val() + '</b>.',
+                                                        buttons: {
+
+                                                            cancel: {
+                                                                text: 'Đóng',
+                                                                btnClass: 'btn-danger',
+                                                                keys: ['esc'],
+                                                                action: function () {
+                                                                    window.location.reload();
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            },
+                                            error: function (request, status, error) {
+                                                toastr.options = {
+                                                    "closeButton": false,
+                                                    "debug": false,
+                                                    "newestOnTop": true,
+                                                    "progressBar": true,
+                                                    "positionClass": "toast-top-right",
+                                                    "preventDuplicates": false,
+                                                    "onclick": null,
+                                                    "showDuration": "300",
+                                                    "hideDuration": "1000",
+                                                    "timeOut": "5000",
+                                                    "extendedTimeOut": "1000",
+                                                    "showEasing": "swing",
+                                                    "hideEasing": "linear",
+                                                    "showMethod": "fadeIn",
+                                                    "hideMethod": "fadeOut"
+                                                }
+                                                Command: toastr["warning"]("Không thành công. Vui lòng kiểm tra lại kết nối Internet !", "Thông báo")
+                                                $('#loading').modal('hide');
+                                            },
+                                            timeout: 50000,
+                                        });
+
+                                    }
+                                },
+                                cancel: {
+                                    text: 'Hủy',
+                                    btnClass: 'btn-danger',
+                                    keys: ['esc'],
+                                    action: function () {
+
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            $("#add_row_them").click(function () {
+                $("#themsanpham option:selected").each(function () {
+                    //if ($('#tablehanghoa > tbody > tr').length == 11) {
+                    //    $.confirm({
+                    //        title: '<b>THÔNG BÁO</b>',
+                    //        content: 'Bạn đã chọn đủ tối đa 11 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
+
+                    //        buttons: {
+                    //            cancel: {
+                    //                text: 'Đóng',
+                    //                btnClass: 'btn-blue',
+                    //                keys: ['enter', 'shift'],
+                    //                action: function () {
+
+                    //                }
+                    //            }
+                    //        }
+                    //    });
+                    //    return false;
+                    //}
+                    var mahh = $(this).val();
+                    var trung = 0;
+                    //$('#tablehanghoa > tbody > tr').each(function () {
+                    //    if (mahh == $(this).find("td:eq(1)").attr("data-mahh")) {
+                    //        trung = 1;
+                    //        toastr.options = {
+                    //            "closeButton": false,
+                    //            "debug": false,
+                    //            "newestOnTop": true,
+                    //            "progressBar": true,
+                    //            "positionClass": "toast-top-right",
+                    //            "preventDuplicates": false,
+                    //            "onclick": null,
+                    //            "showDuration": "300",
+                    //            "hideDuration": "1000",
+                    //            "timeOut": "5000",
+                    //            "extendedTimeOut": "1000",
+                    //            "showEasing": "swing",
+                    //            "hideEasing": "linear",
+                    //            "showMethod": "fadeIn",
+                    //            "hideMethod": "fadeOut"
+                    //        }
+                    //        Command: toastr["warning"]("Sản phẩm " + mahh + " bị trùng", "Thông báo")
+                    //        return false;
+                    //    }
+                    //});
+                    if (trung == 0) {
+                        var i = $('#tablehanghoa > tbody > tr').length;
+                        $('#tablehanghoa > tbody').append('<tr class="' + $(this).val().replace(".", "") + '">'
+                        + '<td class="text-center text-dark">' + (i + 1) + '</td>'
+                        + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
+                        + '<td class="text-center text-dark">' + $(this).attr("data-dvt") + '</td>'
+                        + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl1") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
+                        + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl2") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
+                         //+ '<td class="text-right paddingleft2 paddingright2"><input readonly autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl3") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl3"></td>'
+                         + '<td class="text-right paddingleft2 paddingright2 sl3 text-dark" data-sl="' + $(this).attr("data-sl3") + '">0</td>'
+
+                                         //+ '<td class="text-right paddingleft2 paddingright2 text-dark">0.00</td>'
+                                         + '<td class="paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" maxlength="10" type="text" class="form-control form-control-sm font-weight-normal malo"></td>'
+                          + '<td class="paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" maxlength="6" type="text" class="form-control form-control-sm font-weight-normal handung"></td>'
+
+
+                        + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
+                        + '</tr>');
+                    }
+                });
+                $("#themsanpham").val('default');
+                $("#themsanpham").selectpicker("refresh");
+                $(".selectpicker").selectpicker();
+            });
+            $("#tablehanghoa").on("click", ".btnxoahh", function () {
+                var x = this;
+                $.confirm({
+                    title: '<b>THÔNG BÁO</b>',
+                    content: 'Bạn có chắc chắn muốn xóa sản phẩm này ?',
+                    buttons: {
+                        confirm: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+                                $(x).closest('tr').remove();
+                                var i = 1;
+                                $("#tablehanghoa > tbody >tr").each(function () {
+                                    $(this).closest('tr').find('td:eq(0)').text(i);
+                                    i = i + 1;
+                                });
+
+                                var thung = 0;
+                                var hop = 0;
+                                $('#tablehanghoa > tbody  > tr').each(function () {
+                                    var MAHH = $("option:selected", this).val();
+                                    if (MAHH == "") {
+                                        return false;
+                                    }
+                                    if ($(this).find(".sl1").val() != "") {
+                                        thung = thung + parseInt($(this).find(".sl1").val().replace(/[^\d.]/g, ''));
+                                    }
+                                    if ($(this).find(".sl2").val() != "") {
+                                        hop = hop + parseInt($(this).find(".sl2").val().replace(/[^\d.]/g, ''));
+                                    }
+
+                                });
+
+                                $("#tongthung").text(thung);
+                                $("#tonghop").text(hop);
+
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+            $("#khachhang").change(function () {
+
+                $("#tennguoigd").val($("#khachhang option:selected").attr("data-tennguoigd"));
+                $("#diachi").val($("#khachhang option:selected").attr("data-diachi"));
+                $("#emailkh").val($("#khachhang option:selected").attr("data-email"));
+                $("#masothue").val($("#khachhang option:selected").attr("data-masothue"));
+
+                $("#taikhoan").val($("#khachhang option:selected").attr("data-taikhoan"));
+                $("#nganhang").val($("#khachhang option:selected").attr("data-nganhang"));
+                $("#tennguoigd").val($("#khachhang option:selected").attr("data-tennguoigd"));
+                $("#hopdong").empty();
+                //$("#themsanpham").empty();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetHopDongWS", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (data.length == 1) {
+                                $("#hopdong").append('<option selected value="' + data[i] + '">' + data[i] + '</option>')
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("GetSanPhamHDWS", "Order")",
+                                    datatype: 'json',
+                                    contentType: "application/json",
+                                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                                    error: function () {
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                                    },
+                                    success: function (data) {
+                                        $("#themsanpham").html(data);
+                                        $('.selectpicker').selectpicker('refresh');
+                                    },
+                                    timeout: 5000,
+                                });
+                            }
+                            else {
+                                $("#hopdong").append('<option value="' + data[i] + '">' + data[i] + '</option>')
+                            }
+
+                        }
+
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#btnhoantat").click(function () {
+                if (document.getElementById("fileexcel").files.length == 0) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Kiểm tra lại tên file excel không được có dấu và ký tự đặc biệt !", "Thông báo")
+                }
+                else {
+                    //ExportToTable()
+                    var listhh = [];
+
+                    $("#exceltable > tr").not(':first').each(function () {
+
+                        listhh.push($(this).find('td:eq(0)').text());
+                    });
+                    $('#themsanpham').selectpicker('val', listhh).trigger('change');
+
+                    $("#add_row_them").click();
+                    $("#exceltable > tr").not(':first').each(function () {
+                        //alert("." + $(this).find('td:eq(0)').text().replace(".", "") + " .sl1");
+                        $('#tablehanghoa > tbody').find("." + $(this).find('td:eq(0)').text().replace(".", "") + " .sl1").val($(this).find('td:eq(1)').text().replace(" ", "")).trigger("change");
+                        $('#tablehanghoa > tbody').find("." + $(this).find('td:eq(0)').text().replace(".", "") + " .sl2").val($(this).find('td:eq(2)').text().replace(" ", "")).trigger("change");
+                        $('#tablehanghoa > tbody').find("." + $(this).find('td:eq(0)').text().replace(".", "") + " .datenote").val($(this).find('td:eq(3)').text().replace(" ", ""));
+                    });
+                }
+            });
+            $("#hopdong").change(function () {
+                //if ($("#tablehanghoa > tbody > tr").length != 0) {
+                //        $("#tablehanghoa > tbody").empty();
+                //}
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSanPhamHDWS", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        $("#themsanpham").html(data);
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                    timeout: 5000,
+                });
+            });
+        });
+    </script>
+
+    @if (Model.ListDDH != null)
+    {
+        <script>
+            $(document).ready(function () {
+
+                $("#khachhang").selectpicker('val', '@Model.ListDDH.First().MAKH').trigger('change');
+                setTimeout(function () {
+                    $("#hopdong").selectpicker('val', '@Model.ListDDH.First().HOPDONG').trigger('change');
+                    var thung = 0;
+                    var hop = 0;
+                    $('#tablehanghoa > tbody  > tr').each(function () {
+                        var MAHH = $("option:selected", this).val();
+                        if (MAHH == "") {
+                            return false;
+                        }
+                        if ($(this).find(".sl1").val() != "") {
+                            thung = thung + parseInt($(this).find(".sl1").val().replace(/[^\d.]/g, ''));
+                        }
+                        if ($(this).find(".sl2").val() != "") {
+                            hop = hop + parseInt($(this).find(".sl2").val().replace(/[^\d.]/g, ''));
+                        }
+                    });
+                    $("#tongthung").text(thung);
+                    $("#tonghop").text(hop);
+
+                }, 1000);
+
+                @*$.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSanPhamHDWS", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                    error: function () {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                    },
+                    success: function (data) {
+                        $("#themsanpham").html(data);
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                    timeout: 5000,
+                });*@
+            });
+        </script>
+    }
+
+}
+
+
+
+

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ApplicationChart.Models.ModelCongTacAudit>
+<span id="macn" hidden>@ViewBag.macn</span>
+<table id="example23" class="display nowrap table table-hover table-bordered">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th style="width:50px;">#</th>
+            <th>Ngày</th>
+            <th>Trình dược viên</th>
+            <th>Mã khách hàng</th>
+            <th>Tên khách hàng</th>
+            <th>Lần thay đổi</th>
+            <th style="width:110px;">Xem</th>
+        </tr>
+    </thead>
+    <!--Table head-->
+    <!--Table body-->
+    <tbody>
+        @{
+            int count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <th scope="row" class="text-center">@(count)</th>
+                    <td class="text-center">@i.ngay.ToString("dd/MM/yyyy")</td>
+                    <td class="text-center">@i.matdv</td>
+                    <td class="text-center">@i.makh</td>
+                    <td>@i.tenkh</td>
+                    <td class="text-center">@i.slthaydoi</td>
+                    <td class="text-center" style="width:110px;"><button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnxemls" data-toggle="modal" data-target="#ModalView"><i class="fa fa-2x fa-eye"></i></button></td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+

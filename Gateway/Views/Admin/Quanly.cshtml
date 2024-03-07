@@ -1,0 +1,1440 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<!-- Custom CSS -->
+<link rel="stylesheet" href="~/Content/CheckBox.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+@*<link href="~/Content/bootstrap-select.css" rel="stylesheet">*@
+<link href="~/Content/Material.css" rel="stylesheet">
+<script src="~/Scripts/bootbox.min.js"></script>
+<script src="~/Scripts/md5.min.js"></script>
+
+@if (ViewBag.msg != null)
+{
+    <script>
+        bootbox.alert({
+            message: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Tài khoản này đã tồn tại ! vui lòng tạo lại',
+            size: 'small'
+        });
+    </script>
+}
+<div class="container-fluid">
+    <!-- Start Page Content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card boxshadow">
+                <div class="card-body">
+                    <button id="adduser" type="button" class="btn btn-primary">TẠO NGƯỜI DÙNG MỚI</button>
+
+                    <div class="table-responsive">
+                        <table id="example23" class="display nowrap table table-hover table-bordered w-100" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Họ và tên</th>
+                                    <th>Tài khoản</th>
+                                    <th>Quyền</th>
+                                    <th hidden>Phân loại</th>
+                                    <th hidden>READ_ONLY</th>
+                                    <th hidden>PDF</th>
+                                    <th hidden>EXCEL</th>
+                                    <th hidden>WORD</th>
+                                    <th hidden>Chi nhánh</th>
+                                    <th hidden>Mã hàng hóa</th>
+                                    <th hidden>Mã tỉnh</th>
+                                    <th hidden>Mã trình dược viên</th>
+                                    <th hidden>Mã quận</th>
+                                    <th hidden>Đặt hàng</th>
+                                    <th style="width:120px;">Phân quyền</th>
+                                    <th style="width:120px;">Hành động</th>
+                                    <th style="width:80px;">Khóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var i in ViewBag.data)
+                                    {
+                                        <tr>
+                                            <th>@count</th>
+                                            <td>@i.hoten</td>
+                                            <td>@i.nguoidung</td>
+                                            <td>@i.quyen</td>
+                                            <td hidden>@i.phanloai</td>
+                                            <td hidden>@i.READ_ONLY</td>
+                                            <td hidden>@i.PDF</td>
+                                            <td hidden>@i.EXCEL</td>
+                                            <td hidden>@i.WORD</td>
+                                            <td hidden>@i.macn</td>
+                                            <td hidden>@i.mahh</td>
+                                            <td hidden>@i.matinh</td>
+                                            <td hidden>@i.matdv</td>
+                                            <td hidden>@i.maquan</td>
+                                            <td hidden>@i.dathang</td>
+
+                                            <td class="text-center"><button title="Xem phân quyền" type="button" class="btn btn-primary btnview"><i class="fa fa-binoculars"></i></button><button title="Chỉnh sửa phân quyền" type="button" class="btn btn-primary btnper"><i class="fa fa-lock"></i></button></td>
+                                            <td class="text-center"><button title="Chỉnh sửa người dùng" type="button" class="btn btn-primary btnedit"><i class="fa fa-edit"></i></button><button title="Xóa người dùng" type="button" class="btn btn-danger btnxoa waves-light"><i class="fa fa-close"></i></button></td>
+                                            @if (i.khoatk == true)
+                                            {
+                                                <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn mở khóa tài khoản này?');" checked></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn khóa tài khoản này?');"></td>
+                                            }
+                                        </tr>
+                                        count = count + 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End PAge Content -->
+</div>
+@using (Html.BeginForm("quan-ly-tai-khoan", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input id="password" name="password" type="password" hidden />
+    <div id="id01" class="w3-modal" style="z-index:998">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom">
+            <header class="w3-container w3-blue">
+                <span onclick="document.getElementById('id01').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                @*<h3 style="text-align:center; color:white; margin-top:7px; margin-bottom:7px;">PHÂN QUYỀN</h3>*@
+                <h4 id="taikhoan1" style="text-align:center; color:white; margin-top:7px; margin-bottom:7px;">NGƯỜI DÙNG MỚI</h4>
+            </header>
+            <div class="w3-border">
+                <button type="button" style="border-right:1px solid #ccc !important;" class="w3-bar-item w3-button tablink w3-gray" onclick="openCity(event,'taikhoantab')">Tài khoản</button>
+                <button type="button" style="border-right:1px solid #ccc !important;" class="w3-bar-item w3-button tablink" onclick="openCity(event,'phanquyentab')">Phân quyền</button>
+            </div>
+            <div id="taikhoantab" class="w3-container city">
+                <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+
+                    <div class="form-group">
+                        <label for="hovaten">Họ và tên</label>
+                        <input type="text" name="hoten" class="form-control" id="hovaten" placeholder="Họ và tên">
+                    </div>
+                    <div class="form-group">
+                        <label for="tentaikhoan">Tài khoản</label>
+                        <input type="text" name="taikhoan" class="form-control" id="tentaikhoan" placeholder="Tài khoản">
+                    </div>
+                    <div class="form-group">
+                        <label for="matkhau">Mật khẩu</label>
+                        <input type="password" name="matkhau" class="form-control" id="matkhau" placeholder="Mật khẩu">
+                    </div>
+                    <div class="form-group">
+                        <label for="rematkhau">Nhập lại mật khẩu</label>
+                        <input type="password" name="rematkhau" class="form-control" id="rematkhau" placeholder="Nhập lại mật khẩu">
+                    </div>
+
+                    <button id="submit1" type="submit" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Hoàn tất</button>
+                </div>
+            </div>
+
+            <div id="phanquyentab" class="w3-container city" style="display:none">
+                <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="w3-col l6 m4 s5 b">
+                                Quyền
+                            </div>
+                            <div class="w3-col l4 m6 s7">
+                                <select name="quyen" class="form-control" id="quyen">
+                                    <option value="">Chọn</option>
+                                    <option value="CAP1">Cấp 1</option>
+                                    <option value="CAP2">Cấp 2</option>
+                                    <option value="QLHH1">QLHH Cấp 1</option>
+                                    <option value="QLHH2">QLHH Cấp 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w3-col l6 m6 s12">
+                            <div class="w3-col L6 m4 s5 b">
+                                Phân loại
+                            </div>
+                            <div class="w3-col l4 m6 s7">
+                                <select name="phanloai" class="form-control" title="Chọn" id="phanloai">
+                                    <option value="">Chọn</option>
+                                    <option value="ETC,OTC">ALL</option>
+                                    <option value="ETC">ETC</option>
+                                    <option value="OTC">OTC</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row" style="margin-top:15px; padding-left:15px; padding-right:15px;">
+                        <div class="w3-col l6 m6 s12">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    READ ONLY
+                                    <div class="material-switch pull-right">
+                                        <input value="1" id="someSwitchOptionSuccessR" name="read" type="checkbox" />
+                                        <label for="someSwitchOptionSuccessR" class="label-info"></label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    PDF
+                                    <div class="material-switch pull-right">
+                                        <input value="1" id="someSwitchOptionSuccessP" name="pdf" type="checkbox" />
+                                        <label for="someSwitchOptionSuccessP" class="label-info"></label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    WORD
+                                    <div class="material-switch pull-right">
+                                        <input value="1" id="someSwitchOptionSuccessW" name="word" type="checkbox" />
+                                        <label for="someSwitchOptionSuccessW" class="label-info"></label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    EXCEL
+                                    <div class="material-switch pull-right">
+                                        <input value="1" id="someSwitchOptionSuccessE" name="excel" type="checkbox" />
+                                        <label for="someSwitchOptionSuccessE" class="label-info"></label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="w3-col l6 m6 s12">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    SẢN PHẨM
+                                    <div class="material-switch pull-right">
+                                        <input id="sanpham" type="checkbox" />
+                                        <label for="sanpham" class="label-info"></label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    KHU VỰC
+                                    <div class="material-switch pull-right">
+                                        <input id="khuvuc" type="checkbox" />
+                                        <label for="khuvuc" class="label-info"></label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    TRÌNH DƯỢC VIÊN
+                                    <div class="material-switch pull-right">
+                                        <input value="1" name="trinhduocvien" id="trinhduocvien" type="checkbox" />
+                                        <label for="trinhduocvien" class="label-info"></label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    QUẬN
+                                    <div class="material-switch pull-right">
+                                        <input value="1" name="quan" id="quan" type="checkbox" />
+                                        <label for="quan" class="label-info"></label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+
+                        <div class="w3-container" style="margin-bottom:0px;">
+                            <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                                <div class="w3-row">
+                                    <div class="w3-col l6 m6 s12">
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="checkAll" type="checkbox" />
+                                            <label for="checkAll">
+                                                TẤT CẢ
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="w3-col l6 m6 s12">
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="MIENTRUNG" type="checkbox" />
+                                            <label for="MIENTRUNG">
+                                                MIỀN TRUNG
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="w3-col l6 m6 s12">
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="MIENNAM" type="checkbox" />
+                                            <label for="MIENNAM">
+                                                MIỀN NAM
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="w3-col l6 m6 s12">
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="MIENBAC" type="checkbox" />
+                                            <label for="MIENBAC">
+                                                MIỀN BẮC
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w3-row" style="border:1px solid black; padding:10px;">
+                                @{int count1 = 1;
+                                    foreach (var x in ViewBag.donvi)
+                                    {
+                                        if (count1 % 2 == 1)
+                                        {
+                                            <script>
+                                                $(function () {
+                                                    $("#div1").append('<div class="checkbox checkbox-primary"><input class="Checkboxlist1 @x.macn @x.Mien" value="@x.macn" id="@x.macn" name="Checkboxlist1" type="checkbox" /><label for="@x.macn">@x.Tencn</label></div>');
+                                                });
+                                            </script>
+                                        }
+                                        if (count1 % 2 == 0)
+                                        {
+                                            <script>
+                                                $(function () {
+                                                    $("#div2").append('<div class="checkbox checkbox-primary"><input class="Checkboxlist1 @x.macn @x.Mien" value="@x.macn" id="@x.macn" name="Checkboxlist1" type="checkbox" /><label for="@x.macn">@x.Tencn</label></div>');
+                                                });
+                                            </script>
+                                        }
+                                        count1 = count1 + 1;
+                                    }
+                                }
+                                <div id="div1" class="w3-col l6 m6 s12">
+                                </div>
+                                <div id="div2" class="w3-col l6 m6 s12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="p-3">
+                                        ĐẶT HÀNG
+                                        <div class="material-switch pull-right">
+                                            <input name="dathang" value="1" id="dathang" type="checkbox" />
+                                            <label for="dathang" class="label-info"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </li>
+                    </ul>
+                    <button id="submit2" type="submit" class="w3-button w3-block w3-blue w3-ripple w3-padding">Hoàn tất</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id04" style="z-index:999" class="w3-modal">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id04close" onclick="document.getElementById('id04').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+
+                <!-- Material input -->
+                <div class="form-group">
+                    <label for="tentaikhoanedit">Tài khoản</label>
+                    <input readonly type="text" class="form-control" id="tentaikhoanedit" placeholder="Tài khoản">
+                </div>
+                <div class="form-group">
+                    <label for="hovatenedit">Họ và tên</label>
+                    <input type="text" class="form-control" id="hovatenedit" placeholder="Họ và tên">
+                </div>
+
+                <div class="checkbox checkbox-primary">
+                    <input id="editmatkhau" type="checkbox" />
+                    <label for="editmatkhau">
+                        Đổi mật khẩu
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="matkhauedit">Mật khẩu</label>
+                    <input disabled type="password" class="form-control matkhau" id="matkhauedit" placeholder="Mật khẩu">
+                </div>
+                <div class="form-group">
+                    <label for="rematkhauedit">Nhập lại mật khẩu</label>
+                    <input disabled type="password" class="form-control matkhau" id="rematkhauedit" placeholder="Nhập lại mật khẩu">
+                </div>
+
+                <button id="submitedit" type="button" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Thay đổi</button>
+            </div>
+        </div>
+    </div>
+    <div id="id05" class="w3-modal">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id05close" onclick="document.getElementById('id05').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="border:1px solid black ;width:100%; padding-left:5px; border-radius:7px; margin-bottom : 5px; ">
+                        <i style="font-size:34px; float:right;  border-left:1px solid gray;" class="fa fa-search" aria-hidden="true"></i><input id="timkieminput" onkeyup="myFunction()" style="width:85%; height:34px ;background-color:white; border:none; color: black;" type="search" name="timkiem" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll5" type="checkbox" name="Checkboxlist5" value="ALL" checked>
+                                <label for="CheckAll5">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="SanPhamList" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+                    @foreach (var a in ViewBag.sanpham)
+                    {
+                        <div id="A @a.MaHH" class="Checkboxlist5 checkbox checkbox-primary"><input disabled class="Checkboxlist5" value="@a.MaHH" id="@a.MaHH" type="checkbox" name="Checkboxlist5"><label for="@a.MaHH">@a.MaHH - @a.TenHH</label></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id06" class="w3-modal">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id06close" onclick="document.getElementById('id06').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="border:1px solid black ;width:100%; padding-left:5px; border-radius:7px; margin-bottom : 5px; ">
+                        <i style="font-size:34px; float:right;  border-left:1px solid gray;" class="fa fa-search" aria-hidden="true"></i><input id="timkieminput1" onkeyup="myFunction1()" style="width:85%; height:34px ;background-color:white; border:none; color: black;" type="search" name="timkiem1" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll6" type="checkbox" name="Checkboxlist6" value="ALL" checked>
+                                <label for="CheckAll6">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="KhuVucList" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+                    @foreach (var i in ViewBag.tinh)
+                {
+                        <div id="A @i.matinh" class="Checkboxlist6 checkbox checkbox-primary"><input disabled class="Checkboxlist6" value="@i.matinh" id="@i.matinh" type="checkbox" name="Checkboxlist6"><label for="@i.matinh">@i.matinh - @i.tentinh</label></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id08" class="w3-modal">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id08close" onclick="document.getElementById('id08').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="margin-bottom:5px;">
+                        <select name="chinhanhtdv" class="form-control" id="chinhanhtdv">
+                            <option value="">Chọn</option>
+                            @foreach (var i in ViewBag.donvi)
+                            {
+                                <option value="@i.macn">@i.Tencn</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div style="border:1px solid black ;width:100%; padding-left:5px; border-radius:7px; margin-bottom : 5px; ">
+                        <i style="font-size:34px; float:right;  border-left:1px solid gray;" class="fa fa-search" aria-hidden="true"></i><input id="timkieminput3" onkeyup="myFunction3()" style="width:85%; height:34px ;background-color:white; border:none; color: black;" type="search" name="timkiem" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll8" type="checkbox" value="ALL" name="Checkboxlist8">
+                                <label for="CheckAll8">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="TrinhDuocVienList" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id09" class="w3-modal" style="z-index:999">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id09close" onclick="document.getElementById('id09').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="margin-bottom:5px;">
+                        <select name="chinhanhquan" class="form-control" id="chinhanhquan">
+                            <option value="">Chọn</option>
+                            @foreach (var i in ViewBag.donvi)
+                            {
+                                <option value="@i.macn">@i.Tencn</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll9" type="checkbox" value="ALL" name="Checkboxlist9">
+                                <label for="CheckAll9">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="QuanList" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                    }
+@using (Html.BeginForm("EditPermision", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div id="id02" class="w3-modal" style="z-index:998">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom">
+            <header class="w3-container w3-blue">
+                <span onclick="document.getElementById('id02').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h4 id="taikhoan12" style="text-align:center; color:white; margin-top:7px; margin-bottom:7px;"></h4>
+            </header>
+            <input name="taikhoan" type="text" id="taikhoan2" hidden />
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div class="w3-col l6 m6 s12">
+                        <div class="w3-col l6 m4 s5 b">
+                            Quyền
+                        </div>
+                        <div class="w3-col l4 m6 s7">
+                            <select name="quyen" class="form-control" id="quyen2">
+                                <option value="CAP1">Cấp 1</option>
+                                <option value="CAP2">Cấp 2</option>
+                                <option value="QLHH1">QLHH Cấp 1</option>
+                                <option value="QLHH2">QLHH Cấp 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w3-col l6 m6 s12">
+                        <div class="w3-col L6 m4 s5 b">
+                            Phân loại
+                        </div>
+                        <div class="w3-col l4 m6 s7">
+                            <select name="phanloai" class="form-control" title="Chọn" id="phanloai2">
+                                <option value="ETC">ETC</option>
+                                <option value="OTC">OTC</option>
+                                <option value="ETC,OTC">ALL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row" style="margin-top:15px; padding-left:15px; padding-right:15px;">
+                    <div class="w3-col l6 m6 s12">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                READ ONLY
+                                <div class="material-switch pull-right">
+                                    <input value="1" id="someSwitchOptionSuccessR2" name="read" type="checkbox" />
+                                    <label for="someSwitchOptionSuccessR2" class="label-info"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                PDF
+                                <div class="material-switch pull-right">
+                                    <input value="1" id="someSwitchOptionSuccessP2" name="pdf" type="checkbox" />
+                                    <label for="someSwitchOptionSuccessP2" class="label-info"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                WORD
+                                <div class="material-switch pull-right">
+                                    <input value="1" id="someSwitchOptionSuccessW2" name="word" type="checkbox" />
+                                    <label for="someSwitchOptionSuccessW2" class="label-info"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                EXCEL
+                                <div class="material-switch pull-right">
+                                    <input value="1" id="someSwitchOptionSuccessE2" name="excel" type="checkbox" />
+                                    <label for="someSwitchOptionSuccessE2" class="label-info"></label>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="w3-col l6 m6 s12">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                SẢN PHẨM
+                                <div class="material-switch pull-right">
+                                    <input id="sanpham2" type="checkbox" />
+                                    <label for="sanpham2" class="label-info"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                KHU VỰC
+                                <div class="material-switch pull-right">
+                                    <input id="khuvuc2" type="checkbox" />
+                                    <label for="khuvuc2" class="label-info"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                TRÌNH DƯỢC VIÊN
+                                <div class="material-switch pull-right">
+                                    <input value="1" name="trinhduocvien" id="trinhduocvien2" type="checkbox" />
+                                    <label for="trinhduocvien2" class="label-info"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                QUẬN
+                                <div class="material-switch pull-right">
+                                    <input value="1" name="quan" id="quan2" type="checkbox" />
+                                    <label for="quan2" class="label-info"></label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="w3-row">
+
+                    <div class="w3-container" style="margin-bottom:0px;">
+                        <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                            <div class="w3-row">
+                                <div class="w3-col l6 m6 s12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="checkAll2" type="checkbox" />
+                                        <label for="checkAll2">
+                                            TẤT CẢ
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="w3-col l6 m6 s12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="MIENTRUNG2" type="checkbox" />
+                                        <label for="MIENTRUNG2">
+                                            MIỀN TRUNG
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="w3-col l6 m6 s12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="MIENNAM2" type="checkbox" />
+                                        <label for="MIENNAM2">
+                                            MIỀN NAM
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="w3-col l6 m6 s12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="MIENBAC2" type="checkbox" />
+                                        <label for="MIENBAC2">
+                                            MIỀN BẮC
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row" style="border:1px solid black; padding:10px;">
+                            @{int count2 = 1;
+                                foreach (var x in ViewBag.donvi)
+                                {
+                                    if (count2 % 2 == 1)
+                                    {
+                                        <script>
+                                            $(function () {
+                                                $("#div3").append('<div class="checkbox checkbox-primary"><input class="Checkboxlist12 @x.macn @(x.Mien + '2')" value="@x.macn" id="@('A' + x.macn)" name="Checkboxlist1" type="checkbox" /><label for="@('A' + x.macn)">@x.Tencn</label></div>');
+                                            });
+                                        </script>
+                                    }
+                                    if (count2 % 2 == 0)
+                                    {
+                                        <script>
+                                            $(function () {
+                                                $("#div4").append('<div class="checkbox checkbox-primary"><input class="Checkboxlist12 @x.macn @(x.Mien + '2')" value="@x.macn" id="@('A' + x.macn)" name="Checkboxlist1" type="checkbox" /><label for="@('A' + x.macn)">@x.Tencn</label></div>');
+                                            });
+                                        </script>
+                                    }
+                                    count2 = count2 + 1;
+                                }
+                            }
+                            <div id="div3" class="w3-col l6 m6 s12">
+                            </div>
+                            <div id="div4" class="w3-col l6 m6 s12">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="p-3">
+                                    ĐẶT HÀNG
+                                    <div class="material-switch pull-right">
+                                        <input name="editdathang" value="1" id="editdathang" type="checkbox" />
+                                        <label for="editdathang" class="label-info"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </li>
+                </ul>
+                <div style="text-align:center;margin-top:5px"><button type="submit" class="btn btn-info w3-blue m-b-10 m-l-5">Thay đổi</button></div>
+            </div>
+        </div>
+    </div>
+    <div id="id052" class="w3-modal" style="z-index:999">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id052close" onclick="document.getElementById('id052').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="border:1px solid black ;width:100%; padding-left:5px; border-radius:7px; margin-bottom : 5px; ">
+                        <i style="font-size:34px; float:right;  border-left:1px solid gray;" class="fa fa-search" aria-hidden="true"></i><input id="timkieminput2" onkeyup="my2Function()" style="width:85%; height:34px ;background-color:white; border:none; color: black;" type="search" name="timkiem" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll52" type="checkbox" name="Checkboxlist5" value="ALL">
+                                <label for="CheckAll52">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="SanPhamList2" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+                    @foreach (var a in ViewBag.sanpham)
+                    {
+                        <div id="A2 @a.MaHH" class="Checkboxlist52 checkbox checkbox-primary"><input class="Checkboxlist52" value="@a.MaHH" id="2 @a.MaHH" type="checkbox" name="Checkboxlist5"><label for="2 @a.MaHH">@a.MaHH - @a.TenHH</label></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id062" class="w3-modal" style="z-index:999">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id062close" onclick="document.getElementById('id062').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="border:1px solid black ;width:100%; padding-left:5px; border-radius:7px; margin-bottom : 5px; ">
+                        <i style="font-size:34px; float:right;  border-left:1px solid gray;" class="fa fa-search" aria-hidden="true"></i><input id="timkieminput12" onkeyup="my2Function1()" style="width:85%; height:34px ;background-color:white; border:none; color: black;" type="search" name="timkiem1" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll62" type="checkbox" name="Checkboxlist6" value="ALL">
+                                <label for="CheckAll62">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="KhuVucList2" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+                    @foreach (var i in ViewBag.tinh)
+                    {
+                        <div id="A2 @i.matinh" class="Checkboxlist62 checkbox checkbox-primary"><input class="Checkboxlist62" value="@i.matinh" id="2 @i.matinh" type="checkbox" name="Checkboxlist6"><label for="2 @i.matinh">@i.matinh - @i.tentinh</label></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id082" class="w3-modal" style="z-index:999">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id082close" onclick="document.getElementById('id082').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="margin-bottom:5px;">
+                        <select name="chinhanhtdv" class="form-control" id="chinhanhtdv2">
+                            <option value="">Chọn</option>
+                            @foreach (var i in ViewBag.donvi)
+                            {
+                                <option value="@i.macn">@i.Tencn</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div style="border:1px solid black ;width:100%; padding-left:5px; border-radius:7px; margin-bottom : 5px; ">
+                        <i style="font-size:34px; float:right;  border-left:1px solid gray;" class="fa fa-search" aria-hidden="true"></i><input id="timkieminput32" onkeyup="my2Function3()" style="width:85%; height:34px ;background-color:white; border:none; color: black;" type="search" name="timkiem" placeholder="Tìm kiếm" />
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll82" type="checkbox" value="ALL" name="Checkboxlist8">
+                                <label for="CheckAll82">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="TrinhDuocVienList2" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="id092" class="w3-modal" style="z-index:999">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+            <header class="w3-container w3-blue">
+                <span id="id092close" onclick="document.getElementById('id092').style.display='none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h3 style="text-align:center;">CHỌN</h3>
+            </header>
+
+            <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+                <div class="w3-row">
+                    <div style="margin-bottom:5px;">
+                        <select name="chinhanhquan" class="form-control" id="chinhanhquan2">
+                            <option value="">Chọn</option>
+                            @foreach (var i in ViewBag.donvi)
+                            {
+                                <option value="@i.macn">@i.Tencn</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="w3-border-black" style="border:1px solid black;padding:10px;">
+                    <div class="w3-row">
+                        <div class="w3-col l6 m6 s12">
+                            <div class="checkbox checkbox-primary">
+                                <input id="CheckAll92" type="checkbox" value="ALL" name="Checkboxlist9">
+                                <label for="CheckAll92">
+                                    TẤT CẢ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="QuanList2" class="w3-row" style="overflow:scroll ;border:1px solid black; padding:10px; height:310px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+                                }
+<div id="id03" class="w3-modal" style="z-index:999">
+    <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:382px;">
+        <header class="w3-container w3-blue">
+            <span onclick="document.getElementById('id03').style.display='none'"
+                  class="w3-button w3-display-topright w3-xlarge">&times;</span>
+            <h4 id="taikhoan3" style="text-align:center;">CHỌN</h4>
+        </header>
+
+        <div class="w3-container" style="margin-top:10px; margin-bottom:0px;">
+            <div class="form-group">
+                <label for="viewphanloai">Phân loại</label>
+                <input readonly type="text" class="form-control" id="viewphanloai">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="viewreadonly">READ ONLY</label>
+                        <input readonly type="text" class="form-control" id="viewreadonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="viewexcel">EXCEL</label>
+                        <input readonly type="text" class="form-control" id="viewexcel">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="viewpdf">PDF</label>
+                        <input readonly type="text" class="form-control" id="viewpdf">
+                    </div>
+                    <div class="form-group">
+                        <label for="viewword">WORD</label>
+                        <input readonly type="text" class="form-control" id="viewword">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="viewmacn">Chi nhánh</label>
+                <input readonly type="text" class="form-control" id="viewmacn">
+            </div>
+            <div class="form-group">
+                <label for="viewmahh">Sản phẩm</label>
+                <input readonly type="text" class="form-control" id="viewmahh">
+            </div>
+            <div class="form-group">
+                <label for="viewmatinh">Khu vực</label>
+                <input readonly type="text" class="form-control" id="viewmatinh">
+            </div>
+            <div class="form-group">
+                <label for="viewmatdv">Trình dược viên</label>
+                <input readonly type="text" class="form-control" id="viewmatdv">
+            </div>
+            <div class="form-group">
+                <label for="viewmaquan">Quận</label>
+                <input readonly type="text" class="form-control" id="viewmaquan">
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label for="viewmaquan">Đặt hàng</label>
+                        <input readonly type="text" class="form-control" id="viewdathang">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#adduser").click(function () {
+            $('#id01').css("display", "block");
+        });
+    });
+</script>
+<script>
+    function myFunction() {
+        var url = '@Url.Action("TimKiemTH", "Admin")';
+        var giatri = $('#timkieminput').val();
+        $.post(url, { input: giatri },
+            function (data) {
+                var SanPham = document.getElementsByClassName('Checkboxlist5');
+                for (var i = 0; i < SanPham.length; i++) {
+                    SanPham[i].style.display = "none";
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("A " + data[i].MaHH).style.display = "block";
+                    //document.getElementById("AA" + data[i].MaHH).style.display = "block";
+                }
+            });
+    };
+    function my2Function() {
+        var u2rl = '@Url.Action("TimKiemTH", "Admin")';
+        var gia2tri = $('#timkieminput2').val();
+        $.post(u2rl, { input: gia2tri },
+            function (data) {
+                var San2Pham = document.getElementsByClassName('Checkboxlist52');
+                for (var i = 0; i < San2Pham.length; i++) {
+                    San2Pham[i].style.display = "none";
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("A2 " + data[i].MaHH).style.display = "block";
+                    //document.getElementById("AA" + data[i].MaHH).style.display = "block";
+                }
+            });
+    };
+</script>
+<script>
+    function myFunction1() {
+        var url1 = '@Url.Action("TimKiemTinh", "Admin")';
+        var giatri1 = $('#timkieminput1').val();
+        $.post(url1, { input: giatri1 },
+            function (data) {
+                var Tinh = document.getElementsByClassName('Checkboxlist6');
+                for (var i = 0; i < Tinh.length; i++) {
+                    Tinh[i].style.display = "none";
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("A " + data[i].matinh).style.display = "block";
+                }
+            });
+    };
+    function my2Function1() {
+        var u2rl1 = '@Url.Action("TimKiemTinh", "Admin")';
+        var gia2tri1 = $('#timkieminput12').val();
+        $.post(u2rl1, { input: gia2tri1 },
+            function (data) {
+                var T2inh = document.getElementsByClassName('Checkboxlist62');
+                for (var i = 0; i < T2inh.length; i++) {
+                    T2inh[i].style.display = "none";
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("A2 " + data[i].matinh).style.display = "block";
+                }
+            });
+    };
+</script>
+<script>
+    $(document).ready(function () {
+        $("#id05close").click(function () {
+            $("#sanpham").prop('checked', false);
+        });
+        $("#id06close").click(function () {
+            $("#khuvuc").prop('checked', false);
+        });
+        $("#id052close").click(function () {
+            $("#sanpham2").prop('checked', false);
+        });
+        $("#id062close").click(function () {
+            $("#khuvuc2").prop('checked', false);
+        });
+        $("#chinhanhtdv").change(function () {
+            if ($("#chinhanhtdv").val() != "") {
+                var url2 = '@Url.Action("GetTrinhDuocVien", "Home")';
+                var giatri2 = $('#chinhanhtdv').val();
+                $.post(url2, { ChiNhanhId: giatri2 },
+                function (data) {
+                    $("#TrinhDuocVienList").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $("#TrinhDuocVienList").append('<div id="E' + data[i].MATDV + '" class="Checkboxlist8 checkbox checkbox-primary"><input class="Checkboxlist8" value="' + data[i].MATDV + '" id="EE' + data[i].MATDV + '" type="checkbox" name="Checkboxlist8"><label for="EE' + data[i].MATDV + '">' + data[i].MATDV + "-" + data[i].TENTDV + '</label></div>');
+                    }
+                });
+            }
+        });
+        $("#chinhanhquan").change(function () {
+            if ($("#chinhanhquan").val() != "") {
+                var url10 = '@Url.Action("GetQuan", "Home")';
+                var giatri10 = $('#chinhanhquan').val();
+                $.post(url10, { ChiNhanhId: giatri10 },
+                function (data) {
+                    $("#QuanList").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $("#QuanList").append('<div id="Q' + data[i].maquan + '" class="Checkboxlist9 checkbox checkbox-primary"><input class="Checkboxlist9" value="' + data[i].maquan + '" id="QQ' + data[i].maquan + '" type="checkbox" name="Checkboxlist9"><label for="QQ' + data[i].maquan + '">' + data[i].maquan + "-" + data[i].tenquan + '</label></div>');
+                    }
+                });
+            }
+        });
+        $("#chinhanhtdv2").change(function () {
+            if ($("#chinhanhtdv2").val() != "") {
+                var u2rl2 = '@Url.Action("GetTrinhDuocVien", "Home")';
+                var gia2tri2 = $('#chinhanhtdv2').val();
+                $.post(u2rl2, { ChiNhanhId: gia2tri2 },
+                function (data) {
+                    $("#TrinhDuocVienList2").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $("#TrinhDuocVienList2").append('<div id="E2' + data[i].MATDV + '" class="Checkboxlist82 checkbox checkbox-primary"><input class="Checkboxlist82" value="' + data[i].MATDV + '" id="EE2' + data[i].MATDV + '" type="checkbox" name="Checkboxlist8"><label for="EE2' + data[i].MATDV + '">' + data[i].MATDV + "-" + data[i].TENTDV + '</label></div>');
+                    }
+                });
+            }
+        });
+        $("#chinhanhquan2").change(function () {
+            if ($("#chinhanhquan2").val() != "") {
+                var u2rl10 = '@Url.Action("GetQuan", "Home")';
+                var gia2tri10 = $('#chinhanhquan2').val();
+                $.post(u2rl10, { ChiNhanhId: gia2tri10 },
+                function (data) {
+                    $("#QuanList2").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $("#QuanList2").append('<div id="Q2' + data[i].maquan + '" class="Checkboxlist92 checkbox checkbox-primary"><input class="Checkboxlist92" value="' + data[i].maquan + '" id="QQ2' + data[i].maquan + '" type="checkbox" name="Checkboxlist9"><label for="QQ2' + data[i].maquan + '">' + data[i].maquan + "-" + data[i].tenquan + '</label></div>');
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!-- All Jquery -->
+<script src="~/Content/AdminLayout/js/lib/datatables/datatables.min.js?version=3"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/datatables-init.js?version=1"></script>
+<style>
+    tbody tr td {
+        color: black !important;
+    }
+
+    td {
+        vertical-align: middle !important;
+    }
+</style>
+<style>
+    #id01 {
+        z-index: 998;
+    }
+
+    #id05 {
+        z-index: 999;
+    }
+
+    #id06 {
+        z-index: 999;
+    }
+
+    #id08 {
+        z-index: 999;
+    }
+
+    h3 {
+        margin-top: 5px;
+    }
+
+    .text {
+        width: 100%;
+    }
+
+    .pull-right {
+        float: left;
+    }
+
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 100%;
+    }
+
+    .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
+        margin-right: 0px;
+    }
+
+    .a {
+        margin-top: 10px;
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    .b {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .w3-container, .w3-panel {
+        padding: 6px 16px;
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    .bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark {
+        margin-top: 9px;
+    }
+
+    .w3-btn, .w3-button {
+        padding: 3px 16px;
+    }
+
+    .w3-modal {
+        padding-top: 15px;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: 3.5rem;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 4px;
+        vertical-align: middle;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    tbody tr td {
+        color: black;
+    }
+
+    a, button {
+        color: #1b1c1d !important;
+    }
+
+    .page-titles .breadcrumb .breadcrumb-item.active {
+        color: #1b1c1d !important;
+    }
+
+    .navbar {
+        margin-bottom: 0px;
+    }
+
+    .list-group {
+        margin-bottom: 5px;
+    }
+
+    .checkbox, .radio {
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+
+    .w3-gray {
+        background: linear-gradient(to top, #ffffff 0%, #808080 100%);
+        font-weight: 600;
+    }
+
+    .w3-animate-bottom {
+        animation: animatebottom 0.9s !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        line-height: 2.3;
+    }
+</style>
+<script>
+    function myFunction3() {
+        var url3 = '@Url.Action("TimKiemTDV", "Admin")';
+        var id3 = $("#chinhanhtdv").val();
+        var giatri3 = $('#timkieminput3').val();
+        $.post(url3, { ChiNhanhId: id3, input: giatri3 },
+            function (data) {
+                var tdv = document.getElementsByClassName('Checkboxlist8');
+                for (var i = 0; i < tdv.length; i++) {
+                    tdv[i].style.display = "none";
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("E" + data[i].MATDV).style.display = "block";
+                }
+            });
+    };
+    function my2Function3() {
+        var u2rl3 = '@Url.Action("TimKiemTDV", "Admin")';
+        var i2d3 = $("#chinhanhtdv2").val();
+        var gia2tri3 = $('#timkieminput32').val();
+        $.post(u2rl3, { ChiNhanhId: i2d3, input: gia2tri3 },
+            function (data) {
+                var t2dv = document.getElementsByClassName('Checkboxlist82');
+                for (var i = 0; i < t2dv.length; i++) {
+                    t2dv[i].style.display = "none";
+                }
+                for (var i = 0; i < data.length; i++) {
+                    document.getElementById("E2" + data[i].MATDV).style.display = "block";
+                }
+            });
+    };
+</script>
+<script>
+    $(document).ready(function () {
+        $("#example23").on("change", ".checkkhoa", function () {
+
+            var url = '@Url.Action("ActionKhoa", "Admin")';
+
+            $.post(url, { taikhoan: $(this).closest('tr').find('td:eq(1)').text(), khoatk: $(this).is(":checked") },
+                         function (data) {
+
+                         });
+        });
+        $("#example23").on("click", ".btnper", function () {
+            delete string, list, string1, list1, string2, list2;
+            $('#trinhduocvien2').prop('checked', false);
+            $('#quan2').prop('checked', false);
+            $(".Checkboxlist12").attr("disabled", false);
+            $('#id02').css("display", "block");
+            $('#taikhoan12').text($(this).closest('tr').find('td:eq(1)').text());
+            $('#taikhoan2').val($(this).closest('tr').find('td:eq(1)').text());
+            $('#quyen2').val($(this).closest('tr').find('td:eq(2)').text());
+            $('#phanloai2').val($(this).closest('tr').find('td:eq(3)').text());
+            if ($(this).closest('tr').find('td:eq(4)').text() == "True") {
+                $('#someSwitchOptionSuccessR2').prop('checked', true);
+            }
+            else {
+                $('#someSwitchOptionSuccessR2').prop('checked', false);
+            }
+            if ($(this).closest('tr').find('td:eq(5)').text() == "True") {
+                $('#someSwitchOptionSuccessP2').prop('checked', true);
+            }
+            else {
+                $('#someSwitchOptionSuccessP2').prop('checked', false);
+            }
+            if ($(this).closest('tr').find('td:eq(7)').text() == "True") {
+                $('#someSwitchOptionSuccessW2').prop('checked', true);
+            }
+            else {
+                $('#someSwitchOptionSuccessW2').prop('checked', false);
+            }
+            if ($(this).closest('tr').find('td:eq(6)').text() == "True") {
+                $('#someSwitchOptionSuccessE2').prop('checked', true);
+            }
+            else {
+                $('#someSwitchOptionSuccessE2').prop('checked', false);
+            }
+            if ($(this).closest('tr').find('td:eq(13)').text() == "True") {
+                $('#editdathang').prop('checked', true);
+            }
+            else {
+                $('#editdathang').prop('checked', false);
+            }
+            $('.Checkboxlist12').prop('checked', false);
+            delete string;
+            delete list;
+            var string = $(this).closest('tr').find('td:eq(8)').text();
+            var list = string.split(",");
+            list.forEach(function (element) {
+                $('#A' + element).prop('checked', true);
+            });
+            delete string1;
+            delete list1;
+            var string1 = $(this).closest('tr').find('td:eq(9)').text();
+            var list1 = string1.split(",");
+            if (list1[0] == "ALL") {
+                document.getElementById("CheckAll52").checked = true;
+                $(".Checkboxlist52").prop("checked", false);
+                $(".Checkboxlist52").attr("disabled", true);
+            }
+            else {
+                document.getElementById("CheckAll52").checked = false;
+                $(".Checkboxlist52").attr("disabled", false);
+                list1.forEach(function (element1) {
+                    document.getElementById('2 ' + element1).checked = true;
+                });
+            }
+            delete string2;
+            delete list2;
+            var string2 = $(this).closest('tr').find('td:eq(10)').text();
+            var list2 = string2.split(",");
+
+            if (list2[0] == "ALL") {
+                document.getElementById("CheckAll62").checked = true;
+                $(".Checkboxlist62").prop("checked", false);
+                $(".Checkboxlist62").attr("disabled", true);
+            }
+            else {
+                document.getElementById("CheckAll62").checked = false;
+                $(".Checkboxlist62").attr("disabled", false);
+                list2.forEach(function (element2) {
+                    document.getElementById('2 ' + element2).checked = true;
+                });
+            }
+            delete string3;
+            delete list3;
+            var string3 = $(this).closest('tr').find('td:eq(11)').text();
+            var list3 = string3.split(",");
+            if (list3[0] == "ALL") {
+                document.getElementById("trinhduocvien2").checked = false;
+            }
+            else {
+                document.getElementById("trinhduocvien2").checked = true;
+                var x = $(this).closest('tr').find('td:eq(8)').text();
+                $("#chinhanhtdv2").val(x);
+                if ($("#chinhanhtdv2").val() != "") {
+                    var url2 = '@Url.Action("GetTrinhDuocVien", "Home")';
+                    var giatri2 = $('#chinhanhtdv2').val();
+                    $(".Checkboxlist12").attr("disabled", true);
+                    $.post(url2, { ChiNhanhId: giatri2 },
+                    function (data) {
+                        $("#TrinhDuocVienList2").empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $("#TrinhDuocVienList2").append('<div id="E2' + data[i].MATDV + '" class="Checkboxlist82 checkbox checkbox-primary"><input class="Checkboxlist82" value="' + data[i].MATDV + '" id="EE2' + data[i].MATDV + '" type="checkbox" name="Checkboxlist8"><label for="EE2' + data[i].MATDV + '">' + data[i].MATDV + "-" + data[i].TENTDV + '</label></div>');
+                        }
+                        list3.forEach(function (element3) {
+                            var ab = 'EE2' + element3;
+                            $("#" + ab).prop("checked", true);
+                        });
+                    });
+                }
+            }
+            delete string4;
+            delete list4;
+            var string4 = $(this).closest('tr').find('td:eq(12)').text();
+            var list4 = string4.split(",");
+            if (list4[0] == "ALL") {
+                document.getElementById("quan2").checked = false;
+            }
+            else {
+                document.getElementById("quan2").checked = true;
+                var x = $(this).closest('tr').find('td:eq(8)').text();
+                $("#chinhanhquan2").val(x);
+                if ($("#chinhanhquan2").val() != "") {
+                    var url11 = '@Url.Action("GetQuan", "Admin")';
+                    var giatri11 = $('#chinhanhquan2').val();
+                    $(".Checkboxlist12").attr("disabled", true);
+                    $.post(url11, { ChiNhanhId: giatri11 },
+                    function (data) {
+                        $("#QuanList2").empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $("#QuanList2").append('<div id="Q2' + data[i].maquan + '" class="Checkboxlist92 checkbox checkbox-primary"><input class="Checkboxlist92" value="' + data[i].maquan + '" id="QQ2' + data[i].maquan + '" type="checkbox" name="Checkboxlist9"><label for="QQ2' + data[i].maquan + '">' + data[i].maquan + "-" + data[i].tenquan + '</label></div>');
+                        }
+                        list4.forEach(function (element4) {
+                            var ccc = element4.replace(".", "\\.");
+                            var abb = 'QQ2' + ccc;
+                            $("#" + abb).attr("checked", true);
+                        });
+                    });
+                }
+
+            }
+        });
+        $("#submitedit").click(function () {
+            if ($("#matkhauedit").val() == $("#rematkhauedit").val()) {
+                var url = '@Url.Action("EditUser", "Admin")';
+                var taikhoanedit = $("#tentaikhoanedit").val();
+                var hovaten = $("#hovatenedit").val();
+                var matkhauedit = md5($("#matkhauedit").val());
+                if ($('#matkhauedit').is(':disabled')) {
+                    matkhauedit = null;
+                }
+                $.post(url, { taikhoan: taikhoanedit, hoten: hovaten, matkhau: matkhauedit },
+                               function (data) {
+                                   setTimeout(function () {
+                                       window.location.href = 'quan-ly-tai-khoan';
+                                   }, 300);
+                               });
+            }
+            else {
+                bootbox.alert({
+                    message: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Nhập lại mật khẩu chưa chính xác !',
+                    size: 'small'
+                });
+            }
+
+        });
+        $("#example23").on("click", ".btnxoa", function () {
+            
+            delete url;
+            var taikhoan = $(this).closest('tr').find('td:eq(2)').text();
+            var url = '@Url.Action("DelUser", "Admin")';
+            bootbox.confirm({
+                message: "Bạn có chắc chắn muốn xóa người dùng này ?",
+                buttons: {
+                    cancel: {
+                        label: 'Hủy',
+                        className: 'btn-danger'
+                    },
+                    confirm: {
+                        label: 'Có',
+                        className: 'btn-success'
+                    }
+                },
+                callback: function (result) {
+                    if (result == true) {
+                        $.post(url, { taikhoan: taikhoan },
+                            function (data) {
+                                setTimeout(function () {
+                                    window.location.href = 'quan-ly-tai-khoan';
+                                }, 300);
+                            });
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+</script>
+<script src="~/Scripts/QuanlyJS.js?version=11"></script>

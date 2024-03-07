@@ -1,0 +1,177 @@
+﻿@model ApplicationChart.Models.ViewQLDHKD
+<div class="row mb-2">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <!-- Default input -->
+        <div class="form-group row mb-2">
+            <label class="col-sm-3 col-lg-12 col-form-label" for="viewhoten">Họ và Tên</label>
+            <div class="col-sm-9 col-lg-12">
+                <input readonly value="@Model.hoten" class="form-control" id="edithoten" type="text" autocomplete="off">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group row mb-2">
+            <label class="col-sm-3 col-md-3 col-lg-12 col-form-label" for="viewtaikhoan">Tài khoản</label>
+            <div class="col-sm-9 col-md-9 col-lg-12">
+                <input readonly type="text" value="@Model.taikhoan" class="form-control" id="edittaikhoan" placeholder="Tài khoản">
+            </div>
+        </div>
+        <!-- Default input -->
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group row mb-2">
+            <label class="col-sm-3 col-lg-12 col-form-label" for="viewchinhanh">Chi Nhánh</label>
+            <div class="col-sm-9 col-lg-12">
+                <input readonly type="text" value="@Model.chinhanh" class="form-control" id="editchinhanh" placeholder="Chi nhánh">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group row mb-2">
+            <label class="col-sm-3 col-lg-12 col-form-label" for="viewchinhanh">Nhập mã khách hàng</label>
+            <div class="col-sm-12 col-lg-12">
+                <input type="text" class="form-control" id="inputmakh" placeholder="Nhập mã khách hàng sau đó bấm ENTER...">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive-sm">
+    <table id="example2" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+        <thead>
+            <tr>
+                <th class="text-center text-dark">Mã khách hàng</th>
+                <th class="text-center text-dark">Tên khách hàng</th>
+                <th class="text-center text-dark"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach(var i in Model.khachhang)
+                {
+                    <tr>
+                        <td>@i.MAKH</td>
+                        <td>@i.DONVI</td>
+                        <td class="text-center align-middle"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        var table2 = $('#example2').DataTable();
+        $("#example2").on("click", ".btnxoa", function () {
+            var x = this;
+            $.confirm({
+                title: '<b>THÔNG BÁO</b>',
+                content: 'Bạn có chắc chắn muốn xóa khách hàng này ?',
+                buttons: {
+                    confirm: {
+                        text: 'Chắc chắn',
+                        btnClass: 'btn-success',
+                        keys: ['enter'],
+                        action: function () {
+                            var row = table2.row($(x).parents('tr'));
+                            row.remove().draw();
+                        }
+                    },
+                    cancel: {
+                        text: 'Hủy',
+                        btnClass: 'btn-danger',
+                        keys: ['esc'],
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+        });
+
+        $("#inputmakh").keyup(function (e) {
+            var currentInput = $(this).val();
+            if (e.keyCode == 13) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Addkhachhangqldhkd", "Order")",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{makh: ' + JSON.stringify(currentInput) + '}',
+                    error: function () {
+                        $('#loading').modal('hide')
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Không tìm thấy mã khách hàng trong dữ liệu, vui lòng thử lại hoặc kiểm tra lại mã khách hàng", "Lỗi")
+                    },
+                    success: function (data) {
+                        $('#loading').modal('hide')
+                        if (data.length == 0) {
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không tìm thấy mã khách hàng trong dữ liệu, vui lòng thử lại hoặc kiểm tra lại mã khách hàng", "Lỗi")
+                        }
+                        else {
+                            $("#inputmakh").val("");
+                            //alert(data[0].DONVI)
+                            for (var i = 0; i < data.length; i++) {
+                                var rowNode = table2.row.add([data[i].MAKH, data[i].DONVI, '<button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button>']).draw(false).node();
+                                $(rowNode).find('td:eq(2)').addClass('text-center');
+                            }
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["success"]("Đã thêm thành công ", "Thông báo")
+                        }
+                    },
+                    timeout: 5000,
+                });
+
+            }
+        });
+    });
+</script>

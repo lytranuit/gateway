@@ -1,0 +1,516 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý phụ phí";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">HỆ THỐNG</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ PHỤ PHÍ</li>
+        </ol>
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-md-4 col-sm-4 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="formGroupExampleInput">Chi nhánh gốc<code class="bg-white">(*)</code></label>
+                <select title="Chi nhánh..." class="my-1 mr-2 selectpicker  show-tick" id="macngoc">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="formGroupExampleInput">Chi nhánh copy<code class="bg-white">(*)</code></label>
+                <select title="Chi nhánh..." multiple class="my-1 mr-2 selectpicker  show-tick" id="macncopy">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="chon">Năm<code>(*)</code></label>
+                <select class="selectpicker my-1 mr-sm-2 show-tick" name="nam" id="nam">
+                    <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                    <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                    <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                    <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                </select>
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btncopy" style="height:auto;width:auto;" type="button" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-copy" aria-hidden="true"></i> <b>COPY DỮ LIỆU</b></button>
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-md-6 col-sm-6 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
+                <select name="chinhanh" title="Chi nhánh..." class="my-1 mr-2 selectpicker  show-tick" id="macn">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="form-group col-md-6 col-sm-6 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="chon">Năm<code>(*)</code></label>
+                <select class="selectpicker my-1 mr-sm-2 show-tick" name="nam" id="nam">
+                    <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                    <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                    <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                    <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                </select>
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-search" aria-hidden="true"></i> <b>TÌM KIẾM</b></button>
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-content pl-3 box" style="background-color:white;">
+        <div class="row pt-2 pb-2 divthem">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="phamvi">Tháng <code>(*)</code></label>
+                    <select id="thang" class="selectpicker">
+                        <option selected value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm">Phụ phí OTC <code>(*)</code></label>
+                    <input id="phuphi_otc" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm">Phụ phí ETC <code>(*)</code></label>
+                    <input id="phuphi_etc" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm">Phụ phí trưởng nhóm <code>(*)</code></label>
+                    <input id="phuphi_supervisor" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm">Phụ phí quản lý <code>(*)</code></label>
+                    <input id="phuphi_manager" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm">Phụ phí giám đốc CN <code>(*)</code></label>
+                    <input id="phuphi_director" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm">Phụ phí giám đốc KD <code>(*)</code></label>
+                    <input id="phuphi_director_sale" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group mb-0">
+                    <label class="col-form-label" for="tenctkm"> &nbsp; </label>
+                    <button id="btnadd" style="height:auto;width:auto;" type="button" class="form-control  btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-plus" aria-hidden="true"></i> <b>THÊM</b></button>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="" id="Viewtable">
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Scripts/Quanlydonhang.js?version=280422"></script>
+    <script>
+        function CovertDatetime(i) {
+            var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2);
+            return dformat;   // The function returns the product of p1 and p2
+        }
+        $(document).ready(function () {
+            $(".divthem").hide();
+            $("#btnadd").click(function () {
+                if ($("#phuphi_otc").val() != null && $("#phuphi_etc").val() != null && $("#phuphi_supervisor").val() != null && $("#phuphi_manager").val() != null && $("#phuphi_director").val() != null && $("#phuphi_director_sale").val() != null) {
+                    var data = {
+                        "thang": $("#thang").val()
+                                                                , "nam": $("#nam").val()
+                                                                , "phuphi_otc": parseFloat($("#phuphi_otc").val().replaceAll(",", ".").replaceAll(" ", ""))
+                                                                , "phuphi_etc": parseFloat($("#phuphi_etc").val().replaceAll(",", ".").replaceAll(" ", ""))
+                                                                , "phuphi_supervisor": parseFloat($("#phuphi_supervisor").val().replaceAll(",", ".").replaceAll(" ", ""))
+                                                                , "phuphi_manager": parseFloat($("#phuphi_manager").val().replaceAll(",", ".").replaceAll(" ", ""))
+                                                                , "phuphi_director": parseFloat($("#phuphi_director").val().replaceAll(",", ".").replaceAll(" ", ""))
+                                                                , "phuphi_director_sale": parseFloat($("#phuphi_director_sale").val().replaceAll(",", ".").replaceAll(" ", ""))
+                    };
+                }
+                $.ajax({
+                    url: '@Url.Action("Addphuphi", "Home")',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{macn: ' + JSON.stringify($("#macn").val()) + ', data: ' + JSON.stringify(data) + '}',
+                    success: function (data) {
+                        if (data == "1") {
+                            $("#btnsubmit").click();
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["success"]("Thành công", "Thông báo")
+                        }
+                        else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["error"]("Không thành công vui lòng kiểm tra lại", "Thông báo")
+                        }
+                    },
+                    error: function (request, status, error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Kiểm tra lại thông tin nhập", "Thông báo")
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#btncopy").click(function () {
+                if ($("#macngoc").val() == "" || $("#macncopy").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh gốc hoặc copy", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Copyphuphi", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{nam: ' + JSON.stringify($("#nam").val()) + ', macngoc: ' + JSON.stringify($("#macngoc").val()) + ', macncopy: ' + JSON.stringify($("#macncopy").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["success"]("Thành công", "Thông báo")
+                            $('#loading').modal('hide')
+
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $("#btnsubmit").click(function () {
+                if ($("#macn").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialQLphuphi", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{nam: ' + JSON.stringify($("#nam").val()) + ', macn: ' + JSON.stringify($("#macn").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $(".divthem").show();
+                            $("#Viewtable").html(data);
+                            $('#example23').DataTable({
+                                "columnDefs": [{
+                                    "targets": 'no-sort',
+                                    "orderable": false,
+                                }],
+                                "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                                "order": [],
+                            }
+                                );
+                            $('#loading').modal('hide')
+
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $("#Viewtable").on("click", ".clickable-row", function () {
+                var hang = $(this);
+                $("#thang").val(hang.find('td:eq(0)').text()).selectpicker('refresh');
+                $("#phuphi_otc").val(hang.find('td:eq(1)').text());
+                $("#phuphi_etc").val(hang.find('td:eq(2)').text());
+                $("#phuphi_supervisor").val(hang.find('td:eq(3)').text());
+                $("#phuphi_manager").val(hang.find('td:eq(4)').text());
+                $("#phuphi_director").val(hang.find('td:eq(5)').text());
+                $("#phuphi_director_sale").val(hang.find('td:eq(6)').text());
+            });
+            $("#Viewtable").on("click", ".btnxoa", function () {
+                var id = $(this).closest('tr').find('td:eq(0)').text();
+                $.confirm({
+                    title: '<b>THÔNG BÁO</b>',
+                    content: 'Bạn có chắc chắn muốn xóa hàng này ?',
+                    buttons: {
+                        confirm: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+                                $.post('@Url.Action("Delphuphi", "Home")', { thang: id, nam: $("#nam").val(), macn: $("#macn").val() },
+                                function (data) {
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["success"]("Thành công", "Thông báo")
+                                    $("#btnsubmit").click();
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

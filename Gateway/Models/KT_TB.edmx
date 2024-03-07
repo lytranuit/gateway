@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="KT_TBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtBangCanDoiKeToan' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtBangCanDoiKeToan">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaSo" Type="varchar" MaxLength="6" />
+          <Property Name="ThongTu" Type="varchar" MaxLength="6" />
+          <Property Name="DauKy" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CuoiKy" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T01" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T02" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T03" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T04" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T05" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T06" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T07" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T08" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T09" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T10" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T11" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T12" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DieuChinh" Type="bit" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtBangCanDoiPhatSinh' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtBangCanDoiPhatSinh">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaTaiKHoan" Type="varchar" MaxLength="6" />
+          <Property Name="DKNO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DKCO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PSNO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PSCO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CKNO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CKCO" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtBaoCaoLuuChuyenTienTe' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtBaoCaoLuuChuyenTienTe">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaSo" Type="varchar" MaxLength="6" />
+          <Property Name="ThongTu" Type="varchar" MaxLength="6" />
+          <Property Name="PSKyNay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PSKyTruoc" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LKKyNay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LKKyTruoc" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DieuChinh" Type="bit" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtKetQuaKinhDoanhPhan1' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtKetQuaKinhDoanhPhan1">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaSo" Type="varchar" MaxLength="8" />
+          <Property Name="ThongTu" Type="varchar" MaxLength="8" />
+          <Property Name="PSKyNay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PSKyTruoc" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LKKyNay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LKKyTruoc" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T01" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T02" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T03" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T04" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T05" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T06" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T07" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T08" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T09" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T10" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T11" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="T12" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DieuChinh" Type="bit" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtKetQuaKinhDoanhPhan2' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtKetQuaKinhDoanhPhan2">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaSo" Type="varchar" MaxLength="6" />
+          <Property Name="ThongTu" Type="varchar" MaxLength="6" />
+          <Property Name="DD" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PC" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PN" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LC" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LN" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DC" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtKetQuaKinhDoanhPhan3' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtKetQuaKinhDoanhPhan3">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaSo" Type="varchar" MaxLength="6" />
+          <Property Name="ThongTu" Type="varchar" MaxLength="6" />
+          <Property Name="KyNay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="LuyKe" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.cdtThuyetMinhBCTC' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="cdtThuyetMinhBCTC">
+          <Property Name="MaNgay" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DonViThanhVienID" Type="bigint" />
+          <Property Name="MaSo" Type="varchar" MaxLength="50" />
+          <Property Name="ThongTu" Type="varchar" MaxLength="6" />
+          <Property Name="GiaTri" Type="numeric" Precision="18" Scale="4" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dcl_DonGiaBarCode' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclBangChiTietNhomKhac' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclChiTietCongCuDungCu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclDictionary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclKhuyenMaiTheoNhom' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclLanguage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclMeterNhomCanBo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclOldMenuChuan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dclTaiKhoan_NhaNuoc200' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.diniGiaTriMax' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="diniGiaTriMax">
+          <Property Name="GiaTriMax" Type="bigint" />
+          <Property Name="Bang" Type="smallint" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dtaDuToan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dtaThanhToanDauKy' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.dtaThucTrangTaiChinh' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="dtaThucTrangTaiChinh">
+          <Property Name="NamThang" Type="bigint" />
+          <Property Name="MaSo" Type="char" MaxLength="10" />
+          <Property Name="SoDauKy" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="SoCuoiKy" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.dtaTinhLaiDauKy' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.dtmBangKiemKe' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="dtmBangKiemKe">
+          <Property Name="Ngay" Type="datetime" />
+          <Property Name="MaTaiKhoan" Type="char" MaxLength="6" />
+          <Property Name="TaiKhoanID" Type="bigint" />
+          <Property Name="KhoID" Type="int" />
+          <Property Name="ThamSoID" Type="bigint" />
+          <Property Name="SoLuong" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="SL2" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="SoLoID" Type="bigint" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.dtmDauThau' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="dtmDauThau">
+          <Property Name="DinhKhoanID" Type="bigint" />
+          <Property Name="ChungTuID" Type="bigint" />
+          <Property Name="GT" Type="varchar" MaxLength="100" />
+          <Property Name="SoThuTu" Type="bigint" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.dtmGhiChu' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="dtmGhiChu">
+          <Property Name="DinhKhoanID" Type="bigint" />
+          <Property Name="ChungTuID" Type="bigint" />
+          <Property Name="GhiChu" Type="varchar" MaxLength="100" />
+          <Property Name="GuiGia_KM" Type="bit" />
+          <Property Name="HeSo" Type="numeric" Precision="18" Scale="4" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.dtmKeHoachThanhToan' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="dtmKeHoachThanhToan">
+          <Property Name="MaTaiKhoan" Type="char" MaxLength="6" />
+          <Property Name="TaiKhoanID" Type="int" />
+          <Property Name="NamThang" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="MaNguonID" Type="int" />
+          <Property Name="SoTien" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.dtmKeHoachThuChi' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="dtmKeHoachThuChi">
+          <Property Name="MaHieu" Type="char" MaxLength="4" />
+          <Property Name="TaiKhoanID" Type="int" />
+          <Property Name="NamThang" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="SoTien" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.T_DM_Daily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.TBL_DANHMUCCUAHANG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.TBL_DANHMUCTIEUDEBAOCAO' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TBL_DANHMUCTIEUDEBAOCAO">
+          <Property Name="TENCN" Type="nvarchar" MaxLength="200" />
+          <Property Name="diachi" Type="nvarchar" MaxLength="200" />
+          <Property Name="DT" Type="varchar" MaxLength="20" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="20" />
+          <Property Name="MASOTHUE" Type="varchar" MaxLength="20" />
+          <Property Name="khoxuat" Type="nvarchar" MaxLength="200" />
+          <Property Name="tendvbc" Type="nvarchar" MaxLength="200" />
+          <Property Name="tinh" Type="nvarchar" MaxLength="50" />
+          <Property Name="chuky1" Type="nvarchar" MaxLength="50" />
+          <Property Name="chuky2" Type="nvarchar" MaxLength="50" />
+          <Property Name="chuky3" Type="nvarchar" MaxLength="50" />
+          <Property Name="NGANHANG" Type="nvarchar" MaxLength="100" />
+          <Property Name="chuky2b" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.TBL_IN_CONGNOTH' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TBL_IN_CONGNOTH">
+          <Property Name="MAKH" Type="varchar" MaxLength="20" />
+          <Property Name="TENKH" Type="nvarchar" MaxLength="700" />
+          <Property Name="DAUNAM_NO" Type="float" />
+          <Property Name="DAUNAM_CO" Type="float" />
+          <Property Name="PSNO_0" Type="float" />
+          <Property Name="PSCO_0" Type="float" />
+          <Property Name="DKNO" Type="float" />
+          <Property Name="DKCO" Type="float" />
+          <Property Name="PSNO" Type="float" />
+          <Property Name="PSCO" Type="float" />
+          <Property Name="CKNO" Type="float" />
+          <Property Name="CKCO" Type="float" />
+          <Property Name="MAKH1" Type="varchar" MaxLength="20" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'KT_TB.dbo.TBL_INKYHAN' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TBL_INKYHAN">
+          <Property Name="TK" Type="varchar" MaxLength="100" />
+          <Property Name="TENKH" Type="nvarchar" MaxLength="500" />
+          <Property Name="MAKH" Type="varchar" MaxLength="100" />
+          <Property Name="TIEN" Type="float" />
+          <Property Name="ngayin" Type="smalldatetime" />
+          <Property Name="MAKH1" Type="varchar" MaxLength="200" />
+          <Property Name="t1" Type="float" />
+          <Property Name="t2" Type="float" />
+          <Property Name="t3" Type="float" />
+          <Property Name="t4" Type="float" />
+          <Property Name="t5" Type="float" />
+          <Property Name="t6" Type="float" />
+          <Property Name="t7" Type="float" />
+          <Property Name="t8" Type="float" />
+          <Property Name="t9" Type="float" />
+          <Property Name="t10" Type="float" />
+          <Property Name="t11" Type="float" />
+          <Property Name="t12" Type="float" />
+          <Property Name="t13" Type="float" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KT_TB.dbo.TBL_MIEN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityContainer Name="KT_TBModelStoreContainer">
+          </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KT_TBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="KT_TBEntities1" annotation:LazyLoadingEnabled="true">
+          </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KT_TBModelStoreContainer" CdmEntityContainer="KT_TBEntities1">
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

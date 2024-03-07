@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_DONDATHANG>
+<table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+        
+            <th style="width:80px;">Số ĐH</th>
+            <th>Ngày đặt hàng</th>
+            <th>Dự kiến giao</th>
+            <th>Tên khách hàng</th>
+            <th>Người tạo</th>
+            <th>Mã TDV</th>
+            <th hidden>Mã CN</th>
+            <th class="no-sort">Trạng thái</th>
+            <th>Xem</th>
+        </tr>
+    </thead>
+    <!--Table head-->
+    <!--Table body-->
+    <tbody>
+        @{
+            
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">@i.MADH</td>
+                    <td class="text-center">@i.NgayDat.ToString("dd/MM/yyyy")</td>
+                    @if (i.NgayGiao != null)
+                    {
+                        <td class="text-center">@i.NgayGiao.Value.ToString("dd/MM/yyyy")</td>
+                    }
+                    else
+                    {
+                        <td class="text-center">N/A</td>
+                    }
+                    <td>@i.DONVI</td>
+                    <td>@i.USERTAO</td>
+                    <td>@i.MATDV</td>
+                    <td hidden>@i.MACH</td>
+                    @if (i.DUYETDH == false)
+                    {
+                        <td class="text-center" title="Chờ duyệt"><span hidden>3</span><i class="fa fa-exclamation-triangle fa-2x" style="color:orange;" aria-hidden="true"></i></td>
+                        <td class="text-center" style="width:110px;"><button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnxemhd" data-toggle="modal" data-target="#ModalView"><i class="fa fa-2x fa-eye"></i></button></td>
+                    }
+                    @if (i.DUYETDH == null)
+                    {
+                        <td class="text-center" title="Từ chối"><span hidden>4</span><i class="fa fa-times-circle fa-2x" style="color:red;" aria-hidden="true"></i></td>
+                        <td class="text-center" style="width:110px;"><button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnxemhd" data-toggle="modal" data-target="#ModalView"><i class="fa fa-2x fa-eye"></i></button></td>
+                    }
+                    else if (i.DUYETDH == true)
+                    {
+                        <td class="text-center" title="Đã duyệt"><span hidden>2</span><i class="fa fa-check-circle fa-2x" style="color:#228117;" aria-hidden="true"></i></td>
+                        <td class="text-center" style="width:110px;"><button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnxemhd" data-toggle="modal" data-target="#ModalView"><i class="fa fa-2x fa-eye"></i></button></td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+

@@ -1,0 +1,336 @@
+﻿@model ApplicationChart.Models.ListDataKD
+<style>
+    .modal-header .close {
+        padding: 1rem;
+        margin: -8px -7px -13px auto;
+    }
+
+    .dropdown-menu {
+        font-size: 12px;
+    }
+
+    .bootstrap-select .dropdown-menu {
+        left: auto;
+        right: 0;
+        width: 100%;
+    }
+
+    .selectui .dropdown-menu {
+        left: 0;
+        right: auto;
+    }
+
+    .w-40 {
+        width: 40%;
+    }
+
+    .w-60 {
+        width: 60%;
+    }
+
+    .modal-dialog {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .modal-content {
+        height: 100%;
+        min-height: 100%;
+        height: auto;
+        border-radius: 0;
+    }
+
+    #dmhh {
+        overflow-y: auto;
+    }
+
+    span.text {
+        font-size: 11px !important;
+    }
+
+    .checkbox, .radio {
+        margin-top: 6px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .small, small {
+        font-size: 90%;
+    }
+
+    .font-small {
+        font-size: .85rem;
+    }
+
+    .dropdown-header, .dropdown-menu > li > a {
+        padding: 5px 8px;
+    }
+
+    #tablehanghoa > tbody > tr > td {
+        line-height: 20px;
+        font-size: 11px !important;
+    }
+
+    td .form-control {
+        height: 32px;
+    }
+
+    .bootstrap-select button.btn.btn-default {
+        font-size: 12px;
+    }
+
+    .checkbox {
+        font-size: 13px;
+    }
+</style>
+<div class="card mb-0">
+    <div class="card-header font-small">
+        Ngày tạo:
+        <strong>@DateTime.Now.ToString("dd/MM/yyyy")</strong>
+        <span class="float-right"> <strong>Trạng thái:</strong> Chờ duyệt</span>
+    </div>
+    <div class="card-body pb-0 pt-1">
+        <div class="row mb-1">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="form-group row mb-0">
+                    <label class="col-sm-3 col-md-3 col-lg-4 col-form-label" for="khachhang">Khách hàng<code class="bg-white">(*)</code></label>
+                    <div class="col-sm-9 col-md-9 col-lg-8">
+                        @if (Model.ListKH.Count() == 1)
+                        {
+                            <select id="khachhang" class="selectpicker" data-live-search="true" name="option">
+                                @foreach (var i in Model.ListKH)
+                                {
+                                    <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
+                                @foreach (var i in Model.ListKH)
+                                {
+                                    <option data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="form-group row mb-0">
+                    <label class="col-sm-3 col-lg-4 col-form-label" for="khachhang">Hợp đồng<code class="bg-white">(*)</code></label>
+                    <div class="col-sm-9 col-lg-8">
+                        <select id="hopdong" title="Chọn hợp đồng" class="selectpicker" name="option">
+                            @if (Model.ListHopdong != null)
+                            {
+                                foreach (var i in Model.ListHopdong)
+                                {
+                                    <option value="@i.MAHOPDONG">@i.MAHOPDONG - @i.TENHOPDONG</option>
+                                }
+                                <option value="TQG">TQG - THẦU QUỐC GIA</option>
+                                <option data-ck="null" value="OTC">OTC</option>
+                                <option data-ck="null" value="PY2018">PY2018 - THẦU 2018</option>
+                                <option data-ck="null" value="QT2018">QT2018 - GIÁ 2019</option>
+                                <option data-ck="null" value="92NS">92NS - THẦU 2018</option>
+                                <option data-ck="null" value="36NS">36NS - THẦU 2019</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-lg-4 col-form-label" for="vat">VAT</label>
+                    <div class="col-sm-9 col-lg-8">
+                        <select id="vat" class="selectpicker" name="option">
+                            <option value="5" selected>Tính 5%</option>
+                            <option value="10">Tính 10%</option>
+                            <option value="8">Tính 8%</option>
+                            <option value="0">Tính 0%</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 m-0">
+                <button id="btnthemhh" type="button" data-toggle="modal" data-target="#modalhh" class="btn btn-success btn-sm transition-3d-hover w-100 m-0"><i class="fa fa-plus"></i> THÊM SẢN PHẨM</button>
+            </div>
+        </div>
+        <div class="table-responsive-sm">
+            <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2" style="display:table;">
+                <thead style="background-color:rgb(66, 133, 244)">
+                    <tr class="text-white">
+                        <th style="width:75%;">Sản phẩm</th>
+                        <th style="width:20%">Hộp</th>
+                        <th hidden class="center">Số lượng</th>
+                        <th hidden>Đơn giá (Có VAT)</th>
+                        <th hidden>Thành tiền</th>
+                        <th style="width:20px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="tab_logic">
+                    @foreach (var i in Model.ListDDH)
+                    {
+                        <tr class="hanghoatr">
+                            <td class="left strong hanghoa text-dark" data-dvt="@i.DVT" data-tenhh="@i.TENHH" data-mahh="@i.MAHH">@i.MAHH - @i.TENHH</td>
+                            <td class="text-right paddingleft2 paddingright2"><input autocomplete="off" value="@((int)(i.SOLUONG*Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL2/Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3))" onkeypress="validate(event)" data-sl="@Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL2" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>
+                            <td hidden class="text-right paddingleft2 paddingright2"><input value="@((int)i.SOLUONG)" onkeypress="validate(event)" data-sl="@Model.ListHH.SingleOrDefault(n=>n.MAHH == i.MAHH).SL3" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl3"></td>
+                            <td hidden class="text-right paddingleft2 paddingright2 text-dark">@((int)i.GIABAN_VAT)</td>
+                            <td hidden class="text-right paddingleft2 paddingright2 text-dark">@((int)(i.SOLUONG * i.GIABAN_VAT))</td>
+                            <td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>
+                        </tr>
+                        <tr class="datetr"><td colspan="3"><input value="@i.DATE" placeholder="Điền ghi chú..." class="date form-control form-control-sm floatright font-weight-normal" type="text"></td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row clearfix m-0">
+            <table class="table table-bordered mb-2">
+                <tbody>
+                    <tr>
+                        <td class="font-weight-bold w-40 text-center text-dark">SL Sản phẩm</td>
+                        <td class="text-danger font-weight-bold text-right w-60" id="slsp">0</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold w-40 text-center text-dark">TIỀN VAT</td>
+                        <td class="text-danger font-weight-bold text-right w-60" id="tienvat">0.00</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN</td>
+                        <td class="text-danger font-weight-bold text-right w-60" id="thanhtien">0.00</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold w-40 text-center text-dark">TỔNG TIỀN</td>
+                        <td class="text-danger font-weight-bold text-right w-60" id="tongtien">0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <textarea placeholder="Ghi chú" class="form-control rounded-0" id="ghichu" rows="3"></textarea>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalhh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog mx-auto" role="document">
+        <div class="modal-content full-screen">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">DANH MỤC HÀNG HÓA</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <div class="input-group mb-1">
+                    <button id="btnthem" type="button" class="btn btn-sm btn-success m-0 mb-2 w-100">Thêm</button>
+                    <input autocomplete="off" onkeyup="myFunction()" type="text" class="form-control font-weight-normal border-right-0" id="timkiem" placeholder="Nhập tên hoặc mã hàng cần tìm tại đây">
+                    <div class="input-group-append">
+                        <button class="input-group-text bg-white p-2 border-left-0" id="btnclear"><i style="font-size:20px;" class="fa text-danger fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="container-fluid pt-2" id="dmhh">
+
+                </div>
+            </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-sm btn-danger mt-0 mb-0" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Taodonhangkdmobile.js?version=91"></script>
+<script>
+    $(document).ready(function () {
+        $("#hopdong").val('@Model.ListDDH.First().HOPDONG');
+        $("#vat").val('@Model.ListDDH.First().VAT');
+        $("#sodonhang").text('@Model.ListDDH.First().MADH');
+        var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
+        var count = 0;
+        $('#tablehanghoa > tbody > tr.hanghoatr').each(function () {
+            var MAHH = $("option:selected", this).val();
+            if (MAHH == "") {
+                return false;
+            }
+            count = count + parseInt($(this).find("td:eq(4)").text().replace(/[^\d.]/g, ''));
+        });
+        $("#tongtien").text(count.format());
+        $("#slsp").text('@Model.ListDDH.Count');
+        $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
+        $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
+        $("#ghichu").val("@Model.ListDDH.First().GHICHU");
+        $('.selectpicker').selectpicker('refresh');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetSanPhamHDKDMobile", "Order")",
+            datatype: 'json',
+            contentType: "application/json",
+            data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+            error: function () {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+            },
+            success: function (data) {
+                $("#dmhh").html(data);
+            },
+            timeout: 5000,
+        });
+        $("#hopdong").change(function () {
+            if ($("#tablehanghoa > tbody > tr").length != 0) {
+                $("#tablehanghoa > tbody").empty();
+                $("#tienvat").text("0.00");
+                $("#thanhtien").text("0.00");
+                $("#tongtien").text("0.00");
+                $("#slsp").text("0");
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSanPhamHDKDMobile", "Order")",
+                datatype: 'json',
+                contentType: "application/json",
+                data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mahd: ' + JSON.stringify($("#hopdong").val()) + '}',
+                error: function () {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Lấy dữ liệu thất bại, vui lòng thử lại", "Lỗi")
+                },
+                success: function (data) {
+                    $("#dmhh").html(data);
+                },
+                timeout: 5000,
+            });
+
+        });
+    });
+</script>

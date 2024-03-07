@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Demblock";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div id="main" class="container" style="min-height:580px;">
+    <div class="row" style="margin-top:20px;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mt-0 header-title">ĐẾM BLOCK</h4>
+
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <button id="btntracuu" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                            <input type="text" id="blocktarget" name="example-input1-group2" class="form-control" placeholder="Nhập block cần đếm ...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <select id="bscnode" class="custom-select">
+                            <option value="https://bsc-dataseed.binance.org/" selected="">https://bsc-dataseed.binance.org/</option>
+                            <option value="https://bsc-dataseed1.defibit.io/">https://bsc-dataseed1.defibit.io/</option>
+                            <option value="https://bsc-dataseed1.ninicoin.io/">https://bsc-dataseed1.ninicoin.io/</option>
+
+                        </select>
+
+                    </div>
+                    <div style="max-height:300px;text-align:center;overflow:auto!important" class="overflow-auto" id="blockshow">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btntracuu").click(function () {
+           clearInterval(loop);
+           var loop = setInterval(function () {
+                check($("#blocktarget").val(), $("#bscnode").val());
+            }, 500);
+        });
+    });
+    function check(block, node) {
+        var http = new XMLHttpRequest();
+        var url = node;
+        var params = '{"jsonrpc":"2.0","id":256,"method":"eth_blockNumber","params":[]}y';
+        http.open('POST', url, true);
+
+        //Send the proper header information along with the request
+        http.setRequestHeader('Content-type', 'application/json');
+
+        http.onreadystatechange = function () {//Call a function when the state changes.
+            if (http.readyState == 4 && http.status == 200) {
+                var result = JSON.parse(http.responseText);
+                var ketqua = (block - parseInt(result.result, 16));
+                if (ketqua == 0) {
+                    $("#blockshow").append("<h2>END</h2>");
+                    clearInterval(loop);
+
+                }
+                else {
+                    $("#blockshow").append("<h2>" + ketqua + "</h2>");
+                }
+                var div = document.getElementById("blockshow");
+                div.scrollTop = div.scrollHeight - div.clientHeight;
+            }
+        }
+        http.send(params);
+
+    }
+
+</script>
+
+
+

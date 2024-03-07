@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DEMANDFC>
+<table id="exceltable" class="table-bordered display nowrap w-100" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Ngày tạo</th>
+            <th>Tài khoản</th>
+            <th>Kênh</th>
+            <th>Khóa</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+         
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @i.ngaytao.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>@i.nguoitao</td>
+                    <td>@i.kenh</td>
+
+                    <td class="text-center">@i.khoa</td>
+                  
+                    <td class="text-center">
+                        <button title="Xem phân quyền" type="button" class="btn-sm btn-primary btnview" data-toggle="modal" data-animation="bounce" data-target="#modalview">
+                            <i class="fa fa-binoculars"></i>
+                        </button>
+                        <button title="Chỉnh sửa phân quyền" type="button" class="btn-sm btn-primary btnedit" data-toggle="modal" data-animation="bounce" data-target="#modaledit">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+             
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+

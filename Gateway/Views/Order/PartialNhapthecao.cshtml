@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_SOTHE>
+<table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+    <!--Table head-->
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th>Ngày nhập</th>
+            <th>Mã KH</th>
+            <th>Tên KH</th>
+            <th>Quí</th>
+            <th>Năm</th>
+            <th>Số thẻ</th>
+            <th>Xóa</th>
+        </tr>
+    </thead>
+    <!--Table head-->
+    <!--Table body-->
+    <tbody>
+        @{
+
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">@i.ngaytao.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@i.makh</td>
+                  
+                    <td>@i.tenkh</td>
+                    <td class="text-center">@i.qui</td>
+                    <td class="text-center">@i.nam</td>
+                    <td class="font-weight-bold text-center text-danger">@i.sothe</td>
+                    <td class="text-center" style="width:110px;"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>
+                 
+                </tr>
+            }
+        }
+    </tbody>
+    <!--Table body-->
+</table>
+
+
+

@@ -1,0 +1,129 @@
+﻿#wrap {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+#external-events {
+    float: left;
+    width: 150px;
+    padding: 0 10px;
+    text-align: left;
+}
+
+.bootstrap-select .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.custom-control-label::before {
+    border: 1px solid #0E7DFC;
+    background-color: white;
+}
+
+.custom-control-label::before,
+.custom-control-label::after {
+    left: 7px;
+    top: 1.8px;
+    width: 2rem;
+    height: 2rem;
+}
+
+#external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+}
+
+table.table td, table.table th {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+input.largerCheckbox {
+    width: 32px;
+    height: 32px;
+    margin-top: 0px;
+}
+
+#tablecreate tbody td {
+    vertical-align: middle !important;
+}
+
+.external-event { /* try to mimick the look of a real event */
+    margin: 10px 0;
+    padding: 2px 4px;
+    background: #3366CC;
+    color: #fff;
+    font-size: .85em;
+    cursor: pointer;
+}
+
+.fc-event {
+    text-align: center;
+}
+
+#external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+}
+
+    #external-events p input {
+        margin: 0;
+        vertical-align: middle;
+    }
+
+#calendar {
+    /* 		float: right; */
+    margin: 0 auto;
+    width: 100%;
+    background-color: #FFFFFF;
+  
+    box-shadow: 0 1px 2px #000000;
+}
+
+.fc-day-header {
+    width: 14.28% !important;
+    color: #495057;
+    font-weight: 600 !important;
+}
+
+.btn {
+    text-transform: none;
+}
+
+.glyphicon-ok:before {
+    content: "\e013";
+}
+
+.fc-event.important, .fc-event.success {
+    color: white;
+}
+
+.fc-event.success {
+    background-color: #4CAF50;
+}
+
+.fc-event.important {
+    background-color: #F44336;
+}
+
+@media (max-width:800px) {
+
+    .fc-header-title h2 {
+        font-size: 23px !important;
+    }
+
+    .fc-header-center {
+        display: none;
+    }
+
+    .modal-dialog {
+        margin: 0 !important;
+    }
+
+    .h5, h5 {
+        font-size: 0.85rem;
+    }
+}

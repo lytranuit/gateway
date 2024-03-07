@@ -1,0 +1,313 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_PHANQUYEN>
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+  <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+<style>
+    .dropdown-menu {
+        font-size: 12px;
+    }
+
+    .custom-control-label {
+        font-size: 17px;
+    }
+
+    .modal-dialog {
+        margin: auto !important;
+    }
+
+    .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        font-size: 11px !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        line-height: 26px;
+    }
+
+    td .form-control {
+        font-size: 12px;
+        height: 32px;
+    }
+
+    .font-small {
+        font-size: .85rem;
+    }
+
+    .dataTables_wrapper {
+        padding-top: 0px;
+    }
+
+    .modal-header .close {
+        padding: 1rem;
+        margin: -8px -7px -13px auto;
+    }
+
+    #dmhh {
+        overflow-y: auto;
+    }
+</style>
+}
+}
+
+
+
+
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">DỰ ƯỚC</a></li>
+          
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ NGƯỜI DÙNG</li>
+        </ol>
+    </div>
+    <div class="table-responsive dash-social" id="Viewtable">
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">XEM PHÂN QUYỀN</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="LeadName">Tài khoản <code class="text-danger">(*)</code></label>
+                            <input readonly autocomplete="off" type="text" class="form-control" id="taikhoanview" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Họ và tên <code class="text-danger">(*)</code></label>
+                            <input readonly autocomplete="off" type="text" class="form-control" id="hotenview" required="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="PhoneNo">Kênh <code class="text-danger">(*)</code></label>
+                            <select disabled class="selectpicker show-tick my-1 mr-sm-2" id="kenhview" data-actions-box="true" multiple data-selected-text-format="count > 5">
+
+                                @foreach (var i in ViewBag.kenh)
+                                {
+                                    <option value=@i.kenh>@i.kenh</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="PhoneNo">Phân quyền <code class="text-danger">(*)</code></label>
+                            <select disabled class="selectpicker show-tick my-1 mr-sm-2" id="phanquyenview" data-actions-box="true" multiple data-selected-text-format="count > 5">
+                                @foreach (var i in ViewBag.phanquyen)
+                                {
+                                    <option value=@i.quyen>@i.quyen</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger waves-effect" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modaledit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title font-weight-bold p-2" id="exampleModalLabel">CHỈNH SỬA PHÂN QUYỀN</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="LeadName">Tài khoản <code class="text-danger">(*)</code></label>
+                            <input readonly autocomplete="off" type="text" class="form-control" id="taikhoanedit" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="LeadEmail">Họ và tên <code class="text-danger">(*)</code></label>
+                            <input readonly autocomplete="off" type="text" class="form-control" id="hotenedit" required="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="PhoneNo">Kênh <code class="text-danger">(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" id="kenhedit" data-actions-box="true" multiple data-selected-text-format="count > 5">
+                                @foreach (var i in ViewBag.kenh)
+                                {
+                                    <option value="@i.kenh">@i.kenh</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="PhoneNo">Phân quyền <code class="text-danger">(*)</code></label>
+                            <select class="selectpicker show-tick my-1 mr-sm-2" id="phanquyenedit" data-actions-box="true" multiple data-selected-text-format="count > 5">
+                                @foreach (var i in ViewBag.phanquyen)
+                                {
+                                    <option value="@i.quyen">@i.tenquyen</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnluu" type="button" class="btn btn-sm btn-primary waves-effect waves-light">Lưu</button>
+                <button type="button" class="btn btn-sm btn-danger waves-effect" data-dismiss="modal">Đóng</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*}*@
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+   
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("PartialQLND", "Duuoc")",
+                datatype: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    $("#Viewtable").html(data);
+                    $('#datatable').DataTable({
+                        "columnDefs": [{
+                            "targets": 'no-sort',
+                            "orderable": false,
+                        }],
+                        "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                        "order": [],
+                    });
+                    $('#loading').modal('hide');
+                },
+                timeout: 5000,
+            });
+
+
+            $("#Viewtable").on("click", ".btnview", function () {
+                var hang = $(this);
+                var nguoidung = $(this).val();
+                $.ajax({
+                    url: "@Url.Action("GetviewQLND", "Duuoc")",
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{nguoidung: ' + JSON.stringify(nguoidung) + '}',
+                    success: function (data) {
+                        $("#taikhoanview").val(data.nguoidung);
+                        $("#hotenview").val(data.hoten);
+                        $("#kenhview").val(data.kenh.split(",")).selectpicker("refresh");
+                        $("#phanquyenview").val(data.quyen.split(",")).selectpicker("refresh");
+                        $('#modalview').modal({ backdrop: 'static', keyboard: true });
+                    },
+                    timeout: 5000,
+                    });
+            });
+            $("#Viewtable").on("click", ".btnedit", function () {
+                var hang = $(this);
+                var nguoidung = $(this).val();
+                $.ajax({
+                    url: "@Url.Action("GetviewQLND", "Duuoc")",
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{nguoidung: ' + JSON.stringify(nguoidung) + '}',
+                    success: function (data) {
+                        $("#taikhoanedit").val(data.nguoidung);
+                        $("#hotenedit").val(data.hoten);
+                        $("#kenhedit").val(data.kenh.split(",")).selectpicker("refresh");
+                        $("#phanquyenedit").val(data.quyen.split(",")).selectpicker("refresh");
+                        $('#modaledit').modal({ backdrop: 'static', keyboard: true });
+                    },
+                    timeout: 5000,
+                    });
+            });
+
+            $("#btnluu").click(function () {
+                console.log($('#kenhedit').val());
+                $.ajax({
+                    url: "@Url.Action("EditQLND", "Duuoc")",
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{nguoidung: ' + JSON.stringify($('#taikhoanedit').val()) + ',kenh: ' + JSON.stringify($('#kenhedit').val()) + ',phanquyen: ' + JSON.stringify($('#phanquyenedit').val()) + '}',
+                    success: function (data) {
+                        if (data == 1) {
+                            $('#modaledit').modal('hide');
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("PartialQLND", "Duuoc")",
+                                datatype: 'json',
+                            contentType: "application/json",
+                            success: function (data) {
+                                $("#Viewtable").html(data);
+                                $('#datatable').DataTable({
+                                    "columnDefs": [{
+                                        "targets": 'no-sort',
+                                        "orderable": false,
+                                    }],
+                                    "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                                    "order": [],
+                                });
+                                $('#loading').modal('hide');
+                            },
+                            timeout: 5000,
+                            });
+                        } else {
+                            Swal.fire(
+                                'Kết nối không thành công',
+                                'Vui lòng kiểm tra lại kết nối Internet',
+                                'error'
+                            )
+                        }
+                    },
+                    error: function (request, status, error) {
+                        Swal.fire(
+                            'Kết nối không thành công',
+                            'Vui lòng kiểm tra lại kết nối Internet',
+                            'error'
+                        )
+                    },
+                    timeout: 5000,
+                });
+
+                });
+            });
+    </script>
+}
+

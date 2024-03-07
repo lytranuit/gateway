@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCKHACHHANG_PENDING>
+<table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th style="width:50px;">#</th>
+            <th>Ngày yêu cầu</th>
+            <th>Mã KH</th>
+            <th>Tên khách hàng</th>
+            <th>Mã TDV</th>
+            <th>Mã tỉnh</th>
+            <th>Địa chỉ</th>
+            <th>ĐT liên hệ</th>
+            <th>Tình trạng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <th scope="row" class="text-center">@(count)</th>
+                    <td class="text-center">@(((DateTime)i.ngayyeucau).ToString("dd/MM/yyyy HH:mm"))</td>
+                    <td class="text-center">@i.makh</td>
+                    <td>@i.donvi</td>
+                    <th>@i.matdv</th>
+                    <th>@i.matinh</th>
+                    <td>@i.diachi</td>
+                    <td>@i.dt</td>
+                    @if (i.tinhtrang == null)
+                    {
+                        <td class="text-warning">Chờ duyệt</td>
+                    }
+                    else if (i.tinhtrang == "0")
+                    {
+                        <td class="text-danger">Từ chối</td>
+                    }
+                    else
+                    {
+                        <td class="text-success">Đã duyệt</td>
+                    }
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>

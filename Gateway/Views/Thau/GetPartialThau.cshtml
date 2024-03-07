@@ -1,0 +1,76 @@
+﻿@model ApplicationChart.Models.Dulieuthau
+<div class="form-group col-md-6 col-lg-4 mb-0">
+    <label class="my-1 mr-2 font-weight-bold" for="mahh">Mã hàng hóa</label>
+    <select title="Mã hàng hóa" class="selectpicker show-tick my-1 mr-sm-2" name="mahh" multiple data-actions-box="true" data-selected-text-format="count > 3" data-live-search="true" id="mahh">
+        @foreach (var i in Model.SANPHAM)
+        {
+            <option value="@i.MaHH">@i.MaHH - @i.TenHH</option>
+        }
+    </select>
+</div>
+<div class="form-group col-md-6 col-lg-4 mb-0">
+    <label class="my-1 mr-2 font-weight-bold" for="khuvuc">Khu vực</label>
+    <select title="Chọn khu vực" class="selectpicker show-tick my-1 mr-sm-2" multiple data-actions-box="true" data-selected-text-format="count > 3" data-live-search="true" id="khuvuc">
+        @foreach (var i in Model.KHUVUC)
+        {
+            <option value="@i.matinh">@i.matinh - @i.tentinh</option>
+        }
+    </select>
+</div>
+<div class="form-group col-md-6 col-lg-4 mb-0">
+    <label class="my-1 mr-2 font-weight-bold" for="quyetdinh">Quyết định</label>
+    <select title="Chọn quyết định" class="selectpicker show-tick my-1 mr-sm-2" multiple data-actions-box="true" data-selected-text-format="count > 1" id="maqd">
+        @foreach (var i in Model.QUYETDINH)
+        {
+            <option value="@i.MAQD">@i.MAQD - @i.TENQD</option>
+        }
+    </select>
+</div>
+<div class="form-group col-md-6 col-lg-4 mb-0">
+    <label class="my-1 mr-2 font-weight-bold" for="loaihd">Loại hợp đồng</label>
+    <select title="Chọn loại hợp đồng" class="selectpicker show-tick my-1 mr-sm-2" multiple data-actions-box="true" data-selected-text-format="count > 3" id="loaihd">
+        @foreach (var i in Model.LOAIHD)
+            {
+            <option value="@i">@i</option>
+        }
+    </select>
+</div>
+<div class="form-group col-md-6 col-lg-4 mb-0">
+    <label class="my-1 mr-2 font-weight-bold" for="ploai">Phân loại khách hàng</label>
+    <select title="Chọn phân loại khách hàng" class="selectpicker my-1 mr-sm-2  show-tick" multiple data-actions-box="true" data-selected-text-format="count > 3" id="phanloai">
+        <option value="OTC">OTC</option>
+        <option value="ETC">ETC</option>
+    </select>
+</div>
+<div class="form-group col-md-6 col-lg-4 mb-0">
+    <label class="my-1 mr-2 font-weight-bold" for="ploaict">Phân loại chi tiết khách hàng</label>
+    <select title="Chọn PL chi tiết" class="selectpicker my-1 mr-sm-2 show-tick" multiple data-actions-box="true" data-selected-text-format="count > 3" id="phanloaikhachhang">
+        @foreach (var x in ViewBag.maplkh)
+        {
+            <option value="@x.phanloaikhachhang">@x.phanloaikhachhang - @x.tenphanloai</option>
+        }
+    </select>
+</div>
+@*<div class="form-group col-md-12 mb-2 mt-2">
+    <button id="btnloc" type="button" class="btn btn-primary btn-sm transition-3d-hover m-0"><i class="fa fa-filter"></i> LỌC HỢP ĐỒNG - KHÁCH HÀNG</button>
+    <button id="btnunloc" type="button" class="btn btn-warning btn-sm transition-3d-hover m-0"><i class="fa fa-undo"></i> BỎ LỌC</button>
+</div>*@
+<div class="form-group col-md-12 mb-3" id="PartialLocHD">
+    <label class="my-1 mr-2 font-weight-bold" for="hopdong">Hợp đồng - Khách hàng<code>(*)</code></label>
+    <select title="Chọn hợp đồng - khách hàng" multiple data-actions-box="true" name="mahd" data-selected-text-format="count > 1" data-live-search="true" class="selectpicker my-1 mr-sm-2" id="hopdong">
+        @if (Model.DANHMUC.GroupBy(n => n.MACN).Count() == 1)
+        {
+            foreach (var i in Model.DANHMUC)
+            {
+                <option value="{'MAHD':'@i.MAHD','MAKH':'@i.MAKH','MACN':'@i.MACN'}">@i.MAKH - @i.MAHD - @i.DONVI</option>
+            }
+        }
+        else
+        {
+            foreach (var i in Model.DANHMUC)
+            {
+                <option value="{'MAHD':'@i.MAHD','MAKH':'@i.MAKH','MACN':'@i.MACN'}">@i.MACN - @i.MAKH - @i.MAHD - @i.DONVI</option>
+            }
+        }
+    </select>
+</div>

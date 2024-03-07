@@ -1,0 +1,358 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        .overflow-auto {
+            overflow: auto !important;
+        }
+
+        .checkbox {
+            font-size: 15px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">TRANG CHỦ</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ NGƯỜI DÙNG</li>
+        </ol>
+    </div>
+    <div class="w3-container box p-1" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+
+        <div class="card-body pt-0 pb-2">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="tenctkm">Họ và tên <code>(*)</code></label>
+                        <input id="hoten" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="mactkm">Tài khoản <code>(*)</code></label>
+                        <input id="taikhoan" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="mactkm">Mật khẩu <code>(*)</code></label>
+                        <input maxlength="20" id="matkhau" class="form-control font-weight-normal m-0" type="password" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="phamvi">Quyền <code>(*)</code></label>
+                        <select id="quyen" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-selected-text-format="count">
+                            <option selected value="CAP2">XEM BÁO CÁO BSC</option>
+                            <option value="DONHANG,KEHOACH">TẠO ĐƠN HÀNG/LÊN KẾ HOẠCH</option>
+                            <option value="TRACUU">TRA CỨU CHI TIẾT HÓA ĐƠN</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="phamvi">Chi nhánh <code>(*)</code></label>
+                        <select class="selectpicker my-1 mr-sm-2" data-dropdown-align-right="true" name="macn" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
+
+                            <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
+                                @foreach (var k in ViewBag.mientrung)
+                                {
+                                    <option value="@k.macn">@k.Tencn</option>
+                                }
+                            </optgroup>
+                            <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
+                                @foreach (var k in ViewBag.miennam)
+                                {
+                                    <option value="@k.macn">@k.Tencn</option>
+                                }
+                            </optgroup>
+                            <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
+                                @foreach (var k in ViewBag.mienbac)
+                                {
+                                    <option value="@k.macn">@k.Tencn</option>
+                                }
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="phanloai">Phân loại</label>
+                        <select id="phanloai" class="selectpicker">
+                            <option selected value="ETC,OTC">ETC,OTC</option>
+                            <option value="OTC">OTC</option>
+                            <option value="ETC">ETC</option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row" id="PartialView">
+            </div>
+        </div>
+        <div class="card-footer modal-footer p-2">
+            <button id="btnadd" type="button" class="btn btn-success btn-sm transition-3d-hover mb-0">THÊM</button>
+            <button id="btnedit" type="button" class="btn btn-primary btn-sm transition-3d-hover mb-0">SỬA</button>
+        </div>
+
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;" id="Viewtable">
+        @{Html.RenderAction("PartialQLND", "Home");}
+    </div>
+</div>
+
+
+@*}*@
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.js?version=1"></script>
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Scripts/md5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+            $('#example23').DataTable({
+                "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false,
+                }],
+                "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                "order": [],
+            }
+                             );
+            $("#example23").on("click", ".btnedit", function () {
+                $("#taikhoan").val($(this).closest('tr').find('td:eq(1)').text());
+                $("#hoten").val($(this).closest('tr').find('td:eq(2)').text());
+            });
+            $("#example23").on("click", ".btnxoa", function () {
+                var taikhoan = $(this).closest('tr').find('td:eq(1)').text();
+                $.ajax({
+                    url: '@Url.Action("Delnguoidung", "Home")',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{taikhoan: ' + JSON.stringify($("#taikhoan").val()) + '}',
+                    success: function (data) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["success"]("Thành công", "Thông báo")
+                    },
+                    error: function (request, status, error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Kiểm tra lại thông tin nhập", "Thông báo")
+                    },
+                    timeout: 5000,
+                });
+
+            });
+            $("#example23").on("change", ".checkkhoa", function () {
+
+                var url = '@Url.Action("ActionKhoa", "Admin")';
+
+                $.post(url, { taikhoan: $(this).closest('tr').find('td:eq(1)').text(), khoatk: $(this).is(":checked") },
+                             function (data) {
+
+                             });
+            });
+            $("#btnadd").click(function () {
+                $.ajax({
+                    url: '@Url.Action("Addnguoidung", "Home")',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{taikhoan: ' + JSON.stringify($("#taikhoan").val()) + ', hoten: ' + JSON.stringify($("#hoten").val()) + ', matkhau: ' + JSON.stringify(md5($("#matkhau").val())) + ', quyen: ' + JSON.stringify($("#quyen").val()) + ', phanloai: ' + JSON.stringify($("#phanloai").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + ', matinh: ' + JSON.stringify($("#matinh").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + ', maquan: ' + JSON.stringify($("#maquan").val()) + '}',
+                    success: function (data) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["success"]("Thành công", "Thông báo")
+                    },
+                    error: function (request, status, error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Kiểm tra lại thông tin nhập", "Thông báo")
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#btnedit").click(function () {
+                $.ajax({
+                    url: '@Url.Action("Editnguoidung", "Home")',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{taikhoan: ' + JSON.stringify($("#taikhoan").val()) + ', hoten: ' + JSON.stringify($("#hoten").val()) + ', matkhau: ' + JSON.stringify(md5($("#matkhau").val())) + ', quyen: ' + JSON.stringify($("#quyen").val()) + ', phanloai: ' + JSON.stringify($("#phanloai").val()) + ', macn: ' + JSON.stringify($("#macn").val()) + ', matinh: ' + JSON.stringify($("#matinh").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + ', matdvdathang: ' + JSON.stringify($("#matdvdathang").val()) + '}',
+                    success: function (data) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["success"]("Thành công", "Thông báo")
+                    },
+                    error: function (request, status, error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        Command: toastr["warning"]("Kiểm tra lại thông tin nhập", "Thông báo")
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#chinhanh").change(function () {
+                if ($("#chinhanh").val() != "") {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetPartiaQLND", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide');
+                        },
+                        success: function (data) {
+                            $("#PartialView").html(data);
+                            $('#PartialView .selectpicker').selectpicker();
+                            $('#loading').modal('hide');
+                        },
+                        error: function (request, status, error) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                            $('#loading').modal('hide');
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+        });
+    </script>
+}
+

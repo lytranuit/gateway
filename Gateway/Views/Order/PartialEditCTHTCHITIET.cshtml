@@ -1,0 +1,35 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET>
+@foreach (var i in Model)
+{
+    <tr data-repeater-item="">
+        <td>
+            <input value="@(((decimal)i.DSTU).ToString("N",new System.Globalization.CultureInfo("en-US")))" type="text" class="form-control dstu">
+        </td>
+        <td><input value="@(((decimal)i.DSDEN).ToString("N",new System.Globalization.CultureInfo("en-US")))" type="text" class="form-control dsden"></td>
+        <td><input value="@i.ck" max="100" type="number" class="form-control tileck"></td>
+
+        <td class="text-center">
+            <span data-repeater-delete="" class="btn btn-danger btn-md p-2">
+                <span class="fa fa-trash"></span>
+            </span>
+        </td>
+    </tr>
+
+}
+@if (Model.Count() == 0)
+{
+    <tr data-repeater-item="">
+        <td>
+            <input type="text" class="form-control dstu">
+        </td>
+        <td><input type="text" class="form-control dsden"></td>
+        <td><input max="100" type="number" class="form-control tileck"></td>
+
+        <td class="text-center">
+            <span data-repeater-delete="" class="btn btn-danger btn-md p-2">
+                <span class="fa fa-trash"></span>
+            </span>
+        </td>
+    </tr>
+}

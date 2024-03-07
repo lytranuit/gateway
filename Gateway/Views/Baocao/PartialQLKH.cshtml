@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListKhachHang>
+<table id="example23" class="display nowrap table table-hover table-bordered">
+    <thead style="background-color:rgb(66, 133, 244);">
+        <tr class="text-white">
+            <th style="width:50px;">#</th>
+            <th>Mã KH</th>
+            <th>Tên khách hàng</th>
+            <th>Địa chỉ</th>
+            <th>Ngày sinh</th>
+            <th>ĐT liên hệ</th>
+            <th style="width:100px;">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <th scope="row" class="text-center">@(count)</th>
+                    <td class="text-center">@i.MAKH</td>
+                    <td>@i.DONVI</td>
+                    <td>@i.DIACHI</td>
+                    <td class="text-center">@((i.NGAYSINH != null) ? ((DateTime)(i.NGAYSINH)).ToString("dd/MM/yyyy") : "N/A")</td>
+                    <td>@i.DT</td>
+                    <td class="p-1 align-middle text-center">
+                        <div class="btn-group">
+                            <button type="button" data-toggle="modal" data-backdrop="static" data-target="#ModalView" class="btn btn-primary rounded-0 pl-2 btnview pr-2">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>

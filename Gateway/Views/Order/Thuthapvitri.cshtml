@@ -1,0 +1,256 @@
+﻿@model IEnumerable<ApplicationChart.Models.ListKhachHang>
+@{
+    ViewBag.Title = "Thu thập vị trí khách hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">THU THẬP VỊ TRÍ KHÁCH HÀNG</li>
+        </ol>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Chọn khách hàng</label>
+                <select name="matdv" data-live-search="true" class="selectpicker" id="khachhang">
+                    @foreach (var i in Model)
+                    {
+                        <option data-tenkh="@i.DONVI" value="@i.MAKH">
+                            @i.MAKH - @i.DONVI
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><b>LƯU VỊ TRÍ GPS HIỆN TẠI</b></button>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;">
+        <div style="width: 100%; height: 100%" id="partialview">
+            <div id="map_canvas" style="width:100%;height:400px;"></div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script>
+        function convertday(day) {
+            var milli = day.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2) + ":" + ("00" + d.getSeconds()).slice(-2);
+            return dformat;
+        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (p) {
+                var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+                var mapOptions = {
+                    center: LatLng,
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                var marker = new google.maps.Marker({
+                    position: LatLng,
+                    map: map,
+                    title: "<div style='font-size:large; color:blue; text-align: center'>Vị trí hiện tại của bạn:<br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+                });
+                google.maps.event.addListener(marker, "click", function (e) {
+                    //Using InfoWindow....
+                    var infoWindow = new google.maps.InfoWindow();
+                    infoWindow.setContent(marker.title);
+                    infoWindow.open(map, marker);
+                    //Using BootBox....
+                    var msg = marker.title;
+                    bootbox.alert(msg);
+                });
+            });
+        } else {
+            alert('Trình duyệt của bạn không hỗ trợ lấy GPS vui lòng chuyển trình duyệt khác');
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhqite1niMCtZawMgTaZQk9zjaE1__F40&callback=myMap"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnsubmit").click(function () {
+                if ($("#khachhang").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn khách hàng", "Lỗi")
+                }
+                else {
+                    $.confirm({
+                        title: '<b>THÔNG BÁO</b>',
+                        content: 'Bạn có chắc chắn muốn cập nhật GPS của khách hàng này',
+                        buttons: {
+                            confirm: {
+                                text: 'Chắc chắn',
+                                btnClass: 'btn-success',
+                                keys: ['enter'],
+                                action: function () {
+                                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition(function (p) {
+                                            var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+                                            var mapOptions = {
+                                                center: LatLng,
+                                                zoom: 13,
+                                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                                            };
+                                            var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                                            var marker = new google.maps.Marker({
+                                                position: LatLng,
+                                                map: map,
+                                                title: "<div style='font-size:large; color:blue; text-align: center'>Vị trí hiện tại của bạn:<br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+                                            });
+                                            google.maps.event.addListener(marker, "click", function (e) {
+                                                var infoWindow = new google.maps.InfoWindow();
+                                                infoWindow.setContent(marker.title);
+                                                infoWindow.open(map, marker);
+                                                var msg = marker.title;
+                                                bootbox.alert(msg);
+                                            });
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "@Url.Action("PostToado", "Order")",
+                                                datatype: 'json',
+                                                contentType: "application/json",
+                                                data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ',tenkh:' + JSON.stringify($("#khachhang option:selected").attr('data-tenkh')) + ', latitude:' + JSON.stringify(p.coords.latitude) + ', longitude:' + JSON.stringify(p.coords.longitude) + '}',
+                                                error: function () {
+                                                    $('#loading').modal('hide')
+                                                    toastr.options = {
+                                                        "closeButton": true,
+                                                        "debug": false,
+                                                        "newestOnTop": true,
+                                                        "progressBar": true,
+                                                        "positionClass": "toast-top-right",
+                                                        "preventDuplicates": false,
+                                                        "onclick": null,
+                                                        "showDuration": "300",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "5000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "fadeOut"
+                                                    }
+                                                    Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                                                },
+                                                success: function (data) {
+                                                    if (data == 1) {
+                                                        toastr.options = {
+                                                            "closeButton": true,
+                                                            "debug": false,
+                                                            "newestOnTop": true,
+                                                            "progressBar": true,
+                                                            "positionClass": "toast-top-right",
+                                                            "preventDuplicates": false,
+                                                            "onclick": null,
+                                                            "showDuration": "300",
+                                                            "hideDuration": "1000",
+                                                            "timeOut": "5000",
+                                                            "extendedTimeOut": "1000",
+                                                            "showEasing": "swing",
+                                                            "hideEasing": "linear",
+                                                            "showMethod": "fadeIn",
+                                                            "hideMethod": "fadeOut"
+                                                        }
+                                                        Command: toastr["success"]("Đã cập nhật vị trí khách hàng", "Thành công")
+                                                    }
+                                                    else {
+                                                        toastr.options = {
+                                                            "closeButton": true,
+                                                            "debug": false,
+                                                            "newestOnTop": true,
+                                                            "progressBar": true,
+                                                            "positionClass": "toast-top-right",
+                                                            "preventDuplicates": false,
+                                                            "onclick": null,
+                                                            "showDuration": "300",
+                                                            "hideDuration": "1000",
+                                                            "timeOut": "5000",
+                                                            "extendedTimeOut": "1000",
+                                                            "showEasing": "swing",
+                                                            "hideEasing": "linear",
+                                                            "showMethod": "fadeIn",
+                                                            "hideMethod": "fadeOut"
+                                                        }
+                                                        Command: toastr["warning"]("Không có dữ liệu vị trí", "Lỗi")
+                                                    }
+
+                                                    $('#loading').modal('hide')
+                                                },
+                                                timeout: 5000,
+                                            });
+
+                                        });
+                                    } else {
+                                        alert('Trình duyệt của bạn không hỗ trợ lấy GPS vui lòng chuyển trình duyệt khác');
+                                    }
+                                }
+                            },
+                            cancel: {
+                                text: 'Hủy',
+                                btnClass: 'btn-danger',
+                                keys: ['esc'],
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
+
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+

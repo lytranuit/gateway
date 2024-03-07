@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý truy cập";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CheckBox.css">
+<link href="~/Content/bootstrap-select.css" rel="stylesheet">
+<link href="~/Content/Material.css" rel="stylesheet">
+<script src="~/Scripts/bootbox.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script>
+    $(document).ready(function () {
+        $("#pageheader").text("Số lần truy cập");
+    });
+</script>
+<div class="container-fluid">
+    <!-- Start Page Content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card boxshadow">
+                <div class="card-body">
+
+
+                    <div class="table-responsive">
+                        <table id="example2" class="display nowrap table table-hover table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tài khoản</th>
+                                    <th>Họ và tên</th>
+                                    <th>Số lần truy cập</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var i in ViewBag.count)
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@i.nguoidung</td>
+                                            <td>@i.hoten</td>
+                                            <td>@i.truycap</td>
+                                        </tr>
+                                        count = count + 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End PAge Content -->
+</div>
+
+<script src="~/Content/AdminLayout/js/lib/datatables/datatables.min.js?version=1"></script>
+<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+@*<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>*@
+<script src="~/Content/AdminLayout/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+@*<script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="~/Content/AdminLayout/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>*@
+
+<script>
+    $('#example2').DataTable({
+    });
+</script>
+<style>
+    tbody tr td {
+        color: black;
+    }
+
+    a, button {
+        color: #1b1c1d !important;
+    }
+
+    th {
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý thẻ cào";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <style>
+        .bootstrap-select.btn-group .dropdown-toggle .caret {
+            right: 10px;
+            margin-top: -3px;
+        }
+
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 100% !important;
+        }
+
+        span.text {
+            font-size: 0.8em;
+        }
+
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .selectui .dropdown-menu {
+            left: 0;
+            right: auto;
+        }
+
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 5px 5px;
+            font-size: 13px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ THÉ CÀO</li>
+        </ol>
+    </div>
+    <div class="w3-content w3-padding box p-0 pt-1" style="background-color:white;margin-top:3px;">
+        <div class="w3-row">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <strong>Nhập thẻ cào</strong>
+                </div>
+                <div class="card-body pt-2 pb-0">
+                    <div class="row">
+
+                        <div class="form-group col-md-6 col-sm-12 mb-1 pr-1 pl-1">
+                            <label class="my-1 mr-2 font-weight-bold" for="khachhang">Chọn khách hàng<code>(*)</code></label>
+                            <select class="selectpicker my-1 mr-sm-2" data-live-search="true" name="khachhang" title="Chọn khách hàng" id="khachhang"></select>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 mb-1 pr-1 pl-1">
+                            <label class="my-1 mr-2 font-weight-bold" for="chon">Mã thẻ cào<code>(*)</code></label>
+                            <input type="text" autocomplete="off" class="form-control form-control1 my-1 mr-sm-2 w-100" data-validation="digit" id="mathe">
+                        </div>
+
+                  
+                    </div>
+                </div>
+                <div class="card-footer modal-footer pt-1 pb-1">
+                    <button id="btnthem" type="button" class="btn btn-primary btn-sm transition-3d-hover mb-0">THÊM</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row card">
+            <div class="card-header text-center">
+                <strong>DANH SÁCH THẺ CÀO ĐÃ NHẬP</strong>
+            </div>
+            <div class="card-body" id="Viewtable">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#btnthem").click(function () {
+                if ($("#mathe").val() == "" || $("#khachhang").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn khách hàng và mã thẻ", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialTracuukhachhang", "Order")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + ', tungay: ' + JSON.stringify($("#tungay").val()) + ', denngay: ' + JSON.stringify($("#denngay").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $("#Viewtable").html(data);
+                            $("#example").dataTable({
+                                "iDisplayLength": 50, "scrollX": true, dom: 'Bfrtip',
+                                buttons: [
+                                    'copy', 'excel'
+                                ]
+                            });
+                            $('#loading').modal('hide')
+                        },
+                        timeout: 20000,
+                    });
+                }
+            });
+        });
+
+    </script>
+}

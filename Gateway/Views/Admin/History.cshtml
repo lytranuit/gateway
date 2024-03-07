@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Lịch sử đăng nhập";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CheckBox.css">
+@*<link href="~/Content/bootstrap-select.css" rel="stylesheet">*@
+<link href="~/Content/Material.css" rel="stylesheet">
+<script src="~/Scripts/bootbox.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script>
+    $(document).ready(function () {
+        $("#pageheader").text("Lịch sử đăng nhập");
+    
+    });
+
+</script>
+<div class="container-fluid">
+    <!-- Start Page Content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card boxshadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example2" class="display nowrap table table-hover table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr><th>STT</th>
+                                    <th>Thời gian đăng nhập</th>
+                                    <th>Tài khoản đăng nhập</th>
+                                    <th>Địa chỉ IP</th>
+                                    <th>Trình duyệt</th>
+                                    <th>Hệ điều hành</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var i in ViewBag.history)
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@i.Ngay.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
+                                            <td>@i.Username</td>
+                                            <td>@i.IP</td>
+                                            <td>@i.pcname</td>
+                                            <td>@i.systemversion</td>
+                                        </tr>
+                                        count = count + 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End PAge Content -->
+</div>
+
+<script src="~/Content/AdminLayout/js/lib/datatables/datatables.min.js?version=1"></script>
+
+<script>
+    $('#example2').DataTable({
+    });
+</script>
+<style>
+    tbody tr td {
+        color: black;
+    }
+
+    a, button {
+        color: #1b1c1d !important;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    thead tr th:last-child {
+        text-align: center !important;
+    }
+
+    tbody tr td:last-child {
+        text-align: left !important;
+    }
+</style>

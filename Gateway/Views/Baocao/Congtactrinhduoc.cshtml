@@ -1,0 +1,434 @@
+﻿
+@{
+    ViewBag.Title = "Báo cáo công tác trình dược";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=8" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=42">
+    @*<link href="~/Content/bootstrap-select.css?version=1" rel="stylesheet">*@
+    <style>
+        .bootstrap-select .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+
+        input.largerCheckbox {
+            width: 32px;
+            height: 32px;
+            margin-top: 0px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">BÁO CÁO CÔNG TÁC TRÌNH DƯỢC</li>
+        </ol>
+    </div>
+    <div class="w3-content w3-padding p-0 pt-1" style="background-color:white;margin-top:3px;">
+        @using (Html.BeginForm("du-lieu-bao-cao-cong-tac", "Baocao"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="w3-row">
+                <div class="card mb-0">
+                    <div class="card-header">
+                        <strong>Tùy chọn báo cáo</strong>
+                    </div>
+                    <div class="card-body pt-2 pb-0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="matdv">Loại báo cáo <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <select name="baocao" id="baocao" class="selectpicker">
+                                            <option selected value="1">Báo cáo chi tiết từng TDV</option>
+                                            <option value="2">Báo cáo tổng hợp</option>
+                                            <option value="3">Báo cáo tổng hợp từng ngày</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="chinhanh">Chi nhánh <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <select data-actions-box="true" data-selected-text-format="count > 1" name="chinhanh" title="Chọn..." class="selectpicker" id="chinhanh">
+                                            <optgroup label="MIỀN TRUNG">
+                                                @foreach (var k in ViewBag.mientrung)
+                                                {
+                                                    <option value=@k.macn>@k.Tencn</option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="MIỀN NAM">
+                                                @foreach (var k in ViewBag.miennam)
+                                                {
+                                                    <option value=@k.macn>@k.Tencn</option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="MIỀN BẮC">
+                                                @foreach (var k in ViewBag.mienbac)
+                                                {
+                                                    <option value=@k.macn>@k.Tencn</option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Default input -->
+                            </div>
+                            <div class="col-sm-6" id="divtdv">
+                                <div class="form-group row">
+                                    <label id="labeltdv" class="col-sm-4 col-form-label" for="matdv">Trình dược viên <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <select name="matdv" title="Chọn..." class="selectpicker" id="matdv" data-live-search="true"></select>
+                                    </div>
+                                </div>
+                                <input type="text" hidden id="tentdv" name="tentdv" />
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="matdv">Định dạng báo cáo <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <select name="loaibaocao" id="loaibaocao" class="selectpicker">
+                                            <option selected value="1">Theo ngày</option>
+                                            <option value="2">Theo tháng</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" style="display:none;" id="theothang">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="tungay1">Tháng / Năm <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <input autocomplete="off" type="text" value="@DateTime.Now.ToString("MM/yyyy")" class="form-control form-control2 font-weight-normal" id="thang" name="thang" placeholder="MM/YYYY">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="theongay">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="tungay1">Từ ngày <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" id="tungay1" name="tungay" placeholder="DD/MM/YYYY">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="denngay1">Đến ngày <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" name="denngay" id="denngay1" placeholder="DD/MM/YYYY">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer modal-footer pt-1 pb-1">
+                        <button id="btnxem" formTarget="_blank" type="submit" class="btn btn-primary btn-sm transition-3d-hover mb-0">XEM</button>
+                        @*<button id="btntai" type="submit" class="btn btn-secondary btn-sm transition-3d-hover">TẢI XUỐNG</button>*@
+                    </div>
+                </div>
+            </div>
+
+
+        }
+
+        <div hidden class="w3-row mt-2 tableaudit">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <strong>Bảng sao lưu sửa đổi kế hoạch</strong>
+                </div>
+                <div class="card-body pt-2 pb-0">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="chinhanh1">Chi nhánh <code class="bg-white">(*)</code></label>
+                                <div class="col-sm-8">
+                                    <select name="chinhanh1" title="Chọn..." class="selectpicker" id="chinhanh1">
+                                        <optgroup label="MIỀN TRUNG">
+                                            @foreach (var k in ViewBag.mientrung)
+                                            {
+                                                <option value=@k.macn>@k.Tencn</option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="MIỀN NAM">
+                                            @foreach (var k in ViewBag.miennam)
+                                            {
+                                                <option value=@k.macn>@k.Tencn</option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="MIỀN BẮC">
+                                            @foreach (var k in ViewBag.mienbac)
+                                            {
+                                                <option value=@k.macn>@k.Tencn</option>
+                                            }
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Default input -->
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="matdv1">Trình dược viên</label>
+                                <div class="col-sm-8">
+                                    <select name="matdv1" title="Chọn..." class="selectpicker" id="matdv1" data-live-search="true"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="theongay">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="tungay2">Từ ngày <code class="bg-white">(*)</code></label>
+                                <div class="col-sm-8">
+                                    <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" id="tungay2" name="tungay2" placeholder="DD/MM/YYYY">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="denngay2">Đến ngày <code class="bg-white">(*)</code></label>
+                                <div class="col-sm-8">
+                                    <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" name="denngay2" id="denngay2" placeholder="DD/MM/YYYY">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer modal-footer pt-1 pb-1">
+                    <button id="btnxemaudit" type="submit" class="btn btn-primary btn-sm transition-3d-hover mb-0">XEM</button>
+                    @*<button id="btntai" type="submit" class="btn btn-secondary btn-sm transition-3d-hover">TẢI XUỐNG</button>*@
+                </div>
+            </div>
+        </div>
+        <div hidden class="w3-row box w3-container w3-padding mt-2 tableaudit" id="partialtable">
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered scrollable-auto-y" style="max-width:1280px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">Lịch sử thay đổi báo cáo trình dược ngày <span id="ngay"></span></h5>
+                <h5 class="modal-title font-weight-bold" id="viewdonhang"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="table-responsive-sm">
+                        <table id="tabletdv" class="table table-hover table-responsive-md table-fixed table-bordered box mb-0">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:50px;" class="text-center">STT</th>
+                                    <th style="width:15%" class="text-center">Ngày thay đổi</th>
+                                    <th style="width:10%" class="text-center">Mã KH</th>
+                                    <th style="width:35%" class="text-center">Tên khách hàng</th>
+                                    <th style="width:10%" class="text-center">Đã tới</th>
+                                    <th style="width:30%" class="text-center">Kết quả/Lí do</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" id="btnbaocao" class="btn btn-sm btn-primary mb-0">LƯU</button>*@
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+   
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    @if (ViewBag.quyencrm == "TDV")
+    {
+        <script>
+            $(document).ready(function () {
+                $(".tableaudit").css("display", "none");
+            });
+        </script>
+    }
+    <script>
+        $(document).ready(function () {
+            $('.form-control1').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+            });
+            $('.form-control2').datepicker({
+                format: "mm/yyyy",
+                viewMode: "months",
+                minViewMode: "months",
+                autoclose: true
+            })
+            $("#baocao").change(function () {
+                if ($("#baocao").val() == 1) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                }
+                else {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').addClass('show-tick');
+                    $('#chinhanh').attr("multiple", "true");
+                    $('#chinhanh .bs-title-option').remove();
+                }
+                $('#chinhanh').selectpicker();
+                $('#chinhanh').selectpicker('deselectAll');
+            });
+            $('#tungay2').datepicker("setDate", "@DateTime.Now.ToString("01/MM/yyyy")");
+            $('#denngay2').datepicker("setDate", "@DateTime.Now.ToString("dd/MM/yyyy")");
+            $('#tungay1').datepicker("setDate", "@DateTime.Now.ToString("01/MM/yyyy")");
+            $('#denngay1').datepicker("setDate", "@DateTime.Now.ToString("dd/MM/yyyy")");
+            $('.selectpicker').selectpicker();
+          
+            $("#chinhanh").change(function () {
+                $("#matdv").empty();
+                var url = '@Url.Action("GetTrinhDuocVien", "Baocao")';
+                $.post(url, { macn: $("#chinhanh").val() },
+                          function (data) {
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#matdv").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#chinhanh1").change(function () {
+                $("#matdv1").empty();
+                var url = '@Url.Action("GetTrinhDuocVien", "Baocao")';
+                $.post(url, { macn: $("#chinhanh1").val() },
+                          function (data) {
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#matdv1").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#matdv").change(function () {
+                $("#tentdv").val($("#matdv option:selected").attr("tabindex"));
+            });
+            $("#loaibaocao").change(function () {
+                if ($("#loaibaocao").val() == 2) {
+                    $("#theothang").css("display", "block");
+                    $("#theongay").css("display", "none");
+                }
+                else {
+                    $("#theothang").css("display", "none");
+                    $("#theongay").css("display", "block");
+                }
+            });
+            $("#baocao").change(function () {
+                if ($("#baocao").val() == 1) {
+                    $("#labeltdv").html('Trình dược viên <code class="bg-white">(*)</code>');
+                    $("#divtdv").css("display", "block");
+                }
+                else {
+                    $("#labeltdv").html('Trình dược viên');
+                    $("#divtdv").css("display", "none");
+                }
+            });
+            $("#btnxem").click(function (e) {
+                if ($("#chinhanh").val() == "" || ($("#matdv").val() == "" && $('#labeltdv code:contains("(*)")').length > 0) || ($("#loaibaocao").val() == 1 && ($("#tungay1").val() == "" || $("#denngay1").val() == "")) || ($("#loaibaocao").val() == 2 && $("#thang").val() == "")) {
+                    e.preventDefault();
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa điền đủ thông tin !", "Thông báo")
+                }
+            });
+
+            $("#btnxemaudit").click(function () {
+                if ($("#chinhanh1").val() == "") {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh !", "Thông báo")
+                }
+                else {
+                    var url = '@Url.Action("Partialtable", "Baocao")';
+                    $.ajax({
+                        url: url,
+                        dataType: 'html',
+                        data: { macn: $("#chinhanh1").val(), matdv: $("#matdv1").val(), tungay: $("#tungay2").val(), denngay: $("#denngay2").val() },
+                        success: function (data) {
+                            $('#partialtable').html(data);
+                            var table = $('#example23').DataTable({
+                            });
+                            $("#example23").on("click", ".btnxemls", function () {
+                                $("#tabletdv > tbody").empty();
+                                var url = '@Url.Action("GetLichSuAudit", "Baocao")';
+                                $.post(url, { macn: $("#macn").text(), matdv: $(this).closest('tr').find('td:eq(1)').text(), ngay: $(this).closest('tr').find('td:eq(0)').text(), makh: $(this).closest('tr').find('td:eq(2)').text(), tenkh: $(this).closest('tr').find('td:eq(3)').text() },
+                                function (data) {
+                                    $("#ngay").text(data[1].ngay);
+                                    for (var i = 0; i < data.length; i++) {
+                                        var check = (data[i].checkin == true) ? " checked" : "";
+                                        var hidden = (data[i].checkin == true) ? " hidden" : "";
+                                        var block = (data[i].checkin == false) ? " hidden" : "";
+                                        $("#tabletdv").find("tbody").append(
+                                         '<tr>'
+                                          + '<td class="text-center text-dark font-weight-normal">' + (i + 1) + '</td>'
+                                          + '<td class="text-center text-dark font-weight-normal">' + data[i].ngayedit + '</td>'
+                                          + '<td class="text-center text-dark font-weight-normal">' + data[i].makh + '</td>'
+                                          + '<td class="text-dark font-weight-normal">' + data[i].tenkh + '</td>'
+                                          + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
+                                          + '<td><input disabled type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><select disabled class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td>'
+                                          + '</tr>');
+                                        $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                                        if (data[i].ketqua != null) {
+                                            $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

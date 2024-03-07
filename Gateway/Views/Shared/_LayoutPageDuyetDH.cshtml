@@ -1,0 +1,348 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="shortcut icon" href="~/Content/Layout1/images/logopmp1.png" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2546b">
+    <meta name="description" content="Trang Gateway">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Báo cáo BSC" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/Layout1/css/bootstrap.min.css?version=1" rel='stylesheet' type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/Content/Layout1/css/style.css?version=59" rel='stylesheet' type='text/css' />
+    <!-- Graph CSS -->
+    <link href="~/Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link href="~/Content/bootstrap-select.css?version=2" rel="stylesheet">
+    <!-- //lined-icons -->
+    <link href="~/Content/w3.css?version=7" rel="stylesheet">
+
+    <link href="~/Content/toastr.min.css" rel="stylesheet">
+    <link href="~/Content/MDB/css/mdb.min.css?version=9" rel="stylesheet">
+    <link href="~/Content/Order/bootstrap.min.css?version=18" rel="stylesheet">
+    <link href="~/Content/Layout1.css?version=2" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="~/Content/CheckBox.css?version=12">
+    <link href="~/Content/loading.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+    <style>
+         #alertdropdown:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+        }
+
+        .dropdown-header {
+            font-weight: 600;
+        }
+
+        .transition-3d-hover:hover, .transition-3d-hover:focus {
+            -webkit-transform: translateY(-3px);
+            transform: translateY(-3px);
+        }
+
+        .lwc-chat-button {
+            z-index: 100;
+        }
+
+        #loading {
+            padding-right: 0px !important;
+        }
+
+        .marginimg {
+            margin-bottom: 0;
+            margin-left: 8px;
+            margin-right: 15px;
+        }
+
+        .cangiua {
+            vertical-align: middle;
+        }
+
+        .bootstrap-select button.btn.btn-default {
+            background-color: white !important;
+            font-size: 13px;
+            box-shadow: none;
+        }
+
+        .btn, .btn-link, .dropdown-item {
+            font-weight: 400;
+        }
+
+        .jconfirm-box-container {
+            margin-left: 0% !important;
+        }
+
+        .jconfirm-buttons .btn-default {
+            background-color: #ecf0f1 !important;
+            color: #000;
+            text-shadow: none;
+            -webkit-transition: background .2s;
+            transition: background .2s;
+            color:#333 !important;
+        }
+
+        .bootstrap-select button {
+            margin: 0;
+            border: 1px solid #D1D3D4 !important;
+            border-radius: 5px;
+            color: #333 !important;
+            background-color: #e6e6e6 !important;
+            padding: .5rem 1rem !important;
+            padding-right: 25px !important;
+        }
+
+        .btn-default:not([disabled]):not(.disabled).active, .btn-default:not([disabled]):not(.disabled):active, .show > .btn-default.dropdown-toggle {
+            background-color: #e6e6e6 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="hotromodal" class="w3-modal">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:600px;padding-bottom:1px;">
+
+            <header class="w3-container w3-blue">
+                <span onclick="document.getElementById('hotromodal').style.display = 'none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h4 style="text-align:center;">LIÊN HỆ HỖ TRỢ</h4>
+            </header>
+            <div class="w3-container w3-margin-top w3-margin-bottom">
+                <div class="w3-border w3-border-black w3-padding w3-round-large" style="line-height:1.5">
+                    <div class="w3-row">
+                        <div class="w3-col l2 m2 s12">
+                            <div class="w3-padding w3-center">
+                                <i style="font-size:20px" class="fa fa-home"></i>
+                            </div>
+                        </div>
+                        <div class="w3-col l10 m10 s12">
+                            <div class="w3-padding" style="font-size:17px !important;">Phòng Tin Học & Phân Tích Dữ Liệu</div>
+                        </div>
+                        <div class="w3-col l2 m2 s12">
+                            <div class="w3-padding w3-center">
+                                <i style="font-size:20px;" class="fa fa-phone"></i>
+                            </div>
+                        </div>
+                        <div class="w3-col l10 m10 s12">
+                            <div class="w3-padding" style="font-size:17px !important;">ĐT: </div>
+                        </div>
+                        <div class="w3-col l2 m2 s12">
+                            <div class="w3-padding w3-center">
+                                <i style="font-size:20px;" class="fa fa-mobile-phone"></i>
+                            </div>
+                        </div>
+                        <div class="w3-col l10 m10 s12">
+                            <div class="w3-padding" style="font-size:17px !important;">ĐTDĐ: </div>
+                        </div>
+                        <div class="w3-col l2 m2 s12">
+                            <div class="w3-padding w3-center">
+                                <i style="font-size:20px" class="fa fa-envelope"></i>
+                            </div>
+                        </div>
+                        <div class="w3-col l10 m10 s12">
+
+                            <div class="w3-padding" style="font-size:17px !important;"></div>
+                        </div>
+                        @*<div class="w3-col l12 m12 s12">
+                            <div class="w3-padding w3-center" style="font-size:17px !important;">
+                                Liên hệ trực tuyến với <strong style="color:#00AFF0">Skype</strong> bằng cách click tại <a class="font-weight-bold" style="color:deepskyblue" href="skype:live:nnquang95?chat">đây</a>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="gopymodal" class="w3-modal">
+        <div class="w3-modal-content w3-card-2 w3-animate-bottom" style="width:600px;padding-bottom:1px;">
+            <header class="w3-container w3-blue">
+                <span onclick="document.getElementById('gopymodal').style.display = 'none'"
+                      class="w3-button w3-display-topright w3-xlarge">&times;</span>
+                <h4 style="text-align:center;">ĐÓNG GÓP Ý KIẾN</h4>
+            </header>
+            <div class="w3-container w3-margin-top w3-margin-bottom">
+                <div class="w3-padding w3-round-large" style="line-height:1.5">
+                    <div class="w3-row">
+                        <div class="form-group">
+                            <label for="tieude">Tiêu đề</label>
+                            <input autocomplete="off" type="text" class="form-control" id="tieude" aria-describedby="Tiêu đề" placeholder="Tiêu đề">
+                        </div>
+                        <div class="form-group">
+                            <label for="noidung">Nội dung</label>
+                            <textarea placeholder="Nội dung" class="form-control" id="noidung" rows="5"></textarea>
+                        </div>
+                        <div class="form-group text-center mb-0">
+                            <button style="padding-left:24px;padding-right:24px;" id="guigopy" type="button" class="btn btn-sm w3-blue text-center">GỬI</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-container sidebar-collapsed-back">
+        <div class="header-section">
+            <!--menu-right-->
+            <div class="top_menu">
+                <div class="w3-display-container header1" style="height:46px; ">
+                    @*<img src="~/Content/Layout1/images/logover2.png"  style="float:left; margin:10px;"/>*@
+                    <a href="#" class="sidebar-icon"> <span style="font-size:17px;" class="fa fa-bars"></span> </a>
+                    <!--/profile_details-->
+                    <div class="profile_details_left">
+                        @if (ViewBag.ten != null)
+                        {
+                            <div class="w3-dropdown-hover" style="margin-right:30px; float:right; background-color:white">
+                                <button id="logout" class="w3-btn w3-round-medium w3-white" style="margin-top:3px; font-weight:600; position:absolute; right:35px;padding:3px 5px;"><img src="~/Content/Layout1/images/User-Icon.png?version=1" class="w3-circle" alt="Norway"><span id="usernameheader">&nbsp;  @ViewBag.ten  &nbsp; <i style="font-size:10px;" class="fa fa-chevron-down" aria-hidden="true"></i></span></button>
+                                <div id="dropclick" class="w3-dropdown-content w3-bar-block w3-animate-opacity" style="padding:8px;position:fixed; right:64px; top:43px;border:1px solid #808080;border-top:4px solid #808080">
+                                    <a href="/doi-mat-khau" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-key" aria-hidden="true"></i>&nbsp; &nbsp;  Đổi mật khẩu   &nbsp; &nbsp; &nbsp; </a>
+                                 
+                                    <a href="/he-thong/huong-dan-su-dung-website" class="w3-bar-item w3-button w3-hover-gray" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>&nbsp; &nbsp;  Hướng dẫn sử dụng  &nbsp; &nbsp; &nbsp; </a>
+                                    @*<a href="~/Home/Huongdandathang" class="w3-bar-item w3-button w3-hover-gray" target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp; &nbsp;  Hướng dẫn đặt hàng  &nbsp; &nbsp; &nbsp; </a>*@
+                                    <button class="w3-bar-item w3-button w3-hover-gray" onclick="document.getElementById('hotromodal').style.display = 'block';"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp; &nbsp;  Liên hệ hỗ trợ  &nbsp; &nbsp; &nbsp; </button>
+                                    <button class="w3-bar-item w3-button w3-hover-gray" onclick="document.getElementById('gopymodal').style.display = 'block';"><i class="fa fa-comment" aria-hidden="true"></i>&nbsp; &nbsp;  Đóng góp ý kiến  &nbsp; &nbsp; &nbsp; </button>
+                                    <a href="/dang-xuat" class="w3-bar-item w3-button w3-hover-gray"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; &nbsp;  Đăng xuất  &nbsp; &nbsp; &nbsp; </a>
+                                </div>
+                            </div>
+                        }
+                        <ul class="nofitications-dropdown">
+                            <li class="dropdown note float-right" style="right:17px;border:1px solid #ccc">
+                                <a title="Đăng xuất" class="w3-round-medium" id="alertdropdown" href="/dang-xuat" aria-expanded="false" style="margin-top:3px;padding-right:13px;"><i class="fa fa-power-off"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <!--//profile_details-->
+            </div>
+            <!--//menu-right-->
+            <div class="clearfix"></div>
+        </div>
+
+        <!--/content-inner-->
+        <div class="left-content">
+            <div class="inner-content">
+                <!-- header-starts -->
+                <!-- //header-ends -->
+                <div class="outter-wp">
+                    @RenderBody()
+                </div>
+                <footer style="padding-top:0px;">
+                    <p style="font-size:12px; padding-top:4px;"><img style="padding-bottom:1px;" src="~/Content/Layout1/images/logo1v2.png" />Copyright ©2018. All Rights Reserved.</p>
+                </footer>
+            </div>
+        </div>
+        <!--footer section start-->
+        <!--footer section end-->
+        <!--//content-inner-->
+        <!--/sidebar-menu-->
+        <div class="sidebar-menu">
+            <header class="logo"></header>
+            <!--/down-->
+            <div class="down">
+                <img src="~/Content/Layout1/images/logopmp.png" />
+            </div>
+            <!--//down-->
+            <div class="menu">
+                <ul class="bmenu" id="menu" style="margin-top: 8px;border-top:1px solid;">
+             
+                    <li id="menu-academico">
+                        <a class="amenu2" href="/crm/duyet-don-hang" style="white-space:normal;"><img style="margin-bottom:0;margin-left:8px;margin-right:8px;" src="~/Content/Image/Package-Accept.png?version=1"><span>DUYỆT ĐƠN HÀNG</span><span class="fa fa-angle-right" style="float: right; font-size:21px; font-weight:200;margin-top:4px;"></span></a>
+                    </li>
+                    <li id="menu-academico">
+                        <a href="#" onclick="document.getElementById('hotromodal').style.display = 'block';" style="white-space:normal;"><img style="margin-bottom:0;margin-left:8px;margin-right:8px;" src="~/Content/Image/help.png"><span>LIÊN HỆ HỖ TRỢ</span><span class="fa fa-angle-right" style="float: right; font-size:21px; font-weight:200;margin-top:4px;"></span></a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <script>
+        var toggle = true;
+        $(".sidebar-icon").click(function () {
+            if (toggle) {
+                $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+                $("#menu span").css({ "position": "absolute" });
+            }
+            else {
+                $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+                setTimeout(function () {
+                    $("#menu span").css({ "position": "relative" });
+                }, 400);
+            }
+            toggle = !toggle;
+        });
+    </script>
+    <script src="~/Content/Layout1/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Layout1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" language="javascript">
+        //Check if the top location is same as the current location
+        if (top.location.hostname != self.location.hostname) {
+            //If not then set the top to you current
+            top.location.href = self.location.href;
+        }
+    </script>
+</body>
+</html>
+<style>
+    #alertdropdown:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+    }
+
+    .transition-3d-hover:hover, .transition-3d-hover:focus {
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+    }
+
+    .lwc-chat-button {
+        z-index: 100;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        
+        $("#guigopy").click(function () {
+            if ($("#tieude").val() != "" && $("#noidung").val() != "") {
+                var url = '@Url.Action("Donggopykien", "Home")';
+                $.post(url, { tieude: $("#tieude").val(), noidung: $("#noidung").val() },
+                    function (data) {
+                        bootbox.alert({
+                            message: "Cảm ơn bạn đã đóng góp ý kiến cho Website.",
+                            size: 'small'
+                        });
+                        document.getElementById('gopymodal').style.display = 'none';
+                    }
+                );
+            }
+            else {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                Command: toastr["warning"]("Xin điền đầy đủ thông tin", "Thông báo")
+            }
+        });
+    });
+</script>

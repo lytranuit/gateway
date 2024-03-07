@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Theo dõi đường đi";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">THEO DÕI ĐƯỜNG ĐI</li>
+        </ol>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
+                <select name="chinhanh" title="Chi nhánh..." class="selectpicker" id="chinhanh"></select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Trình dược viên</label>
+                <select name="matdv" data-live-search="true" class="selectpicker" id="matdv">
+                    <option selected value="ALL">TẤT CẢ</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Từ ngày<code class="bg-white">(*)</code></label>
+                <input value="@DateTime.Now.ToString("01/MM/yyyy")" style="width:100%" class="form-control NGAY p-2" id="tungay" name="tungay" placeholder="DD/MM/YYYY" type="text" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" autocomplete="off">
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Đến ngày<code class="bg-white">(*)</code></label>
+                <input value="@DateTime.Now.ToString("dd/MM/yyyy")" style="width:100%" class="form-control NGAY p-2" id="denngay" name="denngay" placeholder="DD/MM/YYYY" type="text" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" autocomplete="off">
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-search" aria-hidden="true"></i> <b>TÌM KIẾM</b></button>
+                <button style="height:auto;width:auto;" type="button" class="btn btn-danger btn-sm transition-3d-hover m-0" onClick="location.href='@Url.Action("quan-ly-don-dat-hang", "Order")';return false;"><i class="fa fa-arrow-left" aria-hidden="true"></i> <b>TẢI LẠI</b></button>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;">
+        <div style="width: 100%; height: 100%">
+            <div id="googleMap" style="width:100%;height:400px;"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+
+<script>
+function myMap() {
+var mapProp= {
+    center:new google.maps.LatLng(9.779349,105.6189045),
+  zoom:5,
+};
+var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhqite1niMCtZawMgTaZQk9zjaE1__F40&callback=myMap"></script>
+}
+

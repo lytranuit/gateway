@@ -1,0 +1,99 @@
+﻿@model ApplicationChart.Models.ChitietCTBH
+<div class="modal-header p-2">
+    <h6 class="modal-title font-weight-bold p-2">Chi tiết chương trình bán hàng</h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="card mb-0">
+    <div class="card-body pt-0 pb-2">
+        <div class="row">
+            <div class="card card-cascade narrower p-2">
+                <div class="view view-cascade mdb-color lighten-3 card-header">
+                    <h5 class="mb-0 font-weight-bold text-center text-white">@Model.dulieu.MACTKM - @Model.dulieu.TENCTKM</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@(((DateTime)Model.dulieu.ngaybatdau).ToString("dd/MM/yyyy"))"><label class="active disabled" data-error="" data-success="">NGÀY BẮT ĐẦU</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@(((DateTime)Model.dulieu.ngayketthuc).ToString("dd/MM/yyyy"))"><label class="active disabled" data-error="" data-success="">NGÀY KẾT THÚC</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@((Model.dulieu.HANMUC != null) ? string.Format("{0:#,##0}", Model.dulieu.HANMUC) : "Không")"><label class="active disabled" data-error="" data-success="">HẠN MỨC</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <input type="text" disabled="" class="form-control" value="@((Model.dulieu.ck != null) ? string.Format("{0:#,##0}", Model.dulieu.ck) : "Không")"><label class="active disabled" data-error="" data-success="">TỈ LỆ CHIẾT KHẤU (%)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="col-form-label" for="editngaygiao">CHI TIẾT CHIẾT KHẤU</label>
+                            <div class="table-responsive">
+                                <table id="viewtablechitiet" class="table table-bordered border-top mb-0 table-centered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-dark">Doanh số từ (VNĐ)</th>
+                                            <th class="text-dark">Doanh số đến (VNĐ)</th>
+                                            <th class="text-dark">Tỉ lệ chiết khấu %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{Html.RenderAction("PartialCTBHCHITIET", "Order", new { mactkm = Model.dulieu.MACTKM }); }
+                                    </tbody>
+                                </table><!--end /table-->
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h5><strong>PHẠM VI : @((Model.macn != null) ? Model.macn.Count().ToString() + " Chi nhánh" : "Tất cả")</strong></h5>
+                            <ul class="list-group list-group-horizontal-lg row" style="flex-direction:row">
+                                @if (Model.macn != null)
+                                {
+                                    foreach (var i in Model.macn)
+                                    {
+                                        <li class="list-group-item col-lg-4">@i.Tencn</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <h5><strong>SẢN PHẨM : @((Model.mahh != null) ? Model.mahh.Count().ToString() + " Sản phẩm" : "Tất cả")</strong></h5>
+                            <ul class="list-group list-group-horizontal-lg row overflow-auto" style="flex-direction:row; height:400px;">
+                                @if (Model.mahh != null)
+                                {
+                                    foreach (var i in Model.mahh)
+                                    {
+                                        <li class="list-group-item col-lg-6">@i.MAHH - @i.TENHH</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        @*<div class="col-md-12">
+                            <h5><strong>CHƯƠNG TRÌNH HỖ TRỢ : @((Model.dulieu.MACTHT != null) ? Model.dulieu.MACTHT.Split(',').ToList().Count() + " CHƯƠNG TRÌNH" : "KHÔNG CÓ")</strong></h5>
+                            <ul class="list-group list-group-horizontal-lg row" style="flex-direction:row">
+                                @if (Model.dulieu.MACTHT != null)
+                                {
+                                    foreach (var i in Model.dulieu.MACTHT.Split(',').ToList())
+                                    {
+                                        <li class="list-group-item col-lg-6">@i</li>
+
+                                    }
+                                }
+                            </ul>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer modal-footer p-2">
+        <button type="button" class="btn btn-danger btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+    </div>
+</div>

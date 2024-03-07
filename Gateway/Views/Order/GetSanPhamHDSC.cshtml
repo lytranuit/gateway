@@ -1,0 +1,6 @@
+﻿
+@model IEnumerable<ApplicationChart.Models.ListHangHoa>
+@foreach (var i in Model)
+{
+    <option data-dvt="@i.DVT" data-tenhh="@i.TENHH" title="@i.MAHH - @i.TENHH" data-subtext="(@i.QUICACH)(@i.DVT)" data-giaban="@i.GIABAN" data-sl1="@i.SL1" data-sl2="@i.SL2" data-sl3="@i.SL3" value="@i.MAHH">@i.MAHH - @i.TENHH - @i.SDK</option>
+}

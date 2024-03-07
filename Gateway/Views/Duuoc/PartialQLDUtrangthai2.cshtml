@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_SALEAPPROVE>
+<table id="exceltable" class="table-bordered display nowrap w-100" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Ngày tạo</th>
+            <th>Tài khoản</th>
+            <th>Kênh</th>
+            <th>Khóa</th>
+       
+        </tr>
+    </thead>
+    <tbody>
+        @{
+         
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @i.ngaytao.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                    <td>@i.nguoitao</td>
+                    <td>@i.kenh</td>
+
+                    @if (ViewBag.phanquyen.Contains("SCAPPROVE"))
+                    {
+                        if (i.khoa == true)
+                        {
+                            <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn mở khóa kế hoạch này?');" checked></td>
+                        }
+                        else
+                        {
+                            <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn khóa kế hoạch này?');"></td>
+                        }
+                    }
+                    else
+                    {
+                        <td>@i.khoa</td>
+                    }
+                  
+                  
+                </tr>
+             
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+

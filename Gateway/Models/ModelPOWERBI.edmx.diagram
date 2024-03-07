@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ae75791f6b96417a9dcb80db332e5f96" Name="Diagram1" ZoomLevel="90">
+        <EntityTypeShape EntityType="POWERBIModel.TBL_THANG" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_TOPN" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_DANHMUCHANGHOACHUNG" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_DANHMUCTINH" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_GIAKEKHAI_TAM" Width="1.5" PointX="9.375" PointY="6.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_TONKHO" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_NHAP_CHITIET" Width="1.5" PointX="9.375" PointY="9.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_TONKHO_CHITIET" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_XUAT_CHITIET" Width="1.5" PointX="11.375" PointY="4.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_THOIGIAN_CHITIET" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_XUAT_CHITIET_HOADON" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_THOIGIAN_CHITIET_HOADON" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_DONDATHANG" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_DANHMUCHOPDONG" Width="1.5" PointX="11.375" PointY="10.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_THOIGIAN_KYHANNO" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_KYHANCONGNO" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_DANHMUCTDV_GLOBALID" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_KEHOACHCONGNO" Width="1.5" PointX="13.375" PointY="8.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_CUSTOMER_CHANNEL" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_CONGNOHANGNGAY" Width="1.5" PointX="13.375" PointY="13.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_THOIGIAN_CONGNOHANGNGAY" Width="1.5" PointX="3.375" PointY="9.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_CT_DANHMUCHOPDONG" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_PHATSINHCO131" Width="1.5" PointX="7.375" PointY="15.75" />
+        <EntityTypeShape EntityType="POWERBIModel.DTA_APAGING" Width="1.5" PointX="15.375" PointY="8.75" />
+        <EntityTypeShape EntityType="POWERBIModel.TBL_PHIEUTHUHANGNGAY" Width="1.5" PointX="15.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

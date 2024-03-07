@@ -1,0 +1,329 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý khoán TDV";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">HỆ THỐNG</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ KHOÁN TDV</li>
+        </ol>
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-md-6 col-sm-6 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
+                <select name="chinhanh" title="Chi nhánh..." class="my-1 mr-2 selectpicker  show-tick" multiple id="chinhanh">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="chon">Quí<code>(*)</code></label>
+                <select class="selectpicker my-1 mr-sm-2 show-tick" name="qui" id="qui">
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
+                <label class="my-1 mr-2 font-weight-bold" for="chon">Năm<code>(*)</code></label>
+                <select class="selectpicker my-1 mr-sm-2 show-tick" name="nam" id="nam">
+                    <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                    <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                    <option value="@(DateTime.Now.Year - 2)">@(DateTime.Now.Year - 2)</option>
+                    <option value="@(DateTime.Now.Year - 3)">@(DateTime.Now.Year - 3)</option>
+                </select>
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-search" aria-hidden="true"></i> <b>TÌM KIẾM</b></button>
+              
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;">
+       
+        <div class="" id="Viewtable">
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Scripts/Quanlydonhang.js?version=280422"></script>
+    <script>
+        function CovertDatetime(i) {
+            var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2);
+            return dformat;   // The function returns the product of p1 and p2
+        }
+        $(document).ready(function () {
+            $("#btnsubmit").click(function () {
+                if ($("#chinhanh").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialQLkhoantdv", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{qui: ' + JSON.stringify($("#qui").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $("#Viewtable").html(data);
+                            $('#example23').DataTable({
+                                "columnDefs": [{
+                                    "targets": 'no-sort',
+                                    "orderable": false,
+                                }],
+                                   "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                                "order": [],
+                            }
+                                );
+                            $('#loading').modal('hide')
+                         
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+           
+            $("#Viewtable").on("click", ".btnxemhd", function () {
+                var id = $(this).closest('tr').find('td:eq(0)').text();
+                var macn = $(this).closest('tr').find('td:eq(6)').text();
+                var url = '@Url.Action("GetEditDonHangQLDH", "Order")';
+                $.post(url, { Id: id, macn: macn },
+                    function (data) {
+                        if (data[0].NgayGiao != null) {
+                            var milli1 = data[0].NgayGiao.replace(/\/Date\((-?\d+)\)\//, '$1');
+                            var d1 = new Date(parseInt(milli1));
+                            var dformat1 = ("00" + d1.getDate()).slice(-2) + "/" + ("00" + (d1.getMonth() + 1)).slice(-2) + "/" + d1.getFullYear();
+                            $("#viewngaygiao").val(dformat1);
+                        }
+                        else {
+                            $("#viewngaygiao").val("N/A");
+                        }
+                        if (data[0].DUYETDH == null) {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#lido").val(data[0].LIDO);
+                            $("#trangthai").text("Từ chối");
+                            $("#divduyet").show();
+                            if (data[0].NGAYTHUCHIEN != null) {
+                                $("#viewngayduyet").text(CovertDatetime(data[0].NGAYTHUCHIEN));
+                            }
+                            else {
+                                $("#viewngayduyet").text("N/A");
+                            }
+                            $("#sohd").text("N/A");
+                        }
+                        else if (data[0].DUYETDH == false) {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#trangthai").text("Chờ duyệt");
+                            $("#divduyet").hide();
+                        }
+                        else {
+                            $("#ghichu").val(data[data.length - 1].GHICHU);
+                            $("#trangthai").text("Đã duyệt");
+                            $("#divduyet").show();
+                            if (data[0].NGAYTHUCHIEN != null) {
+                                $("#viewngayduyet").text(CovertDatetime(data[0].NGAYTHUCHIEN));
+                            }
+                            else {
+                                $("#viewngayduyet").text("N/A");
+                            }
+                            $("#sohd").text(data[0].SOHD);
+                        }
+                        $("#tilechietkhau").html(data[0].ck);
+                        $("#viewdonhang").html(data[0].MADH);
+                        $("#viewngaydat").html(CovertDatetime(data[0].NgayDat));
+                        $("#tablehanghoaview > tbody").empty();
+                        $("#viewkhachhang").val(data[0].MAKH + " - " + data[0].DONVI);
+                        $("#viewvat").val(data[0].VAT + "%");
+                        var float = (data[0].VAT / (100 + data[0].VAT));
+                        if (data[0].MACTKM != null) {
+                            $("#viewkhuyenmai").val(data[0].MACTKM + " - " + data[0].TENCTKM);
+                            $.ajax({
+                                url: '@Url.Action("GetTongdiemtichluyCN", "Order")',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{SODH: ' + JSON.stringify(id) + ', mactkm: ' + JSON.stringify(data[0].MACTKM) + ', macn: ' + JSON.stringify(macn) + '}',
+                                success: function (data) {
+                                    $("#tongdiemtichluy").text(data);
+                                },
+                                error: function (request, status, error) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
+                                },
+                                timeout: 5000,
+                            });
+                        }
+                        else {
+                            $("#viewkhuyenmai").val("N/A");
+                            $("#tongdiemtichluy").text("0");
+                        }
+                        if (data[0].MACTHT != null) {
+                            $("#viewctht").val(data[0].MACTHT);
+                            $.ajax({
+                                url: '@Url.Action("GetTongdiemtichluyCN", "Order")',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{SODH: ' + JSON.stringify(id) + ', mactkm: ' + JSON.stringify(data[0].MACTHT) + ', macn: ' + JSON.stringify(macn) + '}',
+                                success: function (data) {
+                                    $("#tongdiemtichluy").text(data);
+                                },
+                                error: function (request, status, error) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
+                                },
+                                timeout: 5000,
+                            });
+                        }
+                        else {
+                            $("#viewctht").val("N/A");
+                            $("#tongdiemtichluy").text("0");
+                        }
+                        //$("#trinhduocvienedit").val(data[0].MATDV);
+                        var tongtien = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            $("#tablehanghoaview").find("tbody").append(
+                             '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                           + '<td class="text-center text-dark font-weight-normal">' + data[i].STT + '</td>'
+                           + '<td class="left strong text-dark font-weight-normal">' + data[i].MAHH + " - " + data[i].TENHH + " (" + data[i].DVT + ")" + ((data[i].DUYETDH == null) ? ' <span style="font-size:9px;" class="badge badge-danger">Từ chối</span>' : "") + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + data[i].SOLUONG.format() + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + data[i].GIABAN_VAT.format() + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
+                           + '</tr>');
+                            if(data[i].DUYETDH != null)
+                            {
+                                tongtien = tongtien + (data[i].GIABAN_VAT * data[i].SOLUONG);
+                            }
+                        }
+                        $("#viewtienvat").text(Math.floor(tongtien * float).format());
+                        $("#viewtongtien").text(tongtien.format());
+                        $("#viewthanhtien").text((tongtien - Math.floor(tongtien * float)).format());
+                    });
+            });
+        });
+    </script>
+}
+
+
+
+

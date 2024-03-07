@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VNPTINVOICEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DTA_LICHSUPHATHANH">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="macn" Type="varchar" MaxLength="20" />
+          <Property Name="fkey" Type="varchar" MaxLength="100" />
+          <Property Name="result" Type="nvarchar(max)" />
+          <Property Name="sohddt" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKYHIEU">
+          <Key>
+            <PropertyRef Name="macn" />
+          </Key>
+          <Property Name="macn" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="partial" Type="varchar" MaxLength="50" />
+          <Property Name="serial" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTAIKHOAN">
+          <Key>
+            <PropertyRef Name="macn" />
+          </Key>
+          <Property Name="macn" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="accservice" Type="varchar" MaxLength="50" />
+          <Property Name="passservice" Type="varchar" MaxLength="50" />
+          <Property Name="accadmin" Type="varchar" MaxLength="50" />
+          <Property Name="passadmin" Type="varchar" MaxLength="50" />
+          <Property Name="tencn" Type="nvarchar" MaxLength="500" />
+          <Property Name="diachi" Type="nvarchar" MaxLength="1000" />
+          <Property Name="mst" Type="varchar" MaxLength="50" />
+          <Property Name="taikhoannh" Type="varchar" MaxLength="50" />
+          <Property Name="tennh" Type="nvarchar" MaxLength="500" />
+          <Property Name="dienthoai" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="VNPTINVOICEModelStoreContainer">
+          <EntitySet Name="DTA_LICHSUPHATHANH" EntityType="Self.DTA_LICHSUPHATHANH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCKYHIEU" EntityType="Self.TBL_DANHMUCKYHIEU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCTAIKHOAN" EntityType="Self.TBL_DANHMUCTAIKHOAN" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VNPTINVOICEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DTA_LICHSUPHATHANH">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="macn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fkey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="result" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sohddt" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKYHIEU">
+          <Key>
+            <PropertyRef Name="macn" />
+          </Key>
+          <Property Name="macn" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="partial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTAIKHOAN">
+          <Key>
+            <PropertyRef Name="macn" />
+          </Key>
+          <Property Name="macn" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="accservice" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passservice" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="accadmin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passadmin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tencn" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="diachi" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="mst" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="taikhoannh" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tennh" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="dienthoai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="VNPTINVOICEEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DTA_LICHSUPHATHANH" EntityType="Self.DTA_LICHSUPHATHANH" />
+          <EntitySet Name="TBL_DANHMUCKYHIEU" EntityType="Self.TBL_DANHMUCKYHIEU" />
+          <EntitySet Name="TBL_DANHMUCTAIKHOAN" EntityType="Self.TBL_DANHMUCTAIKHOAN" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VNPTINVOICEModelStoreContainer" CdmEntityContainer="VNPTINVOICEEntities">
+          <EntitySetMapping Name="DTA_LICHSUPHATHANH">
+            <EntityTypeMapping TypeName="VNPTINVOICEModel.DTA_LICHSUPHATHANH">
+              <MappingFragment StoreEntitySet="DTA_LICHSUPHATHANH">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="macn" ColumnName="macn" />
+                <ScalarProperty Name="fkey" ColumnName="fkey" />
+                <ScalarProperty Name="result" ColumnName="result" />
+                <ScalarProperty Name="sohddt" ColumnName="sohddt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCKYHIEU">
+            <EntityTypeMapping TypeName="VNPTINVOICEModel.TBL_DANHMUCKYHIEU">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCKYHIEU">
+                <ScalarProperty Name="macn" ColumnName="macn" />
+                <ScalarProperty Name="partial" ColumnName="partial" />
+                <ScalarProperty Name="serial" ColumnName="serial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCTAIKHOAN">
+            <EntityTypeMapping TypeName="VNPTINVOICEModel.TBL_DANHMUCTAIKHOAN">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCTAIKHOAN">
+                <ScalarProperty Name="macn" ColumnName="macn" />
+                <ScalarProperty Name="accservice" ColumnName="accservice" />
+                <ScalarProperty Name="passservice" ColumnName="passservice" />
+                <ScalarProperty Name="accadmin" ColumnName="accadmin" />
+                <ScalarProperty Name="passadmin" ColumnName="passadmin" />
+                <ScalarProperty Name="tencn" ColumnName="tencn" />
+                <ScalarProperty Name="diachi" ColumnName="diachi" />
+                <ScalarProperty Name="mst" ColumnName="mst" />
+                <ScalarProperty Name="taikhoannh" ColumnName="taikhoannh" />
+                <ScalarProperty Name="tennh" ColumnName="tennh" />
+                <ScalarProperty Name="dienthoai" ColumnName="dienthoai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

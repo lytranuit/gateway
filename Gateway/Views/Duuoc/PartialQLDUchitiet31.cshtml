@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_SCAPPROVE>
+
+<table id="exceltable" class="table-bordered display nowrap w-100" cellspacing="0">
+    <thead id="tableheader">
+        <tr>
+            <th>Local code</th>
+            <th>Product Name</th>
+          
+            @foreach (var z in Model.GroupBy(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.Key.nam).ThenBy(k => k.Key.thang))
+            {
+                <th>@(z.Key.thang + "/" + z.Key.nam)</th>
+            }
+            @foreach (var z in Model.GroupBy(n => new { n.thang, n.nam }).Distinct().OrderBy(k => k.Key.nam).ThenBy(k => k.Key.thang))
+            {
+                <th>Value @(z.Key.thang + "/" + z.Key.nam)</th>
+            }
+            <th>Ngày kết thúc thầu</th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        @foreach (var i in Model.GroupBy(n => new { n.mahh}))
+        {
+            <tr class="tr-data">
+                <td>@i.Key.mahh</td>
+                <td>@i.First().nguoitao</td>
+              
+                @foreach (var z in i.OrderBy(n => n.nam).ThenBy(n => n.thang))
+                {
+                    <td>@string.Format("{0:0}", z.soluong)</td>
+                }
+                @foreach (var z in i.OrderBy(n => n.nam).ThenBy(n => n.thang))
+                {
+                    <td>@string.Format("{0:0}", z.sotien)</td>
+                }
+                <td>@((i.OrderByDescending(n => n.ngayketthucthau).FirstOrDefault().ngayketthucthau != null) ? ((DateTime)(i.FirstOrDefault().ngayketthucthau)).ToString("dd/MM/yyyy") : "" )</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

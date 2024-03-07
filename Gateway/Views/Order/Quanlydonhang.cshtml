@@ -1,0 +1,461 @@
+﻿@model IEnumerable<ApplicationChart.Models.DTA_DONDATHANG>
+@{
+    ViewBag.Title = "Quản lý đơn hàng";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ ĐƠN HÀNG</li>
+        </ol>
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
+                <select name="chinhanh" title="Chi nhánh..." class="selectpicker" id="chinhanh">
+                    <optgroup label="MIỀN TRUNG">
+                        @foreach (var k in ViewBag.mientrung)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN NAM">
+                        @foreach (var k in ViewBag.miennam)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                    <optgroup label="MIỀN BẮC">
+                        @foreach (var k in ViewBag.mienbac)
+                        {
+                            <option value=@k.macn>@k.Tencn</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Trình dược viên</label>
+                <select name="matdv" data-live-search="true" class="selectpicker" id="matdv">
+                    <option selected value="ALL">TẤT CẢ</option>
+                </select>
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Từ ngày<code class="bg-white">(*)</code></label>
+                <input value="@DateTime.Now.ToString("01/MM/yyyy")" style="width:100%" class="form-control NGAY p-2" id="tungay" name="tungay" placeholder="DD/MM/YYYY" type="text" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" autocomplete="off">
+            </div>
+            <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-1">
+                <label class="col-form-label" for="formGroupExampleInput">Đến ngày<code class="bg-white">(*)</code></label>
+                <input value="@DateTime.Now.ToString("dd/MM/yyyy")" style="width:100%" class="form-control NGAY p-2" id="denngay" name="denngay" placeholder="DD/MM/YYYY" type="text" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" autocomplete="off">
+            </div>
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button id="btnsubmit" style="height:auto;width:auto;" type="button" class="btn btn-success btn-sm transition-3d-hover m-0"><i class="fa fa-search" aria-hidden="true"></i> <b>TÌM KIẾM</b></button>
+                <button style="height:auto;width:auto;" type="button" class="btn btn-danger btn-sm transition-3d-hover m-0" onClick="location.href='@Url.Action("quan-ly-don-dat-hang", "Order")';return false;"><i class="fa fa-arrow-left" aria-hidden="true"></i> <b>TẢI LẠI</b></button>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;">
+        <div class="form-group col-lg-12 col-md-12 mb-0 hidden" id="divloc">
+            <label class="col-form-label" for="formGroupExampleInput">Lọc trạng thái</label>
+            <select id="loctrangthai" class="selectpicker">
+                <option value="1">TẤT CẢ</option>
+                <option value="2" data-icon="fa fa-check-circle text-success fa-2x pr-2">ĐÃ DUYỆT</option>
+                <option value="3" data-icon="fa fa-exclamation-triangle text-warning fa-2x pr-1">CHỜ DUYỆT</option>
+                <option value="4" data-icon="fa fa-times-circle text-danger fa-2x pr-2">TỪ CHỐI</option>
+            </select>
+        </div>
+        <div class="" id="Viewtable">
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered scrollable-auto-y mx-auto" style="max-width:1280px" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">THÔNG TIN ĐƠN HÀNG <span class="text-danger" id="viewdonhang"></span></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Ngày đặt hàng:
+                    <strong id="viewngaydat"></strong>
+                    <span class="float-right"> <strong>Trạng thái:</strong> <span id="trangthai"></span></span>
+                </div>
+                <div class="card-header" id="divduyet">
+                    Ngày duyệt:
+                    <strong id="viewngayduyet"></strong>
+                    <span class="float-right"> <strong>Số hóa đơn:</strong> <span id="sohd"></span></span>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row mb-2">
+                        <div class="col-sm-12 col-md-12 col-lg-9">
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-3 col-md-3 col-lg-12 col-form-label" for="viewkhachhang">Khách hàng</label>
+                                <div class="col-sm-9 col-md-9 col-lg-12">
+                                    <input readonly type="text" class="form-control" id="viewkhachhang" placeholder="Chọn khách hàng">
+                                </div>
+                            </div>
+
+                            <!-- Default input -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-3 col-lg-12 col-form-label" for="editngaygiao">Dự kiến giao</label>
+                                <div class="col-sm-9 col-lg-12">
+                                    <input readonly class="form-control" id="viewngaygiao" placeholder="DD/MM/YYYY" type="text" data-validation="digit" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5">
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-3 col-lg-12 col-form-label" for="viewkhuyenmai">Chương trình khuyến mãi</label>
+                                <div class="col-sm-9 col-lg-12">
+                                    <input readonly type="text" class="form-control" id="viewkhuyenmai" placeholder="Chương trình khuyến mãi">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4">
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-3 col-lg-12 col-form-label" for="viewkhuyenmai">Chương trình hỗ trợ</label>
+                                <div class="col-sm-9 col-lg-12">
+                                    <input readonly type="text" class="form-control" id="viewctht" placeholder="Chương trình hỗ trợ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-3 col-lg-12 col-form-label" for="vat">VAT</label>
+                                <div class="col-sm-9 col-lg-12">
+                                    <input readonly class="form-control" id="viewvat" type="text" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                        <table id="tablehanghoaview" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
+                            <thead style="background-color:rgb(66, 133, 244)">
+                                <tr class="text-white">
+                                    <th style="width:50px;" class="center">STT</th>
+                                    <th style="width:350px">Sản phẩm</th>
+                                    <th style="width:150px" class="center">Số lượng</th>
+                                    <th style="width:100px" class="center">Đơn giá (Có VAT)</th>
+                                    <th style="width:100px" class="center">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+                    <div class="container-fluid p-0">
+                        <table class="table table-bordered mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="font-weight-bold w-15 text-center text-dark">TỈ LỆ CHIẾT KHẤU (%)</td>
+                                    <td class="text-danger font-weight-bold text-right" id="tilechietkhau">0</td>
+                                    <td class="font-weight-bold w-15 text-center text-dark">TỔNG ĐIỂM TÍCH LŨY</td>
+                                    <td class="text-danger font-weight-bold text-right" id="tongdiemtichluy">0</td>
+                                    <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
+                                    <td class="text-danger font-weight-bold text-right" id="viewtienvat">0.00</td>
+                                    <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+                                    <td class="text-danger font-weight-bold text-right" id="viewthanhtien">0.00</td>
+                                    <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
+                                    <td class="text-danger font-weight-bold text-right" id="viewtongtien">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row pt-1 pr-3 pl-3" id="divghichu">
+                        <div class="form-group w-100 mb-0">
+                            <label class="col-form-label" for="ghichu">Ghi chú</label>
+                            <textarea readonly class="form-control" id="ghichu" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row pt-1 pr-3 pl-3" id="divlido">
+                        <div class="form-group w-100 mb-0">
+                            <label class="col-form-label" for="ghichu">Lí do</label>
+                            <textarea readonly class="form-control" id="lido" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer modal-footer p-2">
+                    <button type="button" class="btn btn-primary btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+    <script src="~/Scripts/Quanlydonhang.js?version=280422"></script>
+    <script>
+        function CovertDatetime(i) {
+            var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
+            var d = new Date(parseInt(milli));
+            var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + ("00" + d.getHours()).slice(-2) + ":" + ("00" + d.getMinutes()).slice(-2);
+            return dformat;   // The function returns the product of p1 and p2
+        }
+        $(document).ready(function () {
+            $("#btnsubmit").click(function () {
+                if ($("#chinhanh").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh", "Lỗi")
+                }
+                else {
+                    $('#loading').modal({ backdrop: 'static', keyboard: false })
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("PartialQLDH", "Order")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{tungay: ' + JSON.stringify($("#tungay").val()) + ', denngay: ' + JSON.stringify($("#denngay").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $("#Viewtable").html(data);
+                            $('#example23').DataTable({
+                                "columnDefs": [{
+                                    "targets": 'no-sort',
+                                    "orderable": false,
+                                }],
+                                   "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+                                "order": [],
+                            }
+                                );
+                            $('#loading').modal('hide')
+                            $("#divloc").removeClass("hidden");
+                            $("#loctrangthai").val(1);
+                            $('#loctrangthai').selectpicker('refresh');
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $("#chinhanh").change(function () {
+                $("#matdv").empty();
+                var url = '@Url.Action("GetTrinhDuocVien", "Home")';
+                $.post(url, { ChiNhanhId: $("#chinhanh").val() },
+                          function (data) {
+                              $("#matdv").append('<option selected value="ALL">TẤT CẢ</option>');
+                              for (var i = 0; i < data.length; i++) {
+                                  $("#matdv").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
+                              }
+                              $('.selectpicker').selectpicker('refresh');
+                          });
+            });
+            $("#Viewtable").on("click", ".btnxemhd", function () {
+                var id = $(this).closest('tr').find('td:eq(0)').text();
+                var macn = $(this).closest('tr').find('td:eq(6)').text();
+                var url = '@Url.Action("GetEditDonHangQLDH", "Order")';
+                $.post(url, { Id: id, macn: macn },
+                    function (data) {
+                        if (data[0].NgayGiao != null) {
+                            var milli1 = data[0].NgayGiao.replace(/\/Date\((-?\d+)\)\//, '$1');
+                            var d1 = new Date(parseInt(milli1));
+                            var dformat1 = ("00" + d1.getDate()).slice(-2) + "/" + ("00" + (d1.getMonth() + 1)).slice(-2) + "/" + d1.getFullYear();
+                            $("#viewngaygiao").val(dformat1);
+                        }
+                        else {
+                            $("#viewngaygiao").val("N/A");
+                        }
+                        if (data[0].DUYETDH == null) {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#lido").val(data[0].LIDO);
+                            $("#trangthai").text("Từ chối");
+                            $("#divduyet").show();
+                            if (data[0].NGAYTHUCHIEN != null) {
+                                $("#viewngayduyet").text(CovertDatetime(data[0].NGAYTHUCHIEN));
+                            }
+                            else {
+                                $("#viewngayduyet").text("N/A");
+                            }
+                            $("#sohd").text("N/A");
+                        }
+                        else if (data[0].DUYETDH == false) {
+                            $("#ghichu").val(data[0].GHICHU);
+                            $("#trangthai").text("Chờ duyệt");
+                            $("#divduyet").hide();
+                        }
+                        else {
+                            $("#ghichu").val(data[data.length - 1].GHICHU);
+                            $("#trangthai").text("Đã duyệt");
+                            $("#divduyet").show();
+                            if (data[0].NGAYTHUCHIEN != null) {
+                                $("#viewngayduyet").text(CovertDatetime(data[0].NGAYTHUCHIEN));
+                            }
+                            else {
+                                $("#viewngayduyet").text("N/A");
+                            }
+                            $("#sohd").text(data[0].SOHD);
+                        }
+                        $("#tilechietkhau").html(data[0].ck);
+                        $("#viewdonhang").html(data[0].MADH);
+                        $("#viewngaydat").html(CovertDatetime(data[0].NgayDat));
+                        $("#tablehanghoaview > tbody").empty();
+                        $("#viewkhachhang").val(data[0].MAKH + " - " + data[0].DONVI);
+                        $("#viewvat").val(data[0].VAT + "%");
+                        var float = (data[0].VAT / (100 + data[0].VAT));
+                        if (data[0].MACTKM != null) {
+                            $("#viewkhuyenmai").val(data[0].MACTKM + " - " + data[0].TENCTKM);
+                            $.ajax({
+                                url: '@Url.Action("GetTongdiemtichluyCN", "Order")',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{SODH: ' + JSON.stringify(id) + ', mactkm: ' + JSON.stringify(data[0].MACTKM) + ', macn: ' + JSON.stringify(macn) + '}',
+                                success: function (data) {
+                                    $("#tongdiemtichluy").text(data);
+                                },
+                                error: function (request, status, error) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
+                                },
+                                timeout: 5000,
+                            });
+                        }
+                        else {
+                            $("#viewkhuyenmai").val("N/A");
+                            $("#tongdiemtichluy").text("0");
+                        }
+                        if (data[0].MACTHT != null) {
+                            $("#viewctht").val(data[0].MACTHT);
+                            $.ajax({
+                                url: '@Url.Action("GetTongdiemtichluyCN", "Order")',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{SODH: ' + JSON.stringify(id) + ', mactkm: ' + JSON.stringify(data[0].MACTHT) + ', macn: ' + JSON.stringify(macn) + '}',
+                                success: function (data) {
+                                    $("#tongdiemtichluy").text(data);
+                                },
+                                error: function (request, status, error) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": true,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
+                                },
+                                timeout: 5000,
+                            });
+                        }
+                        else {
+                            $("#viewctht").val("N/A");
+                            $("#tongdiemtichluy").text("0");
+                        }
+                        //$("#trinhduocvienedit").val(data[0].MATDV);
+                        var tongtien = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            $("#tablehanghoaview").find("tbody").append(
+                             '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                           + '<td class="text-center text-dark font-weight-normal">' + data[i].STT + '</td>'
+                           + '<td class="left strong text-dark font-weight-normal">' + data[i].MAHH + " - " + data[i].TENHH + " (" + data[i].DVT + ")" + ((data[i].DUYETDH == null) ? ' <span style="font-size:9px;" class="badge badge-danger">Từ chối</span>' : "") + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + data[i].SOLUONG.format() + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + data[i].GIABAN_VAT.format() + '</td>'
+                           + '<td class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
+                           + '</tr>');
+                            if(data[i].DUYETDH != null)
+                            {
+                                tongtien = tongtien + (data[i].GIABAN_VAT * data[i].SOLUONG);
+                            }
+                        }
+                        $("#viewtienvat").text(Math.floor(tongtien * float).format());
+                        $("#viewtongtien").text(tongtien.format());
+                        $("#viewthanhtien").text((tongtien - Math.floor(tongtien * float)).format());
+                    });
+            });
+        });
+    </script>
+}
