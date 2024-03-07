@@ -753,7 +753,7 @@ $(document).ready(function () {
                     + '</td>'
                     + '<td class="text-right paddingleft2 paddingright2 text-dark thanhtien">0.00</td>'
                     + '<td class="text-right paddingleft2 paddingright2 text-dark"><input autocomplete="off" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right ck" value="0"></td>'
-                    + '<td class="text-right paddingleft2 paddingright2 text-dark">0</td>'
+                    + '<td class="text-right paddingleft2 paddingright2 text-dark diemtichluy">0</td>'
                     + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
                     + '</tr>');
             }
@@ -1134,7 +1134,7 @@ $(document).ready(function () {
                                                                                 $(".sl1,.sl2").val("");
                                                                                 $(".sl3").text("0.00");
                                                                                 $("#tab_logic tr").find('.thanhtien').text("0.00");
-                                                                                $("#tab_logic tr").find('td:eq(7)').text("0");
+                                                                                $("#tab_logic tr").find('.diemtichluy').text("0");
                                                                                 $("#tienvat").text("0.00");
                                                                                 $("#thanhtien").text("0.00");
                                                                                 $("#tongtien").text("0.00");
@@ -1308,7 +1308,7 @@ $(document).ready(function () {
                                             $(".sl1,.sl2").val("");
                                             $(".sl3").text("0.00");
                                             $("#tab_logic tr").find('.thanhtien').text("0.00");
-                                            $("#tab_logic tr").find('td:eq(7)').text("0");
+                                            $("#tab_logic tr").find('.diemtichluy').text("0");
                                             $("#tienvat").text("0.00");
                                             $("#thanhtien").text("0.00");
                                             $("#tongtien").text("0.00");
@@ -1407,10 +1407,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(7)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(7)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1447,10 +1447,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(7)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(7)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1531,10 +1531,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(7)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(7)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1571,10 +1571,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(7)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(7)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1651,7 +1651,7 @@ $(document).ready(function () {
                             contentType: "application/json",
                             data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                             success: function (data) {
-                                x.find("td:eq(7)").text(data);
+                                x.find(".diemtichluy").text(data);
                                 diem = diem + parseInt(data);
                                 $("#tongdiemtichluy").text(diem);
                             },
@@ -1682,14 +1682,14 @@ $(document).ready(function () {
             }
             else {
                 $('#tablehanghoa > tbody  > tr').each(function () {
-                    $(this).find("td:eq(7)").text("0");
+                    $(this).find(".diemtichluy").text("0");
                     $("#tongdiemtichluy").text("0");
                 });
             }
         }
         else {
             $('#tablehanghoa > tbody  > tr').each(function () {
-                $(this).find("td:eq(7)").text("0");
+                $(this).find(".diemtichluy").text("0");
                 $("#tongdiemtichluy").text("0");
             });
         }
@@ -1749,7 +1749,7 @@ $(document).ready(function () {
                             contentType: "application/json",
                             data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                             success: function (data) {
-                                x.find("td:eq(7)").text(data);
+                                x.find(".diemtichluy").text(data);
                                 diem = diem + parseInt(data);
                                 $("#tongdiemtichluy").text(diem);
                             },
@@ -1780,7 +1780,7 @@ $(document).ready(function () {
             }
             else {
                 $('#tablehanghoa > tbody  > tr').each(function () {
-                    $(this).find("td:eq(7)").text("0");
+                    $(this).find(".diemtichluy").text("0");
                     $("#tongdiemtichluy").text("0");
                 });
             }
@@ -1792,7 +1792,7 @@ $(document).ready(function () {
         }
         else {
             $('#tablehanghoa > tbody  > tr').each(function () {
-                $(this).find("td:eq(7)").text("0");
+                $(this).find(".diemtichluy").text("0");
                 $("#tongdiemtichluy").text("0");
             });
         }
@@ -1823,7 +1823,7 @@ $(document).ready(function () {
                             if (MAHH == "") {
                                 return false;
                             }
-                            diem = diem + parseInt($(this).find("td:eq(7)").text());
+                            diem = diem + parseInt($(this).find(".diemtichluy").text());
                             count = count + parseInt($(this).find(".thanhtien").text().replace(/[^\d.]/g, ''));
                         });
                         $("#tongdiemtichluy").text(diem);

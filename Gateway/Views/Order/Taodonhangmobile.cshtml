@@ -220,16 +220,6 @@
                                 </div>
                             </div>
                         </div>
-                        @if (ViewBag.macn == "DNONG")
-                        {
-                            <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
-                                <!-- Default input -->
-                                <div class="form-group mb-0">
-                                    <label class="col-form-label" for="editngaygiao">Tỉ lệ chiết khấu (%)</label>
-                                    <input class="form-control font-weight-normal m-0" max="99" min="0" id="txtchietkhau" placeholder="Nhập tỉ lệ chiết khấu" type="number" value="0" autocomplete="off">
-                                </div>
-                            </div>
-                        }
                         <div class="col-sm-12 m-0">
                             <button id="btnthemhh" type="button" data-toggle="modal" data-target="#modalhh" class="btn btn-success btn-sm transition-3d-hover w-100 m-0"><i class="fa fa-plus"></i> THÊM SẢN PHẨM</button>
                         </div>
@@ -238,12 +228,13 @@
                         <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2" style="display:table;">
                             <thead style="background-color:rgb(66, 133, 244)">
                                 <tr class="text-white">
-                                    <th style="width:70%;">Sản phẩm</th>
-                                    <th style="width:8%">Thùng</th>
-                                    <th style="width:12%">Hộp</th>
+                                    <th>Sản phẩm</th>
+                                    <th style="width:10%">Thùng</th>
+                                    <th style="width:10%">Hộp</th>
                                     <th class="center">SL</th>
-                                    <th hidden>Đơn giá (Có VAT)</th>
+                                    <th>Giá</th>
                                     <th hidden>Thành tiền</th>
+                                    <th style="width:10%">CK</th>
                                     <th hidden>Điểm tích lũy</th>
                                     <th style="width:20px;"></th>
                                 </tr>
@@ -254,10 +245,6 @@
                     <div class="row clearfix m-0">
                         <table class="table table-bordered mb-2">
                             <tbody>
-                                <tr>
-                                    <td class="font-weight-bold w-40 text-center text-dark">TỈ LỆ CHIẾT KHẤU (%)</td>
-                                    <td class="text-danger font-weight-bold text-right w-60" id="tilechietkhau">0</td>
-                                </tr>
                                 <tr>
                                     <td class="font-weight-bold w-40 text-center text-dark">SL SẢN PHẨM</td>
                                     <td class="text-danger font-weight-bold text-right w-60" id="slsp">0</td>
@@ -271,8 +258,13 @@
                                     <td class="text-danger font-weight-bold text-right w-60" id="tienvat">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN</td>
+                                    <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN CHƯA VAT</td>
                                     <td class="text-danger font-weight-bold text-right w-60" id="thanhtien">0.00</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-weight-bold w-40 text-center text-dark">TIỀN CK</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tienck">0.00</td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold w-40 text-center text-dark">TỔNG TIỀN</td>
@@ -374,11 +366,8 @@
     <script>
         $(document).ready(function () {
             $("#khachhang").val('@ViewBag.makh');
-            $("#txtchietkhau").change(function () {
-                $("#tilechietkhau").text($("#txtchietkhau").val());
-            });
         });
     </script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
-    <script src="~/Scripts/Taodonhangmobile.js?version=27042023"></script>
+    <script src="~/Scripts/Taodonhangmobile.js?version=2704202243"></script>
 }

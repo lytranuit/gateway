@@ -166,7 +166,7 @@ $(document).ready(function () {
         else if (typeof $("#khuyenmai option:selected").attr("data-ck") != "undefined" && $("#khuyenmai option:selected").attr("data-ck") != "") {
             $("#tilechietkhau").text($("#khuyenmai option:selected").attr("data-ck"));
         }
-      
+
         if ($("#khachhang option:selected").attr('data-matdv') == "") {
             $("#divmatdv").removeClass("hidden");
         }
@@ -497,50 +497,28 @@ $(document).ready(function () {
                                                     var data1 = [];
                                                     var dem = 1;
                                                     $("#tablehanghoa > tbody >tr").each(function () {
-                                                        if ($(this).find('td:eq(0)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P53') {
-                                                            data1.push({
-                                                                "NGAYGIAO": $("#ngaygiao").val()
-                                                                , "STT": dem
-                                                                , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                                                , "KHACHHANG": $("#khachhang").val()
-                                                                , "MACTKM": $("#khuyenmai").val()
-                                                                , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                                , "MACTHT": $("#cthotro").val()
-                                                                , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                                , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                                                , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                                , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                                , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "SOLUONG2": null
-                                                                , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "VAT": $("#vat").val()
-                                                                , "GHICHU": $("#ghichu").val()
-                                                                , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                                            });
-                                                        }
-                                                        else {
-                                                            data1.push({
-                                                                "NGAYGIAO": $("#ngaygiao").val()
-                                                              , "STT": dem
-                                                              , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                                              , "KHACHHANG": $("#khachhang").val()
-                                                              , "MACTKM": $("#khuyenmai").val()
-                                                              , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                              , "MACTHT": $("#cthotro").val()
-                                                              , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                              , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                                              , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                              , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                              , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                              , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                              , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                              , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                              , "VAT": $("#vat").val()
-                                                              , "GHICHU": $("#ghichu").val()
-                                                              , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                                            });
-                                                        }
+
+                                                        data1.push({
+                                                            "NGAYGIAO": $("#ngaygiao").val()
+                                                            , "STT": dem
+                                                            , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                                                            , "KHACHHANG": $("#khachhang").val()
+                                                            , "MACTKM": $("#khuyenmai").val()
+                                                            , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
+                                                            , "MACTHT": $("#cthotro").val()
+                                                            , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
+                                                            , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
+                                                            , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
+                                                            , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
+                                                            , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "VAT": $("#vat").val()
+                                                            , "GHICHU": $("#ghichu").val()
+                                                            , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                        });
+
                                                         dem = dem + 1;
                                                     });
                                                     $.ajax({
@@ -602,8 +580,8 @@ $(document).ready(function () {
                                                                             action: function () {
                                                                                 $(".sl2").val("");
                                                                                 $(".sl3").text("");
-                                                                                $("#tab_logic tr").find('td:eq(5)').text("0");
-                                                                                $("#tab_logic tr").find('td:eq(6)').text("0");
+                                                                                $("#tab_logic tr").find('.thanhtien').text("0");
+                                                                                $("#tab_logic tr").find('.diemtichluy').text("0");
                                                                                 $("#tongdiemtichluy").text("0");
                                                                                 $("#tongtien").text("0.00");
                                                                                 $("#tienvat").text("0.00");
@@ -703,50 +681,28 @@ $(document).ready(function () {
                                 var dem = 1;
 
                                 $("#tablehanghoa > tbody >tr").each(function () {
-                                    if ($(this).find('td:eq(0)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P53') {
-                                        data1.push({
-                                            "NGAYGIAO": $("#ngaygiao").val()
-                                            , "STT": dem
-                                            , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                            , "KHACHHANG": $("#khachhang").val()
-                                            , "MACTKM": $("#khuyenmai").val()
-                                            , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                            , "MACTHT": $("#cthotro").val()
-                                            , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                            , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                            , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                            , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                            , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, ''))
-                                                 , "SOLUONG2": null
-                                                        , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                            , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, ''))
-                                            , "VAT": $("#vat").val()
-                                            , "GHICHU": $("#ghichu").val()
-                                            , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                        });
-                                    }
-                                    else {
-                                        data1.push({
-                                            "NGAYGIAO": $("#ngaygiao").val()
-                                                , "STT": dem
-                                                , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                                , "KHACHHANG": $("#khachhang").val()
-                                                , "MACTKM": $("#khuyenmai").val()
-                                                , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                , "MACTHT": $("#cthotro").val()
-                                                , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                                , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                     , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                            , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                , "VAT": $("#vat").val()
-                                                , "GHICHU": $("#ghichu").val()
-                                                , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                        });
-                                    }
+
+                                    data1.push({
+                                        "NGAYGIAO": $("#ngaygiao").val()
+                                        , "STT": dem
+                                        , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                                        , "KHACHHANG": $("#khachhang").val()
+                                        , "MACTKM": $("#khuyenmai").val()
+                                        , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
+                                        , "MACTHT": $("#cthotro").val()
+                                        , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
+                                        , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
+                                        , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
+                                        , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
+                                        , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "VAT": $("#vat").val()
+                                        , "GHICHU": $("#ghichu").val()
+                                        , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                    });
+
                                     dem = dem + 1;
                                 });
                                 $.ajax({
@@ -808,8 +764,8 @@ $(document).ready(function () {
                                                         action: function () {
                                                             $(".sl2").val("");
                                                             $(".sl3").text("");
-                                                            $("#tab_logic tr").find('td:eq(5)').text("0");
-                                                            $("#tab_logic tr").find('td:eq(6)').text("0");
+                                                            $("#tab_logic tr").find('.thanhtien').text("0");
+                                                            $("#tab_logic tr").find('.diemtichluy').text("0");
                                                             $("#tongdiemtichluy").text("0");
                                                             $("#tongtien").text("0.00");
                                                             $("#tienvat").text("0.00");
@@ -1179,50 +1135,28 @@ $(document).ready(function () {
                                                     var data1 = [];
                                                     var dem = 1;
                                                     $("#tablehanghoa > tbody >tr").each(function () {
-                                                        if ($(this).find('td:eq(0)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P53') {
-                                                            data1.push({
-                                                                "NGAYGIAO": $("#ngaygiao").val()
-                                                                , "STT": dem
-                                                                , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                                                , "KHACHHANG": $("#khachhang").val()
-                                                                , "MACTKM": $("#khuyenmai").val()
-                                                                , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                                , "MACTHT": $("#cthotro").val()
-                                                                , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                                , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                                                , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                                , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                                , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                     , "SOLUONG2": null
-                                                                , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "VAT": $("#vat").val()
-                                                                , "GHICHU": $("#ghichu").val()
-                                                                , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                                            });
-                                                        }
-                                                        else {
-                                                            data1.push({
-                                                                "NGAYGIAO": $("#ngaygiao").val()
-                                                                , "STT": dem
-                                                                , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                                                , "KHACHHANG": $("#khachhang").val()
-                                                                , "MACTKM": $("#khuyenmai").val()
-                                                                , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                                , "MACTHT": $("#cthotro").val()
-                                                                , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                                , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                                                , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                                , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                                , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                     , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                , "VAT": $("#vat").val()
-                                                                , "GHICHU": $("#ghichu").val()
-                                                                , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                                            });
-                                                        }
+
+                                                        data1.push({
+                                                            "NGAYGIAO": $("#ngaygiao").val()
+                                                            , "STT": dem
+                                                            , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                                                            , "KHACHHANG": $("#khachhang").val()
+                                                            , "MACTKM": $("#khuyenmai").val()
+                                                            , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
+                                                            , "MACTHT": $("#cthotro").val()
+                                                            , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
+                                                            , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
+                                                            , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
+                                                            , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
+                                                            , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "VAT": $("#vat").val()
+                                                            , "GHICHU": $("#ghichu").val()
+                                                            , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                        });
+
                                                         dem = dem + 1;
                                                     });
                                                     $.ajax({
@@ -1366,50 +1300,28 @@ $(document).ready(function () {
                                 var data1 = [];
                                 var dem = 1;
                                 $("#tablehanghoa > tbody >tr").each(function () {
-                                    if ($(this).find('td:eq(0)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P53') {
-                                        data1.push({
-                                            "NGAYGIAO": $("#ngaygiao").val()
-                                            , "STT": dem
-                                            , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                            , "KHACHHANG": $("#khachhang").val()
-                                            , "MACTKM": $("#khuyenmai").val()
-                                            , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                            , "MACTHT": $("#cthotro").val()
-                                            , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                            , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                            , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                            , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                            , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                 , "SOLUONG2": null
-                                                        , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                            , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                            , "VAT": $("#vat").val()
-                                            , "GHICHU": $("#ghichu").val()
-                                            , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                        });
-                                    }
-                                    else {
-                                        data1.push({
-                                            "NGAYGIAO": $("#ngaygiao").val()
-                                           , "STT": dem
-                                           , "DONVI": $("#khachhang option:selected").attr('tabindex')
-                                           , "KHACHHANG": $("#khachhang").val()
-                                           , "MACTKM": $("#khuyenmai").val()
-                                           , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                           , "MACTHT": $("#cthotro").val()
-                                           , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                           , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
-                                           , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                           , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                           , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                       , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                           , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, '').replace(".00", ""))
-                                           , "VAT": $("#vat").val()
-                                           , "GHICHU": $("#ghichu").val()
-                                           , "ck": $("#tilechietkhau").text().replace('.', ',')
-                                        });
-                                    }
+
+                                    data1.push({
+                                        "NGAYGIAO": $("#ngaygiao").val()
+                                        , "STT": dem
+                                        , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                                        , "KHACHHANG": $("#khachhang").val()
+                                        , "MACTKM": $("#khuyenmai").val()
+                                        , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
+                                        , "MACTHT": $("#cthotro").val()
+                                        , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
+                                        , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
+                                        , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
+                                        , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
+                                        , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "VAT": $("#vat").val()
+                                        , "GHICHU": $("#ghichu").val()
+                                        , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
+                                    });
+
                                     dem = dem + 1;
                                 });
                                 $.ajax({
@@ -1555,45 +1467,34 @@ $(document).ready(function () {
                 });
                 return false;
             }
-            if ($(this).val() == '60.T07' || $(this).val() == '60.P41' || $(this).val() == '60.P53') {
-                $('#tablehanghoa > tbody').append('<tr>'
-           + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-kiemsoat="' + $(this).attr("data-kiemsoat") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
-           + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
-           + '<td class="text-right paddingleft2 paddingright2"><input placeholder="Viên" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl3") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-           + '<td class="text-right paddingleft2 paddingright2"><span data-sl="' + $(this).attr("data-sl3") + '" class="sl3 text-dark">0</span></td>'
-           + '<td hidden class="text-right paddingleft2 paddingright2">' + $(this).attr("data-giaban").replace(/[^\d.]/g, '') + '</td>'
-           + '<td hidden class="text-right paddingleft2 paddingright2">0</td>'
-           + '<td hidden class="text-right paddingleft2 paddingright2">0</td>'
-           + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
-           + '</tr>');
-                $(this).prop('checked', false);
-            }
-            else {
-                $('#tablehanghoa > tbody').append('<tr>'
-           + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-kiemsoat="' + $(this).attr("data-kiemsoat") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
-             + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
-           + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl2") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-           + '<td class="text-right paddingleft2 paddingright2"><span data-sl="' + $(this).attr("data-sl3") + '" class="sl3 text-dark">0</span></td>'
-           + '<td hidden class="text-right paddingleft2 paddingright2">' + $(this).attr("data-giaban").replace(/[^\d.]/g, '') + '</td>'
-           + '<td hidden class="text-right paddingleft2 paddingright2">0</td>'
-           + '<td hidden class="text-right paddingleft2 paddingright2">0</td>'
-           + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
-           + '</tr>');
-                $(this).prop('checked', false);
-            }
+            $('#tablehanghoa > tbody').append('<tr>'
+                + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-kiemsoat="' + $(this).attr("data-kiemsoat") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
+                + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
+                + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl2") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
+                + '<td class="text-right paddingleft2 paddingright2"><span data-sl="' + $(this).attr("data-sl3") + '" class="sl3 text-dark">0</span></td>'
+                + '<td class="text-right paddingleft2 paddingright2 text-dark">'
+                + '<select class="form-control form-control-sm giaban_vat">'
+                + '<option value="' + parseInt($(this).attr("data-giaban").replace(/[^\d.]/g, '')).format() + '">'
+                + parseInt($(this).attr("data-giaban").replace(/[^\d.]/g, '')).format()
+                + '</option>'
+                + '<option value="0">0'
+                + '</option>'
+                + '</select>'
+                + '</td>'
+                + '<td hidden class="text-right paddingleft2 paddingright2 thanhtien">0</td>'
+                + '<td class="text-right paddingleft2 paddingright2 text-dark"><input autocomplete="off" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right ck" value="0"></td>'
+
+                + '<td hidden class="text-right paddingleft2 paddingright2 diemtichluy">0</td>'
+                + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
+                + '</tr>');
+            $(this).prop('checked', false);
+
         });
         $("#modalhh").modal("hide");
         $("#slsp").text($('#tablehanghoa > tbody > tr').length);
     });
     $("#vat").change(function () {
-        var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
-        var count = 0;
-        $('#tablehanghoa > tbody  > tr').each(function () {
-            count = count + parseInt($(this).find("td:eq(5)").text().replace(/[^\d.]/g, ''));
-        });
-        $("#tongtien").text(count.format());
-        $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
-        $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
+        check_gia()
     });
     $("table").on("focus", "input:text", function () { $(this).select(); });
     $("#tablehanghoa").on("change", ".sl1", function () {
@@ -1627,7 +1528,7 @@ $(document).ready(function () {
             $(this).val(number);
 
             x.find(".sl3").text((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl2").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl2").attr("data-sl")));
-            x.find("td:eq(5)").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
+            x.find(".thanhtien").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
             if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
                 if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
                     $.ajax({
@@ -1637,10 +1538,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(number) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(6)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(6)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1677,10 +1578,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(number) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(6)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(6)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1710,22 +1611,7 @@ $(document).ready(function () {
 
 
             }
-            var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
-            var count = 0;
-
-            $('#tablehanghoa > tbody  > tr').each(function () {
-                count = count + parseInt($(this).find("td:eq(5)").text().replace(/[^\d.]/g, ''));
-
-            });
-
-            $("#tongtien").text(count.format());
-            $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
-            $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
-            if (typeof $("#khuyenmai option:selected").attr("data-hanmuc") != "undefined") {
-                if ($("#khuyenmai option:selected").attr("data-hanmuc") != "") {
-                    $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
-                }
-            }
+            check_gia()
         }
     });
     $("#tablehanghoa").on("change", ".sl2", function () {
@@ -1763,7 +1649,7 @@ $(document).ready(function () {
             else {
                 x.find(".sl3").text((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")));
             }
-            x.find("td:eq(5)").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
+            x.find(".thanhtien").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
             if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
                 if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
                     $.ajax({
@@ -1773,10 +1659,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(number) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(6)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(6)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1813,10 +1699,10 @@ $(document).ready(function () {
                         contentType: "application/json",
                         data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(number) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                         success: function (data) {
-                            x.find("td:eq(6)").text(data);
+                            x.find(".diemtichluy").text(data);
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody > tr').each(function () {
-                                tichdiem = tichdiem + parseInt($(this).find("td:eq(6)").text());
+                                tichdiem = tichdiem + parseInt($(this).find(".diemtichluy").text());
                             });
                             $("#tongdiemtichluy").text(tichdiem);
                         },
@@ -1844,20 +1730,14 @@ $(document).ready(function () {
                     });
                 }
             }
-            var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
-            var count = 0;
-            $('#tablehanghoa > tbody  > tr').each(function () {
-                count = count + parseInt($(this).find("td:eq(5)").text().replace(/[^\d.]/g, ''));
-            });
-            $("#tongtien").text(count.format());
-            $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
-            $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
-            if (typeof $("#khuyenmai option:selected").attr("data-hanmuc") != "undefined") {
-                if ($("#khuyenmai option:selected").attr("data-hanmuc") != "") {
-                    $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
-                }
-            }
+            check_gia()
         }
+    });
+    $("#tablehanghoa").on("change", ".giaban_vat,.ck", function () {
+        var x = $(this).closest('tr');
+        x.find(".thanhtien").text((parseInt(x.find(".giaban_vat").val().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))).format());
+
+        check_gia();
     });
     $("#cthotro").change(function () {
 
@@ -1874,7 +1754,7 @@ $(document).ready(function () {
                             contentType: "application/json",
                             data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                             success: function (data) {
-                                x.find("td:eq(6)").text(data);
+                                x.find(".diemtichluy").text(data);
                                 diem = diem + parseInt(data);
                                 $("#tongdiemtichluy").text(diem);
                             },
@@ -1905,14 +1785,14 @@ $(document).ready(function () {
             }
             else {
                 $('#tablehanghoa > tbody  > tr').each(function () {
-                    $(this).find("td:eq(6)").text("0");
+                    $(this).find(".diemtichluy").text("0");
                     $("#tongdiemtichluy").text("0");
                 });
             }
         }
         else {
             $('#tablehanghoa > tbody  > tr').each(function () {
-                $(this).find("td:eq(6)").text("0");
+                $(this).find(".diemtichluy").text("0");
                 $("#tongdiemtichluy").text("0");
             });
         }
@@ -1972,7 +1852,7 @@ $(document).ready(function () {
                             contentType: "application/json",
                             data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                             success: function (data) {
-                                x.find("td:eq(6)").text(data);
+                                x.find(".diemtichluy").text(data);
                                 diem = diem + parseInt(data);
                                 $("#tongdiemtichluy").text(diem);
                             },
@@ -2003,7 +1883,7 @@ $(document).ready(function () {
             }
             else {
                 $('#tablehanghoa > tbody  > tr').each(function () {
-                    $(this).find("td:eq(6)").text("0");
+                    $(this).find(".diemtichluy").text("0");
                     $("#tongdiemtichluy").text("0");
                 });
             }
@@ -2015,7 +1895,7 @@ $(document).ready(function () {
         }
         else {
             $('#tablehanghoa > tbody  > tr').each(function () {
-                $(this).find("td:eq(6)").text("0");
+                $(this).find(".diemtichluy").text("0");
                 $("#tongdiemtichluy").text("0");
             });
         }
@@ -2062,8 +1942,8 @@ $(document).ready(function () {
                         var count = 0;
                         var diem = 0;
                         $('#tablehanghoa > tbody  > tr').each(function () {
-                            count = count + parseInt($(this).find("td:eq(5)").text().replace(/[^\d.]/g, ''));
-                            diem = diem + parseInt($(this).find("td:eq(6)").text());
+                            count = count + parseInt($(this).find(".thanhtien").text().replace(/[^\d.]/g, ''));
+                            diem = diem + parseInt($(this).find(".diemtichluy").text());
                         });
                         $("#tongdiemtichluy").text(diem);
                         $("#tongtien").text(count.format());
@@ -2083,6 +1963,46 @@ $(document).ready(function () {
         });
     });
 });
+
+const check_gia = () => {
+    var vat = parseInt($("#vat").val());
+    var count = 0;
+    var tongtienvat = 0;
+    var tongchuavat = 0;
+    var tongck = 0;
+    var float1 = (100 + vat) / 100;
+    $('#tablehanghoa > tbody  > tr').each(function () {
+
+        var MAHH = $("option:selected", this).val();
+        if (MAHH == "") {
+            return false;
+        }
+        var giaban_vat = parseInt($(this).find(".giaban_vat").val().replace(/[^\d.]/g, '').replace(".00", ""))
+        var dongiachuavat = giaban_vat / float1;
+        var sl = parseInt($(this).find(".sl3").text().toString().replace(/[^\d.]/g, '').replace(".00", ""));
+        var ck = $(this).find(".ck").val();
+        console.log($(this).find(".ck"));
+        //var tienvat = (dongiachuavat * vat / 100) * sl;
+        var tienck = (dongiachuavat * ck / 100) * sl;
+        var thanhtienchuavat = dongiachuavat * sl;
+        //tongtienvat += tienvat;
+        tongchuavat += thanhtienchuavat;
+        tongck += tienck;
+
+        //count = count + parseInt($(this).find(".thanhtien").text().replace(/[^\d.]/g, ''));
+    });
+    tongtienvat = (tongchuavat - tongck) * vat / 100;
+    count = tongchuavat - tongck + tongtienvat;
+    $("#tongtien").text(Math.round(count).format());
+    $("#tienvat").text(Math.round(tongtienvat).format());
+    $("#thanhtien").text(Math.round(tongchuavat).format());
+    $("#tienck").text(Math.round(tongck).format());
+    if (typeof $("#khuyenmai option:selected").attr("data-hanmuc") != "undefined") {
+        if ($("#khuyenmai option:selected").attr("data-hanmuc") != "") {
+            $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
+        }
+    }
+}
 Number.prototype.format = function () {
     var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");
     if (text != "NaN") {
