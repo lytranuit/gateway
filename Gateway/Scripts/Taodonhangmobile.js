@@ -281,28 +281,28 @@ $(document).ready(function () {
                 prevent = 1;
                 return false;
             }
-            else if (listhh.indexOf($(this).closest('tr').find('td:eq(0)').attr("data-mahh")) != -1) {
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": true,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                Command: toastr["warning"]("Sản phẩm " + $(this).closest('tr').find('td:eq(0)').text() + " bị trùng với sản phẩm trước đó vui lòng xóa 1 trong 2 sản phẩm", "Thông báo")
-                prevent = 1;
-                return false;
-            }
+            //else if (listhh.indexOf($(this).closest('tr').find('td:eq(0)').attr("data-mahh")) != -1) {
+            //    toastr.options = {
+            //        "closeButton": false,
+            //        "debug": false,
+            //        "newestOnTop": true,
+            //        "progressBar": true,
+            //        "positionClass": "toast-top-right",
+            //        "preventDuplicates": false,
+            //        "onclick": null,
+            //        "showDuration": "300",
+            //        "hideDuration": "1000",
+            //        "timeOut": "5000",
+            //        "extendedTimeOut": "1000",
+            //        "showEasing": "swing",
+            //        "hideEasing": "linear",
+            //        "showMethod": "fadeIn",
+            //        "hideMethod": "fadeOut"
+            //    }
+            //    Command: toastr["warning"]("Sản phẩm " + $(this).closest('tr').find('td:eq(0)').text() + " bị trùng với sản phẩm trước đó vui lòng xóa 1 trong 2 sản phẩm", "Thông báo")
+            //    prevent = 1;
+            //    return false;
+            //}
             if ($("option:selected", this).first().val() != "") {
                 listhh.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
             }
@@ -920,28 +920,28 @@ $(document).ready(function () {
                 prevent = 1;
                 return false;
             }
-            else if (listhh.indexOf($(this).closest('tr').find('td:eq(0)').attr("data-mahh")) != -1) {
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": true,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                Command: toastr["warning"]("Sản phẩm " + $(this).closest('tr').find('td:eq(0)').text() + " bị trùng với sản phẩm trước đó vui lòng xóa 1 trong 2 sản phẩm", "Thông báo")
-                prevent = 1;
-                return false;
-            }
+            //else if (listhh.indexOf($(this).closest('tr').find('td:eq(0)').attr("data-mahh")) != -1) {
+            //    toastr.options = {
+            //        "closeButton": false,
+            //        "debug": false,
+            //        "newestOnTop": true,
+            //        "progressBar": true,
+            //        "positionClass": "toast-top-right",
+            //        "preventDuplicates": false,
+            //        "onclick": null,
+            //        "showDuration": "300",
+            //        "hideDuration": "1000",
+            //        "timeOut": "5000",
+            //        "extendedTimeOut": "1000",
+            //        "showEasing": "swing",
+            //        "hideEasing": "linear",
+            //        "showMethod": "fadeIn",
+            //        "hideMethod": "fadeOut"
+            //    }
+            //    Command: toastr["warning"]("Sản phẩm " + $(this).closest('tr').find('td:eq(0)').text() + " bị trùng với sản phẩm trước đó vui lòng xóa 1 trong 2 sản phẩm", "Thông báo")
+            //    prevent = 1;
+            //    return false;
+            //}
             if ($("option:selected", this).first().val() != "") {
                 listhh.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
             }
