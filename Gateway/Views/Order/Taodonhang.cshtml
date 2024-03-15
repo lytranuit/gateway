@@ -30,12 +30,12 @@
             <li class="breadcrumb-item active w3-text-black font-weight-normal">TẠO ĐƠN HÀNG</li>
         </ol>
     </div>
-    <div class="alert alert-primary mb-0 p-2 font-small" role="alert">
+    @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
         <strong>THÔNG BÁO :</strong> Các sản phẩm <strong>60.P53-PYME ABZ, 60.P41-PYME FUCAN, 60.T07-TATACA</strong> đơn vị tính trong mục TẠO ĐƠN HÀNG TRÊN TẤT CẢ THIẾT BỊ sẽ là đơn vị <strong>VIÊN</strong>.
     </div>
     <div class="alert alert-danger mb-0 p-2 font-small" role="alert">
         <strong>VIẾT TẮT :</strong> <strong>KSĐB :</strong> Kiểm soát đặc biệt, <strong>TPCN :</strong> Thực phẩm chức năng.
-    </div>
+    </div>*@
     <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
         <div class="w3-row">
             <div class="card mb-0">
@@ -136,7 +136,7 @@
                         <div class="col-lg-12">
                             <div class="btn-group mb-2 w-100" id="themkhachhang">
                                 <span class="input-group-text btn-primary" id="basic-addon1">THÊM HÀNG HÓA</span>
-                                <select title="Chọn các sản phẩm (Tối đa 10 sản phẩm)" id="themsanpham" class="selectpicker selectui" data-live-search="true" name="option" multiple data-selected-text-format="count">
+                                <select title="Chọn các sản phẩm" id="themsanpham" class="selectpicker selectui" data-live-search="true" name="option" multiple data-selected-text-format="count">
                                     @foreach (var i in Model.ListHH)
                                     {
                                         if (i.phanphoi == 1)

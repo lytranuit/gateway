@@ -1429,44 +1429,44 @@ $(document).ready(function () {
         var height = screen.height - 210;
         $("#dmhh").css("height", height + "px");
     });
-    $(".Checkboxlist2").change(function () {
-        if ($('input[name=mahh]:checked').length >= 11) {
-            $.confirm({
-                title: '<b>THÔNG BÁO</b>',
-                content: 'Bạn đã chọn đủ tối đa 10 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
-                buttons: {
-                    confirm: {
-                        text: 'Đóng',
-                        btnClass: 'btn-primary',
-                        keys: ['enter'],
-                        action: function () {
+    //$(".Checkboxlist2").change(function () {
+    //    if ($('input[name=mahh]:checked').length >= 11) {
+    //        $.confirm({
+    //            title: '<b>THÔNG BÁO</b>',
+    //            content: 'Bạn đã chọn đủ tối đa 10 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
+    //            buttons: {
+    //                confirm: {
+    //                    text: 'Đóng',
+    //                    btnClass: 'btn-primary',
+    //                    keys: ['enter'],
+    //                    action: function () {
 
-                        }
-                    }
-                }
-            });
-            $(this).prop('checked', false);
-        }
-    });
+    //                    }
+    //                }
+    //            }
+    //        });
+    //        $(this).prop('checked', false);
+    //    }
+    //});
     $("#btnthem").click(function () {
         $('input[name=mahh]:checked').each(function () {
-            if ($('#tablehanghoa > tbody > tr').length == 10) {
-                $.confirm({
-                    title: '<b>THÔNG BÁO</b>',
-                    content: 'Bạn đã chọn đủ tối đa 10 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
-                    buttons: {
-                        confirm: {
-                            text: 'Đóng',
-                            btnClass: 'btn-primary',
-                            keys: ['enter'],
-                            action: function () {
+            //if ($('#tablehanghoa > tbody > tr').length == 10) {
+            //    $.confirm({
+            //        title: '<b>THÔNG BÁO</b>',
+            //        content: 'Bạn đã chọn đủ tối đa 10 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
+            //        buttons: {
+            //            confirm: {
+            //                text: 'Đóng',
+            //                btnClass: 'btn-primary',
+            //                keys: ['enter'],
+            //                action: function () {
 
-                            }
-                        }
-                    }
-                });
-                return false;
-            }
+            //                }
+            //            }
+            //        }
+            //    });
+            //    return false;
+            //}
             $('#tablehanghoa > tbody').append('<tr>'
                 + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-kiemsoat="' + $(this).attr("data-kiemsoat") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
                 + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'

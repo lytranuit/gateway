@@ -689,24 +689,24 @@ $(document).ready(function () {
     });
     $("#add_row_them").click(function () {
         $("#themsanpham option:selected").each(function () {
-            if ($('#tablehanghoa > tbody > tr').length == 10) {
-                $.confirm({
-                    title: '<b>THÔNG BÁO</b>',
-                    content: 'Bạn đã chọn đủ tối đa 10 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
+            //if ($('#tablehanghoa > tbody > tr').length == 10) {
+            //    $.confirm({
+            //        title: '<b>THÔNG BÁO</b>',
+            //        content: 'Bạn đã chọn đủ tối đa 10 sản phẩm, hãy chọn lưu và tiếp tục để tạo sang đơn hàng mới !',
 
-                    buttons: {
-                        cancel: {
-                            text: 'Đóng',
-                            btnClass: 'btn-blue',
-                            keys: ['enter', 'shift'],
-                            action: function () {
+            //        buttons: {
+            //            cancel: {
+            //                text: 'Đóng',
+            //                btnClass: 'btn-blue',
+            //                keys: ['enter', 'shift'],
+            //                action: function () {
 
-                            }
-                        }
-                    }
-                });
-                return false;
-            }
+            //                }
+            //            }
+            //        }
+            //    });
+            //    return false;
+            //}
             var mahh = $(this).val();
             var trung = 0;
             //$('#tablehanghoa > tbody > tr').each(function () {
