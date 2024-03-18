@@ -259,7 +259,7 @@ $(document).ready(function () {
         }
         var listhh = [];
         $('#tablehanghoa > tbody > tr').each(function () {
-            if ($(this).find('.sl3').text() == 0 || $(this).find('.sl3').text() == "") {
+            if ($(this).find('.sl3').val() == 0 || $(this).find('.sl3').val() == "") {
                 toastr.options = {
                     "closeButton": false,
                     "debug": false,
@@ -510,7 +510,7 @@ $(document).ready(function () {
                                                             , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
                                                             , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
                                                             , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                            , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "SOLUONG": Number($(this).find('.sl3').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                                             , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                                             , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                                             , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
@@ -579,7 +579,7 @@ $(document).ready(function () {
                                                                             btnClass: 'btn-primary',
                                                                             action: function () {
                                                                                 $(".sl2").val("");
-                                                                                $(".sl3").text("");
+                                                                                $(".sl3").val("");
                                                                                 $("#tab_logic tr").find('.thanhtien').text("0");
                                                                                 $("#tab_logic tr").find('.diemtichluy').text("0");
                                                                                 $("#tongdiemtichluy").text("0");
@@ -694,7 +694,7 @@ $(document).ready(function () {
                                         , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
                                         , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
                                         , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                        , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "SOLUONG": Number($(this).find('.sl3').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                         , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                         , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                         , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
@@ -763,7 +763,7 @@ $(document).ready(function () {
                                                         btnClass: 'btn-primary',
                                                         action: function () {
                                                             $(".sl2").val("");
-                                                            $(".sl3").text("");
+                                                            $(".sl3").val("");
                                                             $("#tab_logic tr").find('.thanhtien').text("0");
                                                             $("#tab_logic tr").find('.diemtichluy').text("0");
                                                             $("#tongdiemtichluy").text("0");
@@ -898,7 +898,7 @@ $(document).ready(function () {
         }
         var listhh = [];
         $('#tablehanghoa > tbody > tr').each(function () {
-            if ($(this).find('.sl3').text() == 0 || $(this).find('.sl3').text() == "") {
+            if ($(this).find('.sl3').val() == 0 || $(this).find('.sl3').val() == "") {
                 toastr.options = {
                     "closeButton": false,
                     "debug": false,
@@ -1148,7 +1148,7 @@ $(document).ready(function () {
                                                             , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
                                                             , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
                                                             , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                            , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                            , "SOLUONG": Number($(this).find('.sl3').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                                             , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                                             , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                                             , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
@@ -1313,7 +1313,7 @@ $(document).ready(function () {
                                         , "MATDV": ($("#khachhang option:selected").attr('data-matdv') == "") ? $("#matdv").val() : $("#khachhang option:selected").attr('data-matdv')
                                         , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
                                         , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                        , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
+                                        , "SOLUONG": Number($(this).find('.sl3').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                         , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                         , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00", ""))
                                         , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00", ""))
@@ -1471,7 +1471,7 @@ $(document).ready(function () {
                 + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-kiemsoat="' + $(this).attr("data-kiemsoat") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
                 + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
                 + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl2") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-                + '<td class="text-right paddingleft2 paddingright2"><span data-sl="' + $(this).attr("data-sl3") + '" class="sl3 text-dark">0</span></td>'
+                + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl3") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl3"></td>'
                 + '<td class="text-right paddingleft2 paddingright2 text-dark">'
                 + '<select class="form-control form-control-sm giaban_vat">'
                 + '<option value="' + parseInt($(this).attr("data-giaban").replace(/[^\d.]/g, '')).format() + '">'
@@ -1527,8 +1527,8 @@ $(document).ready(function () {
         else {
             $(this).val(number);
 
-            x.find(".sl3").text((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl2").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl2").attr("data-sl")));
-            x.find(".thanhtien").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
+            x.find(".sl3").val((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl2").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl2").attr("data-sl")));
+            x.find(".thanhtien").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").val().toString().replace(/[^\d.]/g, ''))));
             if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
                 if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
                     $.ajax({
@@ -1644,12 +1644,12 @@ $(document).ready(function () {
         else {
             $(this).val(number);
             if (x.find(".sl1").val() != "") {
-                x.find(".sl3").text((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl1").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl1").attr("data-sl")));
+                x.find(".sl3").val((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl1").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl1").attr("data-sl")));
             }
             else {
-                x.find(".sl3").text((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")));
+                x.find(".sl3").val((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")));
             }
-            x.find(".thanhtien").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
+            x.find(".thanhtien").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").val().toString().replace(/[^\d.]/g, ''))));
             if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
                 if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
                     $.ajax({
@@ -1733,9 +1733,9 @@ $(document).ready(function () {
             check_gia()
         }
     });
-    $("#tablehanghoa").on("change", ".giaban_vat,.ck", function () {
+    $("#tablehanghoa").on("change", ".giaban_vat,.ck,.sl3", function () {
         var x = $(this).closest('tr');
-        x.find(".thanhtien").text((parseInt(x.find(".giaban_vat").val().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))).format());
+        x.find(".thanhtien").text((parseInt(x.find(".giaban_vat").val().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").val().toString().replace(/[^\d.]/g, ''))).format());
 
         check_gia();
     });
@@ -1949,6 +1949,7 @@ $(document).ready(function () {
                         $("#tongtien").text(count.format());
                         $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
                         $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
+                        check_gia();
                     }
                 },
                 cancel: {
@@ -1979,9 +1980,9 @@ const check_gia = () => {
         }
         var giaban_vat = parseInt($(this).find(".giaban_vat").val().replace(/[^\d.]/g, '').replace(".00", ""))
         var dongiachuavat = giaban_vat / float1;
-        var sl = parseInt($(this).find(".sl3").text().toString().replace(/[^\d.]/g, '').replace(".00", ""));
+        var sl = parseInt($(this).find(".sl3").val().toString().replace(/[^\d.]/g, '').replace(".00", ""));
         var ck = $(this).find(".ck").val();
-        console.log($(this).find(".ck"));
+        //console.log($(this).find(".ck"));
         //var tienvat = (dongiachuavat * vat / 100) * sl;
         var tienck = (dongiachuavat * ck / 100) * sl;
         var thanhtienchuavat = dongiachuavat * sl;

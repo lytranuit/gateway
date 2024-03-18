@@ -6733,40 +6733,6 @@ namespace ApplicationChart.Controllers
             List<DTA_DONDATHANG> data = new List<DTA_DONDATHANG>();
             var MACH = Infocrm.macn;
 
-            if (MACH == "PTTT" && Infocrm.matdv != null)
-            {
-                var strch = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, matdv2 AS MATDV2, diachi AS DIACHI from DM_KHACHHANG_PTTT WHERE makh ='" + data1.First().KHACHHANG + "' ";
-                var laykhachhang = PTTT.Database.SqlQuery<ListKhachHang>(strch).ToList();
-                if (laykhachhang.FirstOrDefault() != null)
-                {
-                    var Z = laykhachhang.FirstOrDefault();
-                    var listmatdv = Infocrm.matdv.Split(',').ToList();
-                    if (listmatdv.Count() == 1)
-                    {
-                        foreach (var i in data1)
-                        {
-                            i.MATDV = Infocrm.matdv;
-                        }
-                    }
-                    else if (Z.MATDV != null && Z.MATDV != "")
-                    {
-                        if (listmatdv.Contains(Z.MATDV))
-                        {
-                            foreach (var i in data1)
-                            {
-                                i.MATDV = Z.MATDV;
-                            }
-                        }
-                        else
-                        {
-                            foreach (var i in data1)
-                            {
-                                i.MATDV = Z.MATDV2;
-                            }
-                        }
-                    }
-                }
-            }
             if (data1.First().MADH == null)
             {
                 try

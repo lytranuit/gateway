@@ -312,9 +312,10 @@
                                     <th style="width:350px;">Sản phẩm</th>
                                     <th style="width:100px">Thùng</th>
                                     <th style="width:100px">Hộp</th>
-                                    <th class="center">Số lượng</th>
+                                    <th style="width:100px">Số lượng</th>
                                     <th>Đơn giá (Có VAT)</th>
                                     <th>Thành tiền</th>
+                                    <th style="width:100px">Chiết khấu(%)</th>
                                     <th>Điểm tích lũy</th>
                                     <th style="width:20px;"></th>
                                 </tr>
@@ -325,14 +326,14 @@
                     <table class="table table-bordered mb-2">
                         <tbody>
                             <tr>
-                                <td class="font-weight-bold w-15 text-center text-dark">TỈ LỆ CHIẾT KHẤU (%)</td>
-                                <td class="text-danger font-weight-bold text-right" id="tilechietkhauedit">0</td>
                                 <td class="font-weight-bold w-15 text-center text-dark">TỔNG ĐIỂM TÍCH LŨY</td>
                                 <td class="text-danger font-weight-bold text-right" id="tongdiemtichluyedit">0</td>
                                 <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
                                 <td class="text-danger font-weight-bold text-right" id="tienvatedit">0.00</td>
-                                <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN CHƯA VAT</td>
                                 <td class="text-danger font-weight-bold text-right" id="thanhtienedit">0.00</td>
+                                <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+                                <td class="text-danger font-weight-bold text-right" id="tienckedit">0.00</td>
                                 <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
                                 <td class="text-danger font-weight-bold text-right" id="tongtienedit">0.00</td>
                             </tr>
@@ -424,6 +425,7 @@
                                     <th style="width:150px" class="center">Số lượng</th>
                                     <th style="width:100px" class="center">Đơn giá (Có VAT)</th>
                                     <th style="width:100px" class="center">Thành tiền</th>
+                                    <th style="width:100px">Chiết khấu(%)</th>
 
                                 </tr>
                             </thead>
@@ -438,16 +440,16 @@
                         <table class="table table-bordered mb-0">
                             <tbody>
                                 <tr>
-                                    <td class="font-weight-bold w-15 text-center text-dark">TỈ LỆ CHIẾT KHẤU (%)</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewtilechietkhau">0</td>
                                     <td class="font-weight-bold w-15 text-center text-dark">TỔNG ĐIỂM TÍCH LŨY</td>
-                                    <td class="text-danger font-weight-bold text-right" id="tongdiemtichluy">0</td>
+                                    <td class="text-danger font-weight-bold text-right" id="tongdiemtichluyview">0</td>
                                     <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewtienvat">0.00</td>
-                                    <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewthanhtien">0.00</td>
+                                    <td class="text-danger font-weight-bold text-right" id="tienvatview">0.00</td>
+                                    <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN CHƯA VAT</td>
+                                    <td class="text-danger font-weight-bold text-right" id="thanhtienview">0.00</td>
+                                    <td class="font-weight-bold w-15 text-center text-dark">TIỀN CK</td>
+                                    <td class="text-danger font-weight-bold text-right" id="tienckview">0.00</td>
                                     <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewtongtien">0.00</td>
+                                    <td class="text-danger font-weight-bold text-right" id="tongtienview">0.00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -561,12 +563,13 @@
                         <table id="tablehanghoa" class="table table-hover table-responsive-md table-fixed table-bordered mb-2">
                             <thead style="background-color:rgb(66, 133, 244)">
                                 <tr class="text-white">
-                                    <th style="width:70%;">Sản phẩm</th>
-                                    <th style="width:8%">Thùng</th>
-                                    <th style="width:12%">Hộp</th>
-                                    <th class="center">SL</th>
-                                    <th hidden>Đơn giá (Có VAT)</th>
+                                    <th>Sản phẩm</th>
+                                    <th style="width:10%">Thùng</th>
+                                    <th style="width:10%">Hộp</th>
+                                    <th style="width:10%">SL</th>
+                                    <th>Giá</th>
                                     <th hidden>Thành tiền</th>
+                                    <th style="width:10%">CK</th>
                                     <th hidden>Điểm tích lũy</th>
                                     <th style="width:20px;"></th>
                                 </tr>
@@ -577,24 +580,25 @@
                     <table class="table table-bordered mb-2">
                         <tbody>
                             <tr>
-                                <td class="font-weight-bold w-40 text-center text-dark">TỈ LỆ CHIẾT KHẤU (%)</td>
-                                <td class="text-danger font-weight-bold text-right w-60" id="tilechietkhau">0</td>
-                            </tr>
-                            <tr>
-                                <td class="font-weight-bold w-40 text-center text-dark">SL Sản phẩm</td>
+                                <td class="font-weight-bold w-40 text-center text-dark">SL SẢN PHẨM</td>
                                 <td class="text-danger font-weight-bold text-right w-60" id="slsp">0</td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold w-40 text-center text-dark">TỔNG ĐIỂM TÍCH LŨY</td>
-                                <td class="text-danger font-weight-bold text-right w-60" id="tongdiemtichluyeditmobile">0</td>
+                                <td class="text-danger font-weight-bold text-right w-60" id="tongdiemtichluy">0</td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold w-40 text-center text-dark">TIỀN VAT</td>
                                 <td class="text-danger font-weight-bold text-right w-60" id="tienvat">0.00</td>
                             </tr>
                             <tr>
-                                <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN</td>
+                                <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN CHƯA VAT</td>
                                 <td class="text-danger font-weight-bold text-right w-60" id="thanhtien">0.00</td>
+                            </tr>
+
+                            <tr>
+                                <td class="font-weight-bold w-40 text-center text-dark">TIỀN CK</td>
+                                <td class="text-danger font-weight-bold text-right w-60" id="tienck">0.00</td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold w-40 text-center text-dark">TỔNG TIỀN</td>
@@ -687,6 +691,8 @@
                                 <th class="center">Thùng</th>
                                 <th class="center">Hộp</th>
                                 <th class="center">Quy đổi</th>
+                                <th class="center">Thành tiền</th>
+                                <th class="center">CK</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -696,28 +702,29 @@
                         <table class="table table-bordered mb-0">
                             <tbody>
                                 <tr>
-                                    <td class="font-weight-bold w-40 text-center text-dark">TỈ LỆ CHIẾT KHẤU (%)</td>
-                                    <td class="text-danger font-weight-bold text-right w-60" id="viewtilechietkhaumobile">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-weight-bold w-15 text-center text-dark">SL Sản phẩm</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewslsanphammobile">0</td>
+                                    <td class="font-weight-bold w-40 text-center text-dark">SL SẢN PHẨM</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="slspviewmobile">0</td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold w-40 text-center text-dark">TỔNG ĐIỂM TÍCH LŨY</td>
-                                    <td class="text-danger font-weight-bold text-right w-60" id="tongdiemtichluymobile">0</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tongdiemtichluyviewmobile">0</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold w-15 text-center text-dark">TIỀN VAT</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewtienvatmobile">0.00</td>
+                                    <td class="font-weight-bold w-40 text-center text-dark">TIỀN VAT</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tienvatviewmobile">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold w-15 text-center text-dark">THÀNH TIỀN</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewthanhtienmobile">0.00</td>
+                                    <td class="font-weight-bold w-40 text-center text-dark">THÀNH TIỀN CHƯA VAT</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="thanhtienviewmobile">0.00</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-weight-bold w-40 text-center text-dark">TIỀN CK</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tienckviewmobile">0.00</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold w-15 text-center text-dark">TỔNG TIỀN</td>
-                                    <td class="text-danger font-weight-bold text-right" id="viewtongtienmobile">0.00</td>
+                                    <td class="font-weight-bold w-40 text-center text-dark">TỔNG TIỀN</td>
+                                    <td class="text-danger font-weight-bold text-right w-60" id="tongtienviewmobile">0.00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -743,6 +750,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 <div class="modal fade" id="modalhh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog mx-auto" role="document">
         <div class="modal-content full-screen">
@@ -813,7 +827,7 @@
 
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
     <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
-    <script src="~/Scripts/Danhsachdonhang.js?version=13062022"></script>
+    <script src="~/Scripts/Danhsachdonhang.js?version=13062023"></script>
     <script>
         var table = $('#example23').DataTable({
             "columnDefs": [{
@@ -864,38 +878,28 @@
                             var float = (data[0].VAT / (100 + data[0].VAT));
                             for (var i = 0; i < data.length; i++) {
                                 var modelx = Listhh.find(n=>n.MAHH == data[i].MAHH);
-                                if(data[i].MAHH == "60.T07" || data[i].MAHH == "60.P41" || data[i].MAHH == "60.P53")
-                                {
-                                    $('#tablehanghoa > tbody').append('<tr>'
-                                  + '<td class="left strong hanghoa text-dark" data-dvt="' + data[i].DVT + '" data-kiemsoat="' + data[i].NGUOIDUYET + '" data-tenhh="' + data[i].TENHH + '" data-mahh="' + data[i].MAHH + '">' + data[i].MAHH + " - " + data[i].TENHH + '</td>'
-                                    + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" value="'+ ((data[i].SOLUONG3 != null)?data[i].SOLUONG3:"") +'" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
-                                  + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL3 + '" value="'+ data[i].SOLUONG +'" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-                                       + '<td class="text-right paddingleft2 paddingright2"><span data-sl="' + modelx.SL3 + '" class="sl3 text-dark">'+ data[i].SOLUONG +'</span></td>'
-                                  + '<td hidden class="text-right paddingleft2 paddingright2">' + data[i].GIABAN_VAT + '</td>'
-                                  + '<td hidden class="text-right paddingleft2 paddingright2">'+ (data[i].GIABAN_VAT * data[i].SOLUONG) +'</td>'
-                                  + '<td hidden class="text-right paddingleft2 paddingright2">0</td>'
-                                 + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
-                                  + '</tr>');
-                                }
-                                else
-                                {
                                     $('#tablehanghoa > tbody').append('<tr>'
                                     + '<td class="left strong hanghoa text-dark" data-dvt="' + data[i].DVT + '" data-kiemsoat="' + data[i].NGUOIDUYET + '" data-tenhh="' + data[i].TENHH + '" data-mahh="' + data[i].MAHH + '">' + data[i].MAHH + " - " + data[i].TENHH + '</td>'
-                                     + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" value="'+ ((data[i].SOLUONG3 != null)?data[i].SOLUONG3:"") +'" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
-                                   + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL2 + '" value="'+ ((data[i].SOLUONG2 != null)?data[i].SOLUONG2:"") +'" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-                                    + '<td class="text-right paddingleft2 paddingright2"><span data-sl="' + modelx.SL3 + '" class="sl3 text-dark">'+ data[i].SOLUONG +'</span></td>'
-                                    + '<td hidden class="text-right paddingleft2 paddingright2">' + data[i].GIABAN_VAT + '</td>'
-                                    + '<td hidden class="text-right paddingleft2 paddingright2">'+ (data[i].GIABAN_VAT * data[i].SOLUONG) +'</td>'
-                                     + '<td hidden class="text-right paddingleft2 paddingright2">0</td>'
-                                    + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
+                                        + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="1" name="number" value="'+ ((data[i].SOLUONG3 != null)?data[i].SOLUONG3:"") +'" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
+                                        + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL2 + '" name="number" value="'+ ((data[i].SOLUONG2 != null)?data[i].SOLUONG2:"") +'"  type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
+                                        + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL3 + '" name="number" value="' + ((data[i].SOLUONG != null) ? data[i].SOLUONG : "") +'"  type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl3"></td>'
+                                        + '<td class="text-right paddingleft2 paddingright2 text-dark">'
+                                        + '<select class="form-control form-control-sm giaban_vat" data-id=' + i + '>'
+                                        + '<option value="' + parseInt(modelx.GIABAN.replace(/[^\d.]/g, '')).format() + '">'
+                                        + parseInt(modelx.GIABAN.replace(/[^\d.]/g, '')).format()
+                                        + '</option>'
+                                        + '<option value="0.00">0'
+                                        + '</option>'
+                                        + '</select>'
+                                        + '</td>'
+                                        + '<td class="text-right paddingleft2 paddingright2 text-dark"><input autocomplete="off" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right ck" value="' + data[i].ck + '"></td>'
+                                   + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
                                     + '</tr>');
-                                }
+                                $("#tablehanghoa .giaban_vat[data-id='" + i + "']").val(data[i].GIABAN_VAT.format())
                             }
-                            var count = 0;
                             var tichdiem = 0;
                             $('#tablehanghoa > tbody  > tr').each(function () {
                                 var x = $(this);
-                                count = count + parseInt($(this).find("td:eq(5)").text().replace(/[^\d.]/g, ''));
                                 if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
                                     if($("#khuyenmai option:selected").attr("data-tichdiem") != "")
                                     {
@@ -904,9 +908,9 @@
                                             type: "POST",
                                             datatype: 'json',
                                             contentType: "application/json",
-                                            data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
+                                            data: '{mahh: ' + JSON.stringify(x.find(".hanghoa").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
                                             success: function (data) {
-                                                x.find("td:eq(6)").text(data);
+                                                x.find(".tichdiem").text(data);
                                                 tichdiem = tichdiem + parseInt(data);
                                                 $("#tongdiemtichluyeditmobile").text(tichdiem);
                                             },
@@ -942,9 +946,9 @@
                                             type: "POST",
                                             datatype: 'json',
                                             contentType: "application/json",
-                                            data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
+                                            data: '{mahh: ' + JSON.stringify(x.find(".hanghoa").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
                                             success: function (data) {
-                                                x.find("td:eq(6)").text(data);
+                                                x.find(".tichdiem").text(data);
                                                 tichdiem = tichdiem + parseInt(data);
                                                 $("#tongdiemtichluyeditmobile").text(tichdiem);
                                             },
@@ -974,10 +978,8 @@
                                 }
                             });
                             $("#slsp").text(data.length);
-                            $("#tongtien").text(count.format());
-                            $("#tienvat").text(Math.floor(count * float).format());
-                            $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - parseInt($("#tienvat").text().replace(/[^\d.]/g, ''))).format());
-                        });
+                            check_gia_mobile();
+                           });
                     $("#ModalEditMobile").modal({ backdrop: 'static', keyboard: false })
                 }
                 else
@@ -997,7 +999,6 @@
                             else {
                                 $("#editngaygiao").datepicker("setDate", "");
                             }
-                            $("#tilechietkhauedit").html(data[0].ck);
                             $("#editdonhang").html(data[0].MADH);
                             $("#editngaydat").html(dformat);
                             $("#tablehanghoaedit > tbody").empty();
@@ -1010,43 +1011,35 @@
                             var float = (data[0].VAT / (100 + data[0].VAT));
                             for (var i = 0; i < data.length; i++) {
                                 var modelx = Listhh.find(n=>n.MAHH == data[i].MAHH);
-                                if(data[i].MAHH == "60.T07" || data[i].MAHH == "60.P41" || data[i].MAHH == "60.P53")
-                                {
-
-                                    $('#tablehanghoaedit > tbody').append('<tr>'
-                                    + '<td class="text-center text-dark">' + data[i].STT + '</td>'
-                                    + '<td class="left strong hanghoa text-dark" data-dvt="' + data[i].DVT + '" data-kiemsoat="' + data[i].NGUOIDUYET + '" data-tenhh="' + data[i].TENHH + '" data-mahh="' + data[i].MAHH + '">' + data[i].MAHH + " - " + data[i].TENHH + '</td>'
-                                    + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL1 + '" value="'+ ((data[i].SOLUONG3 != null)?data[i].SOLUONG3.format():"") +'"  name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
-                                    + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL3 + '" value="'+ data[i].SOLUONG.format() +'" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-                                    + '<td class="text-right paddingleft2 paddingright2 text-dark sl3" data-sl="' + modelx.SL3 + '">' + data[i].SOLUONG.format() + '</td>'
-                                    + '<td class="text-right paddingleft2 paddingright2 text-dark">' + data[i].GIABAN_VAT.format() + '</td>'
-                                    + '<td class="text-right paddingleft2 paddingright2 text-dark">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
-                                    + '<td class="text-right paddingleft2 paddingright2 text-dark">0</td>'
-                                    + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
-                                    + '</tr>');
-                                }
-                                else
-                                {
 
                                     $('#tablehanghoaedit > tbody').append('<tr>'
                                     + '<td class="text-center text-dark">' + data[i].STT + '</td>'
                                     + '<td class="left strong hanghoa text-dark" data-dvt="' + data[i].DVT + '" data-kiemsoat="' + data[i].NGUOIDUYET + '" data-tenhh="' + data[i].TENHH + '" data-mahh="' + data[i].MAHH + '">' + data[i].MAHH + " - " + data[i].TENHH + '</td>'
                                     + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL1 + '" value="'+ ((data[i].SOLUONG3 != null)?data[i].SOLUONG3.format():"") +'"  name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
                                     + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL2 + '" value="'+ ((data[i].SOLUONG2 != null)?data[i].SOLUONG2.format():"") +'" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl2"></td>'
-                                    + '<td class="text-right paddingleft2 paddingright2 text-dark sl3" data-sl="' + modelx.SL3 + '">' + data[i].SOLUONG.format() + '</td>'
-                                    + '<td class="text-right paddingleft2 paddingright2 text-dark">' + data[i].GIABAN_VAT.format() + '</td>'
+                                        + '<td class="text-right paddingleft2 paddingright2 text-dark"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + modelx.SL3 + '" value="' + ((data[i].SOLUONG != null) ? data[i].SOLUONG.format() : "") +'" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl3"></td>'
+                                         + '<td class="text-right paddingleft2 paddingright2 text-dark">'
+                                        + '<select class="form-control form-control-sm giaban_vat" data-id='+i+'>'
+                                        + '<option value="' + parseInt(modelx.GIABAN.replace(/[^\d.]/g, '')).format() + '">'
+                                        + parseInt(modelx.GIABAN.replace(/[^\d.]/g, '')).format()
+                                        + '</option>'
+                                        + '<option value="0.00">0'
+                                        + '</option>'
+                                        + '</select>'
+                                        + '</td>'
                                     + '<td class="text-right paddingleft2 paddingright2 text-dark">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
+                                        + '<td class="text-right paddingleft2 paddingright2 text-dark"><input autocomplete="off" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right ck" value="' + data[i].ck+'"></td>'
                                     + '<td class="text-right paddingleft2 paddingright2 text-dark">0</td>'
                                     + '<td class="paddingleft2 paddingright2 text-center"><button type="button" class="btn btn-sm btn-danger waves-effect transition-3d-hover btnxoahh"><i class="fa fa-2x fa-times"></i></button></td>'
                                     + '</tr>');
-                                }
+                                $("#tablehanghoaedit .giaban_vat[data-id='" + i + "']").val(data[i].GIABAN_VAT.format())
 
                             }
                             var count = 0;
                             var tichdiem = 0;
                             $('#tablehanghoaedit > tbody  > tr').each(function () {
                                 var x = $(this);
-                                count = count + parseInt($(this).find("td:eq(6)").text().replace(/[^\d.]/g, ''));
+                                count = count + parseInt($(this).find(".tichdiem").text().replace(/[^\d.]/g, ''));
                                 if (typeof $("#editkhuyenmai option:selected").attr("data-tichdiem") != "undefined") {
                                     if($("#editkhuyenmai option:selected").attr("data-tichdiem") != "")
                                     {
@@ -1055,9 +1048,9 @@
                                             type: "POST",
                                             datatype: 'json',
                                             contentType: "application/json",
-                                            data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#editkhuyenmai").val()) + '}',
+                                            data: '{mahh: ' + JSON.stringify(x.find(".hanghoa").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").val().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#editkhuyenmai").val()) + '}',
                                             success: function (data) {
-                                                x.find("td:eq(7)").text(data);
+                                                x.find(".tichdiem").text(data);
                                                 tichdiem = tichdiem + parseInt(data);
                                                 $("#tongdiemtichluyedit").text(tichdiem);
                                             },
@@ -1093,9 +1086,9 @@
                                             type: "POST",
                                             datatype: 'json',
                                             contentType: "application/json",
-                                            data: '{mahh: ' + JSON.stringify(x.find("td:eq(1)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").text().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#editcthotro").val()) + '}',
+                                            data: '{mahh: ' + JSON.stringify(x.find(".hanghoa").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl3").val().replace(/[^\d.]/g, '') * x.find(".sl2").attr("data-sl") / x.find(".sl3").attr("data-sl")) + ', mactkm: ' + JSON.stringify($("#editcthotro").val()) + '}',
                                             success: function (data) {
-                                                x.find("td:eq(7)").text(data);
+                                                x.find(".tichdiem").text(data);
                                                 tichdiem = tichdiem + parseInt(data);
                                                 $("#tongdiemtichluyedit").text(tichdiem);
                                             },
@@ -1126,147 +1119,12 @@
 
                                 }
                             });
-                            $("#tongtienedit").text(count.format());
-                            $("#tienvatedit").text(Math.floor(count * float).format());
-                            $("#thanhtienedit").text((parseInt($("#tongtienedit").text().replace(/[^\d.]/g, '')) - parseInt($("#tienvatedit").text().replace(/[^\d.]/g, ''))).format());
-                        });
+                            check_gia()
+                           });
                     $("#ModalEdit").modal({ backdrop: 'static', keyboard: false })
                 }
             });
-            $("#tablehanghoa").on("change", ".sl1", function () {
-                var x = $(this).closest('tr');
-                if ($(this).val() == "") {
-                    $(this).val('0');
-                }
-                else {
-                    var number = parseInt($(this).val().toString().replace(/[^\d.]/g, ''));
-                    if (number > 2147483647) {
-                        toastr.options = {
-                            "closeButton": false,
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
-                        Command: toastr["warning"]("Số lượng bạn nhập quá lớn !", "Cảnh báo")
-                        $(this).val("");
-                    }
-                    else {
-                        $(this).val(number);
-
-                        x.find(".sl3").text((number * x.find(".sl3").attr("data-sl") / $(this).attr("data-sl")) + (x.find(".sl2").val().toString().replace(/[^\d.]/g, '') * x.find(".sl3").attr("data-sl") / x.find(".sl2").attr("data-sl")));
-                        x.find("td:eq(5)").text((parseInt(x.find("td:eq(4)").text().toString().replace(/[^\d.]/g, '')) * parseInt(x.find(".sl3").text().toString().replace(/[^\d.]/g, ''))));
-                        if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
-                            if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
-                                $.ajax({
-                                    url: lang + '/crm/GetDiemtichluy',
-                                    type: "POST",
-                                    datatype: 'json',
-                                    contentType: "application/json",
-                                    data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(number) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
-                                    success: function (data) {
-                                        x.find("td:eq(6)").text(data);
-                                        var tichdiem = 0;
-                                        $('#tablehanghoa > tbody > tr').each(function () {
-                                            tichdiem = tichdiem + parseInt($(this).find("td:eq(6)").text());
-                                        });
-                                        $("#tongdiemtichluy").text(tichdiem);
-                                    },
-                                    error: function (request, status, error) {
-                                        toastr.options = {
-                                            "closeButton": false,
-                                            "debug": false,
-                                            "newestOnTop": true,
-                                            "progressBar": true,
-                                            "positionClass": "toast-top-right",
-                                            "preventDuplicates": false,
-                                            "onclick": null,
-                                            "showDuration": "300",
-                                            "hideDuration": "1000",
-                                            "timeOut": "5000",
-                                            "extendedTimeOut": "1000",
-                                            "showEasing": "swing",
-                                            "hideEasing": "linear",
-                                            "showMethod": "fadeIn",
-                                            "hideMethod": "fadeOut"
-                                        }
-                                        Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
-                                    },
-                                    timeout: 5000,
-                                });
-                            }
-                        }
-                        if (typeof $("#cthotro option:selected").attr("data-tichdiem") != "undefined") {
-                            if ($("#cthotro option:selected").attr("data-tichdiem") != "") {
-                                $.ajax({
-                                    url: lang + '/crm/GetDiemtichluy',
-                                    type: "POST",
-                                    datatype: 'json',
-                                    contentType: "application/json",
-                                    data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(number) + ', mactkm: ' + JSON.stringify($("#cthotro").val()) + '}',
-                                    success: function (data) {
-                                        x.find("td:eq(6)").text(data);
-                                        var tichdiem = 0;
-                                        $('#tablehanghoa > tbody > tr').each(function () {
-                                            tichdiem = tichdiem + parseInt($(this).find("td:eq(6)").text());
-                                        });
-                                        $("#tongdiemtichluy").text(tichdiem);
-                                    },
-                                    error: function (request, status, error) {
-                                        toastr.options = {
-                                            "closeButton": false,
-                                            "debug": false,
-                                            "newestOnTop": true,
-                                            "progressBar": true,
-                                            "positionClass": "toast-top-right",
-                                            "preventDuplicates": false,
-                                            "onclick": null,
-                                            "showDuration": "300",
-                                            "hideDuration": "1000",
-                                            "timeOut": "5000",
-                                            "extendedTimeOut": "1000",
-                                            "showEasing": "swing",
-                                            "hideEasing": "linear",
-                                            "showMethod": "fadeIn",
-                                            "hideMethod": "fadeOut"
-                                        }
-                                        Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
-                                    },
-                                    timeout: 5000,
-                                });
-                            }
-
-
-                        }
-                        var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
-                        var count = 0;
-
-                        $('#tablehanghoa > tbody  > tr').each(function () {
-                            count = count + parseInt($(this).find("td:eq(5)").text().replace(/[^\d.]/g, ''));
-
-                        });
-
-                        $("#tongtien").text(count.format());
-                        $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
-                        $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
-                        if (typeof $("#khuyenmai option:selected").attr("data-hanmuc") != "undefined") {
-                            if ($("#khuyenmai option:selected").attr("data-hanmuc") != "") {
-                                $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
-                            }
-                        }
-                    }
-                }
-            });
+           
             $("#example23").on("click", ".btnxoahd", function () {
                 var id = $(this).closest('tr').find('td:eq(0)').data("id");
                 $.confirm({
@@ -1440,42 +1298,20 @@
                              $("#viewcthtmobile").val("N/A");
                              $("#tongdiemtichluymobile").text("0");
                          }
-                         var tongtien = 0;
                          for (var i = 0; i < data.length; i++) {
-                             if(data[i].MAHH == "60.T07" || data[i].MAHH == "60.P41" || data[i].MAHH == "60.P53")
-                             {
-                                 $("#tablehanghoaviewmobile").find("tbody").append(
-                               '<tr>'// need to change closing tag to an opening `<tr>` tag.
-                             + '<td class="left strong text-dark font-weight-normal">' + data[i].MAHH + " - " + data[i].TENHH + ((data[i].DUYETDH == null)?'<span style="font-size:10px;" class="badge badge-danger">Từ chối</span>':"") + '</td>'
-                               + '<td class="text-right text-dark font-weight-normal">' + ((data[i].SOLUONG3 == null)?"N/A":data[i].SOLUONG3) + '</td>'
-                            + '<td class="text-right text-dark font-weight-normal">' + ((data[i].SOLUONG2 == null)?"N/A":data[i].SOLUONG2) + '</td>'
-                             + '<td class="text-right text-dark font-weight-normal">' + data[i].SOLUONG.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",") + ' ' + data[i].DVT + '</td>'
-                               + '<td hidden class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
-                             + '</tr>');
-                             }
-                             else
-                             {
-                                 var modelx = Listhh.find(n=>n.MAHH == data[i].MAHH);
+                                 //var modelx = Listhh.find(n=>n.MAHH == data[i].MAHH);
                                  $("#tablehanghoaviewmobile").find("tbody").append(
                                   '<tr>'// need to change closing tag to an opening `<tr>` tag.
                                 + '<td class="left strong text-dark font-weight-normal">' + data[i].MAHH + " - " + data[i].TENHH + ((data[i].DUYETDH == null)?' <span style="font-size:8px;" class="badge badge-danger">Từ chối</span>':"") + '</td>'
                                   + '<td class="text-right text-dark font-weight-normal">' + ((data[i].SOLUONG3 == null)?"N/A":data[i].SOLUONG3) + '</td>'
                                + '<td class="text-right text-dark font-weight-normal">' + ((data[i].SOLUONG2 == null)?"N/A":data[i].SOLUONG2) + '</td>'
                                 + '<td class="text-right text-dark font-weight-normal">' + data[i].SOLUONG.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",") + ' ' + data[i].DVT + '</td>'
-                                  + '<td hidden class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
-                                + '</tr>');
-                             }
-                             if(data[i].DUYETDH != null)
-                             {
-                                 tongtien = tongtien + (data[i].GIABAN_VAT * data[i].SOLUONG);
-                             }
+                                  + '<td class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
+                                     + '<td class="text-right text-dark font-weight-normal">' + data[i].ck + '</td>'
+                               + '</tr>');
+
                          }
-
-                         $("#viewslsanphammobile").text(data.length);
-                         $("#viewtienvatmobile").text(Math.floor(tongtien * float).format());
-                         $("#viewtongtienmobile").text(tongtien.format());
-                         $("#viewthanhtienmobile").text((tongtien - Math.floor(tongtien * float)).format());
-
+                         check_gia_view_mobile(data);
                      });
                     $("#ModalViewMobile").modal({ backdrop: 'static', keyboard: false })
                 }
@@ -1596,7 +1432,6 @@
                                 $("#viewctht").val("N/A");
                                 $("#tongdiemtichluy").text("0");
                             }
-                            var tongtien = 0;
                             for (var i = 0; i < data.length; i++) {
                                 $("#tablehanghoaview").find("tbody").append(
                                  '<tr>'// need to change closing tag to an opening `<tr>` tag.
@@ -1607,17 +1442,10 @@
                               + '<td class="text-right text-dark font-weight-normal">' + data[i].SOLUONG.format() + '</td>'
                                + '<td class="text-right text-dark font-weight-normal">' + data[i].GIABAN_VAT.format() + '</td>'
                                + '<td class="text-right text-dark font-weight-normal">' + (data[i].GIABAN_VAT * data[i].SOLUONG).format() + '</td>'
+                                    + '<td class="text-right text-dark font-weight-normal">' + data[i].ck + '</td>'
                                + '</tr>');
-                                if(data[i].DUYETDH != null)
-                                {
-                                    tongtien = tongtien + (data[i].GIABAN_VAT * data[i].SOLUONG);
-                                }
                             }
-
-
-                            $("#viewtienvat").text(Math.floor(tongtien * float).format());
-                            $("#viewtongtien").text(tongtien.format());
-                            $("#viewthanhtien").text((tongtien - Math.floor(tongtien * float)).format());
+                            check_gia_view(data);
                         });
                     $("#ModalView").modal({ backdrop: 'static', keyboard: false })
                 }
@@ -1684,8 +1512,8 @@
                         var mahhctkm = $("#editkhuyenmai option:selected").attr("data-mahh").split(",");
                         var khongthuoc = []
                         $('#tablehanghoaedit > tbody > tr').each(function () {
-                            if (!mahhctkm.includes($(this).closest('tr').find('td:eq(1)').attr("data-mahh"))) {
-                                khongthuoc.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                            if (!mahhctkm.includes($(this).closest('tr').find('.hanghoa').attr("data-mahh"))) {
+                                khongthuoc.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                             }
                         });
                         if (khongthuoc.length != 0) {
@@ -1714,8 +1542,8 @@
                         var mahhctht = $("#editcthotro option:selected").attr("data-mahh").split(",");
                         var khongthuocht = []
                         $('#tablehanghoaedit > tbody > tr').each(function () {
-                            if (!mahhctht.includes($(this).closest('tr').find('td:eq(1)').attr("data-mahh"))) {
-                                khongthuocht.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                            if (!mahhctht.includes($(this).closest('tr').find('.hanghoa').attr("data-mahh"))) {
+                                khongthuocht.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                             }
                         });
                         if (khongthuocht.length != 0) {
@@ -1762,7 +1590,7 @@
             }
         }
                 $('#tablehanghoaedit > tbody > tr').each(function () {
-                    if ($(this).find('.sl3').text() == 0 || $(this).find(".sl3").text() == "") {
+                    if ($(this).find('.sl3').val() == 0 || $(this).find(".sl3").val() == "") {
                         toastr.options = {
                             "closeButton": false,
                             "debug": false,
@@ -1815,17 +1643,17 @@
                 var hh40 = []
                 var hh99 = []
                 $('#tablehanghoaedit > tbody > tr').each(function () {
-                    if ($(this).closest('tr').find('td:eq(1)').attr("data-kiemsoat") == 1) {
-                        ksdb.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                    if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 1) {
+                        ksdb.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
-                    else if ($(this).closest('tr').find('td:eq(1)').attr("data-kiemsoat") == 2) {
-                        tpcn.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                    else if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 2) {
+                        tpcn.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
-                    else if ($(this).closest('tr').find('td:eq(1)').attr("data-kiemsoat") == 40) {
-                        hh40.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                    else if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 40) {
+                        hh40.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
-                    else if ($(this).closest('tr').find('td:eq(1)').attr("data-kiemsoat") == 99) {
-                        hh99.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                    else if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 99) {
+                        hh99.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
                 });
                 if ((tpcn.length != 0 && $('#tablehanghoaedit > tbody > tr').length > tpcn.length) || (ksdb.length != 0 && $('#tablehanghoaedit > tbody > tr').length > ksdb.length)) {
@@ -1948,55 +1776,29 @@
                                                                {
                                                                    var data1 = [];
                                                                    $("#tablehanghoaedit > tbody >tr").each(function () {
-                                                                       if ($(this).find('td:eq(1)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(1)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(1)').attr("data-mahh") == '60.P53') {
                                                                            data1.push({
                                                                                "NGAYGIAO": $("#editngaygiao").val()
                                                                               , "NGAY": data
-                                                                              , "STT": $(this).closest('tr').find('td:eq(0)').text()
+                                                                              , "STT": $(this).find('td:eq(0)').text()
                                                                               , "MADH": $("#editdonhang").text()
                                                                               , "DONVI": $("#editkhachhang").attr('data-donvi')
                                                                               , "KHACHHANG": $("#editkhachhang").attr('data-makh')
                                                                               , "MACTKM": $("#editkhuyenmai").val()
                                                                               , "TENCTKM": $("#editkhuyenmai option:selected").attr('tabindex')
                                                                               , "MACTHT": $("#editcthotro").val()
-                                                                              , "MAHH": $(this).find('td:eq(1)').attr("data-mahh")
+                                                                              , "MAHH": $(this).find('.hanghoa').attr("data-mahh")
                                                                               , "MATDV": $("#editkhachhang").attr('data-matdv')
-                                                                              , "TENHH": $(this).find('td:eq(1)').attr("data-tenhh")
-                                                                              , "DVT": $(this).find('td:eq(1)').attr("data-dvt")
-                                                                              , "SOLUONG": Number($(this).closest('tr').find(".sl3").text().toString().replace(/[^\d.]/g, '').replace(".00", ""))
-                                                                                      , "SOLUONG2": null
-                                                               , "SOLUONG3": Number($(this).closest('tr').find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                                              , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(5)').text().replace(/[^\d.]/g, '').replace(".00", ""))
+                                                                              , "TENHH": $(this).find('.hanghoa').attr("data-tenhh")
+                                                                              , "DVT": $(this).find('.hanghoa').attr("data-dvt")
+                                                                              , "SOLUONG": Number($(this).find(".sl3").val().toString().replace(/[^\d.]/g, '').replace(".00",""))
+                                                                                      , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
+                                                               , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
+                                                                              , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00",""))
                                                                               , "VAT": $("#editvat").val()
-                                                                              , "GHICHU": $("#editghichu").val()
-                                                                              , "ck": Number($("#tilechietkhauedit").text())
+                                                                               , "GHICHU": $("#editghichu").val()
+                                                                               , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                                            });
-                                                                       }
-                                                                       else
-                                                                       {
-                                                                           data1.push({
-                                                                               "NGAYGIAO": $("#editngaygiao").val()
-                                                                              , "NGAY": data
-                                                                              , "STT": $(this).closest('tr').find('td:eq(0)').text()
-                                                                              , "MADH": $("#editdonhang").text()
-                                                                              , "DONVI": $("#editkhachhang").attr('data-donvi')
-                                                                              , "KHACHHANG": $("#editkhachhang").attr('data-makh')
-                                                                              , "MACTKM": $("#editkhuyenmai").val()
-                                                                              , "TENCTKM": $("#editkhuyenmai option:selected").attr('tabindex')
-                                                                              , "MACTHT": $("#editcthotro").val()
-                                                                              , "MAHH": $(this).find('td:eq(1)').attr("data-mahh")
-                                                                              , "MATDV": $("#editkhachhang").attr('data-matdv')
-                                                                              , "TENHH": $(this).find('td:eq(1)').attr("data-tenhh")
-                                                                              , "DVT": $(this).find('td:eq(1)').attr("data-dvt")
-                                                                              , "SOLUONG": Number($(this).closest('tr').find(".sl3").text().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                                                      , "SOLUONG2": Number($(this).closest('tr').find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                               , "SOLUONG3": Number($(this).closest('tr').find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                                              , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(5)').text().replace(/[^\d.]/g, '').replace(".00",""))
-                                                                              , "VAT": $("#editvat").val()
-                                                                              , "GHICHU": $("#editghichu").val()
-                                                                              , "ck": Number($("#tilechietkhauedit").text())
-                                                                           });
-                                                                       }
+
                                                                    });
                                                                    $.ajax({
                                                                        url: '@Url.Action("AddHoaDon", "Order")',
@@ -2114,55 +1916,29 @@
                                            {
                                                var data1 = [];
                                                $("#tablehanghoaedit > tbody >tr").each(function () {
-                                                   if ($(this).find('td:eq(1)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(1)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(1)').attr("data-mahh") == '60.P53') {
-                                                       data1.push({
-                                                           "NGAYGIAO": $("#editngaygiao").val()
-                                                          , "NGAY": data
-                                                          , "STT": $(this).closest('tr').find('td:eq(0)').text()
-                                                          , "MADH": $("#editdonhang").text()
-                                                          , "DONVI": $("#editkhachhang").attr('data-donvi')
-                                                          , "KHACHHANG": $("#editkhachhang").attr('data-makh')
-                                                          , "MACTKM": $("#editkhuyenmai").val()
-                                                          , "TENCTKM": $("#editkhuyenmai option:selected").attr('tabindex')
-                                                          , "MACTHT": $("#editcthotro").val()
-                                                          , "MAHH": $(this).find('td:eq(1)').attr("data-mahh")
-                                                          , "MATDV": $("#editkhachhang").attr('data-matdv')
-                                                          , "TENHH": $(this).find('td:eq(1)').attr("data-tenhh")
-                                                          , "DVT": $(this).find('td:eq(1)').attr("data-dvt")
-                                                          , "SOLUONG": Number($(this).closest('tr').find(".sl3").text().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                           , "SOLUONG2": null
-                                                        , "SOLUONG3": Number($(this).closest('tr').find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                          , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(5)').text().replace(/[^\d.]/g, '').replace(".00",""))
-                                                          , "VAT": $("#editvat").val()
-                                                          , "GHICHU": $("#editghichu").val()
-                                                          , "ck": Number($("#tilechietkhauedit").text())
-                                                       });
-                                                   }
-                                                   else
-                                                   {
                                                        data1.push({
                                                            "NGAYGIAO": $("#editngaygiao").val()
                                                          , "NGAY": data
-                                                         , "STT": $(this).closest('tr').find('td:eq(0)').text()
+                                                         , "STT": $(this).find('td:eq(0)').text()
                                                          , "MADH": $("#editdonhang").text()
                                                          , "DONVI": $("#editkhachhang").attr('data-donvi')
                                                          , "KHACHHANG": $("#editkhachhang").attr('data-makh')
                                                          , "MACTKM": $("#editkhuyenmai").val()
                                                          , "TENCTKM": $("#editkhuyenmai option:selected").attr('tabindex')
                                                          , "MACTHT": $("#editcthotro").val()
-                                                         , "MAHH": $(this).find('td:eq(1)').attr("data-mahh")
+                                                         , "MAHH": $(this).find('.hanghoa').attr("data-mahh")
                                                          , "MATDV": $("#editkhachhang").attr('data-matdv')
-                                                         , "TENHH": $(this).find('td:eq(1)').attr("data-tenhh")
-                                                         , "DVT": $(this).find('td:eq(1)').attr("data-dvt")
-                                                         , "SOLUONG": Number($(this).closest('tr').find(".sl3").text().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                          , "SOLUONG2": Number($(this).closest('tr').find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                       , "SOLUONG3": Number($(this).closest('tr').find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
-                                                         , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(5)').text().replace(/[^\d.]/g, '').replace(".00",""))
+                                                         , "TENHH": $(this).find('.hanghoa').attr("data-tenhh")
+                                                         , "DVT": $(this).find('.hanghoa').attr("data-dvt")
+                                                         , "SOLUONG": Number($(this).find(".sl3").val().toString().replace(/[^\d.]/g, '').replace(".00",""))
+                                                          , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
+                                                       , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, '').replace(".00",""))
+                                                         , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, '').replace(".00",""))
                                                          , "VAT": $("#editvat").val()
                                                          , "GHICHU": $("#editghichu").val()
-                                                         , "ck": Number($("#tilechietkhauedit").text())
+                                                           , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                        });
-                                                   }
+                                                   
                                                });
                                                $.ajax({
                                                    url: '@Url.Action("AddHoaDon", "Order")',
@@ -2234,8 +2010,8 @@
                         var mahhctkm = $("#khuyenmai option:selected").attr("data-mahh").split(",");
                         var khongthuoc = []
                         $('#tablehanghoa > tbody > tr').each(function () {
-                            if (!mahhctkm.includes($(this).closest('tr').find('td:eq(0)').attr("data-mahh"))) {
-                                khongthuoc.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
+                            if (!mahhctkm.includes($(this).closest('tr').find('.hanghoa').attr("data-mahh"))) {
+                                khongthuoc.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                             }
                         });
                         if (khongthuoc.length != 0) {
@@ -2264,8 +2040,8 @@
                         var mahhctht = $("#cthotro option:selected").attr("data-mahh").split(",");
                         var khongthuocht = []
                         $('#tablehanghoa > tbody > tr').each(function () {
-                            if (!mahhctht.includes($(this).closest('tr').find('td:eq(0)').attr("data-mahh"))) {
-                                khongthuocht.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
+                            if (!mahhctht.includes($(this).closest('tr').find('.hanghoa').attr("data-mahh"))) {
+                                khongthuocht.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                             }
                         });
                         if (khongthuocht.length != 0) {
@@ -2313,7 +2089,7 @@
         }
                 var listhh = [];
                 $('#tablehanghoa > tbody > tr').each(function () {
-                    if ($(this).find('.sl3').text() == 0 || $(this).find('.sl3').text() == "") {
+                    if ($(this).find('.sl3').val() == 0 || $(this).find('.sl3').val() == "") {
                         toastr.options = {
                             "closeButton": false,
                             "debug": false,
@@ -2331,34 +2107,34 @@
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
                         }
-                        Command: toastr["warning"]("Xin điền đẩy đủ số lượng cho sản phẩm " + $(this).closest('tr').find('td:eq(0)').text() + " hoặc xóa sản phẩm", "Thông báo")
+                        Command: toastr["warning"]("Xin điền đẩy đủ số lượng cho sản phẩm " + $(this).closest('tr').find('.hanghoa').text() + " hoặc xóa sản phẩm", "Thông báo")
                         prevent = 1;
                         return false;
                     }
-                    else if (listhh.indexOf($(this).closest('tr').find('td:eq(0)').attr("data-mahh")) != -1) {
-                        toastr.options = {
-                            "closeButton": false,
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
-                        Command: toastr["warning"]("Sản phẩm " + $(this).closest('tr').find('td:eq(0)').text() + " bị trùng với sản phẩm trước đó vui lòng xóa 1 trong 2 sản phẩm", "Thông báo")
-                        prevent = 1;
-                        return false;
-                    }
+                    //else if (listhh.indexOf($(this).closest('tr').find('.hanghoa').attr("data-mahh")) != -1) {
+                    //    toastr.options = {
+                    //        "closeButton": false,
+                    //        "debug": false,
+                    //        "newestOnTop": true,
+                    //        "progressBar": true,
+                    //        "positionClass": "toast-top-right",
+                    //        "preventDuplicates": false,
+                    //        "onclick": null,
+                    //        "showDuration": "300",
+                    //        "hideDuration": "1000",
+                    //        "timeOut": "5000",
+                    //        "extendedTimeOut": "1000",
+                    //        "showEasing": "swing",
+                    //        "hideEasing": "linear",
+                    //        "showMethod": "fadeIn",
+                    //        "hideMethod": "fadeOut"
+                    //    }
+                    //    Command: toastr["warning"]("Sản phẩm " + $(this).closest('tr').find('.hanghoa').text() + " bị trùng với sản phẩm trước đó vui lòng xóa 1 trong 2 sản phẩm", "Thông báo")
+                    //    prevent = 1;
+                    //    return false;
+                    //}
                     if ($("option:selected", this).first().val() != "") {
-                        listhh.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
+                        listhh.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
                 });
                 if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
@@ -2391,17 +2167,17 @@
                 var hh40 = []
                 var hh99 = []
                 $('#tablehanghoa > tbody > tr').each(function () {
-                    if ($(this).closest('tr').find('td:eq(0)').attr("data-kiemsoat") == 1) {
-                        ksdb.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
+                    if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 1) {
+                        ksdb.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
-                    else if ($(this).closest('tr').find('td:eq(0)').attr("data-kiemsoat") == 2) {
-                        tpcn.push($(this).closest('tr').find('td:eq(0)').attr("data-mahh"));
+                    else if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 2) {
+                        tpcn.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
-                    else if ($(this).closest('tr').find('td:eq(1)').attr("data-kiemsoat") == 40) {
-                        hh40.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                    else if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 40) {
+                        hh40.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
-                    else if ($(this).closest('tr').find('td:eq(1)').attr("data-kiemsoat") == 99) {
-                        hh99.push($(this).closest('tr').find('td:eq(1)').attr("data-mahh"));
+                    else if ($(this).closest('tr').find('.hanghoa').attr("data-kiemsoat") == 99) {
+                        hh99.push($(this).closest('tr').find('.hanghoa').attr("data-mahh"));
                     }
                 });
                 if ((tpcn.length != 0 && $('#tablehanghoa > tbody > tr').length > tpcn.length) || (ksdb.length != 0 && $('#tablehanghoa > tbody > tr').length > ksdb.length)) {
@@ -2525,7 +2301,6 @@
                                                                    var data1 = [];
                                                                    var dem = 1;
                                                                    $("#tablehanghoa > tbody >tr").each(function () {
-                                                                       if ($(this).find('td:eq(0)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P53') {
                                                                            data1.push({
                                                                                "NGAYGIAO": $("#ngaygiao").val()
                                                                                , "NGAY": data
@@ -2536,44 +2311,19 @@
                                                                                , "MACTKM": $("#khuyenmai").val()
                                                                                , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
                                                                                , "MACTHT": $("#cthotro").val()
-                                                                               , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
+                                                                               , "MAHH": $(this).find(".hanghoa").attr("data-mahh")
                                                                                , "MATDV": $("#khachhang").attr('data-matdv')
-                                                                               , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                                               , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                                               , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, ''))
-                                                                                 , "SOLUONG2": null
-                                                                  , "SOLUONG3": $(this).find('.sl1').val().toString().replace(/[^\d.]/g, '')
-                                                                               , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, ''))
-                                                                               , "VAT": $("#vat").val()
-                                                                               , "GHICHU": $("#ghichu").val()
-                                                                               , "ck": Number($("#tilechietkhau").text())
-                                                                           });
-                                                                       }
-                                                                       else
-                                                                       {
-                                                                           data1.push({
-                                                                               "NGAYGIAO": $("#ngaygiao").val()
-                                                                               , "NGAY": data
-                                                                               , "STT": dem
-                                                                               , "MADH": $("#editdonhangmobile").text()
-                                                                               , "DONVI": $("#khachhang").attr('data-donvi')
-                                                                               , "KHACHHANG": $("#khachhang").attr('data-makh')
-                                                                               , "MACTKM": $("#khuyenmai").val()
-                                                                               , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                                               , "MACTHT": $("#cthotro").val()
-                                                                               , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                                               , "MATDV": $("#khachhang").attr('data-matdv')
-                                                                               , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                                               , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                                               , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, ''))
-                                                                                 , "SOLUONG2": null
+                                                                               , "TENHH": $(this).find(".hanghoa").attr("data-tenhh")
+                                                                               , "DVT": $(this).find(".hanghoa").attr("data-dvt")
+                                                                               , "SOLUONG": Number($(this).find('.sl3').val().toString().replace(/[^\d.]/g, ''))
+                                                                               , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, ''))
                                                                   , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, ''))
-                                                                               , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, ''))
+                                                                               , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, ''))
                                                                                , "VAT": $("#vat").val()
                                                                                , "GHICHU": $("#ghichu").val()
-                                                                               , "ck": Number($("#tilechietkhau").text())
+                                                                               , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                                            });
-                                                                       }
+                                                                       
                                                                        dem = dem + 1;
                                                                    });
 
@@ -2693,32 +2443,6 @@
                                                var data1 = [];
                                                var dem = 1;
                                                $("#tablehanghoa > tbody >tr").each(function () {
-                                                   if ($(this).find('td:eq(0)').attr("data-mahh") == '60.T07' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P41' || $(this).find('td:eq(0)').attr("data-mahh") == '60.P53') {
-                                                       data1.push({
-                                                           "NGAYGIAO": $("#ngaygiao").val()
-                                                           , "NGAY": data
-                                                           , "STT": dem
-                                                           , "MADH": $("#editdonhangmobile").text()
-                                                           , "DONVI": $("#khachhang").attr('data-donvi')
-                                                           , "KHACHHANG": $("#khachhang").attr('data-makh')
-                                                           , "MACTKM": $("#khuyenmai").val()
-                                                           , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
-                                                           , "MACTHT": $("#cthotro").val()
-                                                           , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
-                                                           , "MATDV": $("#khachhang").attr('data-matdv')
-                                                           , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                           , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                           , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, ''))
-                                                           , "SOLUONG2": null
-                                                           , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, ''))
-                                                           , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, ''))
-                                                           , "VAT": $("#vat").val()
-                                                           , "GHICHU": $("#ghichu").val()
-                                                           , "ck": Number($("#tilechietkhau").text())
-                                                       });
-                                                   }
-                                                   else
-                                                   {
                                                        data1.push({
                                                            "NGAYGIAO": $("#ngaygiao").val()
                                                           , "NGAY": data
@@ -2729,19 +2453,19 @@
                                                           , "MACTKM": $("#khuyenmai").val()
                                                           , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
                                                           , "MACTHT": $("#cthotro").val()
-                                                          , "MAHH": $(this).find("td:eq(0)").attr("data-mahh")
+                                                          , "MAHH": $(this).find(".hanghoa").attr("data-mahh")
                                                           , "MATDV": $("#khachhang").attr('data-matdv')
-                                                          , "TENHH": $(this).find("td:eq(0)").attr("data-tenhh")
-                                                          , "DVT": $(this).find("td:eq(0)").attr("data-dvt")
-                                                          , "SOLUONG": Number($(this).find('.sl3').text().toString().replace(/[^\d.]/g, ''))
+                                                          , "TENHH": $(this).find(".hanghoa").attr("data-tenhh")
+                                                          , "DVT": $(this).find(".hanghoa").attr("data-dvt")
+                                                          , "SOLUONG": Number($(this).find('.sl3').val().toString().replace(/[^\d.]/g, ''))
                                                           , "SOLUONG2": Number($(this).find('.sl2').val().toString().replace(/[^\d.]/g, ''))
                                                           , "SOLUONG3": Number($(this).find('.sl1').val().toString().replace(/[^\d.]/g, ''))
-                                                          , "GIABAN_VAT": Number($(this).closest('tr').find('td:eq(4)').text().replace(/[^\d.]/g, ''))
+                                                          , "GIABAN_VAT": Number($(this).find('.giaban_vat').val().replace(/[^\d.]/g, ''))
                                                           , "VAT": $("#vat").val()
-                                                          , "GHICHU": $("#ghichu").val()
-                                                          , "ck": Number($("#tilechietkhau").text())
+                                                           , "GHICHU": $("#ghichu").val()
+                                                           , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                        });
-                                                   }
+                                                   
                                                    dem = dem + 1;
                                                });
 
