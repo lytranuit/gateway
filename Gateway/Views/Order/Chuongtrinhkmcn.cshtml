@@ -28,6 +28,8 @@
                             <th style="width:50px;">#</th>
                             <th>Mã KM</th>
                             <th>Tên khuyến mãi</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +41,8 @@
                                     <th scope="row" class="text-center">@(count)</th>
                                     <td class="text-center">@i.MACTKM</td>
                                     <td>@i.TENCTKM</td>
+                                    <td class="text-center">@i.ngaybatdau.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">@i.ngayketthuc.ToString("dd/MM/yyyy")</td>
                                 </tr>
                                 count = count + 1;
                             }

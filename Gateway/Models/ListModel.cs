@@ -46,15 +46,15 @@ namespace ApplicationChart.Models
         public string matinh { get; set; }
         public string quanhuyen { get; set; }
         public string ghichu { get; set; }
-    
+
         public string nhom { get; set; }
-    
+
         public string TAIKHOAN { get; set; }
         public string NGANHANG { get; set; }
         public Nullable<int> ngayno { get; set; }
         public string phanloai { get; set; }
         public Nullable<double> hanmuc { get; set; }
-        
+
         public string dt { get; set; }
         public string email { get; set; }
         public string tinhtrang { get; set; }
@@ -2234,7 +2234,7 @@ namespace ApplicationChart.Models
         public string TenTDV { get; set; }
         public string DiaChi { get; set; }
         public string DienThoai { get; set; }
-     
+
         public Nullable<bool> nghiviec { get; set; }
         public Nullable<System.DateTime> Ngaynghiviec { get; set; }
         public string idlocal { get; set; }
@@ -2249,7 +2249,7 @@ namespace ApplicationChart.Models
         public string makhc { get; set; }
         public DateTime ngaytt { get; set; }
         public decimal tien { get; set; }
-       
+
     }
     public partial class TONGHOPCONGNOAP
     {
@@ -2262,7 +2262,7 @@ namespace ApplicationChart.Models
         public double cocuoiky { get; set; }
         public string noidung { get; set; }
         public string diachi_kh { get; set; }
-       
+
     }
     public partial class TBL_DANHMUCTAIKHOANKETOAN
     {
@@ -2287,6 +2287,10 @@ namespace ApplicationChart.Models
         public decimal? HANMUC { get; set; }
         public double? ck { get; set; }
         public int BBTT { get; set; }
+
+        public DateTime ngaybatdau { get; set; }
+
+        public DateTime ngayketthuc { get; set; }
 
     }
     public partial class NGUOIDUNG
@@ -2394,7 +2398,7 @@ namespace ApplicationChart.Models
     {
         public string MATT { get; set; }
         public string TENTT { get; set; }
-       
+
     }
     public partial class THONGTINNO
     {
@@ -2604,7 +2608,7 @@ namespace ApplicationChart.Models
         public int THUNG { get; set; }
         public int HOP { get; set; }
         public string DVT { get; set; }
-      
+
         public string MALO { get; set; }
         public string HANDUNG { get; set; }
     }

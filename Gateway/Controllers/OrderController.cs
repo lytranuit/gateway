@@ -6444,7 +6444,7 @@ namespace ApplicationChart.Controllers
                 strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch'";
                 strch = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, phanloaikhachhang from DM_KHACHHANG_PTTT WHERE tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch'";
             }
-            string strcnctkm = "SELECT MACTKM AS MACTKM, TENCTKM AS TENCTKM from TBL_DANHMUCKM WHERE MaCTKM IS NOT NULL AND (ngayketthuc is null or ngayketthuc >= '" + DateTime.Now.ToString("yyyy/MM/dd") + "')";
+            string strcnctkm = "SELECT MACTKM AS MACTKM, TENCTKM AS TENCTKM,ngaybatdau,ngayketthuc from TBL_DANHMUCKM WHERE MaCTKM IS NOT NULL AND (ngayketthuc is null or (ngayketthuc >= '" + DateTime.Now.ToString("yyyy/MM/dd") + "' and ngaybatdau <= '" + DateTime.Now.ToString("yyyy/MM/dd") + "'))";
             string strcnhh = "SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN , quicach as QUICACH, nhom as NHOM from TBL_DANHMUCHANGHOA where 1=1 and GIABAN != '0' and sudung = 1";
             var DATAX = new ListData();
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
