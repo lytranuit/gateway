@@ -83,6 +83,7 @@ namespace ApplicationChart.Controllers
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
             new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
+                 new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
         };
         List<EntitiesCH> queryCH = new List<EntitiesCH> {
             new EntitiesCH {data = new CHQ10Entities1("PTTTEntities") , macn = "PTTT"},
@@ -1364,7 +1365,7 @@ namespace ApplicationChart.Controllers
             data.KHACHHANG = DATAGETKHACHHANG(macn.FirstOrDefault(), Info);
             data.CTKM = DATAGETCTKM(macn.FirstOrDefault());
             data.CTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT }).ToList();
-            data.PHANLOAI = DATAGETPHANLOAI(new List<string>() { "SC" });
+            data.PHANLOAI = DATAGETPHANLOAI(new List<string>() { macn.FirstOrDefault() });
             if (Info.kho == null)
             {
                 data.KHO = DATAGETKHO(macn);
