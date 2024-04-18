@@ -1540,14 +1540,14 @@ namespace ApplicationChart.Controllers
             //{
             var phanquyen = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == User.Identity.Name);
 
-            DateTime gioihan = DateTime.ParseExact("01/01/2023", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //DateTime gioihan = DateTime.ParseExact("01/01/2023", "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime tungay = DateTime.ParseExact(x.tungay1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            var loaitru = new List<string>() { "PY.MEN", "PY.DIEN", "HCM.LACVY", "HCM.PHUONGLINH" };
-            if (tungay < gioihan && !loaitru.Contains(User.Identity.Name.ToUpper()))
-            {
-                x.tungay1 = "01/01/2023";
-                tungay = gioihan;
-            }
+            //var loaitru = new List<string>() { "PY.MEN", "PY.DIEN", "HCM.LACVY", "HCM.PHUONGLINH" };
+            //if (tungay < gioihan && !loaitru.Contains(User.Identity.Name.ToUpper()))
+            //{
+            //    x.tungay1 = "01/01/2023";
+            //    tungay = gioihan;
+            //}
             DateTime denngay = DateTime.ParseExact(x.denngay1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
           
