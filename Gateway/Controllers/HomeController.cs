@@ -14550,14 +14550,14 @@ namespace ApplicationChart.Controllers
                 ViewBag.PDF = null;
             }
 
-            DateTime gioihan = DateTime.ParseExact("01/01/2023", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //DateTime gioihan = DateTime.ParseExact("01/01/2023", "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime tungay = DateTime.ParseExact(tungay1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            var loaitru = new List<string>() { "PY.MEN", "PY.DIEN", "HCM.LACVY", "HCM.PHUONGLINH", "PY.NHUNG", "ADMIN", "HCM.PHUONGTHAO", "HCM.NGOCTRINH", "HCM.VANTHI", "HCM.UYENPHUONG", "GL.BINH", "PY.TRI" };
-            if (tungay < gioihan && !loaitru.Contains(User.Identity.Name.ToUpper()))
-            {
-                tungay1 = "01/01/2023";
-                tungay = gioihan;
-            }
+            //var loaitru = new List<string>() { "PY.MEN", "PY.DIEN", "HCM.LACVY", "HCM.PHUONGLINH", "PY.NHUNG", "ADMIN", "HCM.PHUONGTHAO", "HCM.NGOCTRINH", "HCM.VANTHI", "HCM.UYENPHUONG", "GL.BINH", "PY.TRI" };
+            //if (tungay < gioihan && !loaitru.Contains(User.Identity.Name.ToUpper()))
+            //{
+            //    tungay1 = "01/01/2023";
+            //    tungay = gioihan;
+            //}
             DateTime denngay = DateTime.ParseExact(denngay1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
 
