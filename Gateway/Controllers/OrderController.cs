@@ -225,7 +225,10 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var data = new QuanlyCTBH { CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList() };
+            var data = new QuanlyCTBH {
+                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), 
+                HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList() 
+            };
             return View("QuanlyCTBH", data);
         }
         [Authorize(Roles = "HANGHOA")]
@@ -2306,24 +2309,39 @@ namespace ApplicationChart.Controllers
         [HttpPost]
         public ActionResult PartialViewCTBH(string mactkm)
         {
+        //    var Info = GetInfo();
+        //    var macn = Info.macn.Split(',').FirstOrDefault();
             var data = DATATH1.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == mactkm);
             if (data.PHAMVI != null && data.MAHH != null)
             {
                 var macn = data.PHAMVI.Split(',').ToList();
                 var mahh = data.MAHH.Split(',').ToList();
-                ChitietCTBH final = new ChitietCTBH { dulieu = data, macn = db2.TBL_DANHSACHCHINHANH.Where(n => macn.Contains(n.macn)).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), mahh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' ").Where(n => mahh.Contains(n.MAHH)).ToList() };
+                ChitietCTBH final = new ChitietCTBH
+                {
+                    dulieu = data,
+                    macn = db2.TBL_DANHSACHCHINHANH.Where(n => macn.Contains(n.macn)).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
+                    mahh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' ").Where(n => mahh.Contains(n.MAHH)).ToList()
+                };
                 return PartialView(final);
             }
             else if (data.PHAMVI == null && data.MAHH != null)
             {
                 var mahh = data.MAHH.Split(',').ToList();
-                ChitietCTBH final = new ChitietCTBH { dulieu = data, mahh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' ").Where(n => mahh.Contains(n.MAHH)).ToList() };
+                ChitietCTBH final = new ChitietCTBH
+                {
+                    dulieu = data,
+                    mahh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' ").Where(n => mahh.Contains(n.MAHH)).ToList()
+                };
                 return PartialView(final);
             }
             else if (data.PHAMVI != null && data.MAHH == null)
             {
                 var macn = data.PHAMVI.Split(',').ToList();
-                ChitietCTBH final = new ChitietCTBH { dulieu = data, macn = db2.TBL_DANHSACHCHINHANH.Where(n => macn.Contains(n.macn)).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList() };
+                ChitietCTBH final = new ChitietCTBH
+                {
+                    dulieu = data,
+                    macn = db2.TBL_DANHSACHCHINHANH.Where(n => macn.Contains(n.macn)).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList()
+                };
                 return PartialView(final);
             }
             else
