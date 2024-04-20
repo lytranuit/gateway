@@ -2286,11 +2286,11 @@ namespace ApplicationChart.Models
         public int? TICHDIEM { get; set; }
         public decimal? HANMUC { get; set; }
         public double? ck { get; set; }
-        public int BBTT { get; set; }
+        public int? BBTT { get; set; }
 
         public DateTime ngaybatdau { get; set; }
 
-        public DateTime ngayketthuc { get; set; }
+        public DateTime? ngayketthuc { get; set; }
 
     }
     public partial class NGUOIDUNG
