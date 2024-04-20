@@ -42,7 +42,12 @@
                                     <td class="text-center">@i.MACTKM</td>
                                     <td>@i.TENCTKM</td>
                                     <td class="text-center">@i.ngaybatdau.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">@i.ngayketthuc.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">
+                                        @if (@i.ngayketthuc != null)
+                                        {
+                                            @i.ngayketthuc.Value.ToString("dd/MM/yyyy")
+                                        }
+                                    </td>
                                 </tr>
                                 count = count + 1;
                             }
