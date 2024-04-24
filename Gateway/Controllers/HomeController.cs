@@ -2708,7 +2708,7 @@ namespace ApplicationChart.Controllers
             {
                 if (queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
                 {
-                    data.AddRange(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data.Database.SqlQuery<KetquatimkiemX>(strcn.Replace("HOADON.NOIXUAT", "HOADON.NHAPTAIKHO")).ToList());
+                    data.AddRange(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data.Database.SqlQuery<KetquatimkiemX>(strcn).ToList());
 
                 }
                 else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
