@@ -43,19 +43,19 @@
                     <td>@i.dvt</td>
                     <td>@i.malo</td>
                     <td class="text-center">
-                        @if (@i.hd_3_6 != null)
+                        @if (@i.hd_3_6 != 0)
                         {
                             <span class="bg-danger p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
                         }
-                        else if (i.hd_6_12 != null)
+                        else if (i.hd_6_12 != 0)
                         {
                             <span class="bg-warning p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
                         }
-                        else if (i.hd_12_18 != null)
+                        else if (i.hd_12_18 != 0)
                         {
                             <span class="bg-primary p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
                         }
-                        else if (i.hd_hon_18 != null)
+                        else if (i.hd_hon_18 != 0)
                         {
                             <span class="bg-success p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
                         }
