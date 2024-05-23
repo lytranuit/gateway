@@ -225,9 +225,10 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var data = new QuanlyCTBH {
-                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), 
-                HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList() 
+            var data = new QuanlyCTBH
+            {
+                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
+                HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList()
             };
             return View("QuanlyCTBH", data);
         }
@@ -578,7 +579,7 @@ namespace ApplicationChart.Controllers
             ViewBag.quyen = Info.quyen;
             return View("Theodoiduongdi");
         }
-        [Authorize(Roles = "GIAOHANG")]
+        [Authorize(Roles = "GIAOHANG,QUANLY")]
         [ActionName("lay-don-hang")]
         public ActionResult Laydonhang()
         {
@@ -607,7 +608,7 @@ namespace ApplicationChart.Controllers
             //data.nguoigiaohang = db2.TBL_DANHMUCNGUOIDUNG.Where(n => n.macn == Info.macn && n.quyen == "GIAOHANG").ToList();
             return View("Laydonhang", data);
         }
-        [Authorize(Roles = "QLGIAOHANG")]
+        [Authorize(Roles = "QLGIAOHANG,QUANLY")]
         [ActionName("phan-don-hang")]
         public ActionResult Phandonhang()
         {
@@ -643,11 +644,11 @@ namespace ApplicationChart.Controllers
         {
             var DATAX = new List<DULIEUBAOCAO>();
             //String CN
-            string strcn = "seleCT SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SoHD,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,HOADON.MaTDV AS MATDV ,TBL_DANHMUCTDV.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL,TBL_MIEN.mien AS MIEN,TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC,TBL_DANHMUCKHACHHANG.diachi AS DIACHI,TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM,CT.MACTHT AS MACTHT,CT.mahh AS MAHH,CT.tenhh AS TENHH, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA, CT.DVT, TBL_DANHMUCHANGHOA.nhom AS NHOM, ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.DONGIA AS MONEY)), 0) AS TIEN from TBL_MIEN, TBL_DANHMUCTIEUDEBAOCAO, DTA_CT_HOADON_XUAT CT LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.mahh = TBL_DANHMUCHANGHOA.mahh, DTA_HOADON_XUAT HOADON   LEFT JOIN   TBL_DANHMUCKHACHHANG ON HOADON.makh = TBL_DANHMUCKHACHHANG.makh LEFT JOIN TBL_DANHMUCTDV on HOADON.matdv = TBL_DANHMUCTDV.MaTDV where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1";
+            string strcn = "seleCT SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SoHD,HOADON.SOHD_DT,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,HOADON.MaTDV AS MATDV ,TBL_DANHMUCTDV.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL,TBL_MIEN.mien AS MIEN,TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC,TBL_DANHMUCKHACHHANG.diachi AS DIACHI,TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM,CT.MACTHT AS MACTHT,CT.mahh AS MAHH,CT.tenhh AS TENHH, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA, CT.DVT, TBL_DANHMUCHANGHOA.nhom AS NHOM, ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.DONGIA AS MONEY)), 0) AS TIEN from TBL_MIEN, TBL_DANHMUCTIEUDEBAOCAO, DTA_CT_HOADON_XUAT CT LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.mahh = TBL_DANHMUCHANGHOA.mahh, DTA_HOADON_XUAT HOADON   LEFT JOIN   TBL_DANHMUCKHACHHANG ON HOADON.makh = TBL_DANHMUCKHACHHANG.makh LEFT JOIN TBL_DANHMUCTDV on HOADON.matdv = TBL_DANHMUCTDV.MaTDV where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1";
             //String CH
-            string strch = "Select SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SoHD ,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,TBL_DANHMUCKHACHHANG.MATDV AS MATDV,DS_TDV_PTTT.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL, TBL_MIEN.mien AS MIEN, TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC,TBL_DANHMUCKHACHHANG.diachi AS DIACHI, TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM , CT.mahh AS MAHH, CT.tenhh AS TENHH, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA , CT.DVT ,DM_HANGHOA.nhom AS NHOM , ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0) AS TIEN from TBL_MIEN,tieude TBL_DANHMUCTIEUDEBAOCAO, CT_HOADON_XUAT CT  LEFT JOIN  DM_HANGHOA ON CT.mahh = DM_HANGHOA.mahh, DM_KHACHHANG_PTTT TBL_DANHMUCKHACHHANG right join HOADON_XUAT  HOADON on TBL_DANHMUCKHACHHANG.makh = HOADON.makh left join DS_TDV_PTTT on TBL_DANHMUCKHACHHANG.MaTDV = DS_TDV_PTTT.MaTDV  where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1 ";
+            string strch = "Select SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SoHD,HOADON.SOHD_DT,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,TBL_DANHMUCKHACHHANG.MATDV AS MATDV,DS_TDV_PTTT.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL, TBL_MIEN.mien AS MIEN, TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC,TBL_DANHMUCKHACHHANG.diachi AS DIACHI, TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM , CT.mahh AS MAHH, CT.tenhh AS TENHH, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA , CT.DVT ,DM_HANGHOA.nhom AS NHOM , ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0) AS TIEN from TBL_MIEN,tieude TBL_DANHMUCTIEUDEBAOCAO, CT_HOADON_XUAT CT  LEFT JOIN  DM_HANGHOA ON CT.mahh = DM_HANGHOA.mahh, DM_KHACHHANG_PTTT TBL_DANHMUCKHACHHANG right join HOADON_XUAT  HOADON on TBL_DANHMUCKHACHHANG.makh = HOADON.makh left join DS_TDV_PTTT on TBL_DANHMUCKHACHHANG.MaTDV = DS_TDV_PTTT.MaTDV  where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1 ";
             //String MB
-            string strnew = "select SUM(ISNULL(CAST(TIENCHIETKHAU   AS MONEY ),0)) as TIENCK,CAST(sum((ISNULL(CAST(TIENBAN   AS MONEY ),0) -   ISNULL(CAST(TIENCHIETKHAU   AS MONEY ),0)  )*dtasoluong.tylethue/100 ) as FLOAT) as TIENVAT, (select dbo.TCVN2Unicode(dclDanhSachDonViTinh.TenDonViTinh)) as DVT , SUM(ISNULL(CAST(dtasoluong.SOLUONG AS MONEY),0)) as SOLUONG ,SUM(CAST(TIENBAN   AS MONEY))/SUM(CAST(dtasoluong.SOLUONG AS MONEY)) as DONGIA,substring(dtaDinhKhoan.TaiKhoanNo, 1, 3) AS MAPL , dtaChungTu.ngaychungtu as NGAY, substring(replace(dclChiTietHangHoa.MaCap, ' ', ''), 1, 2) as NHOM ,replace(dclChiTietHangHoa.MaCap, ' ', '') AS MAHH, replace(dclChiTietHangHoa.TENCAP, ' ', '')  AS TENHH, ISNULL(CAST(TIENBAN   AS MONEY), 0)  AS TIEN, TBL_DANHMUCTIEUDEBAOCAO.TENDVBC, TBL_MIEN.MIEN, KT_TH.DBO.TBL_DANHMUCKHACHHANG.matinh as MATINH,dtaChungTu.SoHoaDon as SOHD , cast(dtaChungTu.KHACHHANGID as varchar) as MAKH, (select dbo.TCVN2Unicode(dclChiTietKhachHang.TENCAP)) as DONVI, KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloaikhachhang FROM dtasoluong, dtaDinhKhoan, dclChiTietHangHoa, dclChiTietKhachHang, dclDanhSachDonViTinh, tbl_danhmuctieudebaocao, tbl_mien , KT_TH.DBO.TBL_DANHMUCKHACHHANG right join TBL_DANHMUCCUAHANG on KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH = TBL_DANHMUCCUAHANG.MaCH right join dtaChungTu ON KT_TH.DBO.TBL_DANHMUCKHACHHANG.makh = CAST(dtaChungTu.KhachHangID as varchar) where dtasoluong.dinhkhoanid = dtaDinhKhoan.CapDKID And dclChiTietKhachHang.TaiKhoanID = dtaChungTu.KHACHHANGID And dtaDinhKhoan.chungtuid = dtaChungTu.chungtuid and dtaDinhKhoan.IDTaiKhoanCo = dclChiTietHangHoa.TaiKhoanID and dclDanhSachDonViTinh.DonViTinhID = dclChiTietHangHoa.DonViTinhID and dtasoluong.SOLUONG != 0  And dtaChungTu.KHACHHANGID IN(select dclChiTietKhachHang.TaiKhoanID from dclChiTietKhachHang) AND substring(dtaDinhKhoan.TaiKhoanNo, 1, 3) = '632' AND dtaChungTu.ngaychungtu between  '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "'";
+            string strnew = "select SUM(ISNULL(CAST(TIENCHIETKHAU   AS MONEY ),0)) as TIENCK,CAST(sum((ISNULL(CAST(TIENBAN   AS MONEY ),0) -   ISNULL(CAST(TIENCHIETKHAU   AS MONEY ),0)  )*dtasoluong.tylethue/100 ) as FLOAT) as TIENVAT, (select dbo.TCVN2Unicode(dclDanhSachDonViTinh.TenDonViTinh)) as DVT , SUM(ISNULL(CAST(dtasoluong.SOLUONG AS MONEY),0)) as SOLUONG ,SUM(CAST(TIENBAN   AS MONEY))/SUM(CAST(dtasoluong.SOLUONG AS MONEY)) as DONGIA,substring(dtaDinhKhoan.TaiKhoanNo, 1, 3) AS MAPL , dtaChungTu.ngaychungtu as NGAY, substring(replace(dclChiTietHangHoa.MaCap, ' ', ''), 1, 2) as NHOM ,replace(dclChiTietHangHoa.MaCap, ' ', '') AS MAHH, replace(dclChiTietHangHoa.TENCAP, ' ', '')  AS TENHH, ISNULL(CAST(TIENBAN   AS MONEY), 0)  AS TIEN, TBL_DANHMUCTIEUDEBAOCAO.TENDVBC, TBL_MIEN.MIEN, KT_TH.DBO.TBL_DANHMUCKHACHHANG.matinh as MATINH,dtaChungTu.SoHoaDon as SOHD, cast(dtaChungTu.KHACHHANGID as varchar) as MAKH, (select dbo.TCVN2Unicode(dclChiTietKhachHang.TENCAP)) as DONVI, KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloaikhachhang FROM dtasoluong, dtaDinhKhoan, dclChiTietHangHoa, dclChiTietKhachHang, dclDanhSachDonViTinh, tbl_danhmuctieudebaocao, tbl_mien , KT_TH.DBO.TBL_DANHMUCKHACHHANG right join TBL_DANHMUCCUAHANG on KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH = TBL_DANHMUCCUAHANG.MaCH right join dtaChungTu ON KT_TH.DBO.TBL_DANHMUCKHACHHANG.makh = CAST(dtaChungTu.KhachHangID as varchar) where dtasoluong.dinhkhoanid = dtaDinhKhoan.CapDKID And dclChiTietKhachHang.TaiKhoanID = dtaChungTu.KHACHHANGID And dtaDinhKhoan.chungtuid = dtaChungTu.chungtuid and dtaDinhKhoan.IDTaiKhoanCo = dclChiTietHangHoa.TaiKhoanID and dclDanhSachDonViTinh.DonViTinhID = dclChiTietHangHoa.DonViTinhID and dtasoluong.SOLUONG != 0  And dtaChungTu.KHACHHANGID IN(select dclChiTietKhachHang.TaiKhoanID from dclChiTietKhachHang) AND substring(dtaDinhKhoan.TaiKhoanNo, 1, 3) = '632' AND dtaChungTu.ngaychungtu between  '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "'";
             //if (mapl != null)
             //{
             //    strcn = strcn + string.Format(" AND HOADON.MaPL IN ({0})", string.Join(",", mapl.Select(p => "'" + p + "'")));
@@ -732,8 +733,7 @@ namespace ApplicationChart.Controllers
 
             //}
             //String MB
-            strcn = strcn + " GROUP BY TBL_DANHMUCTDV.TenTDV,HOADON.SOHD,CT.MAKM,TBL_DANHMUCKHACHHANG.diachi,CT.MACTHT,HOADON.MATDV,HOADON.ngaylaphd, HOADON.MaPL, TBL_MIEN.mien, TBL_DANHMUCTIEUDEBAOCAO.tendvbc, TBL_DANHMUCKHACHHANG.matinh, CT.mahh, CT.tenhh, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), CT.DonGia, CT.DVT, TBL_DANHMUCHANGHOA.nhom, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0)";
-            strch = strch + " GROUP BY DS_TDV_PTTT.TenTDV,HOADON.SOHD,CT.MAKM ,TBL_DANHMUCKHACHHANG.diachi,TBL_DANHMUCKHACHHANG.MATDV,DM_HANGHOA.nhom, HOADON.MaPL, HOADON.ngaylaphd, TBL_MIEN.mien, TBL_DANHMUCTIEUDEBAOCAO.tendvbc, TBL_DANHMUCKHACHHANG.matinh, CT.mahh, CT.tenhh, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), CT.DonGia, CT.DVT, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0)";
+            strcn = strcn + " GROUP BY TBL_DANHMUCTDV.TenTDV,HOADON.SOHD,HOADON.SOHD_DT,CT.MAKM,TBL_DANHMUCKHACHHANG.diachi,CT.MACTHT,HOADON.MATDV,HOADON.ngaylaphd, HOADON.MaPL, TBL_MIEN.mien, TBL_DANHMUCTIEUDEBAOCAO.tendvbc, TBL_DANHMUCKHACHHANG.matinh, CT.mahh, CT.tenhh, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), CT.DonGia, CT.DVT, TBL_DANHMUCHANGHOA.nhom, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0)";
             strnew = strnew + "group by  dclChiTietKhachHang.TENCAP, dclChiTietKhachHang.TaiKhoanID,dtaChungTu.SoHoaDon,dtasoluong.TienBan, dclDanhSachDonViTinh.TenDonViTinh, dtasoluong.SOLUONG, dtasoluong.GIAban, dtaDinhKhoan.TaiKhoanNo, dtaChungTu.ngaychungtu, dclChiTietHangHoa.MaCap, dclChiTietHangHoa.TENCAP, tbl_danhmuctieudebaocao.tendvbc, tbl_mien.mien, dtaChungTu.khachhangid, TBL_DANHMUCCUAHANG.MACH ,KT_TH.DBO.TBL_DANHMUCKHACHHANG.matinh , KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloai , KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloaikhachhang";
             foreach (var x in soso)
             {
@@ -769,7 +769,7 @@ namespace ApplicationChart.Controllers
                 return new List<ListKhuVuc>();
             }
         }
-        [Authorize(Roles = "GIAOHANG")]
+        [Authorize(Roles = "GIAOHANG,QUANLY")]
         [ActionName("trang-thai-don-hang")]
         public ActionResult Trangthaidonhang()
         {
@@ -797,7 +797,7 @@ namespace ApplicationChart.Controllers
             }
             return View("Trangthaidonhang", data);
         }
-        [Authorize(Roles = "QLGIAOHANG")]
+        [Authorize(Roles = "QLGIAOHANG,QUANLY")]
         [ActionName("quan-ly-don-hang-da-giao")]
         public ActionResult Quanlydonhangdagiao()
         {
@@ -971,7 +971,7 @@ namespace ApplicationChart.Controllers
 
             return PartialView(data);
         }
-        [Authorize(Roles = "GIAOHANG")]
+        [Authorize(Roles = "GIAOHANG,QUANLY")]
         [HttpPost]
         public ActionResult GetPartialLaydonhang(string tungay, string denngay, List<string> makh, List<string> matinh, List<string> matdv)
         {
@@ -998,7 +998,7 @@ namespace ApplicationChart.Controllers
             {
                 dacheck = db2.DTA_GIAOHANG.Where(n => n.macn == info.macn && n.ngayhoadon >= tungay1 && n.ngayhoadon <= denngay1).Select(n => n.sohd).ToList();
             }
-            var x = data.GroupBy(n => n.SOHD).Select(cl => new DATALAYDONHANG() { SOHD = cl.Key, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, DIACHI = cl.First().DIACHI, MATDV = cl.First().MATDV, NGAYLAPHD = cl.First().NGAY, TONGTIEN_CT_HOADON = (double)cl.Sum(z => Math.Round(z.SOLUONG * z.DONGIA, 0, MidpointRounding.AwayFromZero)), tendvbc = info.macn }).OrderByDescending(n => n.NGAYLAPHD).ThenByDescending(n => n.SOHD).ToList();
+            var x = data.GroupBy(n => n.SOHD).Select(cl => new DATALAYDONHANG() { SOHD = cl.Key, SOHD_DT = cl.First().SOHD_DT, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, DIACHI = cl.First().DIACHI, MATDV = cl.First().MATDV, NGAYLAPHD = cl.First().NGAY, TONGTIEN_CT_HOADON = (double)cl.Sum(z => Math.Round(z.SOLUONG * z.DONGIA, 0, MidpointRounding.AwayFromZero)), tendvbc = info.macn }).OrderByDescending(n => n.NGAYLAPHD).ThenByDescending(n => n.SOHD).ToList();
             foreach (var i in x)
             {
                 if (dacheck.Contains(i.SOHD))
@@ -1008,7 +1008,7 @@ namespace ApplicationChart.Controllers
             }
             return PartialView(x);
         }
-        [Authorize(Roles = "QLGIAOHANG")]
+        [Authorize(Roles = "QLGIAOHANG,QUANLY")]
         [HttpPost]
         public ActionResult GetPartialPhandonhang(string tungay, string denngay, List<string> makh, List<string> matinh, List<string> matdv)
         {
@@ -1045,7 +1045,7 @@ namespace ApplicationChart.Controllers
             }
             return PartialView(x);
         }
-        [Authorize(Roles = "GIAOHANG")]
+        [Authorize(Roles = "GIAOHANG,QUANLY")]
         [HttpPost]
         public ActionResult GetPartialTrangthaidonhang(string tungay, string denngay, List<string> makh, List<string> matdv, bool? giaohang, bool? thutien)
         {
@@ -1076,7 +1076,7 @@ namespace ApplicationChart.Controllers
             }
             return PartialView(data);
         }
-        [Authorize(Roles = "QLGIAOHANG")]
+        [Authorize(Roles = "QLGIAOHANG,QUANLY")]
         [HttpPost]
         public ActionResult GetPartialQuanlydonhang(string tungay, string denngay, List<string> makh, List<string> matdv, int? giaohang, bool? thutien, List<string> nguoigiaohang)
         {
@@ -2309,8 +2309,8 @@ namespace ApplicationChart.Controllers
         [HttpPost]
         public ActionResult PartialViewCTBH(string mactkm)
         {
-        //    var Info = GetInfo();
-        //    var macn = Info.macn.Split(',').FirstOrDefault();
+            //    var Info = GetInfo();
+            //    var macn = Info.macn.Split(',').FirstOrDefault();
             var data = DATATH1.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == mactkm);
             if (data.PHAMVI != null && data.MAHH != null)
             {

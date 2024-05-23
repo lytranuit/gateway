@@ -122,8 +122,9 @@
       <HintPath>..\packages\CrystalReports.ReportAppServer.DataDefModel.13.0.4000\lib\net40\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+    <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=AMD64">
       <HintPath>..\packages\CrystalReports.ReportAppServer.DataSetConversion.13.0.4000\lib\net40\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ObjectFactory, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <HintPath>..\packages\CrystalReports.ReportAppServer.ObjectFactory.13.0.4000\lib\net40\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
@@ -1166,10 +1167,22 @@
       <DependentUpon>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Report\BAOCAO_TONGHOP__KHACHHANG_VIP.cs">
@@ -3982,9 +3995,17 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP__KHACHHANG_VIP.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

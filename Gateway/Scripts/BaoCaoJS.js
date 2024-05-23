@@ -725,7 +725,7 @@ $(document).ready(function () {
             $(".divngay").css("display", "none");
             $('#qui').selectpicker('refresh');
         }
-        else if ($("#chonbaocao").val() == 27) {
+        else if ($("#chonbaocao").val() == 27 || $("#chonbaocao").val() == 55 || $("#chonbaocao").val() == 56) {
             $('#qui').prop('disabled', false);
             $(".divnam").css("display", "block");
             $(".divngay").css("display", "none");
@@ -737,7 +737,7 @@ $(document).ready(function () {
             $(".divngay").css("display", "none");
             $('#qui').selectpicker('refresh');
         }
-        else if ($("#chonbaocao").val() == 25) {
+        else if ($("#chonbaocao").val() == 25 || $("#chonbaocao").val() == 53 || $("#chonbaocao").val() == 54) {
             $('#qui').prop('disabled', true);
             $(".divnam").css("display", "block");
             $(".divngay").css("display", "none");
