@@ -36,10 +36,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2023 14:47:27</publishTime>
     </File>
     <File Include="bin/ApplicationChart.dll">
-      <publishTime>05/20/2024 13:48:47</publishTime>
+      <publishTime>05/23/2024 15:43:35</publishTime>
     </File>
     <File Include="bin/ApplicationChart.pdb">
-      <publishTime>05/20/2024 13:48:47</publishTime>
+      <publishTime>05/23/2024 15:43:35</publishTime>
     </File>
     <File Include="bin/CaptchaMvc.dll">
       <publishTime>11/22/2023 09:34:40</publishTime>
@@ -210,7 +210,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/en/ApplicationChart.resources.dll">
-      <publishTime>05/20/2024 13:48:47</publishTime>
+      <publishTime>05/23/2024 15:43:35</publishTime>
     </File>
     <File Include="bin/en/CrystalDecisions.CrystalReports.Engine.resources.dll">
       <publishTime>05/27/2020 22:53:04</publishTime>
@@ -10779,7 +10779,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:30:47</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/11/2023 09:45:11</publishTime>
+      <publishTime>11/12/2023 09:45:11</publishTime>
     </File>
     <File Include="PrivateSettings.config">
       <publishTime>11/22/2023 09:28:32</publishTime>
@@ -11331,7 +11331,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:25</publishTime>
     </File>
     <File Include="Views/Home/GetPartialKetqua.cshtml">
-      <publishTime>12/04/2023 12:10:51</publishTime>
+      <publishTime>04/12/2023 12:10:51</publishTime>
     </File>
     <File Include="Views/Home/GetPartialKyhan.cshtml">
       <publishTime>11/22/2023 09:34:26</publishTime>

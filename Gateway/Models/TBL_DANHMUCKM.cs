@@ -11,7 +11,9 @@ namespace ApplicationChart.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
     public partial class TBL_DANHMUCKM
     {
         public string MACTKM { get; set; }
@@ -26,5 +28,15 @@ namespace ApplicationChart.Models
         public byte[] FILEDATA { get; set; }
         public Nullable<double> ck { get; set; }
         public Nullable<bool> BBTT { get; set; }
+
+        [NotMapped]
+
+        public List<string> list_phamvi
+        {
+            get
+            {
+                return PHAMVI.Split(',').ToList();
+            }
+        }
     }
 }

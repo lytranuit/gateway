@@ -667,6 +667,7 @@ namespace ApplicationChart.Models
         public string MAKM { get; set; }
         public string TENKM { get; set; }
         public string MAHH { get; set; }
+        public List<string> PHAMVI { get; set; }
         public double? ck { get; set; }
         public DateTime? ngaybatdau { get; set; }
         public DateTime? ngayketthuc { get; set; }

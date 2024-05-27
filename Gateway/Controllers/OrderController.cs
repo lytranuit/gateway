@@ -225,9 +225,14 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var Chinhanh = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true && listcn.Contains(n.macn)).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList();
+
+
+
             var data = new QuanlyCTBH
             {
-                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
+                CHINHANH = Chinhanh,
                 HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList()
             };
             return View("QuanlyCTBH", data);
@@ -2383,7 +2388,11 @@ namespace ApplicationChart.Controllers
         [HttpGet]
         public ActionResult PartialQLBH()
         {
-            var data = DATATH1.TBL_DANHMUCKM.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTKM);
+            var Info = GetInfo();
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var data = DATATH1.TBL_DANHMUCKM.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTKM).ToList();
+            data = data.Where(d => d.list_phamvi.Intersect(listcn).Any()).ToList();
+
             return PartialView(data);
         }
         [Authorize(Roles = "KHUYENMAICN")]

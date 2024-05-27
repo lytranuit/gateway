@@ -6539,6 +6539,7 @@ namespace ApplicationChart.Controllers
         public ActionResult GetBoLocTH()
         {
             var Info = GetInfo();
+            List<string> listcn = Info.macn.Split(',').ToList();
             var datakv = DATATH1.TBL_DANHMUCTINH.ToList();
             if (Info.matinh != "ALL")
             {
@@ -6555,7 +6556,28 @@ namespace ApplicationChart.Controllers
             datasp = datasp.GroupBy(n => n.MaHH).Select(cl => new ListNhomSP { MaHH = cl.First().MaHH, TenHH = cl.First().TenHH }).ToList();
             List<LoaiHD> dataloaihd = new List<LoaiHD>();
             dataloaihd = DULIEULOAIHD(SC).ToList();
-            var data = new ListBOLOC() { TINH = datakv, HD = dataloaihd, SP = datasp, KM = DATATH1.TBL_DANHMUCKM.Select(cl => new ListKhuyenMai() { MAKM = cl.MACTKM, TENKM = cl.TENCTKM }).ToList() };
+            var KM_Tmp = DATATH1.TBL_DANHMUCKM.ToList();
+            var KM = KM_Tmp.Select(cl => new ListKhuyenMai() { MAKM = cl.MACTKM, TENKM = cl.TENCTKM, PHAMVI = cl.PHAMVI.Split(',').ToList() }).ToList();
+            KM = KM.Where(d => d.PHAMVI.Intersect(listcn).Any()).Select(cl => new ListKhuyenMai() { MAKM = cl.MAKM, TENKM = cl.TENKM }).ToList();
+
+            foreach (var cn in listcn)
+            {
+                if (queryCN.SingleOrDefault(n => n.macn == cn) != null)
+                {
+                    var enti = queryCN.SingleOrDefault(n => n.macn == cn).data;
+                    var km_cn = DULIEUKHUYENMAI(enti).ToList();
+                    KM.AddRange(km_cn);
+                }
+            }
+            KM = KM.Where(n => n.MAKM != "")
+                .OrderByDescending(n => n.ngaybatdau).ThenBy(n => n.MAKM).ToList();
+            var data = new ListBOLOC()
+            {
+                TINH = datakv,
+                HD = dataloaihd,
+                SP = datasp,
+                KM = KM
+            };
             return Json(data);
         }
         [HttpPost]
@@ -6574,8 +6596,13 @@ namespace ApplicationChart.Controllers
                 data.Quan = DULIEUQUAN(enti).ToList();
             }
             data.HD = GetHopDong(ChiNhanhId);
-            var ctkmchung = DATATH1.TBL_DANHMUCKM.Select(n => new { n.MACTKM, n.TENCTKM, n.PHAMVI, n.ngaybatdau, n.ngayketthuc }).ToList().Where(n => n.PHAMVI.Split(',').Contains(ChiNhanhId)).Select(n => new ListKhuyenMai { MAKM = n.MACTKM, TENKM = n.TENCTKM, hieuluc = (n.ngaybatdau <= DateTime.Today && n.ngayketthuc >= DateTime.Today) ? true : false, ngaybatdau = n.ngaybatdau, ngayketthuc = n.ngayketthuc }).ToList();
-            data.KM = data.KM.Where(n => !ctkmchung.Select(c => c.MAKM).Contains(n.MAKM)).Concat(ctkmchung).Distinct().Where(n => n.MAKM != "").OrderByDescending(n => n.ngaybatdau).ThenBy(n => n.MAKM).ToList();
+            var ctkmchung = DATATH1.TBL_DANHMUCKM.Select(n => new { n.MACTKM, n.TENCTKM, n.PHAMVI, n.ngaybatdau, n.ngayketthuc }).ToList()
+                .Where(n => n.PHAMVI.Split(',').Contains(ChiNhanhId))
+                .Select(n => new ListKhuyenMai { MAKM = n.MACTKM, TENKM = n.TENCTKM, hieuluc = (n.ngaybatdau <= DateTime.Today && n.ngayketthuc >= DateTime.Today) ? true : false, ngaybatdau = n.ngaybatdau, ngayketthuc = n.ngayketthuc })
+                .ToList();
+            data.KM = data.KM.Where(n => !ctkmchung.Select(c => c.MAKM).Contains(n.MAKM)).Concat(ctkmchung).Distinct()
+                .Where(n => n.MAKM != "")
+                .OrderByDescending(n => n.ngaybatdau).ThenBy(n => n.MAKM).ToList();
             data.NHOM = getnhomcn(ChiNhanhId);
             if (Info.mahh != "ALL")
             {
