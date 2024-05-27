@@ -483,7 +483,10 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var data = new QuanlyCTBH { CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' AND nhom IN ('35','50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList(), KHUYENMAI = DATATH1.TBL_DANHMUCKM.ToList() };
+            var data = new QuanlyCTBH {
+                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), 
+                HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..'").ToList(),
+                KHUYENMAI = DATATH1.TBL_DANHMUCKM.ToList() };
             return View("QuanlyCTHT", data);
         }
         [ActionName("chuong-trinh-ban-hang")]
