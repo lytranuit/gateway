@@ -2684,14 +2684,14 @@ namespace ApplicationChart.Controllers
             }
             else if (manhom != null)
             {
-                if (manhom == "1")
-                {
-                    strcn = strcn + " AND SUBSTRING(ct_hoadon.MAHH,1,2) IN ('50','51','60','61','62','63','64','70')";
-                }
-                else
-                {
-                    strcn = strcn + " AND SUBSTRING(ct_hoadon.MAHH,1,2) NOT IN ('50','51','60','61','62','63','64','70')";
-                }
+                //if (manhom == "1")
+                //{
+                //    strcn = strcn + " AND SUBSTRING(ct_hoadon.MAHH,1,2) IN ('50','51','60','61','62','63','64','70')";
+                //}
+                //else
+                //{
+                //    strcn = strcn + " AND SUBSTRING(ct_hoadon.MAHH,1,2) NOT IN ('50','51','60','61','62','63','64','70')";
+                //}
             }
             if (kho != null)
             {
@@ -6410,7 +6410,7 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             ViewBag.macn = Info.macn.Split(',').ToList();
-            var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('01','35','13','50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
+            var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL").ToList();
             return View("Nhaptonkho", mahh);
         }
         [ActionName("tra-cuu-ton-kho-nhap")]
@@ -7600,7 +7600,7 @@ namespace ApplicationChart.Controllers
         {
             try
             {
-                var All = data.Database.SqlQuery<ListNhomSP>("SELECT MAHH,TENHH,nhom AS NHOM FROM DM_HANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
+                var All = data.Database.SqlQuery<ListNhomSP>("SELECT MAHH,TENHH,nhom AS NHOM FROM DM_HANGHOA WHERE MAHH IS NOT NULL").ToList();
                 return All;
             }
             catch (Exception)
@@ -14618,7 +14618,7 @@ namespace ApplicationChart.Controllers
             }
             else if (chc == 2)
             {
-                var listmahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA where chc is null and nhom in ('50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
+                var listmahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA where chc is null").ToList();
                 //var hhchc = SC.TBL_DANHMUCHANGHOA.Where(n => n.chc == true).Select(n => n.MAHH).ToList();
                 Checkboxlist5 = listmahh.ToList();
             }
@@ -14988,7 +14988,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 39)
             {
                 var listtinh = DATATH1.TBL_DANHMUCTINH.ToList();
-                var listmahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,dangbaoche as DANGBAOCHE,quicachhop as QUICACH FROM TBL_DANHMUCHANGHOA where nhom in ('50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
+                var listmahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,dangbaoche as DANGBAOCHE,quicachhop as QUICACH FROM TBL_DANHMUCHANGHOA where MAHH is not null").ToList();
                 var data2 = DATABAOCAO39(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
                 foreach (var x in data2)
                 {
@@ -18806,7 +18806,7 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             ViewBag.loaihang = DATATH1.TBL_DANHMUCNHOMSANPHAM.ToList();
-            var mahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH FROM TBL_DANHMUCHANGHOA where nhom in ('50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
+            var mahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH FROM TBL_DANHMUCHANGHOA where mahh is not null").ToList();
             return View("Chitiethanghoa", mahh);
         }
         [ActionName("ton-kho")]

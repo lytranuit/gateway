@@ -999,7 +999,7 @@ namespace ApplicationChart.Controllers
         }
         public List<ListNhomSP> DULIEUNHOMSP(Entities data)
         {
-            var All = data.Database.SqlQuery<ListNhomSP>("SELECT MAHH,TENHH,nhom AS NHOM FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND NHOM IN ('50', '51', '60', '61', '62', '63', '70')").ToList();
+            var All = data.Database.SqlQuery<ListNhomSP>("SELECT MAHH,TENHH,nhom AS NHOM FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL").ToList();
             return All;
         }
 
@@ -1011,7 +1011,7 @@ namespace ApplicationChart.Controllers
 
         public List<ListNhomSP> DULIEUCUAHANGNHOMSP(CHQ10Entities1 data)
         {
-            var All = data.Database.SqlQuery<ListNhomSP>("SELECT MAHH,TENHH,nhom AS NHOM FROM DM_HANGHOA WHERE MAHH IS NOT NULL AND NHOM IN ('50', '51', '60', '61', '62', '63', '70')").ToList();
+            var All = data.Database.SqlQuery<ListNhomSP>("SELECT MAHH,TENHH,nhom AS NHOM FROM DM_HANGHOA WHERE MAHH IS NOT NULL").ToList();
             return All;
         }
         public static byte[] ReadFully(Stream input)
