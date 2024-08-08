@@ -115,7 +115,7 @@ namespace ApplicationChart.Controllers
             new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
             new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
             new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-            new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "NP"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
         List<EntitiesCH> queryCH = new List<EntitiesCH> {
@@ -870,7 +870,7 @@ namespace ApplicationChart.Controllers
             new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
             new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
             new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-            new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "NP"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
         List<EntitiesCH> queryCH = new List<EntitiesCH> {
@@ -1632,7 +1632,7 @@ namespace ApplicationChart.Controllers
             new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
             new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
             new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-            new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "NP"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
         List<EntitiesCH> queryCH = new List<EntitiesCH> {
@@ -3379,7 +3379,7 @@ namespace ApplicationChart.Controllers
             new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
             new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
             new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-            new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "NP"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
         List<EntitiesCH> queryCH = new List<EntitiesCH> {

@@ -78,7 +78,7 @@ namespace ApplicationChart.Controllers
             new EntitiesCN {data = new Entities("KT_HNEntities") , macn = "HN"},
                new EntitiesCN {data = new Entities("KT_TNGEntities") , macn = "TNG"},
             new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
-                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "NP"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
         public TBL_PHANQUYENCRM GetCRM()

@@ -81,7 +81,7 @@ namespace ApplicationChart.Controllers
         KT_THEntities1 DATATH1 = new KT_THEntities1("KT_THEntities1");
         KT_THEntities1 DATATH2 = new KT_THEntities1("KT_THEntities2");
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
-            new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "NP"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
                  new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
         };
