@@ -23,7 +23,7 @@
                                 data1.push({
                                     "makh": $(this).find('td').eq(1).attr("data-makh")
                                     , "tenkh": $(this).find('td').eq(1).attr("data-tenkh")
-                                    , "ngay": moment($("#ngaycreate").text(), 'DD/MM/YYYY').format('MM/DD/YYYY')
+                                    , "ngay": moment($("#ngaycreate").text(), 'DD/MM/YYYY').format('YYYY-MM-DD')
                                     , "checkin": false
                                     , "khoa": false
                                 });
@@ -141,7 +141,7 @@
                             data2.push({
                                 "makh": x.find('td').eq(1).attr("data-makh")
                                 , "tenkh": x.find('td').eq(1).attr("data-tenkh")
-                                , "ngay": moment($("#ngay").text(), 'DD/MM/YYYY').format('MM/DD/YYYY')
+                                , "ngay": moment($("#ngay").text(), 'DD/MM/YYYY').format('YYYY-MM-DD')
                                 , "checkin": x.find('.largerCheckbox').is(":checked")
                                 , "ketqua": ketqua
                                 , "ghichu": ghichu

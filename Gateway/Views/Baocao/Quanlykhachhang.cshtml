@@ -56,7 +56,7 @@
                             <div class="form-group row mb-2">
                                 <label class="col-sm-4 col-form-label" for="matdv">Trình dược viên <code class="bg-white">(*)</code></label>
                                 <div class="col-sm-8">
-                                    <select multiple  data-actions-box="true" data-selected-text-format="count > 1" name="matdv" title="Chọn..." class="selectpicker" id="matdv" data-live-search="true"></select>
+                                    <select multiple data-actions-box="true" data-selected-text-format="count > 1" name="matdv" title="Chọn..." class="selectpicker" id="matdv" data-live-search="true"></select>
                                 </div>
                             </div>
                             <input type="text" hidden id="tentdv" name="tentdv" />
@@ -72,8 +72,10 @@
             <div class="card-header text-center">
                 <strong>DANH SÁCH KHÁCH HÀNG</strong>
             </div>
-            <div class="card-body p-1" id="Viewtable">
+
+            <div class="card-body p-1">
                 
+                <div id="Viewtable"></div>
             </div>
 
         </div>
@@ -133,15 +135,16 @@
         </div>
     </div>
 </div>
+
 @section scripts {
     <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
     <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
     <script src="~/Content/Order/js/lib/datatables/datatables-init.js?version=2"></script>
-<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-<script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
     <script>
         function CovertDatetime(i) {
             var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
@@ -187,7 +190,7 @@
                           });
             });
             $("#btnxem").click(function () {
-              
+
                 if ($("#chinhanh").val() == "" || $("#matdv").val() == "") {
                     toastr.options = {
                         "closeButton": true,

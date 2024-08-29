@@ -1934,232 +1934,232 @@ namespace ApplicationChart.Controllers
                 return PartialView(data);
             }
         }
-        [HttpPost]
-        public ActionResult PartialEditdonhangkd(string madh)
-        {
-            var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
-            ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhangws(string madh)
-        {
-            var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataWS Data = new ListDataWS { ListDDH = data, ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList(), ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-            ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhangwsmobile(string madh)
-        {
-            var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataWS Data = new ListDataWS { ListDDH = data, ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList(), ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhangkdmobile(string madh)
-        {
-            var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhanghcm(string madh)
-        {
-            var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = HoChiMinh.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
-            ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhanghcmmobile(string madh)
-        {
-            var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = HoChiMinh.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhangsc(string madh)
-        {
-            var data = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
-            ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialEditdonhangscmobile(string madh)
-        {
-            var data = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
-            ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
-            return PartialView(Data);
-        }
-        [HttpPost]
-        public ActionResult PartialQLDHSC(string tungay, string denngay, string matinh, string usertao)
-        {
-            DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
-            var Info = GetInfo();
-            ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENSC.quyen;
-            if (Info.TBL_DANHMUCPHANQUYENSC.makh == null)
-            {
-                var data = SC.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = SC.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-            else
-            {
-                var makh = Info.TBL_DANHMUCPHANQUYENSC.makh.Split(',').ToList();
-                var data = SC.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = SC.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-        }
-        [HttpPost]
-        public ActionResult PartialQLDHKD(string tungay, string denngay, string matinh, string usertao)
-        {
-            DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
-            var Info = GetInfo();
-            ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENKD.quyen;
-            if (Info.TBL_DANHMUCPHANQUYENKD.makh == null)
-            {
-                var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-            else
-            {
-                var makh = Info.TBL_DANHMUCPHANQUYENKD.makh.Split(',').ToList();
-                var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-        }
-        [Authorize(Roles = "DONHANGWS,KINHDOANHWS")]
-        [HttpPost]
-        public ActionResult PartialQLDHWS(string tungay, string denngay, string matinh, string usertao)
-        {
-            DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
-            var Info = GetInfo();
-            ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENWS.quyen;
-            ViewBag.quyen = Info.quyen;
-            if (Info.TBL_DANHMUCPHANQUYENWS.makh == null)
-            {
-                var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_WS { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-            else
-            {
-                var makh = Info.TBL_DANHMUCPHANQUYENWS.makh.Split(',').ToList();
-                var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_WS { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-        }
-        [HttpPost]
-        public ActionResult PartialQLDHHCM(string tungay, string denngay, string matinh, string usertao)
-        {
-            DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
-            var Info = GetInfo();
-            ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENHCM.quyen;
-            if (Info.TBL_DANHMUCPHANQUYENHCM.makh == null)
-            {
-                var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = HoChiMinh.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-            else
-            {
-                var makh = Info.TBL_DANHMUCPHANQUYENHCM.makh.Split(',').ToList();
-                var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
-                if (usertao != "")
-                {
-                    data = data.Where(n => n.USERTAO == usertao).ToList();
-                }
-                if (matinh != "")
-                {
-                    var khtinh = HoChiMinh.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
-                    data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
-                }
-                return PartialView(data);
-            }
-        }
+        //[HttpPost]
+        //public ActionResult PartialEditdonhangkd(string madh)
+        //{
+        //    var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
+        //    ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhangws(string madh)
+        //{
+        //    var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataWS Data = new ListDataWS { ListDDH = data, ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList(), ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //    ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhangwsmobile(string madh)
+        //{
+        //    var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataWS Data = new ListDataWS { ListDDH = data, ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList(), ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhangkdmobile(string madh)
+        //{
+        //    var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhanghcm(string madh)
+        //{
+        //    var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = HoChiMinh.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
+        //    ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhanghcmmobile(string madh)
+        //{
+        //    var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = HoChiMinh.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhangsc(string madh)
+        //{
+        //    var data = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
+        //    ViewBag.ss = CultureInfo.GetCultureInfo("en-GB");
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialEditdonhangscmobile(string madh)
+        //{
+        //    var data = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var strkh = "SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'";
+        //    ListDataKD Data = new ListDataKD { ListDDH = data, ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList() };
+        //    return PartialView(Data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialQLDHSC(string tungay, string denngay, string matinh, string usertao)
+        //{
+        //    DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //    DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
+        //    var Info = GetInfo();
+        //    ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENSC.quyen;
+        //    if (Info.TBL_DANHMUCPHANQUYENSC.makh == null)
+        //    {
+        //        var data = SC.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = SC.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //    else
+        //    {
+        //        var makh = Info.TBL_DANHMUCPHANQUYENSC.makh.Split(',').ToList();
+        //        var data = SC.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = SC.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult PartialQLDHKD(string tungay, string denngay, string matinh, string usertao)
+        //{
+        //    DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //    DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
+        //    var Info = GetInfo();
+        //    ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENKD.quyen;
+        //    if (Info.TBL_DANHMUCPHANQUYENKD.makh == null)
+        //    {
+        //        var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //    else
+        //    {
+        //        var makh = Info.TBL_DANHMUCPHANQUYENKD.makh.Split(',').ToList();
+        //        var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //}
+        //[Authorize(Roles = "DONHANGWS,KINHDOANHWS")]
+        //[HttpPost]
+        //public ActionResult PartialQLDHWS(string tungay, string denngay, string matinh, string usertao)
+        //{
+        //    DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //    DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
+        //    var Info = GetInfo();
+        //    ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENWS.quyen;
+        //    ViewBag.quyen = Info.quyen;
+        //    if (Info.TBL_DANHMUCPHANQUYENWS.makh == null)
+        //    {
+        //        var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_WS { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //    else
+        //    {
+        //        var makh = Info.TBL_DANHMUCPHANQUYENWS.makh.Split(',').ToList();
+        //        var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_WS { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = PhuYen.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult PartialQLDHHCM(string tungay, string denngay, string matinh, string usertao)
+        //{
+        //    DateTime dt1 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(tungay), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //    DateTime dt2 = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(denngay), "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1);
+        //    var Info = GetInfo();
+        //    ViewBag.quanly = Info.TBL_DANHMUCPHANQUYENHCM.quyen;
+        //    if (Info.TBL_DANHMUCPHANQUYENHCM.makh == null)
+        //    {
+        //        var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = HoChiMinh.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //    else
+        //    {
+        //        var makh = Info.TBL_DANHMUCPHANQUYENHCM.makh.Split(',').ToList();
+        //        var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2 && makh.Contains(n.MAKH)).ToList().GroupBy(n => new { n.MADH, n.NgayDat, n.DONVI, n.MAKH, n.HOPDONG, n.USERTAO, n.MACH }).Select(cl => new DTA_DONDATHANG_KD { MADH = cl.Key.MADH, DONVI = cl.Key.DONVI, NgayDat = cl.Key.NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.Key.USERTAO, MACH = cl.Key.MACH, HOPDONG = cl.Key.HOPDONG, MAKH = cl.Key.MAKH, NGAYLAPHD = cl.First().NGAYLAPHD }).OrderByDescending(n => n.MADH).ToList();
+        //        if (usertao != "")
+        //        {
+        //            data = data.Where(n => n.USERTAO == usertao).ToList();
+        //        }
+        //        if (matinh != "")
+        //        {
+        //            var khtinh = HoChiMinh.Database.SqlQuery<string>("SELECT makh AS MAKH from TBL_DANHMUCKHACHHANG where matinh = '" + matinh + "'").ToList();
+        //            data = data.Where(n => khtinh.Contains(n.MAKH)).ToList();
+        //        }
+        //        return PartialView(data);
+        //    }
+        //}
         [HttpPost]
         public ActionResult PartialQLQD(string mactkm)
         {
@@ -2180,29 +2180,29 @@ namespace ApplicationChart.Controllers
             var listkh = PhuYen.Database.SqlQuery<Khachhang>(str).ToList();
             return Json(listkh);
         }
-        [ActionName("in-phieu-xuat-kho-ws")]
-        public ActionResult HtmlPhieugiaohang(string kyhieu, string sohdnb)
-        {
-            ViewBag.CurrentNumberFormat = new CultureInfo("de-DE");
-            var tv = datainvoice.TBL_DANHMUCTAIKHOAN.SingleOrDefault(n => n.macn == "PY");
+        //[ActionName("in-phieu-xuat-kho-ws")]
+        //public ActionResult HtmlPhieugiaohang(string kyhieu, string sohdnb)
+        //{
+        //    ViewBag.CurrentNumberFormat = new CultureInfo("de-DE");
+        //    var tv = datainvoice.TBL_DANHMUCTAIKHOAN.SingleOrDefault(n => n.macn == "PY");
 
-            var data = abc.laythongtinhoadonfkey(sohdnb, "PY");
+        //    var data = abc.laythongtinhoadonfkey(sohdnb, "PY");
 
-            if (data.Status == 0)
-            {
-                return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
-            }
-            else
-            {
-                ViewBag.pattern = kyhieu;
-                var sohddt = Int32.Parse(data.Inv.Invoice.InvoiceNo).ToString("00000000");
-                var diachigiaohang = PhuYen.DTA_DONDATHANG_WS.First(n => n.SOHD == sohddt).DIACHIGIAOHANG;
-                var datamau = new PHIEUXUATKHO() { thongtin = tv, Invoice = data.Inv.Invoice, DIACHIGIAOHANG = diachigiaohang };
-                return View("HtmlPhieugiaohang", datamau);
-                //return View("HtmlPhieugiaohang", datamau);
-            }
+        //    if (data.Status == 0)
+        //    {
+        //        return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+        //    }
+        //    else
+        //    {
+        //        ViewBag.pattern = kyhieu;
+        //        var sohddt = Int32.Parse(data.Inv.Invoice.InvoiceNo).ToString("00000000");
+        //        var diachigiaohang = PhuYen.DTA_DONDATHANG_WS.First(n => n.SOHD == sohddt).DIACHIGIAOHANG;
+        //        var datamau = new PHIEUXUATKHO() { thongtin = tv, Invoice = data.Inv.Invoice, DIACHIGIAOHANG = diachigiaohang };
+        //        return View("HtmlPhieugiaohang", datamau);
+        //        //return View("HtmlPhieugiaohang", datamau);
+        //    }
 
-        }
+        //}
         [Authorize(Roles = "QUANLYWS")]
         [ActionName("xem-hoa-don-ws")]
         public ActionResult HtmlHoadon(string sohdnb, string kyhieu)
@@ -2233,60 +2233,60 @@ namespace ApplicationChart.Controllers
             var listkh = HoChiMinh.Database.SqlQuery<Khachhang>(str).ToList();
             return Json(listkh);
         }
-        [HttpPost]
-        public ActionResult KhoaDonHangKD(string madh)
-        {
-            var dh = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
-            foreach (var i in dh)
-            {
-                if (i.DUYETDH == false)
-                {
-                    i.DUYETDH = true;
-                }
-                else
-                {
-                    i.DUYETDH = false;
-                }
-            }
-            PhuYen.SaveChanges();
-            return Json(dh.First().DUYETDH);
-        }
-        [HttpPost]
-        public ActionResult KhoaDonHangSC(string madh)
-        {
-            var dh = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
-            foreach (var i in dh)
-            {
-                if (i.DUYETDH == false)
-                {
-                    i.DUYETDH = true;
-                }
-                else
-                {
-                    i.DUYETDH = false;
-                }
-            }
-            SC.SaveChanges();
-            return Json(dh.First().DUYETDH);
-        }
-        [HttpPost]
-        public ActionResult KhoaDonHangHCM(string madh)
-        {
-            var dh = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
-            foreach (var i in dh)
-            {
-                if (i.DUYETDH == false)
-                {
-                    i.DUYETDH = true;
-                }
-                else
-                {
-                    i.DUYETDH = false;
-                }
-            }
-            HoChiMinh.SaveChanges();
-            return Json(dh.First().DUYETDH);
-        }
+        //[HttpPost]
+        //public ActionResult KhoaDonHangKD(string madh)
+        //{
+        //    var dh = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
+        //    foreach (var i in dh)
+        //    {
+        //        if (i.DUYETDH == false)
+        //        {
+        //            i.DUYETDH = true;
+        //        }
+        //        else
+        //        {
+        //            i.DUYETDH = false;
+        //        }
+        //    }
+        //    PhuYen.SaveChanges();
+        //    return Json(dh.First().DUYETDH);
+        //}
+        //[HttpPost]
+        //public ActionResult KhoaDonHangSC(string madh)
+        //{
+        //    var dh = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
+        //    foreach (var i in dh)
+        //    {
+        //        if (i.DUYETDH == false)
+        //        {
+        //            i.DUYETDH = true;
+        //        }
+        //        else
+        //        {
+        //            i.DUYETDH = false;
+        //        }
+        //    }
+        //    SC.SaveChanges();
+        //    return Json(dh.First().DUYETDH);
+        //}
+        //[HttpPost]
+        //public ActionResult KhoaDonHangHCM(string madh)
+        //{
+        //    var dh = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
+        //    foreach (var i in dh)
+        //    {
+        //        if (i.DUYETDH == false)
+        //        {
+        //            i.DUYETDH = true;
+        //        }
+        //        else
+        //        {
+        //            i.DUYETDH = false;
+        //        }
+        //    }
+        //    HoChiMinh.SaveChanges();
+        //    return Json(dh.First().DUYETDH);
+        //}
         [HttpPost]
         public ActionResult Editkhachhangkd(List<string> makh, string taikhoan)
         {
@@ -2420,160 +2420,160 @@ namespace ApplicationChart.Controllers
             var data = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTHT);
             return PartialView(data);
         }
-        [Authorize(Roles = "DONHANGHCM")]
-        [ActionName("tao-don-dat-hang-ve-hcm")]
-        public ActionResult Taodonhanghcm()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENHCM.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            //var list = db2.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var hdchung = HoChiMinh.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, 0 AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            if (makh.Count() == 1)
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENHCM.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhanghcm", Data);
-            }
-            else
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhanghcm", Data);
-            }
-        }
-        [Authorize(Roles = "DONHANGSC")]
-        [ActionName("tao-don-dat-hang-ve-sc")]
-        public ActionResult Taodonhangsc()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENSC.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var hdchung = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            if (makh.Count() == 1)
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENSC.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangsc", Data);
-            }
-            else
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangsc", Data);
-            }
-        }
-        [Authorize(Roles = "DONHANGSC")]
-        [ActionName("tao-don-dat-hang-ve-sc-mobile")]
-        public ActionResult Taodonhangscmobile()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENSC.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var hdchung = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            if (makh.Count() == 1)
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENSC.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangscmobile", Data);
-            }
-            else
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangscmobile", Data);
-            }
+        //[Authorize(Roles = "DONHANGHCM")]
+        //[ActionName("tao-don-dat-hang-ve-hcm")]
+        //public ActionResult Taodonhanghcm()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENHCM.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    //var list = db2.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var hdchung = HoChiMinh.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, 0 AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    if (makh.Count() == 1)
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENHCM.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhanghcm", Data);
+        //    }
+        //    else
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhanghcm", Data);
+        //    }
+        //}
+        //[Authorize(Roles = "DONHANGSC")]
+        //[ActionName("tao-don-dat-hang-ve-sc")]
+        //public ActionResult Taodonhangsc()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENSC.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var hdchung = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    if (makh.Count() == 1)
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENSC.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangsc", Data);
+        //    }
+        //    else
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangsc", Data);
+        //    }
+        //}
+        //[Authorize(Roles = "DONHANGSC")]
+        //[ActionName("tao-don-dat-hang-ve-sc-mobile")]
+        //public ActionResult Taodonhangscmobile()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENSC.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var hdchung = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    if (makh.Count() == 1)
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENSC.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangscmobile", Data);
+        //    }
+        //    else
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = SC.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangscmobile", Data);
+        //    }
 
-        }
-        [Authorize(Roles = "DONHANGHCM")]
-        [ActionName("tao-don-dat-hang-ve-hcm-mobile")]
-        public ActionResult Taodonhanghcmmobile()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENHCM.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            //var list = db2.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            if (makh.Count() == 1)
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENHCM.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhanghcmmobile", Data);
-            }
-            else
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhanghcmmobile", Data);
-            }
+        //}
+        //[Authorize(Roles = "DONHANGHCM")]
+        //[ActionName("tao-don-dat-hang-ve-hcm-mobile")]
+        //public ActionResult Taodonhanghcmmobile()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENHCM.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    //var list = db2.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    if (makh.Count() == 1)
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = HoChiMinh.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENHCM.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList(), ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhanghcmmobile", Data);
+        //    }
+        //    else
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = HoChiMinh.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhanghcmmobile", Data);
+        //    }
 
-        }
-        [Authorize(Roles = "DONHANGKD")]
-        [ActionName("tao-don-dat-hang-ve-phong-kinh-doanh")]
-        public ActionResult Taodonhangkd()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENKD.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            if (makh.Count() == 1)
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENKD.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangkd", Data);
-            }
-            else
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangkd", Data);
-            }
-        }
+        //}
+        //[Authorize(Roles = "DONHANGKD")]
+        //[ActionName("tao-don-dat-hang-ve-phong-kinh-doanh")]
+        //public ActionResult Taodonhangkd()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENKD.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    if (makh.Count() == 1)
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENKD.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangkd", Data);
+        //    }
+        //    else
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangkd", Data);
+        //    }
+        //}
 
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpGet]
-        public ActionResult PartialDMHDWS()
-        {
-            var data = PhuYen.TBL_DANHMUCHOPDONG_WS.OrderByDescending(n => n.NGAYKETTHUC).ThenBy(n => n.MACN);
-            return PartialView(data);
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [ActionName("danh-muc-hop-dong-ws")]
-        public ActionResult NhapdanhmuchopdongWS()
-        {
-            var Info = GetInfo();
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            ViewBag.macn = Info.macn.Split(',').ToList();
-            var data = new QuanlyCTBH { CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' AND nhom IN ('35','50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList() };
-            return View("NhapdanhmuchopdongWS", data);
-        }
-        [HttpPost]
-        [Authorize(Roles = "QUANLYWS")]
-        public ActionResult ImportHopDongWS(List<ImportHopDongWS> data)
-        {
-            var hopdong = data.GroupBy(n => new { n.MAHD, n.MAKH }).Select(n => new TBL_DANHMUCHOPDONG_WS() { MACN = "PY", MAKH = n.Key.MAKH, MAHD = n.Key.MAHD, diachigiaohang = n.First().DIACHIGIAOHANG, donvi = n.First().TENKH, GHICHU = n.First().GHICHU, NGAYBATDAU = n.First().NGAYBATDAU, NGAYKETTHUC = n.First().NGAYKETTHUC, nguoidung = User.Identity.Name, noidung = n.First().NOIDUNG });
-            var cthopdong = data.Select(n => new TBL_CT_DANHMUCHOPDONG_WS() { MACN = "PY", MAHD = n.MAHD, MAKH = n.MAKH, GIASP = n.GIASP, MAHH = n.MAHH, SODK = n.SDK, SOLUONGNAM = n.SLNAM, SOLUONGQUI = n.SLQUI });
-            PhuYen.TBL_DANHMUCHOPDONG_WS.AddRange(hopdong);
-            PhuYen.TBL_CT_DANHMUCHOPDONG_WS.AddRange(cthopdong);
-            PhuYen.SaveChanges();
-            return Json("1");
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult PartialCTDMHDWS(string macn, string makh, string mahd)
-        {
-            var data = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd).ToList();
-            return PartialView(data);
-        }
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpGet]
+        //public ActionResult PartialDMHDWS()
+        //{
+        //    var data = PhuYen.TBL_DANHMUCHOPDONG_WS.OrderByDescending(n => n.NGAYKETTHUC).ThenBy(n => n.MACN);
+        //    return PartialView(data);
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[ActionName("danh-muc-hop-dong-ws")]
+        //public ActionResult NhapdanhmuchopdongWS()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    ViewBag.macn = Info.macn.Split(',').ToList();
+        //    var data = new QuanlyCTBH { CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' AND nhom IN ('35','50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList() };
+        //    return View("NhapdanhmuchopdongWS", data);
+        //}
+        //[HttpPost]
+        //[Authorize(Roles = "QUANLYWS")]
+        //public ActionResult ImportHopDongWS(List<ImportHopDongWS> data)
+        //{
+        //    var hopdong = data.GroupBy(n => new { n.MAHD, n.MAKH }).Select(n => new TBL_DANHMUCHOPDONG_WS() { MACN = "PY", MAKH = n.Key.MAKH, MAHD = n.Key.MAHD, diachigiaohang = n.First().DIACHIGIAOHANG, donvi = n.First().TENKH, GHICHU = n.First().GHICHU, NGAYBATDAU = n.First().NGAYBATDAU, NGAYKETTHUC = n.First().NGAYKETTHUC, nguoidung = User.Identity.Name, noidung = n.First().NOIDUNG });
+        //    var cthopdong = data.Select(n => new TBL_CT_DANHMUCHOPDONG_WS() { MACN = "PY", MAHD = n.MAHD, MAKH = n.MAKH, GIASP = n.GIASP, MAHH = n.MAHH, SODK = n.SDK, SOLUONGNAM = n.SLNAM, SOLUONGQUI = n.SLQUI });
+        //    PhuYen.TBL_DANHMUCHOPDONG_WS.AddRange(hopdong);
+        //    PhuYen.TBL_CT_DANHMUCHOPDONG_WS.AddRange(cthopdong);
+        //    PhuYen.SaveChanges();
+        //    return Json("1");
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult PartialCTDMHDWS(string macn, string makh, string mahd)
+        //{
+        //    var data = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd).ToList();
+        //    return PartialView(data);
+        //}
         [Authorize(Roles = "HANGHOA")]
         [HttpPost]
         public ActionResult PartialQLHH(List<string> locnhom, string locsudung, string locthuockedon, string locchc, string lockiemsoatdacbiet)
@@ -2648,30 +2648,30 @@ namespace ApplicationChart.Controllers
             var data = DATATH1.dta_Products.SingleOrDefault(n => n.MAHH == mahh);
             return PartialView(data);
         }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult PartialEditCTDMHDWS(string macn, string makh, string mahd)
-        {
-            var data = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd).ToList();
-            return PartialView(data);
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult AddCTDMHDWS(List<TBL_CT_DANHMUCHOPDONG_WS> data)
-        {
-            PhuYen.TBL_CT_DANHMUCHOPDONG_WS.AddRange(data);
-            PhuYen.SaveChanges();
-            return Json(1);
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult DelCTDMHDWS(string macn, string makh, string mahd)
-        {
-            var tv = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
-            PhuYen.TBL_CT_DANHMUCHOPDONG_WS.RemoveRange(tv);
-            PhuYen.SaveChanges();
-            return Json(1);
-        }
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult PartialEditCTDMHDWS(string macn, string makh, string mahd)
+        //{
+        //    var data = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd).ToList();
+        //    return PartialView(data);
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult AddCTDMHDWS(List<TBL_CT_DANHMUCHOPDONG_WS> data)
+        //{
+        //    PhuYen.TBL_CT_DANHMUCHOPDONG_WS.AddRange(data);
+        //    PhuYen.SaveChanges();
+        //    return Json(1);
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult DelCTDMHDWS(string macn, string makh, string mahd)
+        //{
+        //    var tv = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
+        //    PhuYen.TBL_CT_DANHMUCHOPDONG_WS.RemoveRange(tv);
+        //    PhuYen.SaveChanges();
+        //    return Json(1);
+        //}
         [Authorize(Roles = "HANGHOA")]
         [HttpPost]
         public ActionResult Yeucauxoahh(string mahh)
@@ -2740,68 +2740,68 @@ namespace ApplicationChart.Controllers
             }
 
         }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult AddDMHDWS(string macn, string makh, string mahd, string noidung,
-                                                string ngaybatdau, string ngayketthuc, string donvi,
-                                                string diachigiaohang, string ghichu)
-        {
-            PhuYen.TBL_DANHMUCHOPDONG_WS.Add(new TBL_DANHMUCHOPDONG_WS
-            {
-                MACN = macn,
-                MAKH = makh,
-                MAHD = mahd,
-                noidung = noidung,
-                NGAYBATDAU = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture),
-                NGAYKETTHUC = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture),
-                donvi = donvi,
-                diachigiaohang = diachigiaohang,
-                nguoidung = User.Identity.Name,
-                GHICHU = ghichu
-            });
-            PhuYen.SaveChanges();
-            return Json(1);
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult GetDMHDWS(string macn, string makh, string mahd)
-        {
-            var tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult AddDMHDWS(string macn, string makh, string mahd, string noidung,
+        //                                        string ngaybatdau, string ngayketthuc, string donvi,
+        //                                        string diachigiaohang, string ghichu)
+        //{
+        //    PhuYen.TBL_DANHMUCHOPDONG_WS.Add(new TBL_DANHMUCHOPDONG_WS
+        //    {
+        //        MACN = macn,
+        //        MAKH = makh,
+        //        MAHD = mahd,
+        //        noidung = noidung,
+        //        NGAYBATDAU = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture),
+        //        NGAYKETTHUC = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture),
+        //        donvi = donvi,
+        //        diachigiaohang = diachigiaohang,
+        //        nguoidung = User.Identity.Name,
+        //        GHICHU = ghichu
+        //    });
+        //    PhuYen.SaveChanges();
+        //    return Json(1);
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult GetDMHDWS(string macn, string makh, string mahd)
+        //{
+        //    var tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
 
-            return Json(tv);
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult DelHDWS(string macn, string makh, string mahd)
-        {
-            var tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
-            var tv1 = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
-            PhuYen.TBL_DANHMUCHOPDONG_WS.Remove(tv);
-            PhuYen.TBL_CT_DANHMUCHOPDONG_WS.RemoveRange(tv1);
-            PhuYen.SaveChanges();
-            return Json(1);
-        }
-        [Authorize(Roles = "QUANLYWS")]
-        [HttpPost]
-        public ActionResult EditDMHDWS(string macn, string makh, string mahd, string noidung,
-                                       string ngaybatdau, string ngayketthuc, string donvi,
-                                       string diachigiaohang, string nguoidung, string ghichu)
-        {
+        //    return Json(tv);
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult DelHDWS(string macn, string makh, string mahd)
+        //{
+        //    var tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
+        //    var tv1 = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
+        //    PhuYen.TBL_DANHMUCHOPDONG_WS.Remove(tv);
+        //    PhuYen.TBL_CT_DANHMUCHOPDONG_WS.RemoveRange(tv1);
+        //    PhuYen.SaveChanges();
+        //    return Json(1);
+        //}
+        //[Authorize(Roles = "QUANLYWS")]
+        //[HttpPost]
+        //public ActionResult EditDMHDWS(string macn, string makh, string mahd, string noidung,
+        //                               string ngaybatdau, string ngayketthuc, string donvi,
+        //                               string diachigiaohang, string nguoidung, string ghichu)
+        //{
 
-            var tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
-            if (tv != null)
-            {
-                tv.noidung = noidung;
-                tv.NGAYBATDAU = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv.NGAYKETTHUC = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv.donvi = donvi;
-                tv.diachigiaohang = diachigiaohang;
-                tv.nguoidung = User.Identity.Name;
-                tv.GHICHU = ghichu;
-                PhuYen.SaveChanges();
-            }
-            return Json(1);
-        }
+        //    var tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
+        //    if (tv != null)
+        //    {
+        //        tv.noidung = noidung;
+        //        tv.NGAYBATDAU = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //        tv.NGAYKETTHUC = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //        tv.donvi = donvi;
+        //        tv.diachigiaohang = diachigiaohang;
+        //        tv.nguoidung = User.Identity.Name;
+        //        tv.GHICHU = ghichu;
+        //        PhuYen.SaveChanges();
+        //    }
+        //    return Json(1);
+        //}
         [Authorize(Roles = "KHOWS,KINHDOANHWS")]
         [ActionName("quan-ly-kho-ws")]
         public ActionResult Quanlykhows()
@@ -2849,47 +2849,47 @@ namespace ApplicationChart.Controllers
             var data = abc.tracuuhoadon(null, null, "1/001", "K23TPP", tungay, denngay, tuso, denso, 1, 1000, "PY");
             return PartialView(data);
         }
-        [HttpPost]
-        [Authorize(Roles = "QUANLYWS")]
-        public ActionResult CheckimportdanhmuchopdongWS(string macn, string makh, string mahd)
-        {
-            //var Info = GetInfo();
-            var tv = new TBL_DANHMUCHOPDONG_WS();
-            tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
+        //[HttpPost]
+        //[Authorize(Roles = "QUANLYWS")]
+        //public ActionResult CheckimportdanhmuchopdongWS(string macn, string makh, string mahd)
+        //{
+        //    //var Info = GetInfo();
+        //    var tv = new TBL_DANHMUCHOPDONG_WS();
+        //    tv = PhuYen.TBL_DANHMUCHOPDONG_WS.SingleOrDefault(n => n.MACN == macn && n.MAKH == makh && n.MAHD == mahd);
 
-            if (tv != null)
-            {
-                return Json("0");
-            }
-            else
-            {
-                return Json("1");
-            }
-        }
-        [Authorize(Roles = "KINHDOANHWS")]
-        [ActionName("phat-hanh-hoa-don-ws")]
-        public ActionResult Phathanhhoadonws(string madh)
-        {
-            if (madh != null && madh != "")
-            {
-                var data1 = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh);
-                foreach (var i in data1)
-                {
-                    i.DUYETDH = true;
-                    i.NGAYTHUCHIEN = null;
-                }
-                PhuYen.SaveChanges();
-            }
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            ViewBag.madh = madh;
-            var makh = PhuYen.TBL_DANHMUCHOPDONG_WS.Select(n => n.MAKH).Distinct().ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI,tennguoigd,masothue,email,taikhoan,nganhang,matinh as MATINH from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            var data = new ListDataHoaDonWS { ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3,DVT,DVT1,DVT2 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList(), ListDDH = (madh != null) ? PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh).ToList() : null };
-            return View("Phathanhhoadonws", data);
-        }
+        //    if (tv != null)
+        //    {
+        //        return Json("0");
+        //    }
+        //    else
+        //    {
+        //        return Json("1");
+        //    }
+        //}
+        //[Authorize(Roles = "KINHDOANHWS")]
+        //[ActionName("phat-hanh-hoa-don-ws")]
+        //public ActionResult Phathanhhoadonws(string madh)
+        //{
+        //    if (madh != null && madh != "")
+        //    {
+        //        var data1 = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh);
+        //        foreach (var i in data1)
+        //        {
+        //            i.DUYETDH = true;
+        //            i.NGAYTHUCHIEN = null;
+        //        }
+        //        PhuYen.SaveChanges();
+        //    }
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    ViewBag.madh = madh;
+        //    var makh = PhuYen.TBL_DANHMUCHOPDONG_WS.Select(n => n.MAKH).Distinct().ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI,tennguoigd,masothue,email,taikhoan,nganhang,matinh as MATINH from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    var data = new ListDataHoaDonWS { ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList(), ListHH = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3,DVT,DVT1,DVT2 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList(), ListDDH = (madh != null) ? PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh).ToList() : null };
+        //    return View("Phathanhhoadonws", data);
+        //}
 
         [ActionName("tra-cuu-hoa-don")]
         public ActionResult tracuuhoadon()
@@ -2937,55 +2937,55 @@ namespace ApplicationChart.Controllers
             GC.Collect();
             return File(memory, "text/csv", "DATAHANGHOA-KHACHHANG-THANG.csv");
         }
-        [Authorize(Roles = "DONHANGWS")]
-        [ActionName("tao-don-dat-hang-ws")]
-        public ActionResult Taodonhangws()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENWS.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            ListDataWS Data = new ListDataWS { ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-            return View("Taodonhangws", Data);
-        }
-        [Authorize(Roles = "DONHANGWS")]
-        [ActionName("tao-don-dat-hang-ws-mobile")]
-        public ActionResult Taodonhangwsmobile()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENWS.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            ListDataWS Data = new ListDataWS { ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-            return View("Taodonhangwsmobile", Data);
-        }
-        [Authorize(Roles = "DONHANGKD")]
-        [ActionName("tao-don-dat-hang-ve-phong-kinh-doanh-mobile")]
-        public ActionResult Taodonhangkdmobile()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var makh = Info.TBL_DANHMUCPHANQUYENKD.makh.Split(',').ToList();
-            var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-            var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            if (makh.Count() == 1)
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENKD.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangkdmobile", Data);
-            }
-            else
-            {
-                ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
-                return View("Taodonhangkdmobile", Data);
-            }
-        }
+        //[Authorize(Roles = "DONHANGWS")]
+        //[ActionName("tao-don-dat-hang-ws")]
+        //public ActionResult Taodonhangws()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENWS.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    ListDataWS Data = new ListDataWS { ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //    return View("Taodonhangws", Data);
+        //}
+        //[Authorize(Roles = "DONHANGWS")]
+        //[ActionName("tao-don-dat-hang-ws-mobile")]
+        //public ActionResult Taodonhangwsmobile()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENWS.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    ListDataWS Data = new ListDataWS { ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => makh.Contains(n.MAKH)).ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //    return View("Taodonhangwsmobile", Data);
+        //}
+        //[Authorize(Roles = "DONHANGKD")]
+        //[ActionName("tao-don-dat-hang-ve-phong-kinh-doanh-mobile")]
+        //public ActionResult Taodonhangkdmobile()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var makh = Info.TBL_DANHMUCPHANQUYENKD.makh.Split(',').ToList();
+        //    var strkh = string.Format("SELECT makh AS MAKH, donvi AS DONVI, diachi AS DIACHI from TBL_DANHMUCKHACHHANG where makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+        //    var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    if (makh.Count() == 1)
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + Info.TBL_DANHMUCPHANQUYENKD.makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").Concat(hdchung).Distinct().ToList(), ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangkdmobile", Data);
+        //    }
+        //    else
+        //    {
+        //        ListDataKD Data = new ListDataKD { ListHopdong = null, ListKH = PhuYen.Database.SqlQuery<ListKhachHang>(strkh).ToList() };
+        //        return View("Taodonhangkdmobile", Data);
+        //    }
+        //}
         [Authorize(Roles = "DONHANGKD")]
         [ActionName("quan-ly-don-hang-ve-phong-kinh-doanh")]
         public ActionResult Quanlydonhangkd()
@@ -3032,32 +3032,32 @@ namespace ApplicationChart.Controllers
             ViewBag.nguoitao = db2.TBL_DANHMUCPHANQUYENSC.Where(n => n.quyen == "TDV").Select(cl => new NGUOIDUNG { TAIKHOAN = cl.taikhoan, HOVATEN = cl.TBL_DANHMUCNGUOIDUNG.hoten });
             return View("Quanlydonhangsc", DATATH1.TBL_DANHMUCTINH.ToList());
         }
-        [Authorize(Roles = "QLKHKD")]
-        [ActionName("quan-ly-khach-hang-kinh-doanh")]
-        public ActionResult QLKHKD()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var data = new QLKHKD() { nguoidung = db2.TBL_DANHMUCPHANQUYENKD.Where(n => n.quyen != "QUANLY"), hopdong = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck,NGAYBATDAU AS ngaybatdau,NGAYKETTHUC AS ngayketthuc from TBL_DANHMUCHOPDONG where mahd IN ({0})", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList() };
+        //[Authorize(Roles = "QLKHKD")]
+        //[ActionName("quan-ly-khach-hang-kinh-doanh")]
+        //public ActionResult QLKHKD()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var data = new QLKHKD() { nguoidung = db2.TBL_DANHMUCPHANQUYENKD.Where(n => n.quyen != "QUANLY"), hopdong = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck,NGAYBATDAU AS ngaybatdau,NGAYKETTHUC AS ngayketthuc from TBL_DANHMUCHOPDONG where mahd IN ({0})", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList() };
 
-            return View("QLKHKD", data);
-        }
-        [Authorize(Roles = "QLKHSC")]
-        [ActionName("quan-ly-khach-hang-sc")]
-        public ActionResult QLKHSC()
-        {
-            var Info = GetInfo();
-            ViewBag.dathang = Info.dathang;
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var data = new QLKHSC() { nguoidung = db2.TBL_DANHMUCPHANQUYENSC.Where(n => n.quyen != "QUANLY"), hopdong = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck,NGAYBATDAU AS ngaybatdau,NGAYKETTHUC AS ngayketthuc from TBL_DANHMUCHOPDONG where mahd IN ({0})", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList() };
+        //    return View("QLKHKD", data);
+        //}
+        //[Authorize(Roles = "QLKHSC")]
+        //[ActionName("quan-ly-khach-hang-sc")]
+        //public ActionResult QLKHSC()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.dathang = Info.dathang;
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var data = new QLKHSC() { nguoidung = db2.TBL_DANHMUCPHANQUYENSC.Where(n => n.quyen != "QUANLY"), hopdong = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck,NGAYBATDAU AS ngaybatdau,NGAYKETTHUC AS ngayketthuc from TBL_DANHMUCHOPDONG where mahd IN ({0})", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList() };
 
-            return View("QLKHSC", data);
-        }
+        //    return View("QLKHSC", data);
+        //}
         [Authorize(Roles = "QLKHHCM")]
         [ActionName("quan-ly-khach-hang-hcm")]
         public ActionResult QLKHHCM()
@@ -3136,55 +3136,55 @@ namespace ApplicationChart.Controllers
                 return Json("Không tìm thấy hóa đơn");
             }
         }
-        [HttpPost]
-        public ActionResult TuchoidonhangWS(string madh, string lydo)
-        {
-            var tv = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh);
-            foreach (var i in tv)
-            {
-                i.DUYETDH = null;
-                i.NGAYTHUCHIEN = DateTime.Now;
-                i.GHICHU = i.GHICHU + " - Lý do từ chối : " + lydo;
-            }
-            PhuYen.SaveChanges();
-            return Json(1);
-        }
-        [HttpPost]
-        public ActionResult Deletehopdongchungsc(string mahd)
-        {
-            var tv = SC.TBL_DANHMUCHOPDONGCHUNG.SingleOrDefault(n => n.MAHD == mahd);
-            if (tv != null)
-            {
-                SC.TBL_DANHMUCHOPDONGCHUNG.Remove(tv);
-                SC.SaveChanges();
-            }
-            return Json(0);
-        }
-        [HttpPost]
-        public ActionResult Addhopdongchungsc(string mahd)
-        {
-            SC.TBL_DANHMUCHOPDONGCHUNG.Add(new TBL_DANHMUCHOPDONGCHUNG { MAHD = mahd });
-            SC.SaveChanges();
-            return Json(0);
-        }
-        [HttpPost]
-        public ActionResult Deletehopdongchungkd(string mahd)
-        {
-            var tv = PhuYen.TBL_DANHMUCHOPDONGCHUNG.SingleOrDefault(n => n.MAHD == mahd);
-            if (tv != null)
-            {
-                PhuYen.TBL_DANHMUCHOPDONGCHUNG.Remove(tv);
-                PhuYen.SaveChanges();
-            }
-            return Json(0);
-        }
-        [HttpPost]
-        public ActionResult Addhopdongchungkd(string mahd)
-        {
-            PhuYen.TBL_DANHMUCHOPDONGCHUNG.Add(new TBL_DANHMUCHOPDONGCHUNG { MAHD = mahd });
-            PhuYen.SaveChanges();
-            return Json(0);
-        }
+        //[HttpPost]
+        //public ActionResult TuchoidonhangWS(string madh, string lydo)
+        //{
+        //    var tv = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh);
+        //    foreach (var i in tv)
+        //    {
+        //        i.DUYETDH = null;
+        //        i.NGAYTHUCHIEN = DateTime.Now;
+        //        i.GHICHU = i.GHICHU + " - Lý do từ chối : " + lydo;
+        //    }
+        //    PhuYen.SaveChanges();
+        //    return Json(1);
+        //}
+        //[HttpPost]
+        //public ActionResult Deletehopdongchungsc(string mahd)
+        //{
+        //    var tv = SC.TBL_DANHMUCHOPDONGCHUNG.SingleOrDefault(n => n.MAHD == mahd);
+        //    if (tv != null)
+        //    {
+        //        SC.TBL_DANHMUCHOPDONGCHUNG.Remove(tv);
+        //        SC.SaveChanges();
+        //    }
+        //    return Json(0);
+        //}
+        //[HttpPost]
+        //public ActionResult Addhopdongchungsc(string mahd)
+        //{
+        //    SC.TBL_DANHMUCHOPDONGCHUNG.Add(new TBL_DANHMUCHOPDONGCHUNG { MAHD = mahd });
+        //    SC.SaveChanges();
+        //    return Json(0);
+        //}
+        //[HttpPost]
+        //public ActionResult Deletehopdongchungkd(string mahd)
+        //{
+        //    var tv = PhuYen.TBL_DANHMUCHOPDONGCHUNG.SingleOrDefault(n => n.MAHD == mahd);
+        //    if (tv != null)
+        //    {
+        //        PhuYen.TBL_DANHMUCHOPDONGCHUNG.Remove(tv);
+        //        PhuYen.SaveChanges();
+        //    }
+        //    return Json(0);
+        //}
+        //[HttpPost]
+        //public ActionResult Addhopdongchungkd(string mahd)
+        //{
+        //    PhuYen.TBL_DANHMUCHOPDONGCHUNG.Add(new TBL_DANHMUCHOPDONGCHUNG { MAHD = mahd });
+        //    PhuYen.SaveChanges();
+        //    return Json(0);
+        //}
         [HttpPost]
         public ActionResult Adddonhang(List<DTA_GIAOHANG> data)
         {
@@ -3272,18 +3272,18 @@ namespace ApplicationChart.Controllers
             var export = new ViewQLDHKD { khachhang = kh, hoten = data.TBL_DANHMUCNGUOIDUNG.hoten, chinhanh = data.macn, taikhoan = data.taikhoan };
             return PartialView(export);
         }
-        [Authorize(Roles = "DONHANGWS")]
-        [ActionName("in-don-dat-hang-ws")]
-        public ActionResult Indonhangws(string madh)
-        {
-            var listdh = madh.Split(',').ToList();
-            var data = PhuYen.DTA_DONDATHANG_WS.Where(n => madh.Contains(n.MADH)).ToList();
+        //[Authorize(Roles = "DONHANGWS")]
+        //[ActionName("in-don-dat-hang-ws")]
+        //public ActionResult Indonhangws(string madh)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+        //    var data = PhuYen.DTA_DONDATHANG_WS.Where(n => madh.Contains(n.MADH)).ToList();
 
-            return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(null)) });
+        //    return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(null)) });
 
-            //}
+        //    //}
 
-        }
+        //}
         //[Authorize(Roles = "DONHANGWS")]
         //[ActionName("in-phieu-xuat-kho-ws")]
         //public ActionResult Inphieuxuatkhows(string sohdnb,string kyhieu)
@@ -3292,948 +3292,948 @@ namespace ApplicationChart.Controllers
         //    return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(null)) });
 
         //}
-        [Authorize(Roles = "DONHANGKD")]
-        [ActionName("in-don-dat-hang-kd")]
-        public ActionResult Indonhangkd(string madh, int loai)
-        {
-            var listdh = madh.Split(',').ToList();
-
-            var data = PhuYen.DTA_DONDATHANG_KD.Where(n => madh.Contains(n.MADH)).ToList();
-            var macn = data.FirstOrDefault().MACH;
-            var taikhoan = data.FirstOrDefault().USERTAO;
-            string tencn = "";
-            try
-            {
-                tencn = db2.TBL_DANHSACHCHINHANH.SingleOrDefault(n => n.macn == macn).Tencn;
-            }
-            catch (Exception)
-            {
-                tencn = "N/A";
-            }
-            if (loai == 1)
-            {
-                BIEUMAU_DONDATHANG_KD rpt = new BIEUMAU_DONDATHANG_KD();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
-                rpt.SetParameterValue("chinhanh", tencn);
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-            else
-            {
-                BIEUMAU_DONDATHANG_KD1 rpt = new BIEUMAU_DONDATHANG_KD1();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
-                rpt.SetParameterValue("chinhanh", tencn);
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-                //if (User.Identity.Name.ToUpper() == "PY.VIANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Hoàng Vĩ Anh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.HONG")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Hoàng Thị Ánh Hồng");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.QUYNH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Trần Thị Thảo Quỳnh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.DANGKHOA")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Phạm Đăng Khoa");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.TRAM")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Đỗ Thị Ngọc Trâm");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.TINH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Lê Minh Tính");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.THICH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Đình Thích");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.THU")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Ánh Thư");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.DIEN")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Điền");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.HANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Lê Thị Hạnh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.MYHANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Bùi Thị Mỹ Hạnh");
-                //}
-                //else
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", " ");
-                //}
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-
-        }
-        [Authorize(Roles = "DONHANGKD")]
-        [ActionName("in-don-dat-hang-kd-khu-vuc")]
-        public ActionResult Indonhangkdkhuvuc(string madh, int loai)
-        {
-            var listdh = madh.Split(',').ToList();
-
-            var data = PhuYen.DTA_DONDATHANG_KD.Where(n => listdh.Contains(n.MADH)).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var taikhoan = data.FirstOrDefault().USERTAO;
-            var stringsql = string.Format("select makh as MAKH, donvi AS DONVI, matinh from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'");
-            var makhuvuc = PhuYen.Database.SqlQuery<Khachhang>(stringsql).FirstOrDefault().matinh;
-
-            if (loai == 1)
-            {
-                BIEUMAU_DONDATHANG_KD_KHUVUC rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
-                try
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
-                }
-                catch (Exception)
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
-                }
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-            else
-            {
-                BIEUMAU_DONDATHANG_KD_KHUVUC1 rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC1();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
-                try
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
-                }
-                catch (Exception)
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
-                }
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-        }
-        [Authorize(Roles = "DONHANGHCM")]
-        [ActionName("in-don-dat-hang-hcm")]
-        public ActionResult Indonhanghcm(string madh, int loai)
-        {
-            var listdh = madh.Split(',').ToList();
-
-            var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => madh.Contains(n.MADH)).ToList();
-            var macn = data.FirstOrDefault().MACH;
-            var taikhoan = data.FirstOrDefault().USERTAO;
-            string tencn = "";
-            try
-            {
-                tencn = db2.TBL_DANHSACHCHINHANH.SingleOrDefault(n => n.macn == macn).Tencn;
-            }
-            catch (Exception)
-            {
-                tencn = "N/A";
-            }
-            if (loai == 1)
-            {
-                BIEUMAU_DONDATHANG_KD rpt = new BIEUMAU_DONDATHANG_KD();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
-                rpt.SetParameterValue("chinhanh", tencn);
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-            else
-            {
-                BIEUMAU_DONDATHANG_KD1 rpt = new BIEUMAU_DONDATHANG_KD1();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
-                rpt.SetParameterValue("chinhanh", tencn);
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-
-        }
-        [Authorize(Roles = "DONHANGHCM")]
-        [ActionName("in-don-dat-hang-hcm-khu-vuc")]
-        public ActionResult Indonhanghcmkhuvuc(string madh, int loai)
-        {
-            var listdh = madh.Split(',').ToList();
-
-            var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => listdh.Contains(n.MADH)).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var taikhoan = data.FirstOrDefault().USERTAO;
-            var stringsql = string.Format("select makh as MAKH, donvi AS DONVI, matinh from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'");
-            var makhuvuc = HoChiMinh.Database.SqlQuery<Khachhang>(stringsql).FirstOrDefault().matinh;
-            if (loai == 1)
-            {
-                BIEUMAU_DONDATHANG_KD_KHUVUC rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
-                try
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
-                }
-                catch (Exception)
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
-                }
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-            else
-            {
-                BIEUMAU_DONDATHANG_KD_KHUVUC1 rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC1();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
-                try
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
-                }
-                catch (Exception)
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
-                }
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-        }
-        [Authorize(Roles = "DONHANGSC")]
-        [ActionName("in-don-dat-hang-sc")]
-        public ActionResult Indonhangsc(string madh, int loai)
-        {
-            var listdh = madh.Split(',').ToList();
-
-            var data = SC.DTA_DONDATHANG_KD.Where(n => madh.Contains(n.MADH)).ToList();
-            var macn = data.FirstOrDefault().MACH;
-            var taikhoan = data.FirstOrDefault().USERTAO;
-            string tencn = "";
-            try
-            {
-                tencn = db2.TBL_DANHSACHCHINHANH.SingleOrDefault(n => n.macn == macn).Tencn;
-            }
-            catch (Exception)
-            {
-                tencn = "N/A";
-            }
-            if (loai == 1)
-            {
-                BIEUMAU_DONDATHANG_KD rpt = new BIEUMAU_DONDATHANG_KD();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
-                rpt.SetParameterValue("chinhanh", tencn);
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-            else
-            {
-                BIEUMAU_DONDATHANG_KD1 rpt = new BIEUMAU_DONDATHANG_KD1();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
-                rpt.SetParameterValue("chinhanh", tencn);
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-
-        }
-        [Authorize(Roles = "DONHANGSC")]
-        [ActionName("in-don-dat-hang-sc-khu-vuc")]
-        public ActionResult Indonhangsckhuvuc(string madh, int loai)
-        {
-            var listdh = madh.Split(',').ToList();
-
-            var data = SC.DTA_DONDATHANG_KD.Where(n => listdh.Contains(n.MADH)).ToList();
-            var makh = data.FirstOrDefault().MAKH;
-            var taikhoan = data.FirstOrDefault().USERTAO;
-            var stringsql = string.Format("select makh as MAKH, donvi AS DONVI, matinh from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'");
-            var makhuvuc = SC.Database.SqlQuery<Khachhang>(stringsql).FirstOrDefault().matinh;
-            if (loai == 1)
-            {
-                BIEUMAU_DONDATHANG_KD_KHUVUC rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
-                try
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
-                }
-                catch (Exception)
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
-                }
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-                //if (User.Identity.Name.ToUpper() == "PY.VIANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Hoàng Vĩ Anh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.HONG")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Hoàng Thị Ánh Hồng");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.QUYNH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Trần Thị Thảo Quỳnh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.DANGKHOA")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Phạm Đăng Khoa");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.TRAM")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Đỗ Thị Ngọc Trâm");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.TINH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Lê Minh Tính");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.THICH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Đình Thích");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.THU")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Ánh Thư");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.DIEN")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Điền");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.HANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Lê Thị Hạnh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.MYHANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Bùi Thị Mỹ Hạnh");
-                //}
-                //else
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", " ");
-                //}
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-            else
-            {
-                BIEUMAU_DONDATHANG_KD_KHUVUC1 rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC1();
-                rpt.Load();
-                rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
-                try
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
-                }
-                catch (Exception)
-                {
-                    rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
-                }
-                var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
-                rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
-                rpt.SetParameterValue("tennguoidutru", chuky.hoten);
-                rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
-                rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
-                try
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
-                }
-                catch
-                {
-                    rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
-                }
-                if (chuky.macn == "TT423")
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
-                }
-                else
-                {
-                    rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
-                }
-                var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
-
-                if (quyen != null)
-                {
-                    try
-                    {
-                        if (quyen.quyen == "QUANLY")
-                        {
-                            var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
-                            rpt.SetParameterValue("tennguoixuly", hoten.hoten);
-                        }
-                        else
-                        {
-                            rpt.SetParameterValue("tennguoixuly", " ");
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        rpt.SetParameterValue("tennguoixuly", " ");
-
-                    }
-
-                }
-                //if (User.Identity.Name.ToUpper() == "PY.VIANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Hoàng Vĩ Anh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.HONG")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Hoàng Thị Ánh Hồng");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.QUYNH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Trần Thị Thảo Quỳnh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.DANGKHOA")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Phạm Đăng Khoa");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.TRAM")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Đỗ Thị Ngọc Trâm");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.TINH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Lê Minh Tính");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.THICH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Đình Thích");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.THU")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Ánh Thư");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.DIEN")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Điền");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.HANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Lê Thị Hạnh");
-                //}
-                //else if (User.Identity.Name.ToUpper() == "PY.MYHANH")
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", "Bùi Thị Mỹ Hạnh");
-                //}
-                //else
-                //{
-                //    rpt.SetParameterValue("tennguoixuly", " ");
-                //}
-                Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
-            }
-        }
+        //[Authorize(Roles = "DONHANGKD")]
+        //[ActionName("in-don-dat-hang-kd")]
+        //public ActionResult Indonhangkd(string madh, int loai)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+
+        //    var data = PhuYen.DTA_DONDATHANG_KD.Where(n => madh.Contains(n.MADH)).ToList();
+        //    var macn = data.FirstOrDefault().MACH;
+        //    var taikhoan = data.FirstOrDefault().USERTAO;
+        //    string tencn = "";
+        //    try
+        //    {
+        //        tencn = db2.TBL_DANHSACHCHINHANH.SingleOrDefault(n => n.macn == macn).Tencn;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        tencn = "N/A";
+        //    }
+        //    if (loai == 1)
+        //    {
+        //        BIEUMAU_DONDATHANG_KD rpt = new BIEUMAU_DONDATHANG_KD();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
+        //        rpt.SetParameterValue("chinhanh", tencn);
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //    else
+        //    {
+        //        BIEUMAU_DONDATHANG_KD1 rpt = new BIEUMAU_DONDATHANG_KD1();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
+        //        rpt.SetParameterValue("chinhanh", tencn);
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+        //        //if (User.Identity.Name.ToUpper() == "PY.VIANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Hoàng Vĩ Anh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.HONG")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Hoàng Thị Ánh Hồng");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.QUYNH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Trần Thị Thảo Quỳnh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.DANGKHOA")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Phạm Đăng Khoa");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.TRAM")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Đỗ Thị Ngọc Trâm");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.TINH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Lê Minh Tính");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.THICH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Đình Thích");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.THU")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Ánh Thư");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.DIEN")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Điền");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.HANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Lê Thị Hạnh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.MYHANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Bùi Thị Mỹ Hạnh");
+        //        //}
+        //        //else
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", " ");
+        //        //}
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+
+        //}
+        //[Authorize(Roles = "DONHANGKD")]
+        //[ActionName("in-don-dat-hang-kd-khu-vuc")]
+        //public ActionResult Indonhangkdkhuvuc(string madh, int loai)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+
+        //    var data = PhuYen.DTA_DONDATHANG_KD.Where(n => listdh.Contains(n.MADH)).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var taikhoan = data.FirstOrDefault().USERTAO;
+        //    var stringsql = string.Format("select makh as MAKH, donvi AS DONVI, matinh from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'");
+        //    var makhuvuc = PhuYen.Database.SqlQuery<Khachhang>(stringsql).FirstOrDefault().matinh;
+
+        //    if (loai == 1)
+        //    {
+        //        BIEUMAU_DONDATHANG_KD_KHUVUC rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
+        //        try
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
+        //        }
+        //        catch (Exception)
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
+        //        }
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //    else
+        //    {
+        //        BIEUMAU_DONDATHANG_KD_KHUVUC1 rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC1();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
+        //        try
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
+        //        }
+        //        catch (Exception)
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
+        //        }
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENKD.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //}
+        //[Authorize(Roles = "DONHANGHCM")]
+        //[ActionName("in-don-dat-hang-hcm")]
+        //public ActionResult Indonhanghcm(string madh, int loai)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+
+        //    var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => madh.Contains(n.MADH)).ToList();
+        //    var macn = data.FirstOrDefault().MACH;
+        //    var taikhoan = data.FirstOrDefault().USERTAO;
+        //    string tencn = "";
+        //    try
+        //    {
+        //        tencn = db2.TBL_DANHSACHCHINHANH.SingleOrDefault(n => n.macn == macn).Tencn;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        tencn = "N/A";
+        //    }
+        //    if (loai == 1)
+        //    {
+        //        BIEUMAU_DONDATHANG_KD rpt = new BIEUMAU_DONDATHANG_KD();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
+        //        rpt.SetParameterValue("chinhanh", tencn);
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //    else
+        //    {
+        //        BIEUMAU_DONDATHANG_KD1 rpt = new BIEUMAU_DONDATHANG_KD1();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
+        //        rpt.SetParameterValue("chinhanh", tencn);
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+
+        //}
+        //[Authorize(Roles = "DONHANGHCM")]
+        //[ActionName("in-don-dat-hang-hcm-khu-vuc")]
+        //public ActionResult Indonhanghcmkhuvuc(string madh, int loai)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+
+        //    var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => listdh.Contains(n.MADH)).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var taikhoan = data.FirstOrDefault().USERTAO;
+        //    var stringsql = string.Format("select makh as MAKH, donvi AS DONVI, matinh from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'");
+        //    var makhuvuc = HoChiMinh.Database.SqlQuery<Khachhang>(stringsql).FirstOrDefault().matinh;
+        //    if (loai == 1)
+        //    {
+        //        BIEUMAU_DONDATHANG_KD_KHUVUC rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
+        //        try
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
+        //        }
+        //        catch (Exception)
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
+        //        }
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //    else
+        //    {
+        //        BIEUMAU_DONDATHANG_KD_KHUVUC1 rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC1();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
+        //        try
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
+        //        }
+        //        catch (Exception)
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
+        //        }
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENHCM.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //}
+        //[Authorize(Roles = "DONHANGSC")]
+        //[ActionName("in-don-dat-hang-sc")]
+        //public ActionResult Indonhangsc(string madh, int loai)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+
+        //    var data = SC.DTA_DONDATHANG_KD.Where(n => madh.Contains(n.MADH)).ToList();
+        //    var macn = data.FirstOrDefault().MACH;
+        //    var taikhoan = data.FirstOrDefault().USERTAO;
+        //    string tencn = "";
+        //    try
+        //    {
+        //        tencn = db2.TBL_DANHSACHCHINHANH.SingleOrDefault(n => n.macn == macn).Tencn;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        tencn = "N/A";
+        //    }
+        //    if (loai == 1)
+        //    {
+        //        BIEUMAU_DONDATHANG_KD rpt = new BIEUMAU_DONDATHANG_KD();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
+        //        rpt.SetParameterValue("chinhanh", tencn);
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //    else
+        //    {
+        //        BIEUMAU_DONDATHANG_KD1 rpt = new BIEUMAU_DONDATHANG_KD1();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, GIABAN_VAT = (decimal)cl.GIABAN_VAT, HOPDONG = cl.HOPDONG, SOLUONG = (decimal)cl.SOLUONG, TENHH = cl.TENHH, NgayDat = cl.NgayDat }).ToList());
+        //        rpt.SetParameterValue("chinhanh", tencn);
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+
+        //}
+        //[Authorize(Roles = "DONHANGSC")]
+        //[ActionName("in-don-dat-hang-sc-khu-vuc")]
+        //public ActionResult Indonhangsckhuvuc(string madh, int loai)
+        //{
+        //    var listdh = madh.Split(',').ToList();
+
+        //    var data = SC.DTA_DONDATHANG_KD.Where(n => listdh.Contains(n.MADH)).ToList();
+        //    var makh = data.FirstOrDefault().MAKH;
+        //    var taikhoan = data.FirstOrDefault().USERTAO;
+        //    var stringsql = string.Format("select makh as MAKH, donvi AS DONVI, matinh from TBL_DANHMUCKHACHHANG where makh = '" + makh + "'");
+        //    var makhuvuc = SC.Database.SqlQuery<Khachhang>(stringsql).FirstOrDefault().matinh;
+        //    if (loai == 1)
+        //    {
+        //        BIEUMAU_DONDATHANG_KD_KHUVUC rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
+        //        try
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
+        //        }
+        //        catch (Exception)
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
+        //        }
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+        //        //if (User.Identity.Name.ToUpper() == "PY.VIANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Hoàng Vĩ Anh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.HONG")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Hoàng Thị Ánh Hồng");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.QUYNH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Trần Thị Thảo Quỳnh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.DANGKHOA")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Phạm Đăng Khoa");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.TRAM")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Đỗ Thị Ngọc Trâm");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.TINH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Lê Minh Tính");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.THICH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Đình Thích");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.THU")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Ánh Thư");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.DIEN")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Điền");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.HANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Lê Thị Hạnh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.MYHANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Bùi Thị Mỹ Hạnh");
+        //        //}
+        //        //else
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", " ");
+        //        //}
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //    else
+        //    {
+        //        BIEUMAU_DONDATHANG_KD_KHUVUC1 rpt = new BIEUMAU_DONDATHANG_KD_KHUVUC1();
+        //        rpt.Load();
+        //        rpt.SetDataSource(data.Select(cl => new DTA_DONDATHANGKD_IN { MADH = cl.MADH, HOPDONG = cl.HOPDONG, GIABAN_VAT = (decimal)cl.GIABAN_VAT, DVT = cl.DVT, DATE = cl.DATE, MAHH = cl.MAHH, SOLUONG = (decimal)cl.SOLUONG, STT = (int)cl.STT, TENHH = cl.TENHH, DONVI = cl.DONVI, MAKH = cl.MAKH, NgayDat = cl.NgayDat }).ToList());
+        //        try
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC " + db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == makhuvuc).TenKhuVuc.ToUpper());
+        //        }
+        //        catch (Exception)
+        //        {
+        //            rpt.SetParameterValue("chinhanh", "KHU VỰC N/A");
+        //        }
+        //        var chuky = db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == taikhoan);
+        //        rpt.SetParameterValue("nguoidutru", System.Web.Hosting.HostingEnvironment.MapPath(chuky.url));
+        //        rpt.SetParameterValue("tennguoidutru", chuky.hoten);
+        //        rpt.SetParameterValue("giamdoccn", System.Web.Hosting.HostingEnvironment.MapPath(chuky.TBL_DANHMUCCHUKYCN.url));
+        //        rpt.SetParameterValue("tengiamdoccn", chuky.TBL_DANHMUCCHUKYCN.hoten);
+        //        try
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath(db2.TBL_DANHMUCCHUKY.SingleOrDefault(n => n.taikhoan == User.Identity.Name.ToUpper()).url));
+        //        }
+        //        catch
+        //        {
+        //            rpt.SetParameterValue("nguoixuly", System.Web.Hosting.HostingEnvironment.MapPath("~/Content/CHUKY/NULL.png"));
+        //        }
+        //        if (chuky.macn == "TT423")
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Trưởng trung tâm");
+        //        }
+        //        else
+        //        {
+        //            rpt.SetParameterValue("labelgiamdoc", "Giám đốc CN");
+        //        }
+        //        var quyen = db2.TBL_DANHMUCPHANQUYENSC.SingleOrDefault(n => n.taikhoan.ToUpper() == User.Identity.Name.ToUpper());
+
+        //        if (quyen != null)
+        //        {
+        //            try
+        //            {
+        //                if (quyen.quyen == "QUANLY")
+        //                {
+        //                    var hoten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung.ToUpper() == User.Identity.Name.ToUpper());
+        //                    rpt.SetParameterValue("tennguoixuly", hoten.hoten);
+        //                }
+        //                else
+        //                {
+        //                    rpt.SetParameterValue("tennguoixuly", " ");
+        //                }
+        //            }
+        //            catch (Exception)
+        //            {
+
+        //                rpt.SetParameterValue("tennguoixuly", " ");
+
+        //            }
+
+        //        }
+        //        //if (User.Identity.Name.ToUpper() == "PY.VIANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Hoàng Vĩ Anh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.HONG")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Hoàng Thị Ánh Hồng");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.QUYNH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Trần Thị Thảo Quỳnh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.DANGKHOA")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Phạm Đăng Khoa");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.TRAM")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Đỗ Thị Ngọc Trâm");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.TINH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Lê Minh Tính");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.THICH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Đình Thích");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.THU")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Ánh Thư");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.DIEN")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Nguyễn Thị Điền");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.HANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Lê Thị Hạnh");
+        //        //}
+        //        //else if (User.Identity.Name.ToUpper() == "PY.MYHANH")
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", "Bùi Thị Mỹ Hạnh");
+        //        //}
+        //        //else
+        //        //{
+        //        //    rpt.SetParameterValue("tennguoixuly", " ");
+        //        //}
+        //        Stream s1 = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        return View("/Views/Order/PDFVIEWER.cshtml", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s1)) });
+        //    }
+        //}
         [ActionName("tao-moi-don-dat-hang")]
         public ActionResult Taodonhang(string makh)
         {
@@ -4772,29 +4772,29 @@ namespace ApplicationChart.Controllers
             return MADH;
         }
 
-        [HttpPost]
-        public ActionResult GetHopDongKD(string makh)
-        {
-            var ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG ,CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList();
-            var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            return Json(ListHopdong.Concat(hdchung).Distinct());
-        }
-        [HttpPost]
-        public ActionResult GetHopDongWS(string makh)
-        {
-            var ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => n.MAKH == makh).GroupBy(n => n.MAHD).Select(n => n.Key).ToList();
+        //[HttpPost]
+        //public ActionResult GetHopDongKD(string makh)
+        //{
+        //    var ListHopdong = PhuYen.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG ,CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList();
+        //    var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var hdchung = PhuYen.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    return Json(ListHopdong.Concat(hdchung).Distinct());
+        //}
+        //[HttpPost]
+        //public ActionResult GetHopDongWS(string makh)
+        //{
+        //    var ListHopdong = PhuYen.TBL_DANHMUCHOPDONG_WS.Where(n => n.MAKH == makh).GroupBy(n => n.MAHD).Select(n => n.Key).ToList();
 
-            return Json(ListHopdong);
-        }
-        [HttpPost]
-        public ActionResult GetHopDongSC(string makh)
-        {
-            var ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG ,CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList();
-            var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            var hdchung = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
-            return Json(ListHopdong.Concat(hdchung).Distinct());
-        }
+        //    return Json(ListHopdong);
+        //}
+        //[HttpPost]
+        //public ActionResult GetHopDongSC(string makh)
+        //{
+        //    var ListHopdong = SC.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG ,CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList();
+        //    var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    var hdchung = SC.Database.SqlQuery<ListHopdongKD>(string.Format("select MAHD AS MAHOPDONG, noidung AS TENHOPDONG, CAST(ck AS INT) AS ck from TBL_DANHMUCHOPDONG where mahd IN ({0}) and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'", string.Join(",", list.Select(p => "'" + p.MAHD + "'")))).ToList();
+        //    return Json(ListHopdong.Concat(hdchung).Distinct());
+        //}
         [HttpPost]
         public ActionResult GetHopDongHCM(string makh)
         {
@@ -5082,284 +5082,284 @@ namespace ApplicationChart.Controllers
                 return PartialView(hh);
             }
         }
-        [HttpPost]
-        public ActionResult GetSanPhamHDSC(string makh, string mahd)
-        {
-            var ListHopdong = new List<ListHangHoa>();
-            var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
-            if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
-            {
-                ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
-            }
-            else
-            {
-                ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
-            }
+        //[HttpPost]
+        //public ActionResult GetSanPhamHDSC(string makh, string mahd)
+        //{
+        //    var ListHopdong = new List<ListHangHoa>();
+        //    var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
+        //    if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
+        //    {
+        //        ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
+        //    }
+        //    else
+        //    {
+        //        ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
+        //    }
 
-            if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
-            {
-                var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-                .ToList();
-                var hh = (from p in result
-                          join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              SDK = c.SDK,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh.OrderBy(n => n.MAHH));
-            }
-            else
-            {
-                var banle = SC.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
-                var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-              .ToList();
-                var hh = (from p in result
-                          join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              SDK = c.SDK,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh.OrderBy(n => n.MAHH));
-            }
-        }
-        [HttpPost]
-        public ActionResult GetSanPhamHDSCMobile(string makh, string mahd)
-        {
-            var ListHopdong = new List<ListHangHoa>();
-            var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
-            if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
-            {
-                ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
-            }
-            else
-            {
-                ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
-            }
+        //    if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
+        //    {
+        //        var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //        .ToList();
+        //        var hh = (from p in result
+        //                  join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      SDK = c.SDK,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh.OrderBy(n => n.MAHH));
+        //    }
+        //    else
+        //    {
+        //        var banle = SC.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
+        //        var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //      .ToList();
+        //        var hh = (from p in result
+        //                  join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      SDK = c.SDK,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh.OrderBy(n => n.MAHH));
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult GetSanPhamHDSCMobile(string makh, string mahd)
+        //{
+        //    var ListHopdong = new List<ListHangHoa>();
+        //    var list = SC.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
+        //    if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
+        //    {
+        //        ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
+        //    }
+        //    else
+        //    {
+        //        ListHopdong = SC.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
+        //    }
 
-            if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
-            {
-                var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-                .ToList();
-                var hh = (from p in result
-                          join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh);
-            }
-            else
-            {
-                var banle = SC.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
-                var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-              .ToList();
-                var hh = (from p in result
-                          join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh);
-            }
-        }
-        [HttpPost]
-        public ActionResult GetSanPhamHDKD(string makh, string mahd)
-        {
-            var ListHopdong = new List<ListHangHoa>();
-            var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
-            if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
-            {
-                ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
-            }
-            else
-            {
-                ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
-            }
+        //    if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
+        //    {
+        //        var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //        .ToList();
+        //        var hh = (from p in result
+        //                  join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh);
+        //    }
+        //    else
+        //    {
+        //        var banle = SC.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
+        //        var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //      .ToList();
+        //        var hh = (from p in result
+        //                  join c in SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh);
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult GetSanPhamHDKD(string makh, string mahd)
+        //{
+        //    var ListHopdong = new List<ListHangHoa>();
+        //    var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
+        //    if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
+        //    {
+        //        ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
+        //    }
+        //    else
+        //    {
+        //        ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
+        //    }
 
-            if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
-            {
-                var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-                .ToList();
-                var hh = (from p in result
-                          join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              SDK = c.SDK,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh.OrderBy(n => n.MAHH));
-            }
-            else
-            {
-                var banle = PhuYen.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
-                var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-              .ToList();
-                var hh = (from p in result
-                          join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              SDK = c.SDK,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh.OrderBy(n => n.MAHH));
-            }
-        }
-        [HttpPost]
-        public ActionResult GetSanPhamHDWS(string makh, string mahd)
-        {
-            var ListHopdong = new List<ListHangHoa>();
-            // var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
-            var result = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MAKH == makh && n.MAHD == mahd).ToList();
-            var hh = (from p in result
-                      join c in PhuYen.Database.SqlQuery<ListHangHoaWS>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                      on p.MAHH equals c.MAHH
-                      select new ListHangHoaWS
-                      {
-                          MAHH = p.MAHH,
-                          DVT = c.DVT,
+        //    if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
+        //    {
+        //        var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //        .ToList();
+        //        var hh = (from p in result
+        //                  join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      SDK = c.SDK,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh.OrderBy(n => n.MAHH));
+        //    }
+        //    else
+        //    {
+        //        var banle = PhuYen.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
+        //        var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //      .ToList();
+        //        var hh = (from p in result
+        //                  join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,SDK AS SDK, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      SDK = c.SDK,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh.OrderBy(n => n.MAHH));
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult GetSanPhamHDWS(string makh, string mahd)
+        //{
+        //    var ListHopdong = new List<ListHangHoa>();
+        //    // var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
+        //    var result = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MAKH == makh && n.MAHD == mahd).ToList();
+        //    var hh = (from p in result
+        //              join c in PhuYen.Database.SqlQuery<ListHangHoaWS>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //              on p.MAHH equals c.MAHH
+        //              select new ListHangHoaWS
+        //              {
+        //                  MAHH = p.MAHH,
+        //                  DVT = c.DVT,
 
-                          SDK = c.SDK,
-                          TENHH = c.TENHH,
-                          SL1 = c.SL1,
-                          SL2 = c.SL2,
-                          SL3 = c.SL3,
-                          QUICACH = c.QUICACH
-                      }).ToList();
-            return PartialView(hh.OrderBy(n => n.MAHH));
-        }
+        //                  SDK = c.SDK,
+        //                  TENHH = c.TENHH,
+        //                  SL1 = c.SL1,
+        //                  SL2 = c.SL2,
+        //                  SL3 = c.SL3,
+        //                  QUICACH = c.QUICACH
+        //              }).ToList();
+        //    return PartialView(hh.OrderBy(n => n.MAHH));
+        //}
         [HttpPost]
         public ActionResult GetSolohandung(string mahh)
         {
             var data = PhuYen.Database.SqlQuery<BANGSOLOHANDUNG>("EXEC sp_INSOCTIET_KHO_MALO_HANDUNG_MAQUAY_TONGHOP " + DateTime.Today.Month + "," + DateTime.Today.Month + "," + DateTime.Today.Year + ",'" + mahh + "'").ToList();
             return PartialView(data);
         }
-        [HttpPost]
-        public ActionResult GetSanPhamHDKDMobile(string makh, string mahd)
-        {
-            var ListHopdong = new List<ListHangHoa>();
-            var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
-            //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
-            if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
-            {
-                ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
-            }
-            else
-            {
-                ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
-            }
+        //[HttpPost]
+        //public ActionResult GetSanPhamHDKDMobile(string makh, string mahd)
+        //{
+        //    var ListHopdong = new List<ListHangHoa>();
+        //    var list = PhuYen.TBL_DANHMUCHOPDONGCHUNG.ToList();
+        //    //var list = new List<string> { "TQG", "OTC", "PY2018", "QT2018", "92NS", "92NS(2020)", "36NS", "MSTTL2(2019)" };
+        //    if (list.SingleOrDefault(n => n.MAHD == mahd) == null)
+        //    {
+        //        ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and mahd = '" + mahd + "'").ToList();
+        //    }
+        //    else
+        //    {
+        //        ListHopdong = PhuYen.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "'").ToList();
+        //    }
 
-            if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
-            {
-                var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-                .ToList();
-                var hh = (from p in result
-                          join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh);
-            }
-            else
-            {
-                var banle = PhuYen.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
-                var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
-                var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
-                var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
-              .ToList();
-                var hh = (from p in result
-                          join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
-                          on p.Item1 equals c.MAHH
-                          select new ListHangHoa
-                          {
-                              MAHH = p.Item1,
-                              DVT = c.DVT,
-                              GIABAN = p.Item2,
-                              TENHH = c.TENHH,
-                              SL1 = c.SL1,
-                              SL2 = c.SL2,
-                              SL3 = c.SL3,
-                              QUICACH = c.QUICACH
-                          }).ToList();
-                return PartialView(hh);
-            }
-        }
+        //    if (ListHopdong.FirstOrDefault().MAHH != null && ListHopdong.FirstOrDefault().MAHH != "")
+        //    {
+        //        var mahh = ListHopdong.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = ListHopdong.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //        .ToList();
+        //        var hh = (from p in result
+        //                  join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh);
+        //    }
+        //    else
+        //    {
+        //        var banle = PhuYen.Database.SqlQuery<TBL_GIABAN>("SELECT top 1 mahh AS MAHH, gia AS GIABAN from TBL_GIABAN where nam ='" + DateTime.Now.Year + "'").ToList();
+        //        var mahh = banle.FirstOrDefault().MAHH.Split(',').ToList();
+        //        var giaban = banle.FirstOrDefault().GIABAN.Split(',').ToList();
+        //        var result = mahh.Zip(giaban, (x, y) => new Tuple<string, string>(x, y))
+        //      .ToList();
+        //        var hh = (from p in result
+        //                  join c in PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN ,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3, QUICACH as QUICACH from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList()
+        //                  on p.Item1 equals c.MAHH
+        //                  select new ListHangHoa
+        //                  {
+        //                      MAHH = p.Item1,
+        //                      DVT = c.DVT,
+        //                      GIABAN = p.Item2,
+        //                      TENHH = c.TENHH,
+        //                      SL1 = c.SL1,
+        //                      SL2 = c.SL2,
+        //                      SL3 = c.SL3,
+        //                      QUICACH = c.QUICACH
+        //                  }).ToList();
+        //        return PartialView(hh);
+        //    }
+        //}
         [HttpPost]
         public ActionResult GetDiemtichluy(string mactkm, string mahh, int hop)
         {
@@ -5493,86 +5493,86 @@ namespace ApplicationChart.Controllers
                 return Json(0);
             }
         }
-        [HttpPost]
-        public ActionResult AddDonHangSC(List<DONDATHANG_KD> data1)
-        {
-            //try
-            //{
+        //[HttpPost]
+        //public ActionResult AddDonHangSC(List<DONDATHANG_KD> data1)
+        //{
+        //    //try
+        //    //{
 
-            List<DTA_DONDATHANG_KD> data = new List<DTA_DONDATHANG_KD>();
-            var MACH = GetInfo().TBL_DANHMUCPHANQUYENSC.macn;
-            if (data1.First().MADH == 0)
-            {
-                try
-                {
-                    data1 = data1.Select(cl => { cl.MADH = Int32.Parse(SC.DTA_DONDATHANG_KD.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
-                }
-                catch (Exception)
-                {
-                    data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
-                }
-            }
-            foreach (var i in data1)
-            {
-                data.Add(new DTA_DONDATHANG_KD { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, ck = i.ck, GHICHU = i.GHICHU, GIABAN_VAT = i.GIABAN_VAT, VAT = i.VAT, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG, DATE = i.DATE });
-            }
-            SC.DTA_DONDATHANG_KD.AddRange(data);
-            SC.SaveChanges();
-            return Json(data.First().MADH);
-            //}
-            //catch (Exception)
-            //{
-            //    return Json(0);
-            //}
-        }
+        //    List<DTA_DONDATHANG_KD> data = new List<DTA_DONDATHANG_KD>();
+        //    var MACH = GetInfo().TBL_DANHMUCPHANQUYENSC.macn;
+        //    if (data1.First().MADH == 0)
+        //    {
+        //        try
+        //        {
+        //            data1 = data1.Select(cl => { cl.MADH = Int32.Parse(SC.DTA_DONDATHANG_KD.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
+        //        }
+        //    }
+        //    foreach (var i in data1)
+        //    {
+        //        data.Add(new DTA_DONDATHANG_KD { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, ck = i.ck, GHICHU = i.GHICHU, GIABAN_VAT = i.GIABAN_VAT, VAT = i.VAT, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG, DATE = i.DATE });
+        //    }
+        //    SC.DTA_DONDATHANG_KD.AddRange(data);
+        //    SC.SaveChanges();
+        //    return Json(data.First().MADH);
+        //    //}
+        //    //catch (Exception)
+        //    //{
+        //    //    return Json(0);
+        //    //}
+        //}
 
-        [HttpPost]
-        public ActionResult DelDonHangSC(string madh)
-        {
-            var tv = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
-            if (tv.First().DUYETDH == false)
-            {
-                SC.DTA_DONDATHANG_KD.RemoveRange(tv);
-                SC.SaveChanges();
-                return Json(0);
-            }
-            else
-            {
-                return Json(1);
-            }
-        }
-        [HttpPost]
-        public ActionResult AddDonHangKD(List<DONDATHANG_KD> data1)
-        {
-            //try
-            //{
+        //[HttpPost]
+        //public ActionResult DelDonHangSC(string madh)
+        //{
+        //    var tv = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
+        //    if (tv.First().DUYETDH == false)
+        //    {
+        //        SC.DTA_DONDATHANG_KD.RemoveRange(tv);
+        //        SC.SaveChanges();
+        //        return Json(0);
+        //    }
+        //    else
+        //    {
+        //        return Json(1);
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult AddDonHangKD(List<DONDATHANG_KD> data1)
+        //{
+        //    //try
+        //    //{
 
-            List<DTA_DONDATHANG_KD> data = new List<DTA_DONDATHANG_KD>();
-            var MACH = GetInfo().TBL_DANHMUCPHANQUYENKD.macn;
-            if (data1.First().MADH == 0)
-            {
-                try
-                {
-                    data1 = data1.Select(cl => { cl.MADH = Int32.Parse(PhuYen.DTA_DONDATHANG_KD.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
-                }
-                catch (Exception)
-                {
-                    data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
-                }
-            }
-            foreach (var i in data1)
-            {
-                data.Add(new DTA_DONDATHANG_KD { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, ck = i.ck, GHICHU = i.GHICHU, GIABAN_VAT = i.GIABAN_VAT, VAT = i.VAT, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG, DATE = i.DATE });
-            }
-            PhuYen.DTA_DONDATHANG_KD.AddRange(data);
-            PhuYen.SaveChanges();
-            return Json(data.First().MADH);
-            //}
-            //catch (Exception)
-            //{
-            //    return Json(0);
-            //}
-        }
+        //    List<DTA_DONDATHANG_KD> data = new List<DTA_DONDATHANG_KD>();
+        //    var MACH = GetInfo().TBL_DANHMUCPHANQUYENKD.macn;
+        //    if (data1.First().MADH == 0)
+        //    {
+        //        try
+        //        {
+        //            data1 = data1.Select(cl => { cl.MADH = Int32.Parse(PhuYen.DTA_DONDATHANG_KD.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
+        //        }
+        //    }
+        //    foreach (var i in data1)
+        //    {
+        //        data.Add(new DTA_DONDATHANG_KD { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, ck = i.ck, GHICHU = i.GHICHU, GIABAN_VAT = i.GIABAN_VAT, VAT = i.VAT, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG, DATE = i.DATE });
+        //    }
+        //    PhuYen.DTA_DONDATHANG_KD.AddRange(data);
+        //    PhuYen.SaveChanges();
+        //    return Json(data.First().MADH);
+        //    //}
+        //    //catch (Exception)
+        //    //{
+        //    //    return Json(0);
+        //    //}
+        //}
         public string DOCHANGDONVI(string str_hangdonvi)
         {
             string[] str_donvi = new[] { "không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
@@ -5919,7 +5919,7 @@ namespace ApplicationChart.Controllers
             };
 
             var listhh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3,DVT,DVT1,DVT2 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
-            var listhd = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == "PY" && n.MAHD == hoadon.MAHD).ToList();
+            //var listhd = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == "PY" && n.MAHD == hoadon.MAHD).ToList();
             var listhhct = new List<DTA_CT_HOADON_XUAT>();
             var stt = 1;
             foreach (var i in chitiet)
@@ -5946,16 +5946,16 @@ namespace ApplicationChart.Controllers
                     ProdName = tenhh,
                     Code = i.MAHH,
                     ProdUnit = i.DVT + "; (" + i.THUNG + " " + listhh.SingleOrDefault(n => n.MAHH == i.MAHH).DVT1 + " " + +i.HOP + " " + listhh.SingleOrDefault(n => n.MAHH == i.MAHH).DVT2 + ")",
-                    ProdPrice = (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP,
-                    Total = Math.Round(i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP),
+                    //ProdPrice = (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP,
+                    //Total = Math.Round(i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP),
                     IsSum = hoadon.TINHCHATHOADON,
                     Discount = 0,
                     DiscountAmount = 0,
                     VATRate = hoadon.PPTT,
-                    VATAmount = i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP * hoadon.PPTT / 100,
+                    //VATAmount = i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP * hoadon.PPTT / 100,
                     ProdQuantity = i.SOLUONG
                 });
-                listhhct.Add(new DTA_CT_HOADON_XUAT() { KTKM = false, SoHD = dataz.key, NgayLapHD = DateTime.Today, MaCH = User.Identity.Name.ToUpper(), MaHH = i.MAHH, TenHH = i.TENHH, DVT = i.DVT, SoLuong = (double)i.SOLUONG, DonGia = (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP, ThanhTien = Math.Round((double)(i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP)), TyLeCK = 0, MaLo = i.MALO, HanDung = i.HANDUNG, stt = stt, MAKM = "", GHICHU = "", DOWN = "0", KT_KHO = false, KHO = hoadon.KHO, SODK = listhd.SingleOrDefault(n => n.MAHH == i.MAHH).SODK, DONGIA_VAT = (decimal)(listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP * (100 + hoadon.PPTT) / 100), KT = true });
+                //listhhct.Add(new DTA_CT_HOADON_XUAT() { KTKM = false, SoHD = dataz.key, NgayLapHD = DateTime.Today, MaCH = User.Identity.Name.ToUpper(), MaHH = i.MAHH, TenHH = i.TENHH, DVT = i.DVT, SoLuong = (double)i.SOLUONG, DonGia = (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP, ThanhTien = Math.Round((double)(i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP)), TyLeCK = 0, MaLo = i.MALO, HanDung = i.HANDUNG, stt = stt, MAKM = "", GHICHU = "", DOWN = "0", KT_KHO = false, KHO = hoadon.KHO, SODK = listhd.SingleOrDefault(n => n.MAHH == i.MAHH).SODK, DONGIA_VAT = (decimal)(listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP * (100 + hoadon.PPTT) / 100), KT = true });
                 stt = stt + 1;
             }
             dataz.Invoice.Extra9 = dataz.key + ";PY";
@@ -5995,23 +5995,23 @@ namespace ApplicationChart.Controllers
             var x = abc.taovaphathanhhoadon(dataz, "1/001", "K23TPP", "PY");
             if (x.Status == 1 && (hoadon.MADH != null && hoadon.MADH != ""))
             {
-                var ddh = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == hoadon.MADH);
-                if (ddh != null)
-                {
-                    foreach (var i in ddh)
-                    {
-                        i.SOHD = Int32.Parse(x.Message.Split('_')[1].ToString()).ToString("00000000");
-                        i.NGAYLAPHD = DateTime.Today;
-                        i.NGAYTHUCHIEN = DateTime.Now;
-                        i.DUYETDH = true;
-                    }
-                }
-                ////var zz = new DTA_HOADON_XUAT() { SoHD = dataz.key,kt = true,MaTDV ="", NgayLapHD = DateTime.Today, MaPL = hoadon.PHANLOAI, MaKH = hoadon.MAKH, DONVI = hoadon.DONVI, DIACHI = hoadon.DIACHI, kihieu = hoadon.KYHIEU, PPTT = "Tính " + hoadon.PPTT + "%", nhaptaikho = hoadon.KHO, MaTinh = hoadon.MATINH, MATT = hoadon.HTTT, MATHUE = hoadon.MASOTHUE, MaCH = User.Identity.Name.ToUpper(), ThueSuat = hoadon.PPTT, tienvat = dataz.Invoice.VATAmount, tienck = 0, thanhtien_hd = dataz.Invoice.Total, TONGTIEN = dataz.Invoice.Amount, NGAYGIAOHANG = DateTime.Today, TENNGUOIGD = hoadon.TENNGUOIGD, HOPDONG = hoadon.MAHD, CTGS = "", PL = "TP", txttien = dataz.Invoice.AmountInWords, SOHD_DT = Int32.Parse("5").ToString("00000000"), ngaytt = layngaytt(DateTime.Today, hoadon.MAKH), KT_CHANLE = false };
-                ////PhuYen.DTA_HOADON_XUAT.Add(zz);
-                var zz = new DTA_HOADON_XUAT() { SoHD = dataz.key, kt = null, MaTDV = "", NgayLapHD = DateTime.Today, MaPL = hoadon.PHANLOAI, MaKH = hoadon.MAKH, DONVI = hoadon.DONVI, DIACHI = hoadon.DIACHI, kihieu = hoadon.KYHIEU, PPTT = "Tính " + hoadon.PPTT + "%", nhaptaikho = hoadon.KHO, MaTinh = hoadon.MATINH, MATT = hoadon.HTTT, MATHUE = hoadon.MASOTHUE, MaCH = User.Identity.Name.ToUpper(), ThueSuat = hoadon.PPTT, tienvat = dataz.Invoice.VATAmount, tienck = 0, thanhtien_hd = dataz.Invoice.Total, TONGTIEN = dataz.Invoice.Amount, NGAYGIAOHANG = DateTime.Today, TENNGUOIGD = hoadon.TENNGUOIGD, HOPDONG = hoadon.MAHD, CTGS = "", PL = "TP", txttien = dataz.Invoice.AmountInWords, SOHD_DT = Int32.Parse(x.Message.Split('_')[1].ToString()).ToString("00000000"), ngaytt = layngaytt(DateTime.Today, hoadon.MAKH), KT_CHANLE = false };
-                PhuYen.DTA_HOADON_XUAT.Add(zz);
-                PhuYen.DTA_CT_HOADON_XUAT.AddRange(listhhct);
-                PhuYen.SaveChanges();
+                //var ddh = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == hoadon.MADH);
+                //if (ddh != null)
+                //{
+                //    foreach (var i in ddh)
+                //    {
+                //        i.SOHD = Int32.Parse(x.Message.Split('_')[1].ToString()).ToString("00000000");
+                //        i.NGAYLAPHD = DateTime.Today;
+                //        i.NGAYTHUCHIEN = DateTime.Now;
+                //        i.DUYETDH = true;
+                //    }
+                //}
+                //////var zz = new DTA_HOADON_XUAT() { SoHD = dataz.key,kt = true,MaTDV ="", NgayLapHD = DateTime.Today, MaPL = hoadon.PHANLOAI, MaKH = hoadon.MAKH, DONVI = hoadon.DONVI, DIACHI = hoadon.DIACHI, kihieu = hoadon.KYHIEU, PPTT = "Tính " + hoadon.PPTT + "%", nhaptaikho = hoadon.KHO, MaTinh = hoadon.MATINH, MATT = hoadon.HTTT, MATHUE = hoadon.MASOTHUE, MaCH = User.Identity.Name.ToUpper(), ThueSuat = hoadon.PPTT, tienvat = dataz.Invoice.VATAmount, tienck = 0, thanhtien_hd = dataz.Invoice.Total, TONGTIEN = dataz.Invoice.Amount, NGAYGIAOHANG = DateTime.Today, TENNGUOIGD = hoadon.TENNGUOIGD, HOPDONG = hoadon.MAHD, CTGS = "", PL = "TP", txttien = dataz.Invoice.AmountInWords, SOHD_DT = Int32.Parse("5").ToString("00000000"), ngaytt = layngaytt(DateTime.Today, hoadon.MAKH), KT_CHANLE = false };
+                //////PhuYen.DTA_HOADON_XUAT.Add(zz);
+                //var zz = new DTA_HOADON_XUAT() { SoHD = dataz.key, kt = null, MaTDV = "", NgayLapHD = DateTime.Today, MaPL = hoadon.PHANLOAI, MaKH = hoadon.MAKH, DONVI = hoadon.DONVI, DIACHI = hoadon.DIACHI, kihieu = hoadon.KYHIEU, PPTT = "Tính " + hoadon.PPTT + "%", nhaptaikho = hoadon.KHO, MaTinh = hoadon.MATINH, MATT = hoadon.HTTT, MATHUE = hoadon.MASOTHUE, MaCH = User.Identity.Name.ToUpper(), ThueSuat = hoadon.PPTT, tienvat = dataz.Invoice.VATAmount, tienck = 0, thanhtien_hd = dataz.Invoice.Total, TONGTIEN = dataz.Invoice.Amount, NGAYGIAOHANG = DateTime.Today, TENNGUOIGD = hoadon.TENNGUOIGD, HOPDONG = hoadon.MAHD, CTGS = "", PL = "TP", txttien = dataz.Invoice.AmountInWords, SOHD_DT = Int32.Parse(x.Message.Split('_')[1].ToString()).ToString("00000000"), ngaytt = layngaytt(DateTime.Today, hoadon.MAKH), KT_CHANLE = false };
+                //PhuYen.DTA_HOADON_XUAT.Add(zz);
+                //PhuYen.DTA_CT_HOADON_XUAT.AddRange(listhhct);
+                //PhuYen.SaveChanges();
             }
             if (x.Status == 1)
             {
@@ -6150,7 +6150,7 @@ namespace ApplicationChart.Controllers
             };
 
             var listhh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3,DVT,DVT1,DVT2 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
-            var listhd = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == "PY" && n.MAHD == hoadon.MAHD).ToList();
+            //var listhd = PhuYen.TBL_CT_DANHMUCHOPDONG_WS.Where(n => n.MACN == "PY" && n.MAHD == hoadon.MAHD).ToList();
             foreach (var i in chitiet)
             {
                 var tenhh = i.TENHH;
@@ -6175,13 +6175,13 @@ namespace ApplicationChart.Controllers
                     ProdName = tenhh,
                     Code = i.MAHH,
                     ProdUnit = i.DVT + "; (" + i.THUNG + " " + listhh.SingleOrDefault(n => n.MAHH == i.MAHH).DVT1 + " " + +i.HOP + " " + listhh.SingleOrDefault(n => n.MAHH == i.MAHH).DVT2 + ")",
-                    ProdPrice = (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP,
-                    Total = i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP,
+                    //ProdPrice = (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP,
+                    //Total = i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP,
                     IsSum = hoadon.TINHCHATHOADON,
                     Discount = 0,
                     DiscountAmount = 0,
                     VATRate = hoadon.PPTT,
-                    VATAmount = i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP * hoadon.PPTT / 100,
+                    //VATAmount = i.SOLUONG * (decimal)listhd.SingleOrDefault(n => n.MAHH == i.MAHH).GIASP * hoadon.PPTT / 100,
                     ProdQuantity = i.SOLUONG
                 });
             }
@@ -6271,115 +6271,115 @@ namespace ApplicationChart.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult AddDonHangWS(List<DONDATHANG_WS> data1)
-        {
-            //try
-            //{
+        //[HttpPost]
+        //public ActionResult AddDonHangWS(List<DONDATHANG_WS> data1)
+        //{
+        //    //try
+        //    //{
 
-            List<DTA_DONDATHANG_WS> data = new List<DTA_DONDATHANG_WS>();
-            var MACH = GetInfo().TBL_DANHMUCPHANQUYENWS.macn;
-            if (data1.First().MADH == 0)
-            {
-                try
-                {
-                    data1 = data1.Select(cl => { cl.MADH = Int32.Parse(PhuYen.DTA_DONDATHANG_WS.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
-                }
-                catch (Exception)
-                {
-                    data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
-                }
-            }
-            foreach (var i in data1)
-            {
-                data.Add(new DTA_DONDATHANG_WS { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, DIACHIGIAOHANG = i.DIACHIGIAOHANG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, GHICHU = i.GHICHU, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG });
-            }
-            PhuYen.DTA_DONDATHANG_WS.AddRange(data);
-            PhuYen.SaveChanges();
-            return Json(data.First().MADH);
-            //}
-            //catch (Exception)
-            //{
-            //    return Json(0);
-            //}
-        }
-        [HttpPost]
-        public ActionResult DelDonHangKD(string madh)
-        {
-            var tv = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
-            if (tv.First().DUYETDH == false)
-            {
-                PhuYen.DTA_DONDATHANG_KD.RemoveRange(tv);
-                PhuYen.SaveChanges();
-                return Json(0);
-            }
-            else
-            {
-                return Json(1);
-            }
-        }
-        [HttpPost]
-        public ActionResult DelDonHangWS(string madh)
-        {
-            var tv = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh);
-            if (tv.First().DUYETDH == false)
-            {
-                PhuYen.DTA_DONDATHANG_WS.RemoveRange(tv);
-                PhuYen.SaveChanges();
-                return Json(0);
-            }
-            else
-            {
-                return Json(1);
-            }
-        }
-        [HttpPost]
-        public ActionResult AddDonHangHCM(List<DONDATHANG_KD> data1)
-        {
-            try
-            {
-                List<DTA_DONDATHANG_KD> data = new List<DTA_DONDATHANG_KD>();
-                var MACH = GetInfo().TBL_DANHMUCPHANQUYENHCM.macn;
-                if (data1.First().MADH == 0)
-                {
-                    try
-                    {
-                        data1 = data1.Select(cl => { cl.MADH = Int32.Parse(HoChiMinh.DTA_DONDATHANG_KD.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
-                    }
-                    catch (Exception)
-                    {
-                        data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
-                    }
-                }
-                foreach (var i in data1)
-                {
-                    data.Add(new DTA_DONDATHANG_KD { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, ck = i.ck, GHICHU = i.GHICHU, GIABAN_VAT = i.GIABAN_VAT, VAT = i.VAT, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG, DATE = i.DATE });
-                }
-                HoChiMinh.DTA_DONDATHANG_KD.AddRange(data);
-                HoChiMinh.SaveChanges();
-                return Json(data.First().MADH);
-            }
-            catch (Exception)
-            {
-                return Json(0);
-            }
-        }
+        //    List<DTA_DONDATHANG_WS> data = new List<DTA_DONDATHANG_WS>();
+        //    var MACH = GetInfo().TBL_DANHMUCPHANQUYENWS.macn;
+        //    if (data1.First().MADH == 0)
+        //    {
+        //        try
+        //        {
+        //            data1 = data1.Select(cl => { cl.MADH = Int32.Parse(PhuYen.DTA_DONDATHANG_WS.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
+        //        }
+        //    }
+        //    foreach (var i in data1)
+        //    {
+        //        data.Add(new DTA_DONDATHANG_WS { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, DIACHIGIAOHANG = i.DIACHIGIAOHANG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, GHICHU = i.GHICHU, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG });
+        //    }
+        //    PhuYen.DTA_DONDATHANG_WS.AddRange(data);
+        //    PhuYen.SaveChanges();
+        //    return Json(data.First().MADH);
+        //    //}
+        //    //catch (Exception)
+        //    //{
+        //    //    return Json(0);
+        //    //}
+        //}
+        //[HttpPost]
+        //public ActionResult DelDonHangKD(string madh)
+        //{
+        //    var tv = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
+        //    if (tv.First().DUYETDH == false)
+        //    {
+        //        PhuYen.DTA_DONDATHANG_KD.RemoveRange(tv);
+        //        PhuYen.SaveChanges();
+        //        return Json(0);
+        //    }
+        //    else
+        //    {
+        //        return Json(1);
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult DelDonHangWS(string madh)
+        //{
+        //    var tv = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == madh);
+        //    if (tv.First().DUYETDH == false)
+        //    {
+        //        PhuYen.DTA_DONDATHANG_WS.RemoveRange(tv);
+        //        PhuYen.SaveChanges();
+        //        return Json(0);
+        //    }
+        //    else
+        //    {
+        //        return Json(1);
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult AddDonHangHCM(List<DONDATHANG_KD> data1)
+        //{
+        //    try
+        //    {
+        //        List<DTA_DONDATHANG_KD> data = new List<DTA_DONDATHANG_KD>();
+        //        var MACH = GetInfo().TBL_DANHMUCPHANQUYENHCM.macn;
+        //        if (data1.First().MADH == 0)
+        //        {
+        //            try
+        //            {
+        //                data1 = data1.Select(cl => { cl.MADH = Int32.Parse(HoChiMinh.DTA_DONDATHANG_KD.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1; ; return cl; }).ToList();
+        //            }
+        //            catch (Exception)
+        //            {
+        //                data1 = data1.Select(cl => { cl.MADH = 1; return cl; }).ToList();
+        //            }
+        //        }
+        //        foreach (var i in data1)
+        //        {
+        //            data.Add(new DTA_DONDATHANG_KD { DONVI = i.DONVI, DUYETDH = false, DVT = i.DVT, MACH = MACH, HOPDONG = i.HOPDONG, MADH = i.MADH.ToString("00000"), MAHH = i.MAHH, MAKH = i.KHACHHANG, NgayDat = DateTime.Now, SOLUONG = i.SOLUONG, STT = i.STT, TENHH = i.TENHH, ck = i.ck, GHICHU = i.GHICHU, GIABAN_VAT = i.GIABAN_VAT, VAT = i.VAT, USERTAO = User.Identity.Name.ToUpper(), MALO = i.MALO, HANDUNG = i.HANDUNG, DATE = i.DATE });
+        //        }
+        //        HoChiMinh.DTA_DONDATHANG_KD.AddRange(data);
+        //        HoChiMinh.SaveChanges();
+        //        return Json(data.First().MADH);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(0);
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult DelDonHangHCM(string madh)
-        {
-            var tv = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
-            if (tv.First().DUYETDH == false)
-            {
-                HoChiMinh.DTA_DONDATHANG_KD.RemoveRange(tv);
-                HoChiMinh.SaveChanges();
-                return Json(0);
-            }
-            else
-            {
-                return Json(1);
-            }
-        }
+        //[HttpPost]
+        //public ActionResult DelDonHangHCM(string madh)
+        //{
+        //    var tv = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == madh);
+        //    if (tv.First().DUYETDH == false)
+        //    {
+        //        HoChiMinh.DTA_DONDATHANG_KD.RemoveRange(tv);
+        //        HoChiMinh.SaveChanges();
+        //        return Json(0);
+        //    }
+        //    else
+        //    {
+        //        return Json(1);
+        //    }
+        //}
         public void DATA_ADD(string x, List<DTA_DONDATHANG> data)
         {
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
@@ -6577,42 +6577,42 @@ namespace ApplicationChart.Controllers
             var data = DATAGETDONHANG(macn, Id);
             return Json(data.OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
         }
-        [HttpPost]
-        public ActionResult GetEditDonHangKD(string Id)
-        {
-            var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == Id).ToList();
-            var user = data.FirstOrDefault().USERTAO;
-            var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
-            var hh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
-            return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, ck = cl.ck, DATE = cl.DATE, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, GIABAN_VAT = cl.GIABAN_VAT, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), VAT = cl.VAT }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
-        }
-        [HttpPost]
-        public ActionResult GetEditDonHangWS(string Id)
-        {
-            var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == Id).ToList();
-            var user = data.FirstOrDefault().USERTAO;
-            var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
-            var hh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
-            return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, DIACHIGIAOHANG = cl.DIACHIGIAOHANG, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3) }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
-        }
-        [HttpPost]
-        public ActionResult GetEditDonHangSC(string Id)
-        {
-            var data = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == Id).ToList();
-            var user = data.FirstOrDefault().USERTAO;
-            var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
-            var hh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
-            return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, ck = cl.ck, DATE = cl.DATE, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, GIABAN_VAT = cl.GIABAN_VAT, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), VAT = cl.VAT }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
-        }
-        [HttpPost]
-        public ActionResult GetEditDonHangHCM(string Id)
-        {
-            var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == Id).ToList();
-            var user = data.FirstOrDefault().USERTAO;
-            var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
-            var hh = HoChiMinh.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
-            return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, ck = cl.ck, DATE = cl.DATE, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, GIABAN_VAT = cl.GIABAN_VAT, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), VAT = cl.VAT }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
-        }
+        //[HttpPost]
+        //public ActionResult GetEditDonHangKD(string Id)
+        //{
+        //    var data = PhuYen.DTA_DONDATHANG_KD.Where(n => n.MADH == Id).ToList();
+        //    var user = data.FirstOrDefault().USERTAO;
+        //    var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
+        //    var hh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
+        //    return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, ck = cl.ck, DATE = cl.DATE, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, GIABAN_VAT = cl.GIABAN_VAT, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), VAT = cl.VAT }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
+        //}
+        //[HttpPost]
+        //public ActionResult GetEditDonHangWS(string Id)
+        //{
+        //    var data = PhuYen.DTA_DONDATHANG_WS.Where(n => n.MADH == Id).ToList();
+        //    var user = data.FirstOrDefault().USERTAO;
+        //    var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
+        //    var hh = PhuYen.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
+        //    return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, DIACHIGIAOHANG = cl.DIACHIGIAOHANG, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3) }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
+        //}
+        //[HttpPost]
+        //public ActionResult GetEditDonHangSC(string Id)
+        //{
+        //    var data = SC.DTA_DONDATHANG_KD.Where(n => n.MADH == Id).ToList();
+        //    var user = data.FirstOrDefault().USERTAO;
+        //    var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
+        //    var hh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
+        //    return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, ck = cl.ck, DATE = cl.DATE, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, GIABAN_VAT = cl.GIABAN_VAT, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), VAT = cl.VAT }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
+        //}
+        //[HttpPost]
+        //public ActionResult GetEditDonHangHCM(string Id)
+        //{
+        //    var data = HoChiMinh.DTA_DONDATHANG_KD.Where(n => n.MADH == Id).ToList();
+        //    var user = data.FirstOrDefault().USERTAO;
+        //    var ten = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == user).hoten;
+        //    var hh = HoChiMinh.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where SL3 is not null and SL2 is not null and SL1 is not null").ToList();
+        //    return Json(data.Select(cl => new DTA_DONDATHANG_KD_QUYDOI { USERTAO = ten, MALO = cl.MALO, HANDUNG = cl.HANDUNG, ck = cl.ck, DATE = cl.DATE, DONVI = cl.DONVI, DUYETDH = cl.DUYETDH, DVT = cl.DVT, GHICHU = cl.GHICHU, GIABAN_VAT = cl.GIABAN_VAT, THUNG = ((int)cl.SOLUONG / (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), HOPDONG = cl.HOPDONG, MACH = cl.MACH, MADH = cl.MADH, MAHH = cl.MAHH, MAKH = cl.MAKH, NgayDat = cl.NgayDat, NGAYLAPHD = cl.NGAYLAPHD, NGAYTHUCHIEN = cl.NGAYTHUCHIEN, SOHD = cl.SOHD, SOLUONG = cl.SOLUONG, STT = cl.STT, TENHH = cl.TENHH, HOP = ((int)(((int)cl.SOLUONG % (int)hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3)) * hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL2 / hh.SingleOrDefault(n => n.MAHH == cl.MAHH).SL3), VAT = cl.VAT }).OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
+        //}
 
         [HttpPost]
         public ActionResult GetDuyetHoaDon(string Id)

@@ -27,7 +27,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:38</publishTime>
     </File>
     <File Include="bin/APIInvoice.dll">
-      <publishTime>11/22/2023 09:28:34</publishTime>
+      <publishTime>03/12/2024 09:25:53</publishTime>
     </File>
     <File Include="bin/APIInvoice.dll.config">
       <publishTime>11/22/2023 09:28:34</publishTime>
@@ -36,10 +36,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2023 14:47:27</publishTime>
     </File>
     <File Include="bin/ApplicationChart.dll">
-      <publishTime>05/23/2024 15:43:35</publishTime>
+      <publishTime>08/29/2024 10:45:13</publishTime>
     </File>
     <File Include="bin/ApplicationChart.pdb">
-      <publishTime>05/23/2024 15:43:35</publishTime>
+      <publishTime>08/29/2024 10:45:13</publishTime>
     </File>
     <File Include="bin/CaptchaMvc.dll">
       <publishTime>11/22/2023 09:34:40</publishTime>
@@ -69,7 +69,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:43</publishTime>
     </File>
     <File Include="bin/CrystalDecisions.CrystalReports.Engine.dll">
-      <publishTime>01/12/2022 17:44:08</publishTime>
+      <publishTime>12/12/2023 18:29:24</publishTime>
     </File>
     <File Include="bin/CrystalDecisions.ReportAppServer.ClientDoc.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -93,7 +93,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/CrystalDecisions.ReportAppServer.DataSetConversion.dll">
-      <publishTime>01/12/2022 17:44:10</publishTime>
+      <publishTime>12/12/2023 18:29:24</publishTime>
     </File>
     <File Include="bin/CrystalDecisions.ReportAppServer.ObjectFactory.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -108,10 +108,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/CrystalDecisions.ReportSource.dll">
-      <publishTime>01/12/2022 17:44:10</publishTime>
+      <publishTime>12/12/2023 18:29:24</publishTime>
     </File>
     <File Include="bin/CrystalDecisions.Shared.dll">
-      <publishTime>01/12/2022 17:44:10</publishTime>
+      <publishTime>12/12/2023 18:29:24</publishTime>
     </File>
     <File Include="bin/cs/CrystalDecisions.CrystalReports.Engine.resources.dll">
       <publishTime>05/27/2020 22:53:04</publishTime>
@@ -210,7 +210,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/en/ApplicationChart.resources.dll">
-      <publishTime>05/23/2024 15:43:35</publishTime>
+      <publishTime>08/29/2024 10:45:13</publishTime>
     </File>
     <File Include="bin/en/CrystalDecisions.CrystalReports.Engine.resources.dll">
       <publishTime>05/27/2020 22:53:04</publishTime>
@@ -3594,7 +3594,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:29:45</publishTime>
     </File>
     <File Include="Content/Layout1/images/logopymestada_doc112.png">
-      <publishTime>04/24/2024 14:16:49</publishTime>
+      <publishTime>08/22/2024 07:47:09</publishTime>
     </File>
     <File Include="Content/Layout1/images/LOGOV3.png">
       <publishTime>11/22/2023 09:29:45</publishTime>
@@ -10755,7 +10755,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Models/KT_QN.edmx.diagram">
-      <publishTime>03/07/2024 09:55:19</publishTime>
+      <publishTime>08/29/2024 08:01:28</publishTime>
     </File>
     <File Include="Models/KT_TB.edmx.diagram">
       <publishTime>11/22/2023 09:30:40</publishTime>
@@ -10908,7 +10908,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:16</publishTime>
     </File>
     <File Include="Scripts/BaoCaoJS.js">
-      <publishTime>05/11/2024 20:09:31</publishTime>
+      <publishTime>08/08/2024 08:47:27</publishTime>
     </File>
     <File Include="Scripts/bootbox.min.js">
       <publishTime>04/01/2018 13:59:02</publishTime>
@@ -11016,7 +11016,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2017 08:24:44</publishTime>
     </File>
     <File Include="Scripts/LichJS.js">
-      <publishTime>11/22/2023 09:34:18</publishTime>
+      <publishTime>08/22/2024 08:20:33</publishTime>
     </File>
     <File Include="Scripts/LoginJS.js">
       <publishTime>01/11/2024 15:56:23</publishTime>
@@ -11166,7 +11166,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:23</publishTime>
     </File>
     <File Include="Views/Baocao/Danhsachkhachhang.cshtml">
-      <publishTime>11/22/2023 09:34:23</publishTime>
+      <publishTime>08/29/2024 10:30:33</publishTime>
     </File>
     <File Include="Views/Baocao/Huongdancrm.cshtml">
       <publishTime>11/22/2023 09:34:23</publishTime>
@@ -11175,7 +11175,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:23</publishTime>
     </File>
     <File Include="Views/Baocao/Lich.cshtml">
-      <publishTime>11/22/2023 09:34:23</publishTime>
+      <publishTime>08/22/2024 16:07:01</publishTime>
     </File>
     <File Include="Views/Baocao/PartialQLKH.cshtml">
       <publishTime>11/22/2023 09:34:23</publishTime>
@@ -11184,7 +11184,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:23</publishTime>
     </File>
     <File Include="Views/Baocao/Quanlykhachhang.cshtml">
-      <publishTime>11/22/2023 09:34:23</publishTime>
+      <publishTime>08/27/2024 15:54:10</publishTime>
     </File>
     <File Include="Views/Duuoc/Baocao.cshtml">
       <publishTime>11/22/2023 09:34:23</publishTime>
@@ -11352,7 +11352,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:26</publishTime>
     </File>
     <File Include="Views/Home/GetPartialTracuutonkhohandung.cshtml">
-      <publishTime>05/20/2024 13:47:19</publishTime>
+      <publishTime>08/08/2024 08:47:27</publishTime>
     </File>
     <File Include="Views/Home/GetPartialTracuutonkhonhap.cshtml">
       <publishTime>11/22/2023 09:34:26</publishTime>
@@ -11481,10 +11481,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:27</publishTime>
     </File>
     <File Include="Views/Home/Tracuutonkhohandung.cshtml">
-      <publishTime>04/24/2024 15:58:15</publishTime>
+      <publishTime>08/08/2024 08:47:27</publishTime>
     </File>
     <File Include="Views/Home/Tracuutonkhonhap.cshtml">
-      <publishTime>04/24/2024 14:19:43</publishTime>
+      <publishTime>08/08/2024 08:47:27</publishTime>
     </File>
     <File Include="Views/Home/UserManager.cshtml">
       <publishTime>08/05/2018 15:24:29</publishTime>
@@ -11553,7 +11553,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:29</publishTime>
     </File>
     <File Include="Views/Order/GetPartialLaydonhang.cshtml">
-      <publishTime>05/13/2024 08:06:43</publishTime>
+      <publishTime>08/08/2024 08:47:27</publishTime>
     </File>
     <File Include="Views/Order/GetPartialPhandonhang.cshtml">
       <publishTime>11/22/2023 09:34:29</publishTime>
@@ -11844,10 +11844,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Order/Theodoiduongdi.cshtml">
-      <publishTime>11/22/2023 09:34:34</publishTime>
+      <publishTime>08/22/2024 16:07:18</publishTime>
     </File>
     <File Include="Views/Order/Thuthapvitri.cshtml">
-      <publishTime>11/22/2023 09:34:34</publishTime>
+      <publishTime>08/23/2024 08:23:19</publishTime>
     </File>
     <File Include="Views/Order/TimkiemhoadonWS.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
@@ -11868,7 +11868,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:34</publishTime>
     </File>
     <File Include="Views/Order/Vitrikhachhang.cshtml">
-      <publishTime>11/22/2023 09:34:34</publishTime>
+      <publishTime>08/22/2024 16:06:16</publishTime>
     </File>
     <File Include="Views/QLSP/PartialQLHH.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
@@ -11883,7 +11883,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:35</publishTime>
     </File>
     <File Include="Views/Shared/Layout1.cshtml">
-      <publishTime>04/24/2024 14:17:43</publishTime>
+      <publishTime>08/23/2024 08:55:05</publishTime>
     </File>
     <File Include="Views/Shared/LoginLayout.cshtml">
       <publishTime>11/04/2018 10:57:20</publishTime>
@@ -11904,7 +11904,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/11/2024 15:59:51</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutLogin.cshtml">
-      <publishTime>04/24/2024 14:16:51</publishTime>
+      <publishTime>08/22/2024 07:47:24</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutLoginnew.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -11937,7 +11937,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/24/2024 15:53:12</publishTime>
+      <publishTime>08/29/2024 10:41:26</publishTime>
     </File>
     <File Include="web/cmaps/78-EUC-H.bcmap">
       <publishTime>02/11/2019 16:24:41</publishTime>

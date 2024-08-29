@@ -1,10 +1,14 @@
 ﻿using ApplicationChart.Models;
 using DevExpress.XtraPrinting;
+using DocumentFormat.OpenXml.Spreadsheet;
+using it_report.Models;
 using Microsoft.Security.Application;
 using MoreLinq;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -48,38 +52,17 @@ namespace ApplicationChart.Controllers
         //MAY DESKTOP
         CHQ10Entities1 PTTT = new CHQ10Entities1("PTTTEntities");
         ApplicationChartEntities1 db2 = new ApplicationChartEntities1();
+
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
-            new EntitiesCN {data = new Entities("TT423Entities") , macn = "TT423"},
-            new EntitiesCN {data = new Entities("KT_TNEntities") , macn = "TN"},
-            new EntitiesCN {data = new Entities("KT_BDEntities") , macn = "BD"},
-            new EntitiesCN {data = new Entities("KT_CTEntities") , macn = "CT"},
-            new EntitiesCN {data = new Entities("KT_DNEntities") , macn = "DN"},
-            new EntitiesCN {data = new Entities("KT_BDGEntities") , macn = "BDG"},
-            new EntitiesCN {data = new Entities("KT_DNAEntities") , macn = "DNA"},
-            new EntitiesCN {data = new Entities("KT_HCMEntities") , macn = "HCM"},
-            new EntitiesCN {data = new Entities("KT_NAEntities") , macn = "NA"},
-            new EntitiesCN {data = new Entities("KT_NA_2Entities") , macn = "NA2"},
             new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
-            new EntitiesCN {data = new Entities("KT_QNEntities") , macn = "QN"},
-            new EntitiesCN {data = new Entities("KTEntities") , macn = "PY"},
-            new EntitiesCN {data = new Entities("KT_AGEntities") , macn = "AG"},
-            new EntitiesCN {data = new Entities("KT_CMEntities") , macn = "CM"},
-            new EntitiesCN {data = new Entities("KT_GLEntities") , macn = "GL"},
-            new EntitiesCN {data = new Entities("KT_HUEEntities") , macn = "HUE"},
-                 new EntitiesCN {data = new Entities("KT_HPEntities") , macn = "HP"},
-            new EntitiesCN {data = new Entities("KT_LDEntities") , macn = "LD"},
-            new EntitiesCN {data = new Entities("KT_NTEntities") , macn = "NT"},
-            new EntitiesCN {data = new Entities("KT_TGEntities") , macn = "TG"},
-            new EntitiesCN {data = new Entities("KT_VLEntities") , macn = "VL"},
-            new EntitiesCN {data = new Entities("KT_DNONGEntities") , macn = "DNONG"},
-                     new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
-                       new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-                            new EntitiesCN {data = new Entities("KT_PTEntities") , macn = "PT"},
-            new EntitiesCN {data = new Entities("KT_HNEntities") , macn = "HN"},
-               new EntitiesCN {data = new Entities("KT_TNGEntities") , macn = "TNG"},
-            new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
                  new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
+        };
+
+        List<EntitiesKT> queryKT = new List<EntitiesKT> {
+            new EntitiesKT {data = new KTContext("KT_QTEntities1") , macn = "QT"},
+                 new EntitiesKT {data = new KTContext("KT_PYPHARMEntities1") , macn = "DPY"},
+                 new EntitiesKT {data = new KTContext("KT_PYPHARM_HCMEntities1") , macn = "DPY_HCM"},
         };
         public TBL_PHANQUYENCRM GetCRM()
         {
@@ -98,19 +81,19 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             var MATDV = Infocrm.matdv;
             var MACH = Infocrm.macn;
-            //if (Infocrm.quyen == "QUANLY")
-            //{
-            var taphop = Infocrm.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
-            return View("/Views/Baocao/Quanlykhachhang.cshtml");
-            //}
-            //else
-            //{
-            //    return View("Danhsachkhachhang", DATA(MACH, MATDV, true).OrderBy(n => n.DONVI).ToList());
-            //}
+            if (Infocrm.quyen == "QUANLY")
+            {
+                var taphop = Infocrm.macn.Split(',').ToList();
+                var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
+                ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
+                ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
+                ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+                return View("/Views/Baocao/Quanlykhachhang.cshtml");
+            }
+            else
+            {
+                return View("Danhsachkhachhang", DATA(MACH, MATDV, true).OrderBy(n => n.DONVI).ToList());
+            }
         }
         [ActionName("huong-dan-crm")]
         public ActionResult Huongdancrm()
@@ -199,7 +182,8 @@ namespace ApplicationChart.Controllers
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
             {
                 var enti = queryCN.SingleOrDefault(n => n.macn == x).data;
-                var data3 = enti.Database.SqlQuery<ListKhachHang>("SELECT makh AS MAKH, donvi AS DONVI " + ((full == true) ? " , diachi AS DIACHI , dt AS DT, ngaysinh AS NGAYSINH " : "") + " from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE matdv IN ({0}) and (tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null)", string.Join(",", MATDV.Split(',').ToList().Select(p => "'" + p + "'"))));
+                var sql = "SELECT makh AS MAKH, donvi AS DONVI " + ((full == true) ? " , diachi AS DIACHI , dt AS DT, ngaysinh AS NGAYSINH " : "") + " from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE matdv IN ({0}) and (tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = N'Khách hàng mới')", string.Join(",", MATDV.Split(',').ToList().Select(p => "'" + p + "'")));
+                var data3 = enti.Database.SqlQuery<ListKhachHang>(sql);
                 DATAX = data3.ToList();
             }
             return DATAX;
@@ -234,6 +218,40 @@ namespace ApplicationChart.Controllers
 
             return PartialView(DATA(macn, String.Join(",", matdv.ToArray()), true));
 
+        }
+        [HttpPost]
+        public ActionResult savekh(string tenkh, string diachi, string nguoilienhe, string dienthoai, string xeploai)
+        {
+            var Infocrm = GetCRM();
+            var taikhoan = Infocrm.taikhoan;
+            var macn = Infocrm.macn;
+            //var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds()
+            if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+            {
+                KTContext enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                //var data = enti.DTA_DONDATHANG.Where(n => n.DUYETDH == true).ToList();
+
+                var last_record = enti.TBL_DANHMUCKHACHHANG.Where(d => d.tinhtrang == "Khách hàng mới" && d.matdv == taikhoan).OrderByDescending(q => q.stt).FirstOrDefault();
+                var stt = last_record != null ? last_record.stt + 1 : 1;
+                //var stt = 1;
+                var KHmoi = new TBL_DANHMUCKHACHHANG()
+                {
+                    makh = $"NEW.{taikhoan}_{stt}",
+                    macn = macn,
+                    donvi = tenkh,
+                    tennguoigd = nguoilienhe,
+                    diachi = diachi,
+                    dt = dienthoai,
+                    matdv = taikhoan,
+                    tk = "131",
+                    stt = stt,
+                    tinhtrang = "Khách hàng mới",
+                    xeploai = xeploai
+                };
+                enti.TBL_DANHMUCKHACHHANG.Add(KHmoi);
+                enti.SaveChanges();
+            }
+            return Json(new { success = true });
         }
         [ActionName("bao-cao-cong-tac-trinh-duoc")]
         public ActionResult Congtactrinhduoc()
@@ -539,10 +557,10 @@ namespace ApplicationChart.Controllers
             return Json(data1.First().ngay.ToString("dd/MM/yyyy"));
         }
         [HttpPost]
-        public ActionResult EditKhachHang(string makh, string dt, string ngaysinh)
+        public ActionResult EditKhachHang(string makh, string dt, string xeploai)
         {
             var Infocrm = GetCRM();
-            UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, ngaysinh);
+            UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, xeploai);
             return Json(1);
         }
         //[HttpPost]
@@ -1056,7 +1074,7 @@ namespace ApplicationChart.Controllers
         public KhachHangFull DATAGETKHACHHANGVIEW(string x, string makh)
         {
             var DATAX = new KhachHangFull();
-            string str = "SELECT makh AS MAKH, donvi AS DONVI , tennguoigd AS TENNGUOILH , dt AS DT , diachi AS DIACHI, FORMAT(ngaygdgannhat, 'dd/MM/yyyy ') AS DONHANGGANHAT , FORMAT(ngaysinh, 'dd/MM/yyyy ') AS NGAYSINH , masothue as MST from TBL_DANHMUCKHACHHANG where makh='" + makh + "'";
+            string str = "SELECT makh AS MAKH, donvi AS DONVI , tennguoigd AS TENNGUOILH , dt AS DT , diachi AS DIACHI, FORMAT(ngaygdgannhat, 'dd/MM/yyyy ') AS DONHANGGANHAT , FORMAT(ngaysinh, 'dd/MM/yyyy ') AS NGAYSINH , masothue as MST,xeploai from TBL_DANHMUCKHACHHANG where makh='" + makh + "'";
             string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI, DiaChi AS DIACHI, ngaygdgannhat AS DONHANGGANHAT , TENNGUOIGD AS TENNGUOILH, dt AS DT from DM_KHACHHANG_PTTT where MaKH='" + makh + "'";
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
             {
@@ -1073,16 +1091,21 @@ namespace ApplicationChart.Controllers
             }
             return DATAX;
         }
-        public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string ngaysinh)
+        public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string xeploai)
         {
-            DateTime ngaysinh1 = DateTime.ParseExact(ngaysinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            string str = "UPDATE TBL_DANHMUCKHACHHANG SET dt = '" + dt + "', ngaysinh = '" + ngaysinh1.ToString("yyyy/MM/dd") + "' WHERE makh = '" + makh + "'";
+            //DateTime ngaysinh1 = DateTime.ParseExact(ngaysinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //string str = "UPDATE TBL_DANHMUCKHACHHANG SET dt = '" + dt + "', xeploai = '" + xeploai + "' WHERE makh = '" + makh + "'";
             //string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI, DiaChi AS DIACHI, ngaygdgannhat AS DONHANGGANHAT , TENNGUOIGD AS TENNGUOILH, dt AS DT from DM_KHACHHANG_PTTT where MaKH='" + makh + "'";
 
-            if (queryCN.SingleOrDefault(n => n.macn == x) != null)
+            if (queryKT.SingleOrDefault(n => n.macn == x) != null)
             {
-                var enti = queryCN.SingleOrDefault(n => n.macn == x).data;
-                enti.Database.ExecuteSqlCommand(str);
+                var enti = queryKT.SingleOrDefault(n => n.macn == x).data;
+                var record = enti.TBL_DANHMUCKHACHHANG.Where(d => d.makh == makh).FirstOrDefault();
+                record.dt = dt;
+                record.xeploai = xeploai;
+                enti.TBL_DANHMUCKHACHHANG.AddOrUpdate(record);
+                enti.SaveChanges();
+                //enti.Database.ExecuteSqlCommand(str);
             }
         }
 

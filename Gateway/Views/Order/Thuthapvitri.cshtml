@@ -75,7 +75,7 @@
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
                 var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-                var marker = new google.maps.Marker({
+                var marker = new google.maps.marker.AdvancedMarkerElement({
                     position: LatLng,
                     map: map,
                     title: "<div style='font-size:large; color:blue; text-align: center'>Vị trí hiện tại của bạn:<br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
@@ -94,7 +94,7 @@
             alert('Trình duyệt của bạn không hỗ trợ lấy GPS vui lòng chuyển trình duyệt khác');
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhqite1niMCtZawMgTaZQk9zjaE1__F40&callback=myMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfubNaXE2rKxO3-COIS4Do5qpgvd82TLw&callback=myMap&libraries=marker"></script>
     <script>
         $(document).ready(function () {
             $("#btnsubmit").click(function () {
@@ -138,7 +138,7 @@
                                                 mapTypeId: google.maps.MapTypeId.ROADMAP
                                             };
                                             var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-                                            var marker = new google.maps.Marker({
+                                            var marker = new google.maps.marker.AdvancedMarkerElement({
                                                 position: LatLng,
                                                 map: map,
                                                 title: "<div style='font-size:large; color:blue; text-align: center'>Vị trí hiện tại của bạn:<br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude

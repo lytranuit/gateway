@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using Exportable.Models;
 using APIInvoice;
+using it_report.Models;
 
 namespace ApplicationChart.Models
 {
@@ -36,6 +37,11 @@ namespace ApplicationChart.Models
         public decimal? hd_6_12 { get; set; }
         public decimal? hd_12_18 { get; set; }
         public decimal? hd_hon_18 { get; set; }
+    }
+    public partial class EntitiesKT
+    {
+        public KTContext data { get; set; }
+        public string macn { get; set; }
     }
     public partial class EntitiesCN
     {
@@ -579,6 +585,7 @@ namespace ApplicationChart.Models
         public string TENNGUOILH { get; set; }
         public string DT { get; set; }
         public string MST { get; set; }
+        public string xeploai { get; set; }
 
     }
     public partial class LOCLAYDONHANG
@@ -2549,29 +2556,29 @@ namespace ApplicationChart.Models
         public List<ListChuongTrinhKM> ListCTKM { get; set; }
         public List<ListChuongTrinhHT> ListCTHT { get; set; }
     }
-    public partial class ListDataHoaDonWS
-    {
-        public List<ListHangHoa> ListHH { get; set; }
-        public List<DTA_DONDATHANG_WS> ListDDH { get; set; }
-        //public List<ListTrinhDuocVien> ListTDV { get; set; }
-        public List<ListKhachHang> ListKH { get; set; }
-    }
-    public partial class ListDataKD
-    {
-        public List<DTA_DONDATHANG_KD> ListDDH { get; set; }
-        public List<ListHangHoa> ListHH { get; set; }
-        //public List<ListTrinhDuocVien> ListTDV { get; set; }
-        public List<ListKhachHang> ListKH { get; set; }
-        public List<ListHopdongKD> ListHopdong { get; set; }
-    }
-    public partial class ListDataWS
-    {
-        public List<DTA_DONDATHANG_WS> ListDDH { get; set; }
-        public List<ListHangHoa> ListHH { get; set; }
-        //public List<ListTrinhDuocVien> ListTDV { get; set; }
-        public List<ListKhachHang> ListKH { get; set; }
-        public List<TBL_DANHMUCHOPDONG_WS> ListHopdong { get; set; }
-    }
+    //public partial class ListDataHoaDonWS
+    //{
+    //    public List<ListHangHoa> ListHH { get; set; }
+    //    public List<DTA_DONDATHANG_WS> ListDDH { get; set; }
+    //    //public List<ListTrinhDuocVien> ListTDV { get; set; }
+    //    public List<ListKhachHang> ListKH { get; set; }
+    //}
+    //public partial class ListDataKD
+    //{
+    //    public List<DTA_DONDATHANG_KD> ListDDH { get; set; }
+    //    public List<ListHangHoa> ListHH { get; set; }
+    //    //public List<ListTrinhDuocVien> ListTDV { get; set; }
+    //    public List<ListKhachHang> ListKH { get; set; }
+    //    public List<ListHopdongKD> ListHopdong { get; set; }
+    //}
+    //public partial class ListDataWS
+    //{
+    //    public List<DTA_DONDATHANG_WS> ListDDH { get; set; }
+    //    public List<ListHangHoa> ListHH { get; set; }
+    //    //public List<ListTrinhDuocVien> ListTDV { get; set; }
+    //    public List<ListKhachHang> ListKH { get; set; }
+    //    public List<TBL_DANHMUCHOPDONG_WS> ListHopdong { get; set; }
+    //}
     public partial class DTA_DONDATHANG_KD_QUYDOI
     {
         public string MADH { get; set; }

@@ -1353,6 +1353,15 @@ namespace ApplicationChart.Controllers
             db2.SaveChanges();
             return Json(0);
         }
+        [HttpPost]
+        public ActionResult SaveKH(string taikhoan)
+        {
+            var tv = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == taikhoan);
+            db2.TBL_PHANQUYENCRM.Remove(tv.TBL_PHANQUYENCRM);
+            db2.TBL_DANHMUCNGUOIDUNG.Remove(tv);
+            db2.SaveChanges();
+            return Json(0);
+        }
         [Authorize(Roles = "TRACUU")]
         [HttpPost]
         public ActionResult GetPartialTimKiem(List<string> macn)
@@ -2061,11 +2070,11 @@ namespace ApplicationChart.Controllers
             {
                 if (queryCN.SingleOrDefault(n => n.macn == i) != null)
                 {
-                    tv.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.DTA_TONKHO_NHAP.Where(n => n.thang == thang && n.nam == nam).ToList().Select(cl => new DTA_TONKHO_NHAP() { mach = i, mahh = cl.mahh, tenhh = cl.tenhh, slton = cl.slton, malo = cl.malo, handung = cl.handung, kho = cl.kho, dvt = cl.dvt, trangthai = cl.trangthai }).ToList());
+                    tv.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.DTA_TONKHO_NHAP.Where(n => n.thang == thang && n.nam == nam).ToList().Select(cl => new DTA_TONKHO_NHAP() { mach = i, mahh = cl.mahh, tenhh = cl.tenhh, slton = cl.slton, malo = cl.malo, handung = cl.handung, kho = cl.kho, dvt = cl.dvt }).ToList());
                 }
                 else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
                 {
-                    tv.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.DTA_TONKHO_NHAP.Where(n => n.thang == thang && n.nam == nam).ToList().Select(cl => new DTA_TONKHO_NHAP() { mach = i, mahh = cl.mahh, tenhh = cl.tenhh, slton = cl.slton, malo = cl.malo, handung = cl.handung, kho = cl.kho, dvt = cl.dvt, trangthai = cl.trangthai }).ToList());
+                    tv.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.DTA_TONKHO_NHAP.Where(n => n.thang == thang && n.nam == nam).ToList().Select(cl => new DTA_TONKHO_NHAP() { mach = i, mahh = cl.mahh, tenhh = cl.tenhh, slton = cl.slton, malo = cl.malo, handung = cl.handung, kho = cl.kho, dvt = cl.dvt }).ToList());
                 }
             }
             return PartialView(tv);
@@ -7003,112 +7012,112 @@ namespace ApplicationChart.Controllers
             return View("Nhapkhoantdv");
         }
 
-        [HttpPost]
-        public ActionResult PartialQLphuphi(int nam, List<string> macn)
-        {
-            var data = new List<TBL_DANHMUCKHOANTDV_PHI>();
-            foreach (var i in macn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    data.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList());
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    data.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList());
-                }
-            }
-            return PartialView(data);
-        }
-        [HttpPost]
-        public ActionResult PartialQLkhoantdv(int qui, int nam, List<string> macn)
-        {
-            var data = new List<TBL_DANHMUCKHOANTDV>();
-            foreach (var i in macn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    data.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList());
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    data.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList());
-                }
-            }
-            return PartialView(data);
-        }
-        [ActionName("quan-ly-khoan-tdv")]
-        [Authorize(Roles = "QUANLYKHOANTDV")]
-        public ActionResult Quanlykhoantdv()
-        {
-            var Info = GetInfo();
-            ViewBag.ten = Info.hoten;
-            ViewBag.quyen = Info.quyen;
-            var nvhcm = "HCM.MINHTIEN,HCM.MI,HCM.BICHHANH,HCM.DUY".Split(',').ToList();
-            var donvi = new List<TBL_DANHSACHCHINHANH>();
-            if (Info.macn == "ALL")
-            {
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
-            }
-            else
-            {
-                var taphop = new List<string>();
-                if (nvhcm.Contains(User.Identity.Name.ToUpper()))
-                {
-                    if (User.Identity.Name.ToUpper() == "HCM.MINHTIEN")
-                    {
-                        taphop = "DN".Split(',').ToList();
-                    }
-                    else if (User.Identity.Name.ToUpper() == "HCM.MI")
-                    {
-                        taphop = "CT,LD,VL,CM,TN".Split(',').ToList();
-                    }
-                    else if (User.Identity.Name.ToUpper() == "HCM.BICHHANH")
-                    {
-                        taphop = "TG,BDG".Split(',').ToList();
-                    }
-                    else if (User.Identity.Name.ToUpper() == "HCM.DUY")
-                    {
-                        taphop = "PTTT,HCM,CHQ10,AG".Split(',').ToList();
-                    }
-                }
-                else
-                {
-                    taphop = Info.macn.Split(',').ToList();
-                }
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            }
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
-            //var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('50','50.STA', '51', '60','60.STA', '61', '62','62.STA', '63','64','64.PME','64.STA', '70','99','40')").ToList();
-            return View("Quanlykhoantdv");
-        }
+        //[HttpPost]
+        //public ActionResult PartialQLphuphi(int nam, List<string> macn)
+        //{
+        //    var data = new List<TBL_DANHMUCKHOANTDV_PHI>();
+        //    foreach (var i in macn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            data.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList());
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            data.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList());
+        //        }
+        //    }
+        //    return PartialView(data);
+        //}
+        //[HttpPost]
+        //public ActionResult PartialQLkhoantdv(int qui, int nam, List<string> macn)
+        //{
+        //    var data = new List<TBL_DANHMUCKHOANTDV>();
+        //    foreach (var i in macn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            data.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList());
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            data.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList());
+        //        }
+        //    }
+        //    return PartialView(data);
+        //}
+        //[ActionName("quan-ly-khoan-tdv")]
+        //[Authorize(Roles = "QUANLYKHOANTDV")]
+        //public ActionResult Quanlykhoantdv()
+        //{
+        //    var Info = GetInfo();
+        //    ViewBag.ten = Info.hoten;
+        //    ViewBag.quyen = Info.quyen;
+        //    var nvhcm = "HCM.MINHTIEN,HCM.MI,HCM.BICHHANH,HCM.DUY".Split(',').ToList();
+        //    var donvi = new List<TBL_DANHSACHCHINHANH>();
+        //    if (Info.macn == "ALL")
+        //    {
+        //        donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
+        //    }
+        //    else
+        //    {
+        //        var taphop = new List<string>();
+        //        if (nvhcm.Contains(User.Identity.Name.ToUpper()))
+        //        {
+        //            if (User.Identity.Name.ToUpper() == "HCM.MINHTIEN")
+        //            {
+        //                taphop = "DN".Split(',').ToList();
+        //            }
+        //            else if (User.Identity.Name.ToUpper() == "HCM.MI")
+        //            {
+        //                taphop = "CT,LD,VL,CM,TN".Split(',').ToList();
+        //            }
+        //            else if (User.Identity.Name.ToUpper() == "HCM.BICHHANH")
+        //            {
+        //                taphop = "TG,BDG".Split(',').ToList();
+        //            }
+        //            else if (User.Identity.Name.ToUpper() == "HCM.DUY")
+        //            {
+        //                taphop = "PTTT,HCM,CHQ10,AG".Split(',').ToList();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            taphop = Info.macn.Split(',').ToList();
+        //        }
+        //        donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
+        //    }
+        //    ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
+        //    ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
+        //    ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+        //    //var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('50','50.STA', '51', '60','60.STA', '61', '62','62.STA', '63','64','64.PME','64.STA', '70','99','40')").ToList();
+        //    return View("Quanlykhoantdv");
+        //}
         [ActionName("tinh-phu-phi")]
         [Authorize(Roles = "QUANLYKHOANTDV")]
         public ActionResult Tinhphuphi()
         {
             return View("Tinhphuphi");
         }
-        [HttpPost]
-        public ActionResult Partialtinhphuphi(int qui, int nam, List<string> macn)
-        {
-            var data = new List<TBL_DANHMUCKHOANTDV>();
-            foreach (var i in macn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var khoan = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList();
+        //[HttpPost]
+        //public ActionResult Partialtinhphuphi(int qui, int nam, List<string> macn)
+        //{
+        //    var data = new List<TBL_DANHMUCKHOANTDV>();
+        //    foreach (var i in macn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var khoan = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList();
 
-                    //data.AddRange();
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    data.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList());
-                }
-            }
-            return PartialView(data);
-        }
+        //            //data.AddRange();
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            data.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.nam == nam && n.qui == qui).ToList());
+        //        }
+        //    }
+        //    return PartialView(data);
+        //}
         [ActionName("quan-ly-phu-phi")]
         [Authorize(Roles = "QUANLYKHOANTDV")]
         public ActionResult Quanlyphuphi()
@@ -7144,105 +7153,105 @@ namespace ApplicationChart.Controllers
             return View("Quanlygiaytophaply");
         }
 
-        [HttpPost]
-        [Authorize(Roles = "QUANLYKHOANTDV")]
-        public ActionResult Copyphuphi(int nam, string macngoc, List<string> macncopy)
-        {
-            var tv = new List<TBL_DANHMUCKHOANTDV_PHI>();
-            if (queryCN.SingleOrDefault(n => n.macn == macngoc) != null)
-            {
-                tv = queryCN.SingleOrDefault(n => n.macn == macngoc).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList();
-            }
-            else if (queryCH.SingleOrDefault(n => n.macn == macngoc) != null)
-            {
-                tv = queryCH.SingleOrDefault(n => n.macn == macngoc).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList();
-            }
-            foreach (var i in macncopy)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.AddRange(tv);
-                    queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.AddRange(tv);
-                    queryCH.SingleOrDefault(n => n.macn == i).data.SaveChanges();
-                }
-            }
-            return Json("1");
-        }
-        [HttpPost]
-        [Authorize(Roles = "QUANLYKHOANTDV")]
-        public ActionResult Addphuphi(string macn, TBL_DANHMUCKHOANTDV_PHI data)
-        {
-            try
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == macn) != null)
-                {
-                    var tv = queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == data.thang && n.nam == data.nam);
-                    if (tv != null)
-                    {
-                        tv.phuphi_director = data.phuphi_director;
-                        tv.phuphi_director_sale = data.phuphi_director_sale;
-                        tv.phuphi_etc = data.phuphi_etc;
-                        tv.phuphi_manager = data.phuphi_manager;
-                        tv.phuphi_supervisor = data.phuphi_supervisor;
-                        tv.phuphi_otc = data.phuphi_otc;
-                        queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
-                    }
-                    else
-                    {
-                        queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
-                    }
-                    queryCN.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-                {
-                    var tv = queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == data.thang && n.nam == data.nam);
-                    if (tv != null)
-                    {
-                        tv.phuphi_director = data.phuphi_director;
-                        tv.phuphi_director_sale = data.phuphi_director_sale;
-                        tv.phuphi_etc = data.phuphi_etc;
-                        tv.phuphi_manager = data.phuphi_manager;
-                        tv.phuphi_supervisor = data.phuphi_supervisor;
-                        tv.phuphi_otc = data.phuphi_otc;
-                        queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
-                    }
-                    else
-                    {
-                        queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
-                    }
-                    queryCH.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
-                }
-                return Json("1");
-            }
-            catch (Exception)
-            {
+        //[HttpPost]
+        //[Authorize(Roles = "QUANLYKHOANTDV")]
+        //public ActionResult Copyphuphi(int nam, string macngoc, List<string> macncopy)
+        //{
+        //    var tv = new List<TBL_DANHMUCKHOANTDV_PHI>();
+        //    if (queryCN.SingleOrDefault(n => n.macn == macngoc) != null)
+        //    {
+        //        tv = queryCN.SingleOrDefault(n => n.macn == macngoc).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList();
+        //    }
+        //    else if (queryCH.SingleOrDefault(n => n.macn == macngoc) != null)
+        //    {
+        //        tv = queryCH.SingleOrDefault(n => n.macn == macngoc).data.TBL_DANHMUCKHOANTDV_PHI.Where(n => n.nam == nam).ToList();
+        //    }
+        //    foreach (var i in macncopy)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.AddRange(tv);
+        //            queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV_PHI.AddRange(tv);
+        //            queryCH.SingleOrDefault(n => n.macn == i).data.SaveChanges();
+        //        }
+        //    }
+        //    return Json("1");
+        //}
+        //[HttpPost]
+        //[Authorize(Roles = "QUANLYKHOANTDV")]
+        //public ActionResult Addphuphi(string macn, TBL_DANHMUCKHOANTDV_PHI data)
+        //{
+        //    try
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == macn) != null)
+        //        {
+        //            var tv = queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == data.thang && n.nam == data.nam);
+        //            if (tv != null)
+        //            {
+        //                tv.phuphi_director = data.phuphi_director;
+        //                tv.phuphi_director_sale = data.phuphi_director_sale;
+        //                tv.phuphi_etc = data.phuphi_etc;
+        //                tv.phuphi_manager = data.phuphi_manager;
+        //                tv.phuphi_supervisor = data.phuphi_supervisor;
+        //                tv.phuphi_otc = data.phuphi_otc;
+        //                queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
+        //            }
+        //            else
+        //            {
+        //                queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
+        //            }
+        //            queryCN.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
+        //        {
+        //            var tv = queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == data.thang && n.nam == data.nam);
+        //            if (tv != null)
+        //            {
+        //                tv.phuphi_director = data.phuphi_director;
+        //                tv.phuphi_director_sale = data.phuphi_director_sale;
+        //                tv.phuphi_etc = data.phuphi_etc;
+        //                tv.phuphi_manager = data.phuphi_manager;
+        //                tv.phuphi_supervisor = data.phuphi_supervisor;
+        //                tv.phuphi_otc = data.phuphi_otc;
+        //                queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
+        //            }
+        //            else
+        //            {
+        //                queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(data);
+        //            }
+        //            queryCH.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
+        //        }
+        //        return Json("1");
+        //    }
+        //    catch (Exception)
+        //    {
 
-                return Json("0");
-            }
+        //        return Json("0");
+        //    }
 
-        }
-        [HttpPost]
-        public ActionResult Delphuphi(int thang, int nam, string macn)
-        {
+        //}
+        //[HttpPost]
+        //public ActionResult Delphuphi(int thang, int nam, string macn)
+        //{
 
-            if (queryCN.SingleOrDefault(n => n.macn == macn) != null)
-            {
-                var tv = queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == thang && n.nam == nam);
-                queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Remove(tv);
-                queryCN.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
-            }
-            else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-            {
-                var tv = queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == thang && n.nam == nam);
-                queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(tv);
-                queryCH.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
-            }
-            return Json("1");
-        }
+        //    if (queryCN.SingleOrDefault(n => n.macn == macn) != null)
+        //    {
+        //        var tv = queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == thang && n.nam == nam);
+        //        queryCN.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Remove(tv);
+        //        queryCN.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
+        //    }
+        //    else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
+        //    {
+        //        var tv = queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.SingleOrDefault(n => n.thang == thang && n.nam == nam);
+        //        queryCH.SingleOrDefault(n => n.macn == macn).data.TBL_DANHMUCKHOANTDV_PHI.Add(tv);
+        //        queryCH.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
+        //    }
+        //    return Json("1");
+        //}
         [HttpPost]
         [Authorize(Roles = "NHAPTON")]
         public ActionResult Importtonkho(List<DTA_TONKHO_NHAP> data)
@@ -7290,65 +7299,65 @@ namespace ApplicationChart.Controllers
             }
             return Json("1");
         }
-        [HttpPost]
-        [Authorize(Roles = "NHAPKHOANTDV")]
-        public ActionResult Importkhoantdv(List<TBL_DANHMUCKHOANTDV> data)
-        {
-            List<TBL_DANHMUCKHOANTDV> duplicates = data.GroupBy(x => new { x.macn, x.thang, x.matdv, x.phanloai }).SelectMany(g => g.Skip(1)).ToList();
-            var errortext = "Các mã tdv - tháng trong file excel (Format tháng - mã tdv) :";
-            foreach (var i in duplicates)
-            {
-                errortext = errortext + "[" + i.macn + " - " + i.thang + " - " + i.matdv + " - " + i.phanloai + "]";
-            }
-            if (duplicates.Count != 0)
-            {
-                errortext = errortext + ". Vui lòng kiểm tra lại, hoặc gộp lại.";
-                return Json(errortext);
-            }
-            foreach (var i in data)
-            {
-                i.khoa = false;
-                i.ngay = DateTime.Now;
-                i.usertao = User.Identity.Name;
-            }
-            var listcn = data.Select(n => n.macn).Distinct().ToList();
-            foreach (var i in listcn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var list = DULIEUTRINHDUOCVIEN(queryCN.SingleOrDefault(n => n.macn == i).data).Select(n => n.MATDV).ToList();
-                    //var kiemtra = ContainsAllItems(list, data.Where(n => n.macn == i).Select(n => n.macn).ToList());
-                    //if (kiemtra.Count() != 0)
-                    //{
-                    //    errortext = errortext + ". Vui lòng kiểm tra lại, hoặc gộp lại.";
-                    //    return Json(errortext);
-                    //}
-                    //else
-                    //{
-                    queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.AddRange(data.Where(n => n.macn == i));
-                    queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
-                    //}
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var list = DULIEUCUAHANGTRINHDUOCVIEN(queryCH.SingleOrDefault(n => n.macn == i).data).Select(n => n.MATDV).ToList();
-                    //var kiemtra = ContainsAllItems(list, data.Where(n => n.macn == i).Select(n => n.macn).ToList());
-                    //if (kiemtra.Count() != 0)
-                    //{
-                    //    errortext = errortext + ". Vui lòng kiểm tra lại, hoặc gộp lại.";
-                    //    return Json(errortext);
-                    //}
-                    //else
-                    //{
-                    queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.AddRange(data.Where(n => n.macn == i));
-                    queryCH.SingleOrDefault(n => n.macn == i).data.SaveChanges();
-                    //}
-                }
-            }
-            //var thang = data.First().thang;
-            //var nam = data.First().nam;
-            return Json("1");
-        }
+        //[HttpPost]
+        //[Authorize(Roles = "NHAPKHOANTDV")]
+        //public ActionResult Importkhoantdv(List<TBL_DANHMUCKHOANTDV> data)
+        //{
+        //    List<TBL_DANHMUCKHOANTDV> duplicates = data.GroupBy(x => new { x.macn, x.thang, x.matdv, x.phanloai }).SelectMany(g => g.Skip(1)).ToList();
+        //    var errortext = "Các mã tdv - tháng trong file excel (Format tháng - mã tdv) :";
+        //    foreach (var i in duplicates)
+        //    {
+        //        errortext = errortext + "[" + i.macn + " - " + i.thang + " - " + i.matdv + " - " + i.phanloai + "]";
+        //    }
+        //    if (duplicates.Count != 0)
+        //    {
+        //        errortext = errortext + ". Vui lòng kiểm tra lại, hoặc gộp lại.";
+        //        return Json(errortext);
+        //    }
+        //    foreach (var i in data)
+        //    {
+        //        i.khoa = false;
+        //        i.ngay = DateTime.Now;
+        //        i.usertao = User.Identity.Name;
+        //    }
+        //    var listcn = data.Select(n => n.macn).Distinct().ToList();
+        //    foreach (var i in listcn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var list = DULIEUTRINHDUOCVIEN(queryCN.SingleOrDefault(n => n.macn == i).data).Select(n => n.MATDV).ToList();
+        //            var kiemtra = ContainsAllItems(list, data.Where(n => n.macn == i).Select(n => n.macn).ToList());
+        //            if (kiemtra.Count() != 0)
+        //            {
+        //                errortext = errortext + ". Vui lòng kiểm tra lại, hoặc gộp lại.";
+        //                return Json(errortext);
+        //            }
+        //            else
+        //            {
+        //                queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.AddRange(data.Where(n => n.macn == i));
+        //                queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
+        //            }
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var list = DULIEUCUAHANGTRINHDUOCVIEN(queryCH.SingleOrDefault(n => n.macn == i).data).Select(n => n.MATDV).ToList();
+        //            var kiemtra = ContainsAllItems(list, data.Where(n => n.macn == i).Select(n => n.macn).ToList());
+        //            if (kiemtra.Count() != 0)
+        //            {
+        //                errortext = errortext + ". Vui lòng kiểm tra lại, hoặc gộp lại.";
+        //                return Json(errortext);
+        //            }
+        //            else
+        //            {
+        //                queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.AddRange(data.Where(n => n.macn == i));
+        //                queryCH.SingleOrDefault(n => n.macn == i).data.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //    var thang = data.First().thang;
+        //    var nam = data.First().nam;
+        //    return Json("1");
+        //}
         [HttpPost]
         [Authorize(Roles = "NHAPKHOANTDV")]
         public ActionResult Themmatdv(List<Themmatdv> data)
@@ -7450,33 +7459,33 @@ namespace ApplicationChart.Controllers
             }
         }
 
-        [HttpPost]
-        [Authorize(Roles = "NHAPKHOANTDV")]
-        public ActionResult Checkimportkhoantdv(int qui, int nam, List<string> macn)
-        {
-            //var Info = GetInfo();
-            var tv = new List<TBL_DANHMUCKHOANTDV>();
-            foreach (var i in macn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    tv.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    tv.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
-                }
-            }
+        //[HttpPost]
+        //[Authorize(Roles = "NHAPKHOANTDV")]
+        //public ActionResult Checkimportkhoantdv(int qui, int nam, List<string> macn)
+        //{
+        //    //var Info = GetInfo();
+        //    var tv = new List<TBL_DANHMUCKHOANTDV>();
+        //    foreach (var i in macn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            tv.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            tv.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
+        //        }
+        //    }
 
-            if (tv.Count == 0)
-            {
-                return Json("0");
-            }
-            else
-            {
-                return Json(string.Join(",", tv.Select(n => n.macn).Distinct()));
-            }
-        }
+        //    if (tv.Count == 0)
+        //    {
+        //        return Json("0");
+        //    }
+        //    else
+        //    {
+        //        return Json(string.Join(",", tv.Select(n => n.macn).Distinct()));
+        //    }
+        //}
 
         [HttpPost]
         [Authorize(Roles = "NHAPTON")]
@@ -7494,26 +7503,26 @@ namespace ApplicationChart.Controllers
             }
             return PartialView(tv);
         }
-        [HttpPost]
-        [Authorize(Roles = "NHAPKHOANTDV")]
-        public ActionResult Xemkhoantdv(int qui, int nam, List<string> macn)
-        {
-            //var Info = GetInfo();
-            var tv = new List<TBL_DANHMUCKHOANTDV>();
-            foreach (var i in macn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    tv.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    tv.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
-                }
-            }
-            ViewBag.nam = nam;
-            return PartialView(tv);
-        }
+        //[HttpPost]
+        //[Authorize(Roles = "NHAPKHOANTDV")]
+        //public ActionResult Xemkhoantdv(int qui, int nam, List<string> macn)
+        //{
+        //    //var Info = GetInfo();
+        //    var tv = new List<TBL_DANHMUCKHOANTDV>();
+        //    foreach (var i in macn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            tv.AddRange(queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            tv.AddRange(queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList());
+        //        }
+        //    }
+        //    ViewBag.nam = nam;
+        //    return PartialView(tv);
+        //}
 
         [HttpPost]
         [Authorize(Roles = "NHAPTON")]
@@ -7540,34 +7549,34 @@ namespace ApplicationChart.Controllers
             }
             return Json("1");
         }
-        [HttpPost]
-        [Authorize(Roles = "NHAPKHOANTDV")]
-        public ActionResult Deletekhoantdv(int qui, int nam, List<string> macn)
-        {
-            //var Info = GetInfo();
-            foreach (var i in macn)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var datacu = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList();
-                    if (datacu.Count != 0)
-                    {
-                        queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.RemoveRange(datacu);
-                        queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
-                    }
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var datacu = queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList();
-                    if (datacu.Count != 0)
-                    {
-                        queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.RemoveRange(datacu);
-                        queryCH.SingleOrDefault(n => n.macn == i).data.SaveChanges();
-                    }
-                }
-            }
-            return Json("1");
-        }
+        //[HttpPost]
+        //[Authorize(Roles = "NHAPKHOANTDV")]
+        //public ActionResult Deletekhoantdv(int qui, int nam, List<string> macn)
+        //{
+        //    //var Info = GetInfo();
+        //    foreach (var i in macn)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var datacu = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList();
+        //            if (datacu.Count != 0)
+        //            {
+        //                queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.RemoveRange(datacu);
+        //                queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
+        //            }
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var datacu = queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.Where(n => n.qui == qui && n.nam == nam).ToList();
+        //            if (datacu.Count != 0)
+        //            {
+        //                queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.RemoveRange(datacu);
+        //                queryCH.SingleOrDefault(n => n.macn == i).data.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //    return Json("1");
+        //}
         [ActionName("so-sanh-theo-nam")]
         [Authorize(Roles = "CAP1,CAP2,ADMIN")]
         public ActionResult SoSanh()
@@ -12627,31 +12636,31 @@ namespace ApplicationChart.Controllers
             }
             return Content("<script type='text/javascript'>alert('Thành công'); window.close();</script>");
         }
-        [Authorize(Roles = "ADMIN")]
-        [ActionName("cap-nhat-trinh-duoc-vien")]
-        public ActionResult Capnhattrinhduocvien()
-        {
-            //DateTime ngay1 = DateTime.ParseExact(ngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //var strcn = THONGTINCHINHANH(ngay, loaihang, soluongton);
-            //var strch = THONGTINCUAHANG(ngay, loaihang, soluongton);
-            var soso = "HN,PT,TB,TNG,HP,PTTT,CHQ10,CT,AG,CM,DN,LD,TG,TN,VL,BDG,BT,PY,QN,TT423,BD,DNA,GL,HUE,NA,NT,THO".Split(',').ToList();
-            foreach (var i in soso)
-            {
-                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var data = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.GroupBy(cl => cl.idglobal).Select(n => new TBL_DANHMUCTDV_GLOBALID() { macn = n.FirstOrDefault().macn, matdv = n.FirstOrDefault().matdv, idglobal = n.Key }).ToList();
-                    PBIDATA.TBL_DANHMUCTDV_GLOBALID.AddRange(data);
+        //[Authorize(Roles = "ADMIN")]
+        //[ActionName("cap-nhat-trinh-duoc-vien")]
+        //public ActionResult Capnhattrinhduocvien()
+        //{
+        //    //DateTime ngay1 = DateTime.ParseExact(ngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //    //var strcn = THONGTINCHINHANH(ngay, loaihang, soluongton);
+        //    //var strch = THONGTINCUAHANG(ngay, loaihang, soluongton);
+        //    var soso = "HN,PT,TB,TNG,HP,PTTT,CHQ10,CT,AG,CM,DN,LD,TG,TN,VL,BDG,BT,PY,QN,TT423,BD,DNA,GL,HUE,NA,NT,THO".Split(',').ToList();
+        //    foreach (var i in soso)
+        //    {
+        //        if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var data = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.GroupBy(cl => cl.idglobal).Select(n => new TBL_DANHMUCTDV_GLOBALID() { macn = n.FirstOrDefault().macn, matdv = n.FirstOrDefault().matdv, idglobal = n.Key }).ToList();
+        //            PBIDATA.TBL_DANHMUCTDV_GLOBALID.AddRange(data);
 
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    var data = queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.GroupBy(cl => cl.idglobal).Select(n => new TBL_DANHMUCTDV_GLOBALID() { macn = n.FirstOrDefault().macn, matdv = n.FirstOrDefault().matdv, idglobal = n.Key }).ToList();
-                    PBIDATA.TBL_DANHMUCTDV_GLOBALID.AddRange(data);
-                }
-            }
-            PBIDATA.SaveChanges();
-            return Content("<script type='text/javascript'>alert('Thành công'); window.close();</script>");
-        }
+        //        }
+        //        else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
+        //        {
+        //            var data = queryCH.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCKHOANTDV.GroupBy(cl => cl.idglobal).Select(n => new TBL_DANHMUCTDV_GLOBALID() { macn = n.FirstOrDefault().macn, matdv = n.FirstOrDefault().matdv, idglobal = n.Key }).ToList();
+        //            PBIDATA.TBL_DANHMUCTDV_GLOBALID.AddRange(data);
+        //        }
+        //    }
+        //    PBIDATA.SaveChanges();
+        //    return Content("<script type='text/javascript'>alert('Thành công'); window.close();</script>");
+        //}
         [Authorize(Roles = "ADMIN")]
         [ActionName("lay-hop-dong-thau")]
         public ActionResult Layhopdong(string macn)
