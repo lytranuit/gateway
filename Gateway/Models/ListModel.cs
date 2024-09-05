@@ -587,6 +587,7 @@ namespace ApplicationChart.Models
         public string MST { get; set; }
         public string xeploai { get; set; }
         public string matinh { get; set; }
+        public string quanhuyen { get; set; }
 
     }
     public partial class LOCLAYDONHANG
@@ -767,6 +768,7 @@ namespace ApplicationChart.Models
     {
         public string maquan { get; set; }
         public string tenquan { get; set; }
+        public string matinh { get; set; }
     }
     public partial class Datachart
     {

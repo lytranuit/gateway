@@ -159,12 +159,20 @@
                             <input disabled autocomplete="off" type="text" class="form-control" id="view5">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label for="view7">Ngày sinh</label>
+                            <label for="view7">Mã số thuế</label>
                             <input disabled autocomplete="off" type="text" class="form-control" id="view7">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="view4">Số điện thoại</label>
                             <input disabled autocomplete="off" type="text" class="form-control" id="view4">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="viewtinh">Tỉnh</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="viewtinh">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="viewquan">Quận/huyện</label>
+                            <input disabled autocomplete="off" type="text" class="form-control" id="viewquan">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="view6">Đơn hàng gần nhất</label>
@@ -214,11 +222,21 @@
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="KH7">Tỉnh</label>
                             <select class="form-control" id="KH7">
+                                <option value=""></option>
                                 @foreach (var i in ViewBag.tinh)
                                 {
                                     <option value="@i.MaTinh">@i.TenTinh</option>
                                 }
                             </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="KHquan">Quận/Huyện</label>
+                            <select class="form-control" id="KHquan">
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="KHthue">Mã số thuế</label>
+                            <input autocomplete="off" type="text" class="form-control" id="KHthue">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="KH6">Xếp loại</label>
@@ -360,7 +378,7 @@
                     url: "@Url.Action("SaveKH", "Baocao")",
                     datatype: 'json',
                     contentType: "application/json",
-                    data: '{tenkh: ' + JSON.stringify($("#KH2").val()) + ', diachi: ' + JSON.stringify($("#KH3").val()) + ', nguoilienhe: ' + JSON.stringify($("#KH4").val()) + ', dienthoai: ' + JSON.stringify($("#KH5").val()) + ', xeploai: ' + JSON.stringify($("#KH6").val()) + ', matinh: ' + JSON.stringify($("#KH7").val()) + '}',
+                    data: '{tenkh: ' + JSON.stringify($("#KH2").val()) + ', diachi: ' + JSON.stringify($("#KH3").val()) + ', nguoilienhe: ' + JSON.stringify($("#KH4").val()) + ', dienthoai: ' + JSON.stringify($("#KH5").val()) + ', xeploai: ' + JSON.stringify($("#KH6").val()) + ', matinh: ' + JSON.stringify($("#KH7").val()) + ', maquan: ' + JSON.stringify($("#KHquan").val()) + ', masothue: ' + JSON.stringify($("#KHthue").val()) + '}',
                     error: function () {
                         $('#loading').modal('hide')
                         toastr.options = {
@@ -403,6 +421,7 @@
                                   $("#view3").val(data.DIACHI);
                                   $("#view4").val(data.DT);
                                   $("#view5").val(data.TENNGUOILH);
+                                  $("#view7").val(data.MST);
 
                                   $("#view8").val(data.xeploai);
                                   //console.log(data);
@@ -412,14 +431,7 @@
                                   else {
                                       $("#view6").val("N/A");
                                   }
-                                  if (data.NGAYSINH != null) {
-                                      //coconsole.log(data);
-                                      var date = data.NGAYSINH;
-                                      $("#view7").val(date);
-                                  }
-                                  else {
-                                      $("#view7").val("N/A");
-                                  }
+                                 
                               });
             });
             $("#example23").on("click", ".btnsuakh", function () {

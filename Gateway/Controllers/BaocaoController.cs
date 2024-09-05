@@ -85,7 +85,7 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             var MATDV = Infocrm.matdv;
             var MACH = Infocrm.macn;
-            if (Infocrm.quyen != "QUANLY")
+            if (Infocrm.quyen == "QUANLY")
             {
                 var taphop = Infocrm.macn.Split(',').ToList();
                 var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
@@ -247,7 +247,7 @@ namespace ApplicationChart.Controllers
             return Json(new { });
         }
         [HttpPost]
-        public ActionResult savekh(string tenkh, string diachi, string nguoilienhe, string dienthoai, string matinh, string xeploai)
+        public ActionResult savekh(string tenkh, string diachi, string nguoilienhe, string dienthoai, string matinh, string xeploai, string maquan, string masothue)
         {
             var Infocrm = GetCRM();
             var taikhoan = Infocrm.taikhoan;
@@ -271,6 +271,8 @@ namespace ApplicationChart.Controllers
                     dt = dienthoai,
                     matdv = taikhoan,
                     matinh = matinh,
+                    quanhuyen = maquan,
+                    masothue = masothue,
                     tk = "131",
                     stt = stt,
                     tinhtrang = "Khách hàng mới",
@@ -518,6 +520,18 @@ namespace ApplicationChart.Controllers
             {
                 return Json(DATAGETKHACHHANGVIEW(macn, makh));
             }
+        }
+        [HttpPost]
+        public ActionResult GetQuan(string matinh)
+        {
+            var Infocrm = GetCRM();
+            var macn = Infocrm.macn;
+            if (queryCN.SingleOrDefault(n => n.macn == macn) != null)
+            {
+                var enti = queryCN.SingleOrDefault(n => n.macn == macn).data;
+                return Json(DULIEUQUAN(enti, matinh));
+            }
+            return Json(new List<string>());
         }
         [HttpPost]
         public ActionResult GetKehoach(string ngay)
@@ -1511,7 +1525,7 @@ namespace ApplicationChart.Controllers
         public KhachHangFull DATAGETKHACHHANGVIEW(string x, string makh)
         {
             var DATAX = new KhachHangFull();
-            string str = "SELECT makh AS MAKH, donvi AS DONVI , tennguoigd AS TENNGUOILH , dt AS DT , diachi AS DIACHI, FORMAT(ngaygdgannhat, 'dd/MM/yyyy ') AS DONHANGGANHAT , FORMAT(ngaysinh, 'dd/MM/yyyy ') AS NGAYSINH , masothue as MST,xeploai,matinh from TBL_DANHMUCKHACHHANG where makh='" + makh + "'";
+            string str = "SELECT makh AS MAKH, donvi AS DONVI , tennguoigd AS TENNGUOILH , dt AS DT , diachi AS DIACHI, FORMAT(ngaygdgannhat, 'dd/MM/yyyy ') AS DONHANGGANHAT , FORMAT(ngaysinh, 'dd/MM/yyyy ') AS NGAYSINH , masothue as MST,xeploai,matinh,quanhuyen from TBL_DANHMUCKHACHHANG where makh='" + makh + "'";
             string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI, DiaChi AS DIACHI, ngaygdgannhat AS DONHANGGANHAT , TENNGUOIGD AS TENNGUOILH, dt AS DT from DM_KHACHHANG_PTTT where MaKH='" + makh + "'";
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
             {
@@ -1527,6 +1541,19 @@ namespace ApplicationChart.Controllers
                 }
             }
             return DATAX;
+        }
+        public List<ListQuan> DULIEUQUAN(Entities data, string matinh)
+        {
+            try
+            {
+                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan,matinh FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL and matinh = {0}", new { matinh }).ToList();
+                return All;
+            }
+            catch (Exception)
+            {
+                return new List<ListQuan>();
+            }
+
         }
         public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string xeploai, string matinh)
         {

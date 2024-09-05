@@ -3080,7 +3080,7 @@ namespace ApplicationChart.Controllers
         {
             try
             {
-                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL").ToList();
+                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan,matinh FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL").ToList();
                 return All;
             }
             catch (Exception)
