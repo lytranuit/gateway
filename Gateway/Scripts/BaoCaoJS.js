@@ -134,6 +134,8 @@ function myFunction4() {
 }
 $(document).ready(function () {
     $(".poc").hide();
+    $("#chon").val(0);
+    $("#donvi").val("QT");
     //$("#nhomhang").change(function () {
     //    if ($("#nhomhang").val() == 3) {
 
