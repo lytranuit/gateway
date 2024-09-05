@@ -579,6 +579,7 @@
     <Compile Include="Models\KhuVuc.cs">
       <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KT\TBL_DANHMUCDONVI.cs" />
     <Compile Include="Models\KT\TBL_DANHMUCKHACHHANG.cs" />
     <Compile Include="Models\KT_QN.Context.cs">
       <AutoGen>True</AutoGen>
@@ -3462,6 +3463,9 @@
     <Content Include="Content\mautonkho.xlsx" />
     <Content Include="Content\Inventory updated.xlsx" />
     <Content Include="Content\maudanhmuchopdongWS.xlsx" />
+    <Content Include="Content\mauKHmoi.xlsx" />
+    <Content Include="Content\mauBCNgay.xlsx" />
+    <Content Include="Content\mauKHtuan.xlsx" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

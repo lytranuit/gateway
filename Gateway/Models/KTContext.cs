@@ -14,6 +14,7 @@ namespace it_report.Models
         }
 
         public DbSet<TBL_DANHMUCKHACHHANG> TBL_DANHMUCKHACHHANG { get; set; }
+        public DbSet<TBL_DANHMUCDONVI> TBL_DANHMUCDONVI { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }

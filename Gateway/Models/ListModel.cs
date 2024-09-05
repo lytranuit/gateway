@@ -586,6 +586,7 @@ namespace ApplicationChart.Models
         public string DT { get; set; }
         public string MST { get; set; }
         public string xeploai { get; set; }
+        public string matinh { get; set; }
 
     }
     public partial class LOCLAYDONHANG

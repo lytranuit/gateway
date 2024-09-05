@@ -11,7 +11,7 @@ namespace ApplicationChart.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class DTA_CONGTACTRINHDUOC
     {
         public string macn { get; set; }
@@ -21,6 +21,7 @@ namespace ApplicationChart.Models
         public string tenkh { get; set; }
         public Nullable<bool> checkin { get; set; }
         public Nullable<int> ketqua { get; set; }
+        public string ketqua_text { get; set; }
         public string ghichu { get; set; }
         public Nullable<bool> khoa { get; set; }
         public Nullable<bool> checkgps { get; set; }

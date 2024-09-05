@@ -370,12 +370,13 @@
                                    '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
                                  + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
                                  + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">' + data[i].makh + " - " + data[i].tenkh + '</td>'
-                                 + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' 
+                                 + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>'
                                  + ((data[i].checkgps == 1)?'<button type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
                                      //+ '<td class="text-center text-dark"><button type="button" class="btn btn-primary btnluu"><i class="fa fa-check-circle"></i></button></td>'
                                  + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
-                                 + '</tr><tr><td colspan="3"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
-                                  $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                                      + '</tr><tr><td colspan="3"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                                  $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
+                                  $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
                                   if (data[i].ketqua != null) {
                                       $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
                                       if(data[i].ketqua == 1)
@@ -404,7 +405,7 @@
                                  + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
                                  + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
                                  + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' + ((data[i].checkgps == 1)?'<button  disabled type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button  disabled type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
-                                 + '</tr><tr><td colspan="2"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                                      + '</tr><tr><td colspan="2"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
                                   $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
                                   if (data[i].ketqua != null) {
                                       $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
@@ -437,8 +438,9 @@
                                  + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
                                  + '<td class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
                                  + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
-                                + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><select disabled class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></td>');
-                                  $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                                      + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input disabled type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><select disabled class="mt-2 custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></td>');
+                                  $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
+                                  $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
                                   if (data[i].ketqua != null) {
                                       $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
                                   }
@@ -558,8 +560,9 @@
                          + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - "  + data[i].tenkh + '</td>'
                          + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>'+ ((data[i].checkgps == 1)?'<button type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
                             + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
-                         + '</tr><tr><td colspan="3"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
-                          $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                              + '</tr><tr><td colspan="3"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                          $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
+                          $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
                           if (data[i].ketqua != null) {
                               $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
                               if(data[i].ketqua == 1)
@@ -590,8 +593,9 @@
                          + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
                          + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' + ((data[i].checkgps == 1)?'<button disabled type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button disabled type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
                              //+ '<td class="text-center text-dark"><button type="button" class="btn btn-primary btnluu"><i class="fa fa-check-circle"></i></button></td>'
-                         + '</tr><tr><td colspan="2"><input type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><div class="input-group"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
-                          $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                              + '</tr><tr><td colspan="2"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                          $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
+                          $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
                           if (data[i].ketqua != null) {
                               $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
                               if(data[i].ketqua == 1)
@@ -622,8 +626,9 @@
                          + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
                          + '<td class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
                          + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
-                         + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><select disabled class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></tr>');
-                          $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
+                              + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input disabled type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><select disabled class="mt-2 custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></tr>');
+                          $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
+                          $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
                           if (data[i].ketqua != null) {
                               $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
                           }

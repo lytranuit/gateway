@@ -124,17 +124,20 @@
                             var x = $(this);
                             if (x.find('input[type=checkbox]').is(":checked") == true) {
                                 var ketqua = x.next('tr').find('select').val();
-                                var ghichu = null;
+                                var ghichu = x.next('tr').find('.ghichu').val();
+                                var ketqua_text = x.next('tr').find('.ketqua').val();
                                 var khoa = true;
                             }
                             else if (x.find('input[type=checkbox]').is(":checked") == false && x.next('tr').find('input[type=text]').val() != "") {
                                 var ketqua = null;
-                                var ghichu = x.next('tr').find('input[type=text]').val();
+                                var ghichu = x.next('tr').find('.ghichu').val();
+                                var ketqua_text = x.next('tr').find('.ketqua').val();
                                 var khoa = true;
                             }
                             else {
                                 var ketqua = null;
-                                var ghichu = null;
+                                var ghichu = x.next('tr').find('.ghichu').val();
+                                var ketqua_text = x.next('tr').find('.ketqua').val();
                                 var khoa = false;
                             }
 
@@ -144,6 +147,7 @@
                                 , "ngay": moment($("#ngay").text(), 'DD/MM/YYYY').format('YYYY-MM-DD')
                                 , "checkin": x.find('.largerCheckbox').is(":checked")
                                 , "ketqua": ketqua
+                                , "ketqua_text": ketqua_text
                                 , "ghichu": ghichu
                                 , "khoa": khoa
                                 , "checkgps": (x.find('button').hasClass('btn-success') == true)?1:null    
@@ -201,11 +205,11 @@
         else {
             var data = $("#khachhang option:selected");
             $(data).each(function () {
-                var donvi = $(this).attr('tabindex');
+                var donvi = $(this).attr('value');
                 var prevent = 0;
                 $('#tablecreate > tbody > tr').each(function () {
 
-                    if ($(this).find('td').eq(1).attr("data-tenkh") == donvi) {
+                    if ($(this).find('td').eq(1).attr("data-makh") == donvi) {
                         toastr.options = {
                             "closeButton": false,
                             "debug": false,
@@ -274,10 +278,10 @@
         else {
             var data = $("#khachhangthem option:selected");
             $(data).each(function () {
-                var donvi = $(this).attr('tabindex');
+                var donvi = $(this).attr('value');
                 var prevent = 0;
                 $('#tabletdv > tbody > tr').each(function () {
-                    if ($(this).find('td').eq(1).attr("data-tenkh") == donvi) {
+                    if ($(this).find('td').eq(1).attr("data-makh") == donvi) {
                         toastr.options = {
                             "closeButton": false,
                             "debug": false,
@@ -317,7 +321,7 @@
                     
                          //+ '<td class="text-center text-dark"><button type="button" class="btn btn-primary btnluu"><i class="fa fa-check-circle"></i></button></td>'
                          + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
-                     + '</tr><tr><td class="p-0" colspan="4"><input type="text" class="form-control" placeholder="Điền lí do"><div class="input-group"><select class="custom-select hidden"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang hidden"><i class="fa fa-plus"></i></button></div></div></td></tr>');
+                        + '</tr><tr><td class="p-0" colspan="4"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select hidden"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang hidden"><i class="fa fa-plus"></i></button></div></div></td></tr>');
                 }
                 $("#khachhangthem").val('default');
                 $("#khachhangthem").selectpicker("refresh");
@@ -362,7 +366,7 @@
         if ($(this).is(":checked") == true) {
             $(x).closest('tr').next('tr').find('select').removeClass("hidden");
 
-            $(x).closest('tr').next('tr').find('input[type=text]').addClass("hidden");
+            //$(x).closest('tr').next('tr').find('input[type=text]').addClass("hidden");
             if ($(x).closest('tr').next('tr').find('select').val() == 2) {
                 $(x).closest('tr').next('tr').find('button').removeClass("hidden");
             }

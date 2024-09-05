@@ -37,6 +37,7 @@
           <Property Name="tenkh" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="checkin" Type="bit" />
           <Property Name="ketqua" Type="int" />
+		  <Property Name="ketqua_text" Type="nvarchar(max)" />
           <Property Name="ghichu" Type="nvarchar(max)" />
           <Property Name="khoa" Type="bit" />
           <Property Name="checkgps" Type="bit" />
@@ -1009,6 +1010,7 @@
           <Property Name="checkin" Type="Boolean" />
           <Property Name="ketqua" Type="Int32" />
           <Property Name="ghichu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+		  <Property Name="ketqua_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="khoa" Type="Boolean" />
           <Property Name="checkgps" Type="Boolean" />
         </EntityType>
@@ -1525,6 +1527,7 @@
                 <ScalarProperty Name="khoa" ColumnName="khoa" />
                 <ScalarProperty Name="ghichu" ColumnName="ghichu" />
                 <ScalarProperty Name="ketqua" ColumnName="ketqua" />
+				<ScalarProperty Name="ketqua_text" ColumnName="ketqua_text" />
                 <ScalarProperty Name="checkin" ColumnName="checkin" />
                 <ScalarProperty Name="tenkh" ColumnName="tenkh" />
                 <ScalarProperty Name="makh" ColumnName="makh" />

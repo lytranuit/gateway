@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'G:\2023-10-17\ApplicationChart (1)\ApplicationChart\ApplicationChart\Models\UserData.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\netcore\Gateway\Gateway\Models\UserData.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

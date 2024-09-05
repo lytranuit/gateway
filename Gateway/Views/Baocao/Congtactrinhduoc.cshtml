@@ -47,6 +47,9 @@
                                             <option selected value="1">Báo cáo chi tiết từng TDV</option>
                                             <option value="2">Báo cáo tổng hợp</option>
                                             <option value="3">Báo cáo tổng hợp từng ngày</option>
+                                            <option value="4">Danh sách khách hàng mới(Excel)</option>
+                                            <option value="6">Kế hoạch tuần(Excel)</option>
+                                            <option value="5">Báo cáo ngày(Excel)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -88,7 +91,7 @@
                                 </div>
                                 <input type="text" hidden id="tentdv" name="tentdv" />
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" id="dinhdangbaocao">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label" for="matdv">Định dạng báo cáo <code class="bg-white">(*)</code></label>
                                     <div class="col-sm-8">
@@ -126,6 +129,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" id="ngay" style="display:none;">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ngay1">Tuần <code class="bg-white">(*)</code></label>
+                                    <div class="col-sm-8">
+                                        <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" id="ngay1" name="ngay1" placeholder="DD/MM/YYYY">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer modal-footer pt-1 pb-1">
                         <button id="btnxem" formTarget="_blank" type="submit" class="btn btn-primary btn-sm transition-3d-hover mb-0">XEM</button>
@@ -137,77 +150,6 @@
 
         }
 
-        <div hidden class="w3-row mt-2 tableaudit">
-            <div class="card mb-0">
-                <div class="card-header">
-                    <strong>Bảng sao lưu sửa đổi kế hoạch</strong>
-                </div>
-                <div class="card-body pt-2 pb-0">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="chinhanh1">Chi nhánh <code class="bg-white">(*)</code></label>
-                                <div class="col-sm-8">
-                                    <select name="chinhanh1" title="Chọn..." class="selectpicker" id="chinhanh1">
-                                        <optgroup label="MIỀN TRUNG">
-                                            @foreach (var k in ViewBag.mientrung)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </optgroup>
-                                        <optgroup label="MIỀN NAM">
-                                            @foreach (var k in ViewBag.miennam)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </optgroup>
-                                        <optgroup label="MIỀN BẮC">
-                                            @foreach (var k in ViewBag.mienbac)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- Default input -->
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="matdv1">Trình dược viên</label>
-                                <div class="col-sm-8">
-                                    <select name="matdv1" title="Chọn..." class="selectpicker" id="matdv1" data-live-search="true"></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="theongay">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="tungay2">Từ ngày <code class="bg-white">(*)</code></label>
-                                <div class="col-sm-8">
-                                    <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" id="tungay2" name="tungay2" placeholder="DD/MM/YYYY">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="denngay2">Đến ngày <code class="bg-white">(*)</code></label>
-                                <div class="col-sm-8">
-                                    <input autocomplete="off" type="text" class="form-control form-control1 font-weight-normal" name="denngay2" id="denngay2" placeholder="DD/MM/YYYY">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer modal-footer pt-1 pb-1">
-                    <button id="btnxemaudit" type="submit" class="btn btn-primary btn-sm transition-3d-hover mb-0">XEM</button>
-                    @*<button id="btntai" type="submit" class="btn btn-secondary btn-sm transition-3d-hover">TẢI XUỐNG</button>*@
-                </div>
-            </div>
-        </div>
-        <div hidden class="w3-row box w3-container w3-padding mt-2 tableaudit" id="partialtable">
-        </div>
     </div>
 </div>
 <div class="modal fade" id="ModalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -247,7 +189,8 @@
     </div>
 </div>
 @section scripts {
-   
+
+    <script src='~/Scripts/moment.js'></script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
     <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
     <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -257,14 +200,6 @@
     <script src="~/Content/Order/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="~/Content/Order/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-    @if (ViewBag.quyencrm == "TDV")
-    {
-        <script>
-            $(document).ready(function () {
-                $(".tableaudit").css("display", "none");
-            });
-        </script>
-    }
     <script>
         $(document).ready(function () {
             $('.form-control1').datepicker({
@@ -283,22 +218,60 @@
                     $('#chinhanh').selectpicker('destroy');
                     $('#chinhanh').removeClass('show-tick');
                     $('#chinhanh').removeAttr("multiple");
+                    $("#dinhdangbaocao").show();
+                    $("#theongay").show();
+                    $("#ngay").hide();
                 }
-                else {
+                else if ($("#baocao").val() == 4) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                    $("#dinhdangbaocao").hide();
+                    $("#theothang").hide();
+                    $("#theongay").hide();
+                    $("#ngay").hide();
+                } else if ($("#baocao").val() == 5) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                    $("#dinhdangbaocao").hide();
+                    $("#theongay").show();
+                    $("#ngay").hide();
+                } else if ($("#baocao").val() == 6) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                    $("#dinhdangbaocao").hide();
+                    $("#theongay").hide();
+                    $("#ngay").show();
+                } else {
                     $('#chinhanh').selectpicker('destroy');
                     $('#chinhanh').addClass('show-tick');
                     $('#chinhanh').attr("multiple", "true");
                     $('#chinhanh .bs-title-option').remove();
+                    $("#dinhdangbaocao").show();
+                    $("#theongay").show();
+                    $("#ngay").hide();
                 }
                 $('#chinhanh').selectpicker();
                 $('#chinhanh').selectpicker('deselectAll');
+
+                if ($("#baocao").val() == 1 || $("#baocao").val() == 4 || $("#baocao").val() == 5 || $("#baocao").val() == 6) {
+                    $("#labeltdv").html('Trình dược viên <code class="bg-white">(*)</code>');
+                    $("#divtdv").css("display", "block");
+                }
+                else {
+                    $("#labeltdv").html('Trình dược viên');
+                    $("#divtdv").css("display", "none");
+                }
             });
+            $('#ngay1').datepicker("setDate", "@DateTime.Now.ToString("dd/MM/yyyy")");
             $('#tungay2').datepicker("setDate", "@DateTime.Now.ToString("01/MM/yyyy")");
             $('#denngay2').datepicker("setDate", "@DateTime.Now.ToString("dd/MM/yyyy")");
             $('#tungay1').datepicker("setDate", "@DateTime.Now.ToString("01/MM/yyyy")");
             $('#denngay1').datepicker("setDate", "@DateTime.Now.ToString("dd/MM/yyyy")");
             $('.selectpicker').selectpicker();
-          
+
             $("#chinhanh").change(function () {
                 $("#matdv").empty();
                 var url = '@Url.Action("GetTrinhDuocVien", "Baocao")';
@@ -334,18 +307,11 @@
                     $("#theongay").css("display", "block");
                 }
             });
-            $("#baocao").change(function () {
-                if ($("#baocao").val() == 1) {
-                    $("#labeltdv").html('Trình dược viên <code class="bg-white">(*)</code>');
-                    $("#divtdv").css("display", "block");
-                }
-                else {
-                    $("#labeltdv").html('Trình dược viên');
-                    $("#divtdv").css("display", "none");
-                }
-            });
             $("#btnxem").click(function (e) {
-                if ($("#chinhanh").val() == "" || ($("#matdv").val() == "" && $('#labeltdv code:contains("(*)")').length > 0) || ($("#loaibaocao").val() == 1 && ($("#tungay1").val() == "" || $("#denngay1").val() == "")) || ($("#loaibaocao").val() == 2 && $("#thang").val() == "")) {
+                if ($("#chinhanh").val() == "" ||
+                    ($("#matdv").val() == "" && $('#labeltdv code:contains("(*)")').length > 0) ||
+                    ($("#loaibaocao").val() == 1 && ($("#tungay1").val() == "" || $("#denngay1").val() == "")) ||
+                    ($("#loaibaocao").val() == 2 && $("#thang").val() == "")) {
                     e.preventDefault();
                     toastr.options = {
                         "closeButton": false,
@@ -366,69 +332,27 @@
                     }
                     Command: toastr["warning"]("Bạn chưa điền đủ thông tin !", "Thông báo")
                 }
+                if ($("#baocao").val() == 4) {
+                    e.preventDefault();
+                    var url = '@Url.Action("ExcelKhachhangMoi", "Baocao")' + '?macn=' + encodeURIComponent($("#chinhanh").val()) + '&matdv=' + encodeURIComponent($("#matdv").val());
+                    window.open(url, '_blank');
+
+                }
+                if ($("#baocao").val() == 5) {
+                    e.preventDefault();
+                    var url = '@Url.Action("Excelbaocaongay", "Baocao")' + '?macn=' + encodeURIComponent($("#chinhanh").val()) + '&matdv=' + encodeURIComponent($("#matdv").val()) + '&tungay=' + moment($("#tungay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD") + '&denngay=' + moment($("#denngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
+                    window.open(url, '_blank');
+
+                }
+                if ($("#baocao").val() == 6) {
+                    e.preventDefault();
+                    var url = '@Url.Action("Excelkehoachtuan", "Baocao")' + '?macn=' + encodeURIComponent($("#chinhanh").val()) + '&matdv=' + encodeURIComponent($("#matdv").val()) + '&ngay=' + moment($("#ngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
+                    window.open(url, '_blank');
+
+                }
             });
 
-            $("#btnxemaudit").click(function () {
-                if ($("#chinhanh1").val() == "") {
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": true,
-                        "progressBar": true,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
-                    Command: toastr["warning"]("Bạn chưa chọn chi nhánh !", "Thông báo")
-                }
-                else {
-                    var url = '@Url.Action("Partialtable", "Baocao")';
-                    $.ajax({
-                        url: url,
-                        dataType: 'html',
-                        data: { macn: $("#chinhanh1").val(), matdv: $("#matdv1").val(), tungay: $("#tungay2").val(), denngay: $("#denngay2").val() },
-                        success: function (data) {
-                            $('#partialtable').html(data);
-                            var table = $('#example23').DataTable({
-                            });
-                            $("#example23").on("click", ".btnxemls", function () {
-                                $("#tabletdv > tbody").empty();
-                                var url = '@Url.Action("GetLichSuAudit", "Baocao")';
-                                $.post(url, { macn: $("#macn").text(), matdv: $(this).closest('tr').find('td:eq(1)').text(), ngay: $(this).closest('tr').find('td:eq(0)').text(), makh: $(this).closest('tr').find('td:eq(2)').text(), tenkh: $(this).closest('tr').find('td:eq(3)').text() },
-                                function (data) {
-                                    $("#ngay").text(data[1].ngay);
-                                    for (var i = 0; i < data.length; i++) {
-                                        var check = (data[i].checkin == true) ? " checked" : "";
-                                        var hidden = (data[i].checkin == true) ? " hidden" : "";
-                                        var block = (data[i].checkin == false) ? " hidden" : "";
-                                        $("#tabletdv").find("tbody").append(
-                                         '<tr>'
-                                          + '<td class="text-center text-dark font-weight-normal">' + (i + 1) + '</td>'
-                                          + '<td class="text-center text-dark font-weight-normal">' + data[i].ngayedit + '</td>'
-                                          + '<td class="text-center text-dark font-weight-normal">' + data[i].makh + '</td>'
-                                          + '<td class="text-dark font-weight-normal">' + data[i].tenkh + '</td>'
-                                          + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
-                                          + '<td><input disabled type="text" class="form-control' + hidden + '" placeholder="Điền lí do"><select disabled class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td>'
-                                          + '</tr>');
-                                        $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
-                                        if (data[i].ketqua != null) {
-                                            $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    });
-                }
-            });
+
         });
     </script>
 }

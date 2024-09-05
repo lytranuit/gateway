@@ -5,14 +5,18 @@ using it_report.Models;
 using Microsoft.Security.Application;
 using MoreLinq;
 using NPOI.SS.Formula.Functions;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace ApplicationChart.Controllers
 {
@@ -81,7 +85,7 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             var MATDV = Infocrm.matdv;
             var MACH = Infocrm.macn;
-            if (Infocrm.quyen == "QUANLY")
+            if (Infocrm.quyen != "QUANLY")
             {
                 var taphop = Infocrm.macn.Split(',').ToList();
                 var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
@@ -92,6 +96,14 @@ namespace ApplicationChart.Controllers
             }
             else
             {
+                var macn = Infocrm.macn;
+                if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                {
+                    KTContext enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                    var data = enti.TBL_DANHMUCDONVI.Where(d => d.MaTinh != null).OrderBy(q => q.TenTinh).ToList();
+
+                    ViewBag.tinh = data;
+                }
                 return View("Danhsachkhachhang", DATA(MACH, MATDV, true).OrderBy(n => n.DONVI).ToList());
             }
         }
@@ -220,7 +232,22 @@ namespace ApplicationChart.Controllers
 
         }
         [HttpPost]
-        public ActionResult savekh(string tenkh, string diachi, string nguoilienhe, string dienthoai, string xeploai)
+        public ActionResult GetKhuVuc()
+        {
+            var Infocrm = GetCRM();
+            var taikhoan = Infocrm.taikhoan;
+            var macn = Infocrm.macn;
+            if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+            {
+                KTContext enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                var data = enti.TBL_DANHMUCDONVI.Where(d => d.MaTinh != null).OrderBy(q => q.MaTinh).ToList();
+
+                return Json(data);
+            }
+            return Json(new { });
+        }
+        [HttpPost]
+        public ActionResult savekh(string tenkh, string diachi, string nguoilienhe, string dienthoai, string matinh, string xeploai)
         {
             var Infocrm = GetCRM();
             var taikhoan = Infocrm.taikhoan;
@@ -243,6 +270,7 @@ namespace ApplicationChart.Controllers
                     diachi = diachi,
                     dt = dienthoai,
                     matdv = taikhoan,
+                    matinh = matinh,
                     tk = "131",
                     stt = stt,
                     tinhtrang = "Khách hàng mới",
@@ -477,6 +505,7 @@ namespace ApplicationChart.Controllers
             var data = DATADH(macn, madh);
             return Json(data.OrderBy(n => n.STT));
         }
+
         [HttpPost]
         public ActionResult GetKhachHang(string makh, string macn)
         {
@@ -557,11 +586,419 @@ namespace ApplicationChart.Controllers
             return Json(data1.First().ngay.ToString("dd/MM/yyyy"));
         }
         [HttpPost]
-        public ActionResult EditKhachHang(string makh, string dt, string xeploai)
+        public ActionResult EditKhachHang(string makh, string dt, string xeploai, string matinh)
         {
             var Infocrm = GetCRM();
-            UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, xeploai);
+            UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, xeploai, matinh);
             return Json(1);
+        }
+        public ActionResult ExcelKhachhangMoi(string macn, string matdv)
+        {
+
+            string path = Server.MapPath("~/Content/mauKHmoi.xlsx");
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(new FileInfo(path)))
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelWorkbook workbook = package.Workbook;
+                    ExcelWorksheet worksheet = workbook.Worksheets[0];
+
+                    var tdv = db2.TBL_DANHMUCNGUOIDUNG.FirstOrDefault(d => d.nguoidung == matdv);
+                    if (tdv != null)
+                    {
+                        var matinh = tdv.matinh;
+                        var hoten = tdv.hoten;
+
+                        worksheet.Cells["C1"].Value = matdv + " - " + hoten;
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == matinh).FirstOrDefault();
+                            if (tinh != null)
+                            {
+                                worksheet.Cells["C2"].Value = tinh.TenTinh;
+                            }
+                            else
+                            {
+                                worksheet.Cells["C2"].Value = matinh;
+                            }
+                        }
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var danhsach = enti.TBL_DANHMUCKHACHHANG
+                                .Where(d => d.matdv == matdv && d.tinhtrang == "Khách hàng mới")
+                                .ToList();
+
+                            int start_r = 4;
+                            foreach (var d in danhsach)
+                            {
+                                worksheet.Cells["A" + start_r].Value = d.donvi;
+                                worksheet.Cells["B" + start_r].Value = d.diachi;
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == d.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["D" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["D" + start_r].Value = d.matinh;
+                                }
+                                worksheet.Cells["E" + start_r].Value = d.tennguoigd;
+                                worksheet.Cells["F" + start_r].Value = d.dt;
+                                worksheet.Cells["G" + start_r].Value = d.xeploai;
+                                start_r++;
+                            }
+                        }
+                    }
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                    package.SaveAs(memoryStream);
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                memoryStream.Position = 0;
+                return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+
+            }
+
+        }
+        public ActionResult Excelbaocaongay(string macn, string matdv, DateTime tungay, DateTime denngay)
+        {
+
+            string path = Server.MapPath("~/Content/mauBCNgay.xlsx");
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(new FileInfo(path)))
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelWorkbook workbook = package.Workbook;
+                    ExcelWorksheet worksheet = workbook.Worksheets[0];
+
+
+
+                    var tdv = db2.TBL_DANHMUCNGUOIDUNG.FirstOrDefault(d => d.nguoidung == matdv);
+                    if (tdv != null)
+                    {
+                        var matinh = tdv.matinh;
+                        var hoten = tdv.hoten;
+
+                        worksheet.Cells["C1"].Value = matdv + " - " + hoten;
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == matinh).FirstOrDefault();
+                            if (tinh != null)
+                            {
+                                worksheet.Cells["C2"].Value = tinh.TenTinh;
+                            }
+                            else
+                            {
+                                worksheet.Cells["C2"].Value = matinh;
+                            }
+                        }
+
+
+                    }
+
+                    var congtac = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay >= tungay && d.ngay <= denngay).ToList();
+                    var groupby_ngay = congtac.GroupBy(d => d.ngay).Select(d => new
+                    {
+                        ngay = d.Key,
+                        data = d.ToList()
+                    }).OrderBy(d => d.ngay).ToList();
+
+                    foreach (var group in groupby_ngay)
+                    {
+
+                        ExcelWorksheet destinationWorksheet = workbook.Worksheets.Copy("Sheet1", group.ngay.ToString("yyyy/MM/dd"));
+                        destinationWorksheet.Cells["C3"].Value = group.ngay.ToString("dd/MM/yyyy");
+                        int start_r = 5;
+                        foreach (var d in group.data)
+                        {
+
+                            if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                            {
+                                var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                                var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                                if (kh != null)
+                                {
+
+                                    var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                    if (tinh != null)
+                                    {
+                                        destinationWorksheet.Cells["A" + start_r].Value = tinh.TenTinh;
+                                    }
+                                    else
+                                    {
+                                        destinationWorksheet.Cells["A" + start_r].Value = kh.matinh;
+                                    }
+                                }
+                            }
+                            destinationWorksheet.Cells["B" + start_r].Value = d.makh + " - " + d.tenkh;
+                            destinationWorksheet.Cells["C" + start_r].Value = d.ghichu;
+                            destinationWorksheet.Cells["D" + start_r].Value = d.ketqua_text;
+                            start_r++;
+
+                            destinationWorksheet.Cells[destinationWorksheet.Dimension.Address].AutoFitColumns();
+                        }
+                    }
+                    package.Workbook.Worksheets.Delete(worksheet);
+                    package.SaveAs(memoryStream);
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                memoryStream.Position = 0;
+                return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+
+            }
+
+        }
+
+        public ActionResult excelkehoachtuan(string macn, string matdv, DateTime ngay)
+        {
+
+            string path = Server.MapPath("~/Content/mauKHtuan.xlsx");
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(new FileInfo(path)))
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelWorkbook workbook = package.Workbook;
+                    ExcelWorksheet worksheet = workbook.Worksheets[0];
+
+                    var t2 = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+                    var t3 = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Tuesday);
+                    var t4 = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Wednesday);
+                    var t5 = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Thursday);
+                    var t6 = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Friday);
+                    var t7 = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Saturday);
+                    var cn = ngay.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Sunday);
+
+                    worksheet.Cells["A3"].Value = $" KẾ HOẠCH LÀM VIỆC TUẦN   /  TỪ   {t2.ToString("dd/MM/yyyy")}   ĐẾN    {t7.ToString("dd/MM/yyyy")}";
+
+                    var tdv = db2.TBL_DANHMUCNGUOIDUNG.FirstOrDefault(d => d.nguoidung == matdv);
+                    if (tdv != null)
+                    {
+                        var matinh = tdv.matinh;
+                        var hoten = tdv.hoten;
+
+                        worksheet.Cells["C1"].Value = matdv + " - " + hoten;
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == matinh).FirstOrDefault();
+                            if (tinh != null)
+                            {
+                                worksheet.Cells["C2"].Value = tinh.TenTinh;
+                            }
+                            else
+                            {
+                                worksheet.Cells["C2"].Value = matinh;
+                            }
+                        }
+
+
+                    }
+                    var congtac_t2 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay == t2).ToList();
+                    int start_r = 5;
+
+                    foreach (var d in congtac_t2)
+                    {
+
+
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            if (kh != null)
+                            {
+
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                }
+                            }
+                        }
+                        worksheet.Cells["C" + start_r].Value = d.makh + " - " + d.tenkh;
+                        worksheet.Cells["D" + start_r].Value = d.ghichu;
+                        start_r++;
+
+
+                    }
+
+                    var congtac_t3 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay == t3).ToList();
+                    start_r = 18;
+
+                    foreach (var d in congtac_t3)
+                    {
+
+
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            if (kh != null)
+                            {
+
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                }
+                            }
+                        }
+                        worksheet.Cells["C" + start_r].Value = d.makh + " - " + d.tenkh;
+                        worksheet.Cells["D" + start_r].Value = d.ghichu;
+                        start_r++;
+
+
+                    }
+
+                    var congtac_t4 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay == t4).ToList();
+                    start_r = 31;
+                    foreach (var d in congtac_t4)
+                    {
+
+
+
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            if (kh != null)
+                            {
+
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                }
+                            }
+                        }
+                        worksheet.Cells["C" + start_r].Value = d.makh + " - " + d.tenkh;
+                        worksheet.Cells["D" + start_r].Value = d.ghichu;
+                        start_r++;
+
+
+                    }
+                    var congtac_t5 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay == t5).ToList();
+                    start_r = 44;
+                    foreach (var d in congtac_t5)
+                    {
+
+
+
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            if (kh != null)
+                            {
+
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                }
+                            }
+                        }
+                        worksheet.Cells["C" + start_r].Value = d.makh + " - " + d.tenkh;
+                        worksheet.Cells["D" + start_r].Value = d.ghichu;
+                        start_r++;
+
+
+                    }
+
+                    var congtac_t6 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay == t6).ToList();
+                    start_r = 57;
+                    foreach (var d in congtac_t6)
+                    {
+
+
+
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            if (kh != null)
+                            {
+
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                }
+                            }
+                        }
+                        worksheet.Cells["C" + start_r].Value = d.makh + " - " + d.tenkh;
+                        worksheet.Cells["D" + start_r].Value = d.ghichu;
+                        start_r++;
+
+
+                    }
+
+                    var congtac_t7 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.macn == macn && d.ngay == t7).ToList();
+                    start_r = 70;
+                    foreach (var d in congtac_t7)
+                    {
+
+
+                        if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
+                        {
+                            var enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            if (kh != null)
+                            {
+
+                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                if (tinh != null)
+                                {
+                                    worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                }
+                            }
+                        }
+                        worksheet.Cells["C" + start_r].Value = d.makh + " - " + d.tenkh;
+                        worksheet.Cells["D" + start_r].Value = d.ghichu;
+                        start_r++;
+
+
+                    }
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                    package.SaveAs(memoryStream);
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                memoryStream.Position = 0;
+                return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+
+            }
+
         }
         //[HttpPost]
         //public ActionResult DelKhachHang(string tenkh)
@@ -1074,7 +1511,7 @@ namespace ApplicationChart.Controllers
         public KhachHangFull DATAGETKHACHHANGVIEW(string x, string makh)
         {
             var DATAX = new KhachHangFull();
-            string str = "SELECT makh AS MAKH, donvi AS DONVI , tennguoigd AS TENNGUOILH , dt AS DT , diachi AS DIACHI, FORMAT(ngaygdgannhat, 'dd/MM/yyyy ') AS DONHANGGANHAT , FORMAT(ngaysinh, 'dd/MM/yyyy ') AS NGAYSINH , masothue as MST,xeploai from TBL_DANHMUCKHACHHANG where makh='" + makh + "'";
+            string str = "SELECT makh AS MAKH, donvi AS DONVI , tennguoigd AS TENNGUOILH , dt AS DT , diachi AS DIACHI, FORMAT(ngaygdgannhat, 'dd/MM/yyyy ') AS DONHANGGANHAT , FORMAT(ngaysinh, 'dd/MM/yyyy ') AS NGAYSINH , masothue as MST,xeploai,matinh from TBL_DANHMUCKHACHHANG where makh='" + makh + "'";
             string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI, DiaChi AS DIACHI, ngaygdgannhat AS DONHANGGANHAT , TENNGUOIGD AS TENNGUOILH, dt AS DT from DM_KHACHHANG_PTTT where MaKH='" + makh + "'";
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
             {
@@ -1091,7 +1528,7 @@ namespace ApplicationChart.Controllers
             }
             return DATAX;
         }
-        public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string xeploai)
+        public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string xeploai, string matinh)
         {
             //DateTime ngaysinh1 = DateTime.ParseExact(ngaysinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             //string str = "UPDATE TBL_DANHMUCKHACHHANG SET dt = '" + dt + "', xeploai = '" + xeploai + "' WHERE makh = '" + makh + "'";
@@ -1103,6 +1540,7 @@ namespace ApplicationChart.Controllers
                 var record = enti.TBL_DANHMUCKHACHHANG.Where(d => d.makh == makh).FirstOrDefault();
                 record.dt = dt;
                 record.xeploai = xeploai;
+                record.matinh = matinh;
                 enti.TBL_DANHMUCKHACHHANG.AddOrUpdate(record);
                 enti.SaveChanges();
                 //enti.Database.ExecuteSqlCommand(str);
