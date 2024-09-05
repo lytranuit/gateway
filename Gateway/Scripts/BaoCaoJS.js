@@ -134,8 +134,6 @@ function myFunction4() {
 }
 $(document).ready(function () {
     $(".poc").hide();
-    $("#chon").val(0);
-    $("#donvi").val("QT");
     //$("#nhomhang").change(function () {
     //    if ($("#nhomhang").val() == 3) {
 
@@ -1261,6 +1259,11 @@ $(document).ready(function () {
             Command: toastr["error"]("Bạn chưa chọn ngày.", "Lỗi !")
         }
     });
+
+
+
+    $("#chon").val(0).change();
+    $("#donvi").val("QT").change();
 });
 function taiclick() {
     var x = document.getElementById("taidrop");
