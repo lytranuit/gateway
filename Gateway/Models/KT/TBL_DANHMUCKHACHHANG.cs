@@ -50,6 +50,7 @@ namespace it_report.Models
         public Nullable<System.DateTime> ngayhethan { get; set; }
         public string giaydkkd { get; set; }
         public Nullable<int> stt { get; set; }
+        public Nullable<System.DateTime> ngaycapnhat { get; set; }
 
 
     }

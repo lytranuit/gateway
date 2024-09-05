@@ -74,7 +74,7 @@
     </div>
 </div>
 <div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:600px" role="document">
+    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:1024px" role="document">
         <div class="modal-content">
             <div class="modal-header p-2">
                 <h6 class="modal-title font-weight-bold p-2">THAY ĐỔI THÔNG TIN KHÁCH HÀNG</h6>
@@ -91,35 +91,45 @@
                                 <input readonly autocomplete="off" type="text" class="form-control" id="donviedit" placeholder="Tên khách hàng">
                             </div>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="xeploaiedit">Xếp loại</label>
-                                <select class="form-control" id="xeploaiedit">
-                                    <option value="Bình thường">Bình thường</option>
-                                    <option value="Tiềm năng">Tiềm năng</option>
-                                    <option value="VIP">VIP</option>
-                                </select>
-                            </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="diachiedit">Địa chỉ</label>
+                            <input autocomplete="off" type="text" class="form-control" id="diachiedit">
                         </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="matinhedit">Tỉnh</label>
-                                <select class="form-control" id="matinhedit">
-                                    @foreach (var i in ViewBag.tinh)
-                                    {
-                                        <option value="@i.MaTinh">@i.TenTinh</option>
-                                    }
-                                </select>
-                            </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="lienheedit">Người liên hệ</label>
+                            <input autocomplete="off" type="text" class="form-control" id="lienheedit">
                         </div>
-
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="dtedit">Điện thoại liên hệ</label>
-                                <input autocomplete="off" type="text" class="form-control" placeholder="Nhập số điện thoại" id="dtedit" data-inputmask='"mask": "099999999999"' data-mask>
-                            </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="thueedit">Mã số thuế</label>
+                            <input autocomplete="off" type="text" class="form-control" id="thueedit">
                         </div>
-
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="dienthoaiedit">Số điện thoại</label>
+                            <input autocomplete="off" type="text" class="form-control" id="dienthoaiedit">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="tinhedit">Tỉnh</label>
+                            <select class="form-control" id="tinhedit">
+                                <option value=""></option>
+                                @foreach (var i in ViewBag.tinh)
+                                {
+                                    <option value="@i.MaTinh">@i.TenTinh</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="quanedit">Quận/Huyện</label>
+                            <select class="form-control" id="quanedit">
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="xeploaiedit">Xếp loại</label>
+                            <select class="form-control" id="xeploaiedit">
+                                <option value="Bình thường">Bình thường</option>
+                                <option value="Tiềm năng">Tiềm năng</option>
+                                <option value="VIP">VIP</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,11 +178,18 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="viewtinh">Tỉnh</label>
-                            <input disabled autocomplete="off" type="text" class="form-control" id="viewtinh">
+                            <select class="form-control" id="viewtinh" disabled>
+                                <option value=""></option>
+                                @foreach (var i in ViewBag.tinh)
+                                {
+                                    <option value="@i.MaTinh">@i.TenTinh</option>
+                                }
+                            </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label for="viewquan">Quận/huyện</label>
-                            <input disabled autocomplete="off" type="text" class="form-control" id="viewquan">
+                            <label for="viewquan">Quận/Huyện</label>
+                            <select class="form-control" id="viewquan" disabled>
+                            </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="view6">Đơn hàng gần nhất</label>
@@ -310,7 +327,14 @@
                                         url: "@Url.Action("EditKhachHang", "Baocao")",
                                         contentType: "application/json",
                                         datatype: 'json',
-                                        data: '{makh: ' + JSON.stringify($("#donviedit").attr("data-makh")) + ', dt: ' + JSON.stringify($("#dtedit").val().replace(/_/g, "")) + ', xeploai: ' + JSON.stringify($("#xeploaiedit").val()) + ', matinh: ' + JSON.stringify($("#matinhedit").val()) + '}',
+                                        data: '{makh: ' + JSON.stringify($("#donviedit").attr("data-makh"))
+                                            + ', dt: ' + JSON.stringify($("#dienthoaiedit").val().replace(/_/g, ""))
+                                            + ', xeploai: ' + JSON.stringify($("#xeploaiedit").val())
+                                            + ', matinh: ' + JSON.stringify($("#tinhedit").val())
+                                            + ', quanhuyen: ' + JSON.stringify($("#quanedit").val())
+                                            + ', lienhe: ' + JSON.stringify($("#lienheedit").val())
+                                            + ', diachi: ' + JSON.stringify($("#diachiedit").val())
+                                            + ', masothue: ' + JSON.stringify($("#thueedit").val()) + '}',
                                         error: function () {
                                             toastr.options = {
                                                 "closeButton": true,
@@ -351,8 +375,7 @@
                                             }
                                             Command: toastr["success"]("Thay đổi thành công !", "THÔNG BÁO")
                                             $('#ModalEdit').modal('hide')
-                                            $("#" + $("#donviedit").attr("data-makh").replace(".","")).find("td:eq(3)").text($("#ngaysinhedit").val());
-                                            $("#" + $("#donviedit").attr("data-makh").replace(".","")).find("td:eq(4)").text($("#dtedit").val().replace(/_/g, ""));
+                                            location.reload();
                                         },
                                         timeout: 5000,
                                     });
@@ -411,11 +434,29 @@
             $(document).on("click", ".btntao", function () {
 
             });
+            $(document).on("change", "#KH7", async function () {
+                var matinh = $(this).val();
+                var list = await getQuan(matinh);
+                var html = "";
+                for (var d of list) {
+                    html += "<option value='" + d.maquan + "'>" + d.tenquan + "</option>";
+                }
+                $("#KHquan").html(html)
+            });
+            $(document).on("change", "#tinhedit", async function () {
+                var matinh = $(this).val();
+                var list = await getQuan(matinh);
+                var html = "";
+                for (var d of list) {
+                    html += "<option value='" + d.maquan + "'>" + d.tenquan + "</option>";
+                }
+                $("#quanedit").html(html)
+            });
             $("#example23").on("click", ".btnview", function () {
                 var makh = $(this).closest('tr').find('td:eq(0)').text();
                 var url = '@Url.Action("GetKhachHang", "Baocao")';
                 $.post(url, { makh: makh },
-                              function (data) {
+                              async function (data) {
                                   $("#view1").val(data.MAKH);
                                   $("#view2").val(data.DONVI);
                                   $("#view3").val(data.DIACHI);
@@ -424,6 +465,14 @@
                                   $("#view7").val(data.MST);
 
                                   $("#view8").val(data.xeploai);
+                                  $("#viewtinh").val(data.matinh);
+                                  var list = await getQuan(data.matinh);
+                                  var html = "";
+                                  for (var d of list) {
+                                      html += "<option value='" + d.maquan + "'>" + d.tenquan + "</option>";
+                                  }
+                                  $("#viewquan").html(html);
+                                  $("#viewquan").val(data.quanhuyen);
                                   //console.log(data);
                                   if (data.DONHANGGANHAT != "/Date(-62135596800000)/") {
                                       $("#view6").val(data.DONHANGGANHAT);
@@ -431,25 +480,67 @@
                                   else {
                                       $("#view6").val("N/A");
                                   }
-                                 
+
                               });
             });
             $("#example23").on("click", ".btnsuakh", function () {
                 var hang = $(this).closest('tr').find("td:eq(0)").text();
                 var url = '@Url.Action("GetKhachHang", "Baocao")';
                 $.post(url, { makh: hang },
-                    function (data) {
+                    async function (data) {
                         $("#donviedit").val(data.MAKH + " - " + data.DONVI);
                         $("#donviedit").attr("data-makh", data.MAKH);
-                        $("#dtedit").val(data.DT);
+                        $("#dienthoaiedit").val(data.DT);
                         $("#xeploaiedit").val(data.xeploai);
-                        $("#matinhedit").val(data.matinh);
+                        $("#tinhedit").val(data.matinh);
+                        $("#diachiedit").val(data.DIACHI);
+                        $("#lienheedit").val(data.TENNGUOILH);
+                        $("#thueedit").val(data.MST);
 
+                        var list = await getQuan(data.matinh);
+                        var html = "";
+                        for (var d of list) {
+                            html += "<option value='" + d.maquan + "'>" + d.tenquan + "</option>";
+                        }
+                        $("#quanedit").html(html);
+                        $("#quanedit").val(data.quanhuyen);
 
                     });
             });
 
         });
+        async function getQuan(matinh) {
+             return  await $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetQuan", "Baocao")",
+                contentType: "application/json",
+                datatype: 'json',
+                  data: '{matinh: ' + JSON.stringify(matinh) + '}',
+                error: function () {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                },
+                  success: function (data) {
 
+                },
+                timeout: 5000,
+            });
+        }
     </script>
 }

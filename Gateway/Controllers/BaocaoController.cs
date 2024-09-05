@@ -17,6 +17,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Net;
+using static DevExpress.XtraPrinting.Export.Pdf.PdfImageCache;
+using System.Data.SqlClient;
 
 namespace ApplicationChart.Controllers
 {
@@ -276,7 +278,8 @@ namespace ApplicationChart.Controllers
                     tk = "131",
                     stt = stt,
                     tinhtrang = "Khách hàng mới",
-                    xeploai = xeploai
+                    xeploai = xeploai,
+                    ngaycapnhat = DateTime.Now
                 };
                 enti.TBL_DANHMUCKHACHHANG.Add(KHmoi);
                 enti.SaveChanges();
@@ -600,10 +603,10 @@ namespace ApplicationChart.Controllers
             return Json(data1.First().ngay.ToString("dd/MM/yyyy"));
         }
         [HttpPost]
-        public ActionResult EditKhachHang(string makh, string dt, string xeploai, string matinh)
+        public ActionResult EditKhachHang(string makh, string dt, string xeploai, string matinh, string diachi, string lienhe, string quanhuyen, string masothue)
         {
             var Infocrm = GetCRM();
-            UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, xeploai, matinh);
+            UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, xeploai, matinh, diachi, lienhe, quanhuyen, masothue);
             return Json(1);
         }
         public ActionResult ExcelKhachhangMoi(string macn, string matdv)
@@ -650,6 +653,15 @@ namespace ApplicationChart.Controllers
                             {
                                 worksheet.Cells["A" + start_r].Value = d.donvi;
                                 worksheet.Cells["B" + start_r].Value = d.diachi;
+                                var quan = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == d.quanhuyen).FirstOrDefault();
+                                if (quan != null)
+                                {
+                                    worksheet.Cells["C" + start_r].Value = quan.tenquan;
+                                }
+                                else
+                                {
+                                    worksheet.Cells["C" + start_r].Value = d.quanhuyen;
+                                }
                                 var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == d.matinh).FirstOrDefault();
                                 if (tinh != null)
                                 {
@@ -662,6 +674,7 @@ namespace ApplicationChart.Controllers
                                 worksheet.Cells["E" + start_r].Value = d.tennguoigd;
                                 worksheet.Cells["F" + start_r].Value = d.dt;
                                 worksheet.Cells["G" + start_r].Value = d.xeploai;
+                                worksheet.Cells["H" + start_r].Value = d.ngaycapnhat != null ? d.ngaycapnhat.Value.ToString("dd/MM/yyyy") : "";
                                 start_r++;
                             }
                         }
@@ -1546,7 +1559,7 @@ namespace ApplicationChart.Controllers
         {
             try
             {
-                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan,matinh FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL and matinh = {0}", new { matinh }).ToList();
+                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan,matinh FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL and matinh = @matinh", new SqlParameter("matinh", matinh)).ToList();
                 return All;
             }
             catch (Exception)
@@ -1555,7 +1568,7 @@ namespace ApplicationChart.Controllers
             }
 
         }
-        public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string xeploai, string matinh)
+        public void UPDATETHONGTINKHACHHANG(string x, string makh, string dt, string xeploai, string matinh, string diachi, string lienhe, string quanhuyen, string masothue)
         {
             //DateTime ngaysinh1 = DateTime.ParseExact(ngaysinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             //string str = "UPDATE TBL_DANHMUCKHACHHANG SET dt = '" + dt + "', xeploai = '" + xeploai + "' WHERE makh = '" + makh + "'";
@@ -1568,6 +1581,11 @@ namespace ApplicationChart.Controllers
                 record.dt = dt;
                 record.xeploai = xeploai;
                 record.matinh = matinh;
+                record.masothue = masothue;
+                record.diachi = diachi;
+                record.quanhuyen = quanhuyen;
+                record.tennguoigd = lienhe;
+                record.ngaycapnhat = DateTime.Now;
                 enti.TBL_DANHMUCKHACHHANG.AddOrUpdate(record);
                 enti.SaveChanges();
                 //enti.Database.ExecuteSqlCommand(str);

@@ -579,6 +579,7 @@
     <Compile Include="Models\KhuVuc.cs">
       <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KT\TBL_DANHMUCQUAN.cs" />
     <Compile Include="Models\KT\TBL_DANHMUCDONVI.cs" />
     <Compile Include="Models\KT\TBL_DANHMUCKHACHHANG.cs" />
     <Compile Include="Models\KT_QN.Context.cs">
