@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Báo cáo công tác trình dược";
+    ViewBag.Title = "Báo cáo công tác";
     Layout = "~/Views/Shared/Layout1.cshtml";
 }
 @section styles {
@@ -25,7 +25,7 @@
     <div class="w3-card w3-white" style="border-radius:0.25rem">
         <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
             <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
-            <li class="breadcrumb-item active w3-text-black font-weight-normal">BÁO CÁO CÔNG TÁC TRÌNH DƯỢC</li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">BÁO CÁO CÔNG TÁC</li>
         </ol>
     </div>
     <div class="w3-content w3-padding p-0 pt-1" style="background-color:white;margin-top:3px;">
@@ -44,7 +44,7 @@
                                     <label class="col-sm-4 col-form-label" for="matdv">Loại báo cáo <code class="bg-white">(*)</code></label>
                                     <div class="col-sm-8">
                                         <select name="baocao" id="baocao" class="selectpicker">
-                                            <option selected value="1">Báo cáo chi tiết từng TDV</option>
+                                            <option selected value="1">Báo cáo chi tiết</option>
                                             <option value="2">Báo cáo tổng hợp</option>
                                             <option value="3">Báo cáo tổng hợp từng ngày</option>
                                             <option value="4">Danh sách khách hàng mới(Excel)</option>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-sm-6" id="divtdv">
                                 <div class="form-group row">
-                                    <label id="labeltdv" class="col-sm-4 col-form-label" for="matdv">Trình dược viên <code class="bg-white">(*)</code></label>
+                                    <label id="labeltdv" class="col-sm-4 col-form-label" for="matdv">Đại diện nhãn hàng <code class="bg-white">(*)</code></label>
                                     <div class="col-sm-8">
                                         <select name="matdv" title="Chọn..." class="selectpicker" id="matdv" data-live-search="true"></select>
                                     </div>
@@ -156,7 +156,7 @@
     <div class="modal-dialog modal-dialog-centered scrollable-auto-y" style="max-width:1280px;" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bold">Lịch sử thay đổi báo cáo trình dược ngày <span id="ngay"></span></h5>
+                <h5 class="modal-title font-weight-bold">Lịch sử thay đổi báo cáo đại diện nhãn hàng ngày <span id="ngay"></span></h5>
                 <h5 class="modal-title font-weight-bold" id="viewdonhang"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -257,11 +257,11 @@
                 $('#chinhanh').selectpicker('deselectAll');
 
                 if ($("#baocao").val() == 1 || $("#baocao").val() == 4 || $("#baocao").val() == 5 || $("#baocao").val() == 6) {
-                    $("#labeltdv").html('Trình dược viên <code class="bg-white">(*)</code>');
+                    $("#labeltdv").html('Đại diện nhãn hàng <code class="bg-white">(*)</code>');
                     $("#divtdv").css("display", "block");
                 }
                 else {
-                    $("#labeltdv").html('Trình dược viên');
+                    $("#labeltdv").html('Đại diện nhãn hàng');
                     $("#divtdv").css("display", "none");
                 }
             });

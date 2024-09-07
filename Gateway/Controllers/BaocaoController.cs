@@ -565,7 +565,7 @@ namespace ApplicationChart.Controllers
             var Infocrm = GetCRM();
             List<ListTrinhDuocVien> data = new List<ListTrinhDuocVien>();
 
-            if (Infocrm.matdv != null)
+            if (Infocrm.matdv != null && Infocrm.matdv != "")
             {
                 var TDV = Infocrm.matdv.Split(',').ToList();
                 data = db2.TBL_PHANQUYENCRM.Where(n => n.macn == macn && TDV.Contains(n.matdv)).Select(cl => new ListTrinhDuocVien { MATDV = cl.taikhoan, TENTDV = cl.TBL_DANHMUCNGUOIDUNG.hoten }).ToList();

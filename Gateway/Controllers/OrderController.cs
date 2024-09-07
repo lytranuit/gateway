@@ -105,11 +105,12 @@ namespace ApplicationChart.Controllers
         public ActionResult Capnhatgia()
         {
             var Info = GetInfo();
+            var matinh = Info.matinh != "ALL" ? Info.matinh.Split(',').ToList() : null;
             var listcn = Info.macn.Split(',').ToList();
 
             foreach (var macn in listcn)
             {
-                var datahanghoa = DATATAO(macn, null);
+                var datahanghoa = DATATAO(macn, null, matinh);
                 if (queryCN.SingleOrDefault(n => n.macn == macn) != null)
                 {
                     var data = queryCN.SingleOrDefault(n => n.macn == macn).data.DTA_DONDATHANG.Where(n => n.GIABAN_VAT == null);
@@ -511,11 +512,12 @@ namespace ApplicationChart.Controllers
         public ActionResult Chuongtrinhkmcn()
         {
             var Info = GetInfo();
+            var matinh = Info.matinh != "ALL" ? Info.matinh.Split(',').ToList() : null;
             var Infocrm = Info.TBL_PHANQUYENCRM;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var Data = DATATAO(Infocrm.macn, Infocrm.matdv);
+            var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
             return View("Chuongtrinhkmcn", Data.ListCTKM);
         }
         [ActionName("danh-sach-don-dat-hang")]
@@ -4238,6 +4240,7 @@ namespace ApplicationChart.Controllers
         public ActionResult Taodonhang(string makh)
         {
             var Info = GetInfo();
+            var matinh = Info.matinh != "ALL" ? Info.matinh.Split(',').ToList() : null;
             var Infocrm = Info.TBL_PHANQUYENCRM;
             if (Info.dathang == 1 || Info.dathang == 2)
             {
@@ -4246,7 +4249,7 @@ namespace ApplicationChart.Controllers
                 ViewBag.quyen = Info.quyen;
                 ViewBag.makh = makh;
                 ViewBag.macn = Infocrm.macn;
-                var Data = DATATAO(Infocrm.macn, Infocrm.matdv);
+                var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
                 var THKM = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TICHDIEM = cl.TICHDIEM, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, HANMUC = cl.HANMUC, ck = cl.ck }).ToList();
                 Data.ListCTKM = THKM.Concat(Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM))).ToList();
                 Data.ListCTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, MACTKM = cl.MACTKM }).ToList();
@@ -4274,6 +4277,7 @@ namespace ApplicationChart.Controllers
         public ActionResult Nhapthecao()
         {
             var Info = GetInfo();
+            var matinh = Info.matinh != "ALL" ? Info.matinh.Split(',').ToList() : null;
             var Infocrm = Info.TBL_PHANQUYENCRM;
             if (Info.dathang == 1 || Info.dathang == 2)
             {
@@ -4281,7 +4285,7 @@ namespace ApplicationChart.Controllers
                 ViewBag.ten = Info.hoten;
                 ViewBag.quyen = Info.quyen;
                 ViewBag.macn = Infocrm.macn;
-                var Data = DATATAO(Infocrm.macn, Infocrm.matdv);
+                var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
                 return View("Nhapthecao", Data);
             }
             else
@@ -4334,13 +4338,14 @@ namespace ApplicationChart.Controllers
         public ActionResult Quanlythecao()
         {
             var Info = GetInfo();
+            var matinh = Info.matinh != "ALL" ? Info.matinh.Split(',').ToList() : null;
             var Infocrm = Info.TBL_PHANQUYENCRM;
 
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             ViewBag.macn = Infocrm.macn;
-            var Data = DATATAO(Infocrm.macn, Infocrm.matdv);
+            var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
 
             return View("Quanlythecao", Data);
 
@@ -4447,6 +4452,7 @@ namespace ApplicationChart.Controllers
         public ActionResult Taodonhangmobile(string makh)
         {
             var Info = GetInfo();
+            var matinh = Info.matinh != "ALL" ? Info.matinh.Split(',').ToList() : null;
             var Infocrm = Info.TBL_PHANQUYENCRM;
             if (Info.dathang == 1 || Info.dathang == 2)
             {
@@ -4455,7 +4461,7 @@ namespace ApplicationChart.Controllers
                 ViewBag.quyen = Info.quyen;
                 ViewBag.makh = makh;
                 ViewBag.macn = Infocrm.macn;
-                var Data = DATATAO(Infocrm.macn, Infocrm.matdv);
+                var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
                 var THKM = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, ck = cl.ck }).ToList();
                 Data.ListCTKM = THKM.Concat(Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM))).ToList();
                 Data.ListCTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, MACTKM = cl.MACTKM }).ToList();
@@ -6456,23 +6462,23 @@ namespace ApplicationChart.Controllers
             DATAX.AddRange(DATATH1.TBL_DANHMUCKM.Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, TENCTKM = cl.TENCTKM }));
             return DATAX.GroupBy(c => c.MACTKM).Select(cl => new ListChuongTrinhKM { MACTKM = cl.Key, TENCTKM = cl.FirstOrDefault().TENCTKM }).OrderBy(n => n.MACTKM).ToList();
         }
-        public ListData DATATAO(string x, string MATDV)
+        public ListData DATATAO(string x, string MATDV, List<string> matinh = null)
         {
             string strcn = "";
-            string strch = "";
             if (MATDV != null)
             {
                 var listMATDV = MATDV.Split(',').ToList();
-                strcn = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE (matdv IN ({0}) or matdv = '' or matdv is null) and (tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch')", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
-                strch = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from DM_KHACHHANG_PTTT" + string.Format(" WHERE (matdv IN ({0})" + ((x == "PTTT") ? " or matdv2 IN ({0}) " : "") + " or matdv = '' or matdv is null) and (tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch')", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
+                strcn = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE tinhtrang != 'Ngừng giao dịch' AND (matdv IN ({0}) or matdv = '' or matdv is null)", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
             }
             else
             {
-                strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch'";
-                strch = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, phanloaikhachhang from DM_KHACHHANG_PTTT WHERE tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch'";
+                strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tinhtrang != 'Ngừng giao dịch'";
+            }
+            if (matinh != null && matinh.Count() > 0)
+            {
+                strcn += string.Format(" AND matinh IN ({0})", string.Join(",", matinh.Select(p => "'" + p + "'")));
             }
             string strcnctkm = "SELECT MACTKM AS MACTKM, TENCTKM AS TENCTKM,ngaybatdau,ngayketthuc from TBL_DANHMUCKM WHERE MaCTKM IS NOT NULL AND (ngayketthuc is null or (ngayketthuc >= '" + DateTime.Now.ToString("yyyy/MM/dd") + "' and ngaybatdau <= '" + DateTime.Now.ToString("yyyy/MM/dd") + "'))";
-            string strcnhh = "SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN , quicach as QUICACH, nhom as NHOM from TBL_DANHMUCHANGHOA where 1=1 and GIABAN != '0' and sudung = 1";
             var DATAX = new ListData();
             if (queryCN.SingleOrDefault(n => n.macn == x) != null)
             {
