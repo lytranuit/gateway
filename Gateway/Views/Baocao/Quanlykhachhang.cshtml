@@ -29,24 +29,10 @@
                                 <label class="col-sm-4 col-form-label" for="chinhanh">Chi nhánh <code class="bg-white">(*)</code></label>
                                 <div class="col-sm-8">
                                     <select title="Chọn..." class="selectpicker" id="chinhanh">
-                                        <optgroup label="MIỀN TRUNG">
-                                            @foreach (var k in ViewBag.mientrung)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </optgroup>
-                                        <optgroup label="MIỀN NAM">
-                                            @foreach (var k in ViewBag.miennam)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </optgroup>
-                                        <optgroup label="MIỀN BẮC">
-                                            @foreach (var k in ViewBag.mienbac)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </optgroup>
+                                        @foreach (var k in ViewBag.donvi)
+                                        {
+                                            <option value=@k.macn>@k.Tencn</option>
+                                        }
                                     </select>
                                 </div>
                             </div>

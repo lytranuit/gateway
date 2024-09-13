@@ -83,7 +83,7 @@ namespace ApplicationChart.Controllers
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
             new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
-                 new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
+                 //new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
         };
         List<EntitiesCH> queryCH = new List<EntitiesCH> {
             new EntitiesCH {data = new CHQ10Entities1("PTTTEntities") , macn = "PTTT"},
@@ -349,10 +349,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -1022,10 +1020,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -1216,10 +1212,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -1233,10 +1227,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -1250,10 +1242,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -1267,10 +1257,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -1284,10 +1272,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -6682,10 +6668,8 @@ namespace ApplicationChart.Controllers
             ViewBag.quyen = Info.quyen;
 
             List<string> listcn = Info.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.nhomhang = DATATH1.TBL_DANHMUCNHOMSANPHAM.Where(n => n.STT != 4 && n.STT != 0).ToList();
             ViewBag.maplhd = DATATH1.TBL_DANHMUCPHANLOAIHD.OrderBy(n => n.TKHN == "632").ToList();
             //ĐƠN VỊ
@@ -6942,10 +6926,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -6960,10 +6942,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -7003,11 +6983,9 @@ namespace ApplicationChart.Controllers
             }
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             //var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('50','50.STA', '51', '60','60.STA', '61', '62','62.STA', '63','64','64.PME','64.STA', '70','99','40')").ToList();
             return View("Nhapkhoantdv");
         }
@@ -7126,18 +7104,9 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             var donvi = new List<TBL_DANHSACHCHINHANH>();
-            if (Info.macn == "ALL")
-            {
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
-            }
-            else
-            {
-                var taphop = Info.macn.Split(',').ToList();
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            }
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             //var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('50','50.STA', '51', '60','60.STA', '61', '62','62.STA', '63','64','64.PME','64.STA', '70','99','40')").ToList();
             return View("Quanlyphuphi");
         }
@@ -7583,13 +7552,11 @@ namespace ApplicationChart.Controllers
         {
             var Info = GetInfo();
             List<string> listcn = Info.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             ViewBag.maplkh = db2.TBL_DANHMUCPHANLOAIKHACHHANG.OrderBy(n => n.phanloaikhachhang).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
             ViewBag.nhomhang = DATATH1.TBL_DANHMUCNHOMSANPHAM.Where(n => n.STT != 4 && n.STT != 0).ToList();
             ViewBag.maplhd = DATATH1.TBL_DANHMUCPHANLOAIHD.OrderBy(n => n.TKHN == "632").ToList();
             ViewBag.donvicount = donvi.Count() / 2;
@@ -10691,10 +10658,8 @@ namespace ApplicationChart.Controllers
                 return RedirectToAction("dang-xuat", "Login");
             }
             List<string> listcn = Info.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.maplkh = db2.TBL_DANHMUCPHANLOAIKHACHHANG.OrderBy(n => n.phanloaikhachhang).ToList();
             ViewBag.maplhd = DATATH1.TBL_DANHMUCPHANLOAIHD.OrderBy(n => n.TKHN == "632").ToList();
             ViewBag.otc = Info.phanloai.Split(',').ToList();
@@ -19428,10 +19393,8 @@ namespace ApplicationChart.Controllers
 
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -19448,10 +19411,8 @@ namespace ApplicationChart.Controllers
             ViewBag.quyen = Info.quyen;
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Quanlynguoidung");
         }
         [Authorize(Roles = "ADMIN")]
@@ -19516,10 +19477,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
@@ -19534,10 +19493,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;

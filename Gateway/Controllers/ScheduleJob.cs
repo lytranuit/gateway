@@ -3480,63 +3480,63 @@ namespace ApplicationChart.Controllers
     {
         public static void Start()
         {
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.Start();
-            IJobDetail job = JobBuilder.Create<ScheduleJob>().Build();
-            IJobDetail job1 = JobBuilder.Create<ScheduleJob1>().Build();
-            IJobDetail job2 = JobBuilder.Create<ScheduleJob2>().Build();
-            IJobDetail job3 = JobBuilder.Create<ScheduleJob3>().Build();
-            IJobDetail job4 = JobBuilder.Create<ScheduleJob4>().Build();
+        //    IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
+        //    scheduler.Start();
+        //    IJobDetail job = JobBuilder.Create<ScheduleJob>().Build();
+        //    IJobDetail job1 = JobBuilder.Create<ScheduleJob1>().Build();
+        //    IJobDetail job2 = JobBuilder.Create<ScheduleJob2>().Build();
+        //    IJobDetail job3 = JobBuilder.Create<ScheduleJob3>().Build();
+        //    IJobDetail job4 = JobBuilder.Create<ScheduleJob4>().Build();
         
-            IJobDetail job6 = JobBuilder.Create<ScheduleJob6>().Build();
-            IJobDetail job7 = JobBuilder.Create<ScheduleJob7>().Build();
-            IJobDetail job8 = JobBuilder.Create<ScheduleJob8>().Build();
-            ITrigger trigger2 = TriggerBuilder.Create()
-                .WithDescription("XUATHOPDONGCHINHANH")
-                .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(19, 00))
-                .Build();
-            ITrigger trigger3 = TriggerBuilder.Create()
-                 .WithDescription("XUATDATACHITIETHOADON")
-                 .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
-                 .Build();
-            ITrigger trigger4 = TriggerBuilder.Create()
-                .WithDescription("XUATDATACHITIET")
-                .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(2, 00))
-                .Build();
-            ITrigger trigger5 = TriggerBuilder.Create()
-                .WithDescription("XUATDATACHITIET1")
-                .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(17, 30))
-                .Build();
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithDescription("Checklock")
-                .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(7, 30))
-                .Build();
-            ITrigger trigger1 = TriggerBuilder.Create()
-                .WithDescription("AsyncSDK")
-                .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(10, 15))
-                .Build();
-                var triggerSet = new Quartz.Collection.HashSet<ITrigger>();
-                var triggerSet1 = new Quartz.Collection.HashSet<ITrigger>();
-            ITrigger trigger6 = TriggerBuilder.Create()
-        .WithDescription("kyhancongno")
-        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(5, 00))
-        .Build();
-                    ITrigger trigger61 = TriggerBuilder.Create()
-        .WithDescription("KYHANCONGNO1")
-        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(18, 30))
-        .Build();
-                    ITrigger trigger7 = TriggerBuilder.Create()
-        .WithDescription("congnohangngay")
-        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(07, 00))
-        .Build();
-                    ITrigger trigger71 = TriggerBuilder.Create()
-        .WithDescription("congnohangngay")
-        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(12, 00))
-        .Build();
-            ITrigger trigger8 = TriggerBuilder.Create()
-                 .WithDescription("PHATSINHCO131")
-                 .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(12, 30))
-                 .Build();
+        //    IJobDetail job6 = JobBuilder.Create<ScheduleJob6>().Build();
+        //    IJobDetail job7 = JobBuilder.Create<ScheduleJob7>().Build();
+        //    IJobDetail job8 = JobBuilder.Create<ScheduleJob8>().Build();
+        //    ITrigger trigger2 = TriggerBuilder.Create()
+        //        .WithDescription("XUATHOPDONGCHINHANH")
+        //        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(19, 00))
+        //        .Build();
+        //    ITrigger trigger3 = TriggerBuilder.Create()
+        //         .WithDescription("XUATDATACHITIETHOADON")
+        //         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
+        //         .Build();
+        //    ITrigger trigger4 = TriggerBuilder.Create()
+        //        .WithDescription("XUATDATACHITIET")
+        //        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(2, 00))
+        //        .Build();
+        //    ITrigger trigger5 = TriggerBuilder.Create()
+        //        .WithDescription("XUATDATACHITIET1")
+        //        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(17, 30))
+        //        .Build();
+        //    ITrigger trigger = TriggerBuilder.Create()
+        //        .WithDescription("Checklock")
+        //        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(7, 30))
+        //        .Build();
+        //    ITrigger trigger1 = TriggerBuilder.Create()
+        //        .WithDescription("AsyncSDK")
+        //        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(10, 15))
+        //        .Build();
+        //        var triggerSet = new Quartz.Collection.HashSet<ITrigger>();
+        //        var triggerSet1 = new Quartz.Collection.HashSet<ITrigger>();
+        //    ITrigger trigger6 = TriggerBuilder.Create()
+        //.WithDescription("kyhancongno")
+        //.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(5, 00))
+        //.Build();
+        //            ITrigger trigger61 = TriggerBuilder.Create()
+        //.WithDescription("KYHANCONGNO1")
+        //.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(18, 30))
+        //.Build();
+        //            ITrigger trigger7 = TriggerBuilder.Create()
+        //.WithDescription("congnohangngay")
+        //.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(07, 00))
+        //.Build();
+        //            ITrigger trigger71 = TriggerBuilder.Create()
+        //.WithDescription("congnohangngay")
+        //.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(12, 00))
+        //.Build();
+        //    ITrigger trigger8 = TriggerBuilder.Create()
+        //         .WithDescription("PHATSINHCO131")
+        //         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(12, 30))
+        //         .Build();
             //            ITrigger trigger62 = TriggerBuilder.Create()
             //.WithDescription("KYHANCONGNO2")
             //.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(17, 0))
@@ -3550,19 +3550,19 @@ namespace ApplicationChart.Controllers
             //triggerSet.Add(trigger62);
             //scheduler.ScheduleJob(job5, trigger5);
             //từ đây
-            triggerSet.Add(trigger6);
-            triggerSet.Add(trigger61);
-            triggerSet1.Add(trigger7);
-            triggerSet1.Add(trigger71);
-            scheduler.ScheduleJob(job, trigger);
-            scheduler.ScheduleJob(job1, trigger1);
-            scheduler.ScheduleJob(job2, trigger2);
-            scheduler.ScheduleJob(job3, trigger3);
-            scheduler.ScheduleJob(job4, trigger4);
+            //triggerSet.Add(trigger6);
+            //triggerSet.Add(trigger61);
+            //triggerSet1.Add(trigger7);
+            //triggerSet1.Add(trigger71);
+            //scheduler.ScheduleJob(job, trigger);
+            //scheduler.ScheduleJob(job1, trigger1);
+            //scheduler.ScheduleJob(job2, trigger2);
+            //scheduler.ScheduleJob(job3, trigger3);
+            //scheduler.ScheduleJob(job4, trigger4);
 
-            scheduler.ScheduleJob(job6, triggerSet, false);
-            scheduler.ScheduleJob(job7, triggerSet1, false);
-            scheduler.ScheduleJob(job8, trigger8);
+            //scheduler.ScheduleJob(job6, triggerSet, false);
+            //scheduler.ScheduleJob(job7, triggerSet1, false);
+            //scheduler.ScheduleJob(job8, trigger8);
         }
     }
 }

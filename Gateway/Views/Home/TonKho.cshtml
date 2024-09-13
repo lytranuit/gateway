@@ -81,24 +81,10 @@
                             <div class="form-group col-md-3 mb-0">
                                 <label class="my-1 mr-2 font-weight-bold" for="chinhanh">@Html.Raw(GlobalRes.lbchinhanh)<code>(*)</code></label>
                                 <select class="selectpicker my-1 mr-sm-2" name="macn" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
-                                    <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
-                                        @foreach (var k in ViewBag.mientrung)
-                                        {
-                                            <option value="@k.macn">@k.Tencn</option>
-                                        }
-                                    </optgroup>
-                                    <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
-                                        @foreach (var k in ViewBag.miennam)
-                                        {
-                                            <option value="@k.macn">@k.Tencn</option>
-                                        }
-                                    </optgroup>
-                                    <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
-                                        @foreach (var k in ViewBag.mienbac)
-                                        {
-                                            <option value="@k.macn">@k.Tencn</option>
-                                        }
-                                    </optgroup>
+                                    @foreach (var k in ViewBag.donvi)
+                                    {
+                                        <option value=@k.macn>@k.Tencn</option>
+                                    }
                                 </select>
                             </div>
 

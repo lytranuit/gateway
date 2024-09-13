@@ -102,10 +102,8 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
             List<string> listcn = Info.macn.Split(',').ToList();
-            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.macn != "SC").ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;

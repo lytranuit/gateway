@@ -61,36 +61,7 @@ namespace ApplicationChart.Controllers
         CHQ10Entities1 PTTT = new CHQ10Entities1("PTTTEntities");
         ApplicationChartEntities1 db2 = new ApplicationChartEntities1();
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
-            new EntitiesCN {data = new Entities("TT423Entities") , macn = "TT423"},
-            new EntitiesCN {data = new Entities("KT_TNEntities") , macn = "TN"},
-            new EntitiesCN {data = new Entities("KT_BDEntities") , macn = "BD"},
-            new EntitiesCN {data = new Entities("KT_CTEntities") , macn = "CT"},
-            new EntitiesCN {data = new Entities("KT_DNEntities") , macn = "DN"},
-            new EntitiesCN {data = new Entities("KT_BDGEntities") , macn = "BDG"},
-            new EntitiesCN {data = new Entities("KT_DNAEntities") , macn = "DNA"},
-            new EntitiesCN {data = new Entities("KT_HCMEntities") , macn = "HCM"},
-            new EntitiesCN {data = new Entities("KT_NAEntities") , macn = "NA"},
-            new EntitiesCN {data = new Entities("KT_NA_2Entities") , macn = "NA2"},
-            new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
-            new EntitiesCN {data = new Entities("KT_QNEntities") , macn = "QN"},
-            new EntitiesCN {data = new Entities("KTEntities") , macn = "PY"},
-                new EntitiesCN {data = new Entities("KT_SCEntities") , macn = "SC"},
-            new EntitiesCN {data = new Entities("KT_AGEntities") , macn = "AG"},
-            new EntitiesCN {data = new Entities("KT_CMEntities") , macn = "CM"},
-            new EntitiesCN {data = new Entities("KT_GLEntities") , macn = "GL"},
-            new EntitiesCN {data = new Entities("KT_HUEEntities") , macn = "HUE"},
-            new EntitiesCN {data = new Entities("KT_HPEntities") , macn = "HP"},
-            new EntitiesCN {data = new Entities("KT_LDEntities") , macn = "LD"},
-            new EntitiesCN {data = new Entities("KT_NTEntities") , macn = "NT"},
-            new EntitiesCN {data = new Entities("KT_TGEntities") , macn = "TG"},
-            new EntitiesCN {data = new Entities("KT_VLEntities") , macn = "VL"},
-            new EntitiesCN {data = new Entities("KT_DNONGEntities") , macn = "DNONG"},
-            new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
-               new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-                     new EntitiesCN {data = new Entities("KT_PTEntities") , macn = "PT"},
-            new EntitiesCN {data = new Entities("KT_HNEntities") , macn = "HN"},
-               new EntitiesCN {data = new Entities("KT_TNGEntities") , macn = "TNG"},
-            new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
+            //new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
                  new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
@@ -557,18 +528,9 @@ namespace ApplicationChart.Controllers
                 ViewBag.ten = Info.hoten;
                 ViewBag.quyen = Info.quyen;
                 var donvi = new List<TBL_DANHSACHCHINHANH>();
-                if (Infocrm.macn == "ALL")
-                {
-                    donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
-                }
-                else
-                {
-                    var taphop = Infocrm.macn.Split(',').ToList();
-                    donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-                }
-                ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-                ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-                ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+                List<string> listcn = Info.macn.Split(',').ToList();
+                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+                ViewBag.donvi = donvi;
                 return View("Quanlydonhang", new List<DTA_DONDATHANG>());
             }
             else
@@ -844,18 +806,9 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             var donvi = new List<TBL_DANHSACHCHINHANH>();
-            if (Infocrm.macn == "ALL")
-            {
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
-            }
-            else
-            {
-                var taphop = Infocrm.macn.Split(',').ToList();
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            }
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Vitrikhachhang");
         }
         [HttpGet]
@@ -4318,19 +4271,9 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var donvi = new List<TBL_DANHSACHCHINHANH>();
-            if (Infocrm.macn == "ALL")
-            {
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
-            }
-            else
-            {
-                var taphop = Infocrm.macn.Split(',').ToList();
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            }
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Tracuuthecao");
 
         }
@@ -4411,10 +4354,9 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             var taphop = Infocrm.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Tracuukhachhang");
         }
         [ActionName("tim-kiem-khach-hang")]
@@ -4426,10 +4368,9 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             var taphop = Infocrm.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Timkiemkhachhang");
         }
 
@@ -4442,10 +4383,9 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             var taphop = Info.macn.Split(',').ToList();
-            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Danhsachkhachhangchoduyet");
         }
         [ActionName("tao-moi-don-dat-hang-mobile")]

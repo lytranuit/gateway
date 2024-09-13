@@ -53,29 +53,10 @@
             <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
                 <label class="my-1 mr-2 font-weight-bold" for="chinhanh">@Html.Raw(GlobalRes.lbchinhanh)<code>(*)</code></label>
                 <select class="selectpicker my-1 mr-sm-2" data-dropdown-align-right="true" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="Checkboxlist1">
-                    <optgroup id="theomien" class="hidden" label="THEO MIỀN">
-                        <option value="HN,PT,TB,TNG">@Html.Raw(GlobalRes.lbmienbac.ToUpper())</option>
-                        <option value="PY,QN,TT423,BD,DNA,GL,HUE,NA,NT,THO">@Html.Raw(GlobalRes.lbmientrung.ToUpper())</option>
-                        <option value="PTTT,HCM,CHQ10,CT,CHPPSP,AG,CM,DN,LD,TG,TN,VL,BDG,BT">@Html.Raw(GlobalRes.lbmiennam.ToUpper())</option>
-                    </optgroup>
-                    <optgroup label="@Html.Raw(GlobalRes.lbmientrung.ToUpper())">
-                        @foreach (var k in ViewBag.mientrung)
-                        {
-                            <option value="@k.macn">@k.Tencn</option>
-                        }
-                    </optgroup>
-                    <optgroup label="@Html.Raw(GlobalRes.lbmiennam.ToUpper())">
-                        @foreach (var k in ViewBag.miennam)
-                        {
-                            <option value="@k.macn">@k.Tencn</option>
-                        }
-                    </optgroup>
-                    <optgroup label="@Html.Raw(GlobalRes.lbmienbac.ToUpper())">
-                        @foreach (var k in ViewBag.mienbac)
-                        {
-                            <option value="@k.macn">@k.Tencn</option>
-                        }
-                    </optgroup>
+                    @foreach (var k in ViewBag.donvi)
+                    {
+                        <option value=@k.macn>@k.Tencn</option>
+                    }
                 </select>
             </div>
             <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1 divngay">
@@ -140,22 +121,22 @@
             <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
                 <label class="my-1 mr-2 font-weight-bold" for="loaibaocao">@Html.Raw(GlobalRes.lbmaphanloai)</label>
                 <select class="selectpicker show-tick my-1 mr-sm-2" id="maphanloai">
-@if (ViewBag.flag == "vi")
-{
-    <option selected value="null">BAN,XK</option>
+                    @if (ViewBag.flag == "vi")
+                    {
+                        <option selected value="null">BAN,XK</option>
 
-    <option value="BAN">BAN</option>
+                        <option value="BAN">BAN</option>
 
-                    <option value="XK">XK</option>
-}
-else
-{
-    <option selected value="null">SALES,EXPORT</option>
+                        <option value="XK">XK</option>
+                    }
+                    else
+                    {
+                        <option selected value="null">SALES,EXPORT</option>
 
-    <option value="BAN">SALES</option>
+                        <option value="BAN">SALES</option>
 
-    <option value="XK">EXPORT</option>
-}
+                        <option value="XK">EXPORT</option>
+                    }
 
 
                 </select>
@@ -198,7 +179,7 @@ else
                     {
                         <option value="@x.phanloaikhachhang">@x.phanloaikhachhang &bull; @x.tenphanloai</option>
                     }
-                </select>   
+                </select>
             </div>
         </div>
     </div>
@@ -314,5 +295,5 @@ else
     <script src="/Scripts/bootstrap-select.js?version=99"></script>
     <script src="~/Scripts/IndexJS.js?version=300422"></script>
 
-  
+
 }

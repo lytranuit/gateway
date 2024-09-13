@@ -39,24 +39,10 @@
             <div class="form-group col-md-6 col-sm-6 mb-0 divthang">
                 <label class="my-1 mr-2 font-weight-bold" for="formGroupExampleInput">Chi nhánh<code class="bg-white">(*)</code></label>
                 <select name="chinhanh" title="Chi nhánh..." class="my-1 mr-2 selectpicker  show-tick" multiple id="chinhanh">
-                    <optgroup label="MIỀN TRUNG">
-                        @foreach (var k in ViewBag.mientrung)
-                        {
-                            <option value=@k.macn>@k.Tencn</option>
-                        }
-                    </optgroup>
-                    <optgroup label="MIỀN NAM">
-                        @foreach (var k in ViewBag.miennam)
-                        {
-                            <option value=@k.macn>@k.Tencn</option>
-                        }
-                    </optgroup>
-                    <optgroup label="MIỀN BẮC">
-                        @foreach (var k in ViewBag.mienbac)
-                        {
-                            <option value=@k.macn>@k.Tencn</option>
-                        }
-                    </optgroup>
+                    @foreach (var k in ViewBag.donvi)
+                    {
+                        <option value=@k.macn>@k.Tencn</option>
+                    }
                 </select>
             </div>
             <div class="form-group col-md-3 col-sm-6 mb-0 divthang">

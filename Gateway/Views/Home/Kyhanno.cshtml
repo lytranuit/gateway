@@ -100,24 +100,10 @@
                             <div class="form-group col-md-3 mb-0">
                                 <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Chi nhánh<code>(*)</code></label>
                                 <select class="selectpicker my-1 mr-sm-2" name="macn" title="Chọn chi nhánh" id="chinhanh">
-                                    <optgroup label="MIỀN TRUNG">
-                                        @foreach (var k in ViewBag.mientrung)
-                                        {
-                                            <option value=@k.macn>@k.Tencn</option>
-                                        }
-                                    </optgroup>
-                                    <optgroup label="MIỀN NAM">
-                                        @foreach (var k in ViewBag.miennam)
-                                        {
-                                            <option value=@k.macn>@k.Tencn</option>
-                                        }
-                                    </optgroup>
-                                    <optgroup label="MIỀN BẮC">
-                                        @foreach (var k in ViewBag.mienbac)
-                                        {
-                                            <option value=@k.macn>@k.Tencn</option>
-                                        }
-                                    </optgroup>
+                                    @foreach (var k in ViewBag.donvi)
+                                    {
+                                        <option value=@k.macn>@k.Tencn</option>
+                                    }
                                 </select>
                             </div>
 
@@ -128,7 +114,7 @@
                                         <option value="2">Theo ngày</option>
                                     </select>
                                 </div>*@
-                          
+
                             <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
                                 <label class="my-1 mr-2 font-weight-bold" for="chon">Tháng<code>(*)</code></label>
                                 <select class="selectpicker my-1 mr-sm-2 show-tick" name="thang" id="thang">
@@ -193,7 +179,7 @@
                                 <label class="my-1 mr-2 font-weight-bold" for="chon">Ngày in<code>(*)</code></label>
                                 <input type="text" autocomplete="off" name="ngayin" placeholder="DD/MM/YYYY" class="form-control form-control1 my-1 mr-sm-2" data-validation="digit" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="ngayin">
                             </div>
-                         
+
                         </div>
                         <div class="form-row" id="PartialView">
                         </div>
@@ -370,7 +356,7 @@
                     e.preventDefault();
                 }
             });
-          
+
         });
     </script>
 }

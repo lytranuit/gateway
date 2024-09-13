@@ -60,7 +60,7 @@ namespace ApplicationChart.Controllers
         ApplicationChartEntities1 db2 = new ApplicationChartEntities1();
 
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
-            new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
+            //new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
                  new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
         };
@@ -87,27 +87,27 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             var MATDV = Infocrm.matdv;
             var MACH = Infocrm.macn;
-            if (Infocrm.quyen == "QUANLY")
+            //if (Infocrm.quyen == "QUANLY")
+            //{
+            //    var taphop = Infocrm.macn.Split(',').ToList();
+            //    var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
+            //    ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
+            //    ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
+            //    ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            //    return View("/Views/Baocao/Quanlykhachhang.cshtml");
+            //}
+            //else
+            //{
+            var macn = Infocrm.macn;
+            if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
             {
-                var taphop = Infocrm.macn.Split(',').ToList();
-                var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-                ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-                ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-                ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
-                return View("/Views/Baocao/Quanlykhachhang.cshtml");
-            }
-            else
-            {
-                var macn = Infocrm.macn;
-                if (queryKT.SingleOrDefault(n => n.macn == macn) != null)
-                {
-                    KTContext enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
-                    var data = enti.TBL_DANHMUCDONVI.Where(d => d.MaTinh != null).OrderBy(q => q.TenTinh).ToList();
+                KTContext enti = queryKT.SingleOrDefault(n => n.macn == macn).data;
+                var data = enti.TBL_DANHMUCDONVI.Where(d => d.MaTinh != null).OrderBy(q => q.TenTinh).ToList();
 
-                    ViewBag.tinh = data;
-                }
-                return View("Danhsachkhachhang", DATA(MACH, MATDV, true).OrderBy(n => n.DONVI).ToList());
+                ViewBag.tinh = data;
             }
+            return View("Danhsachkhachhang", DATA(MACH, MATDV, true).OrderBy(n => n.DONVI).ToList());
+            //}
         }
         [ActionName("huong-dan-crm")]
         public ActionResult Huongdancrm()
@@ -298,18 +298,9 @@ namespace ApplicationChart.Controllers
             var MATDV = Infocrm.matdv;
             var MACH = Infocrm.macn;
             var donvi = new List<TBL_DANHSACHCHINHANH>();
-            if (Infocrm.macn == "ALL")
-            {
-                donvi = db2.TBL_DANHSACHCHINHANH.ToList();
-            }
-            else
-            {
-                var taphop = Infocrm.macn.Split(',').ToList();
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => taphop.Contains(n.macn)).ToList();
-            }
-            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
-            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
-            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            List<string> listcn = Info.macn.Split(',').ToList();
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
+            ViewBag.donvi = donvi;
             return View("Congtactrinhduoc");
         }
         [ActionName("du-lieu-bao-cao-cong-tac")]
