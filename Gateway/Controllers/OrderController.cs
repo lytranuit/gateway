@@ -214,7 +214,7 @@ namespace ApplicationChart.Controllers
             ViewBag.dathang = Info.dathang;
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
-            var data = new QuanlyCTBH { CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..'").ToList() };
+            var data = new QuanlyCTBH { CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(), HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..'").ToList() };
             return View("QuanlyCTBHCN", data);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -227,7 +227,7 @@ namespace ApplicationChart.Controllers
             ViewBag.quyen = Info.quyen;
             var data = new QuanlyCTBH
             {
-                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
+                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
                 HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList()
             };
             return View("QuanlyCTBH", data);
@@ -486,7 +486,7 @@ namespace ApplicationChart.Controllers
             ViewBag.quyen = Info.quyen;
             var data = new QuanlyCTBH
             {
-                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
+                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
                 HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..'").ToList(),
                 KHUYENMAI = DATATH1.TBL_DANHMUCKM.ToList()
             };
@@ -557,7 +557,7 @@ namespace ApplicationChart.Controllers
                 var donvi = new List<TBL_DANHSACHCHINHANH>();
                 if (Infocrm.macn == "ALL")
                 {
-                    donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
+                    donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).ToList();
                 }
                 else
                 {
@@ -845,7 +845,7 @@ namespace ApplicationChart.Controllers
             var donvi = new List<TBL_DANHSACHCHINHANH>();
             if (Infocrm.macn == "ALL")
             {
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
+                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).ToList();
             }
             else
             {
@@ -2552,7 +2552,7 @@ namespace ApplicationChart.Controllers
             ViewBag.macn = Info.macn.Split(',').ToList();
             var data = new QuanlyCTBH
             {
-                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
+                CHINHANH = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).OrderBy(n => n.Mien).ThenByDescending(n => n.stt).ToList(),
                 HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..'").ToList()
             };
             return View("NhapdanhmuchopdongWS", data);
@@ -4318,7 +4318,7 @@ namespace ApplicationChart.Controllers
             var donvi = new List<TBL_DANHSACHCHINHANH>();
             if (Infocrm.macn == "ALL")
             {
-                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == true).ToList();
+                donvi = db2.TBL_DANHSACHCHINHANH.Where(n => n.check == false).ToList();
             }
             else
             {
