@@ -211,6 +211,7 @@
           <Property Name="ngaybatdau" Type="smalldatetime" />
           <Property Name="ngayketthuc" Type="smalldatetime" />
           <Property Name="MAHH" Type="varchar(max)" />
+		  <Property Name="GIA" Type="varchar(max)" />
           <Property Name="PHAMVI" Type="varchar" MaxLength="500" />
           <Property Name="HANMUC" Type="money" />
           <Property Name="TICHDIEM" Type="int" />
@@ -459,6 +460,7 @@
           <Property Name="ngaybatdau" Type="DateTime" Precision="0" />
           <Property Name="ngayketthuc" Type="DateTime" Precision="0" />
           <Property Name="MAHH" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+		  <Property Name="GIA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PHAMVI" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="HANMUC" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="TICHDIEM" Type="Int32" />
@@ -729,6 +731,7 @@
                 <ScalarProperty Name="HANMUC" ColumnName="HANMUC" />
                 <ScalarProperty Name="PHAMVI" ColumnName="PHAMVI" />
                 <ScalarProperty Name="MAHH" ColumnName="MAHH" />
+				<ScalarProperty Name="GIA" ColumnName="GIA" />
                 <ScalarProperty Name="ngayketthuc" ColumnName="ngayketthuc" />
                 <ScalarProperty Name="ngaybatdau" ColumnName="ngaybatdau" />
                 <ScalarProperty Name="TENCTKM" ColumnName="TENCTKM" />

@@ -106,7 +106,7 @@
                                 <select id="khuyenmai" title="Chọn chương trình khuyến mãi" class="selectpicker" data-live-search="true" name="option">
                                     @foreach (var i in Model.ListCTKM)
                                     {
-                                        <option data-bbtt="@i.BBTT" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-tichdiem="@i.TICHDIEM" data-mahh="@i.MAHH" data-ck="@((i.ck != null)?i.ck:0)" data-tokens="@i.MACTKM - @i.TENCTKM" tabindex="@i.TENCTKM" value="@i.MACTKM">@i.MACTKM - @i.TENCTKM</option>
+                                        <option data-bbtt="@i.BBTT" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-tichdiem="@i.TICHDIEM" data-mahh="@i.MAHH" data-gia="@i.GIA" data-ck="@((i.ck != null)?i.ck:0)" data-tokens="@i.MACTKM - @i.TENCTKM" tabindex="@i.TENCTKM" value="@i.MACTKM">@i.MACTKM - @i.TENCTKM</option>
                                     }
                                 </select>
                             </div>
@@ -245,5 +245,5 @@
         });
     </script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
-    <script src="~/Scripts/Taodonhang.js?version=27042024"></script>
+    <script src="~/Scripts/Taodonhang.js?version=270420241"></script>
 }

@@ -1009,6 +1009,20 @@ $(document).ready(function () {
             //    });
             //    return false;
             //}
+            var mahh = $(this).val();
+            var giaban = parseInt($(this).attr("data-giaban").replace(/[^\d.]/g, '')).format();
+            if (typeof $("#khuyenmai option:selected").attr("data-mahh") != "undefined") {
+                if ($("#khuyenmai option:selected").attr("data-mahh") != "" && $("#khuyenmai option:selected").attr("data-gia") != "") {
+                    var mahhctkm = $("#khuyenmai option:selected").attr("data-mahh").split(",");
+                    var gia = $("#khuyenmai option:selected").attr("data-gia").split(",");
+                    var find_mahh = mahhctkm.findIndex((item) => {
+                        return item == mahh;
+                    });
+                    if (find_mahh != -1) {
+                        giaban = parseInt(gia[find_mahh].replace(/[^\d.]/g, '')).format();
+                    }
+                }
+            }
             $('#tablehanghoa > tbody').append('<tr>'
                 + '<td class="left strong hanghoa text-dark" data-dvt="' + $(this).attr("data-dvt") + '" data-tenhh="' + $(this).attr("data-tenhh") + '" data-kiemsoat="' + $(this).attr("data-kiemsoat") + '" data-mahh="' + $(this).val() + '">' + $(this).val() + " - " + $(this).attr("data-tenhh") + '</td>'
                 + '<td class="text-right paddingleft2 paddingright2"><input onkeypress="validate(event)" data-sl="1" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl1"></td>'
@@ -1016,8 +1030,8 @@ $(document).ready(function () {
                 + '<td class="text-right paddingleft2 paddingright2"><input autocomplete="off" onkeypress="validate(event)" data-sl="' + $(this).attr("data-sl3") + '" name="number" type="text" class="form-control form-control-sm floatright font-weight-normal text-right sl sl3"></td>'
                 + '<td class="text-right paddingleft2 paddingright2 text-dark">'
                 + '<select class="form-control form-control-sm giaban_vat">'
-                + '<option value="' + parseInt($(this).attr("data-giaban").replace(/[^\d.]/g, '')).format() + '">'
-                + parseInt($(this).attr("data-giaban").replace(/[^\d.]/g, '')).format()
+                + '<option value="' + giaban + '">'
+                + giaban
                 + '</option>'
                 + '<option value="0">0'
                 + '</option>'
@@ -1341,106 +1355,108 @@ $(document).ready(function () {
 
     });
     $("#khuyenmai").change(function () {
-        if ($("#khuyenmai option:selected").attr("data-bbtt") == "1") {
-            $.ajax({
-                url: lang + '/crm/GETCKBBTT',
-                type: "POST",
-                datatype: 'json',
-                contentType: "application/json",
-                data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
-                success: function (data) {
-                    $("#tilechietkhau").val(data);
-                    $(".ck").val(data);
-                },
-                error: function (request, status, error) {
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": true,
-                        "progressBar": true,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
-                    Command: toastr["warning"]("Không kết nối được dữ liệu tỉ lệ chiết khấu", "Thông báo")
-                },
-                timeout: 5000,
-            });
-        }
-        else if (typeof $("#khuyenmai option:selected").attr("data-ck") != "undefined" && $("#khuyenmai option:selected").attr("data-ck") != "") {
-            $("#tilechietkhau").val($("#khuyenmai option:selected").attr("data-ck"));
-            $(".ck").val($("#khuyenmai option:selected").attr("data-ck"));
-        }
+        //if ($("#khuyenmai option:selected").attr("data-bbtt") == "1") {
+        //    $.ajax({
+        //        url: lang + '/crm/GETCKBBTT',
+        //        type: "POST",
+        //        datatype: 'json',
+        //        contentType: "application/json",
+        //        data: '{makh: ' + JSON.stringify($("#khachhang").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
+        //        success: function (data) {
+        //            $("#tilechietkhau").val(data);
+        //            $(".ck").val(data);
+        //        },
+        //        error: function (request, status, error) {
+        //            toastr.options = {
+        //                "closeButton": false,
+        //                "debug": false,
+        //                "newestOnTop": true,
+        //                "progressBar": true,
+        //                "positionClass": "toast-top-right",
+        //                "preventDuplicates": false,
+        //                "onclick": null,
+        //                "showDuration": "300",
+        //                "hideDuration": "1000",
+        //                "timeOut": "5000",
+        //                "extendedTimeOut": "1000",
+        //                "showEasing": "swing",
+        //                "hideEasing": "linear",
+        //                "showMethod": "fadeIn",
+        //                "hideMethod": "fadeOut"
+        //            }
+        //            Command: toastr["warning"]("Không kết nối được dữ liệu tỉ lệ chiết khấu", "Thông báo")
+        //        },
+        //        timeout: 5000,
+        //    });
+        //}
+        //else if (typeof $("#khuyenmai option:selected").attr("data-ck") != "undefined" && $("#khuyenmai option:selected").attr("data-ck") != "") {
+        //    $("#tilechietkhau").val($("#khuyenmai option:selected").attr("data-ck"));
+        //    $(".ck").val($("#khuyenmai option:selected").attr("data-ck"));
+        //}
 
-        if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
-            if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
-                var diem = 0;
-                $('#tablehanghoa > tbody  > tr').each(function () {
-                    var x = $(this);
-                    if (x.find(".sl2").val() != "") {
-                        $.ajax({
-                            url: lang + '/crm/GetDiemtichluy',
-                            type: "POST",
-                            datatype: 'json',
-                            contentType: "application/json",
-                            data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
-                            success: function (data) {
-                                x.find(".diemtichluy").text(data);
-                                diem = diem + parseInt(data);
-                                $("#tongdiemtichluy").text(diem);
-                            },
-                            error: function (request, status, error) {
-                                toastr.options = {
-                                    "closeButton": false,
-                                    "debug": false,
-                                    "newestOnTop": true,
-                                    "progressBar": true,
-                                    "positionClass": "toast-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
-                                Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
-                            },
-                            timeout: 5000,
-                        });
-                    }
-                });
-            }
-            else {
-                $('#tablehanghoa > tbody  > tr').each(function () {
-                    $(this).find(".diemtichluy").text("0");
-                    $("#tongdiemtichluy").text("0");
-                });
-            }
-        }
-        else if (typeof $("#khuyenmai option:selected").attr("data-hanmuc") != "undefined") {
-            if ($("#khuyenmai option:selected").attr("data-hanmuc") != "") {
-                $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
-            }
-        }
-        else {
-            $('#tablehanghoa > tbody  > tr').each(function () {
-                $(this).find(".diemtichluy").text("0");
-                $("#tongdiemtichluy").text("0");
-            });
-        }
-
+        //if (typeof $("#khuyenmai option:selected").attr("data-tichdiem") != "undefined") {
+        //    if ($("#khuyenmai option:selected").attr("data-tichdiem") != "") {
+        //        var diem = 0;
+        //        $('#tablehanghoa > tbody  > tr').each(function () {
+        //            var x = $(this);
+        //            if (x.find(".sl2").val() != "") {
+        //                $.ajax({
+        //                    url: lang + '/crm/GetDiemtichluy',
+        //                    type: "POST",
+        //                    datatype: 'json',
+        //                    contentType: "application/json",
+        //                    data: '{mahh: ' + JSON.stringify(x.find("td:eq(0)").attr("data-mahh")) + ', hop: ' + JSON.stringify(x.find(".sl2").val()) + ', mactkm: ' + JSON.stringify($("#khuyenmai").val()) + '}',
+        //                    success: function (data) {
+        //                        x.find(".diemtichluy").text(data);
+        //                        diem = diem + parseInt(data);
+        //                        $("#tongdiemtichluy").text(diem);
+        //                    },
+        //                    error: function (request, status, error) {
+        //                        toastr.options = {
+        //                            "closeButton": false,
+        //                            "debug": false,
+        //                            "newestOnTop": true,
+        //                            "progressBar": true,
+        //                            "positionClass": "toast-top-right",
+        //                            "preventDuplicates": false,
+        //                            "onclick": null,
+        //                            "showDuration": "300",
+        //                            "hideDuration": "1000",
+        //                            "timeOut": "5000",
+        //                            "extendedTimeOut": "1000",
+        //                            "showEasing": "swing",
+        //                            "hideEasing": "linear",
+        //                            "showMethod": "fadeIn",
+        //                            "hideMethod": "fadeOut"
+        //                        }
+        //                        Command: toastr["warning"]("Không kết nối được dữ liệu điểm tích lũy", "Thông báo")
+        //                    },
+        //                    timeout: 5000,
+        //                });
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        $('#tablehanghoa > tbody  > tr').each(function () {
+        //            $(this).find(".diemtichluy").text("0");
+        //            $("#tongdiemtichluy").text("0");
+        //        });
+        //    }
+        //}
+        //else if (typeof $("#khuyenmai option:selected").attr("data-hanmuc") != "undefined") {
+        //    if ($("#khuyenmai option:selected").attr("data-hanmuc") != "") {
+        //        $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
+        //    }
+        //}
+        //else {
+        //    $('#tablehanghoa > tbody  > tr').each(function () {
+        //        $(this).find(".diemtichluy").text("0");
+        //        $("#tongdiemtichluy").text("0");
+        //    });
+        //}
+        $(".btnxoahh").each(function () {
+            xoahh(this);
+        });
     });
     $("#btnhuy").click(function () {
         $.confirm({
@@ -1477,20 +1493,8 @@ $(document).ready(function () {
                     btnClass: 'btn-success',
                     keys: ['enter'],
                     action: function () {
-                        $(x).closest('tr').remove();
-                        $("#slsp").text($('#tablehanghoa > tbody > tr').length);
-                        var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
-                        var count = 0;
-                        var diem = 0;
-                        $('#tablehanghoa > tbody  > tr').each(function () {
-                            count = count + parseInt($(this).find(".thanhtien").text().replace(/[^\d.]/g, ''));
-                            diem = diem + parseInt($(this).find(".diemtichluy").text());
-                        });
-                        $("#tongdiemtichluy").text(diem);
-                        $("#tongtien").text(count.format());
-                        $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
-                        $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
-                        check_gia();
+                        xoahh(x);
+
                     }
                 },
                 cancel: {
@@ -1544,6 +1548,22 @@ const check_gia = () => {
             $("#tongdiemtichluy").text(parseInt(parseInt($("#thanhtien").text().replace(/[^\d.]/g, '')) / parseInt($("#khuyenmai option:selected").attr("data-hanmuc"))));
         }
     }
+}
+const xoahh = (x) => {
+    $(x).closest('tr').remove();
+    $("#slsp").text($('#tablehanghoa > tbody > tr').length);
+    var float = parseInt($("#vat").val()) / (100 + parseInt($("#vat").val()));
+    var count = 0;
+    var diem = 0;
+    $('#tablehanghoa > tbody  > tr').each(function () {
+        count = count + parseInt($(this).find(".thanhtien").text().replace(/[^\d.]/g, ''));
+        diem = diem + parseInt($(this).find(".diemtichluy").text());
+    });
+    $("#tongdiemtichluy").text(diem);
+    $("#tongtien").text(count.format());
+    $("#tienvat").text(Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float).format());
+    $("#thanhtien").text((parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) - Math.floor(parseInt($("#tongtien").text().replace(/[^\d.]/g, '')) * float)).format());
+    check_gia();
 }
 Number.prototype.format = function () {
     var text = this.toString().split(/(?=(?:\d{3})+(?:\.|$))/g).join(",");

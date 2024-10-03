@@ -28,6 +28,7 @@ namespace ApplicationChart.Models
         public byte[] FILEDATA { get; set; }
         public Nullable<double> ck { get; set; }
         public Nullable<bool> BBTT { get; set; }
+        public string GIA { get; set; }
 
         [NotMapped]
 

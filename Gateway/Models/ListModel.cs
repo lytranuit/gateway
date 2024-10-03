@@ -2381,6 +2381,7 @@ namespace ApplicationChart.Models
         public DateTime ngaybatdau { get; set; }
 
         public DateTime? ngayketthuc { get; set; }
+        public string GIA { get; set; }
 
     }
     public partial class NGUOIDUNG

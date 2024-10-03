@@ -4203,7 +4203,9 @@ namespace ApplicationChart.Controllers
                 ViewBag.makh = makh;
                 ViewBag.macn = Infocrm.macn;
                 var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
-                var THKM = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TICHDIEM = cl.TICHDIEM, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, HANMUC = cl.HANMUC, ck = cl.ck }).ToList();
+                var km = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList();
+                var THKM = km
+                .Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TICHDIEM = cl.TICHDIEM, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, HANMUC = cl.HANMUC, ck = cl.ck, GIA = cl.GIA }).ToList();
                 Data.ListCTKM = THKM.Concat(Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM))).ToList();
                 Data.ListCTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, MACTKM = cl.MACTKM }).ToList();
                 if (Infocrm.matdv != null)
@@ -4402,7 +4404,9 @@ namespace ApplicationChart.Controllers
                 ViewBag.makh = makh;
                 ViewBag.macn = Infocrm.macn;
                 var Data = DATATAO(Infocrm.macn, Infocrm.matdv, matinh);
-                var THKM = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, ck = cl.ck }).ToList();
+                var km = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList();
+                var THKM = km
+                .Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TICHDIEM = cl.TICHDIEM, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, HANMUC = cl.HANMUC, ck = cl.ck, GIA = cl.GIA }).ToList();
                 Data.ListCTKM = THKM.Concat(Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM))).ToList();
                 Data.ListCTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, MACTKM = cl.MACTKM }).ToList();
                 if (Infocrm.matdv != null)
@@ -6408,11 +6412,11 @@ namespace ApplicationChart.Controllers
             if (MATDV != null)
             {
                 var listMATDV = MATDV.Split(',').ToList();
-                strcn = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE tinhtrang != 'Ngừng giao dịch' AND (matdv IN ({0}) or matdv = '' or matdv is null)", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
+                strcn = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE tk == '131' and tinhtrang != 'Ngừng giao dịch' AND (matdv IN ({0}))", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
             }
             else
             {
-                strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tinhtrang != 'Ngừng giao dịch'";
+                strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tk == '131' and tinhtrang != 'Ngừng giao dịch' ";
             }
             if (matinh != null && matinh.Count() > 0)
             {

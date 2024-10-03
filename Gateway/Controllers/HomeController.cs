@@ -6591,7 +6591,8 @@ namespace ApplicationChart.Controllers
                 data.Quan = DULIEUQUAN(enti).ToList();
             }
             data.HD = GetHopDong(ChiNhanhId);
-            var ctkmchung = DATATH1.TBL_DANHMUCKM.Select(n => new { n.MACTKM, n.TENCTKM, n.PHAMVI, n.ngaybatdau, n.ngayketthuc }).ToList()
+            var km = DATATH1.TBL_DANHMUCKM.Select(n => new { n.MACTKM, n.TENCTKM, n.PHAMVI, n.ngaybatdau, n.ngayketthuc }).ToList();
+            var ctkmchung = km
                 .Where(n => n.PHAMVI.Split(',').Contains(ChiNhanhId))
                 .Select(n => new ListKhuyenMai { MAKM = n.MACTKM, TENKM = n.TENCTKM, hieuluc = (n.ngaybatdau <= DateTime.Today && n.ngayketthuc >= DateTime.Today) ? true : false, ngaybatdau = n.ngaybatdau, ngayketthuc = n.ngayketthuc })
                 .ToList();
