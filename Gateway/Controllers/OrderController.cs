@@ -6412,11 +6412,11 @@ namespace ApplicationChart.Controllers
             if (MATDV != null)
             {
                 var listMATDV = MATDV.Split(',').ToList();
-                strcn = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE tk == '131' and tinhtrang != 'Ngừng giao dịch' AND (matdv IN ({0}))", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
+                strcn = "SELECT makh AS MAKH, donvi AS DONVI ,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI, phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE tk = '131' and tinhtrang != 'Ngừng giao dịch' AND (matdv IN ({0}))", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
             }
             else
             {
-                strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tk == '131' and tinhtrang != 'Ngừng giao dịch' ";
+                strcn = "SELECT makh AS MAKH, donvi AS DONVI,hanmuc as HANMUC, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG WHERE tk = '131' and tinhtrang != 'Ngừng giao dịch' ";
             }
             if (matinh != null && matinh.Count() > 0)
             {
