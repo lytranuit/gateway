@@ -18518,11 +18518,29 @@ namespace ApplicationChart.Controllers
                     var data1 = new List<BAOCAO10>();
                     if (tienck == "1")
                     {
-                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.Key.MAKH, NHOM = cl.First().MATINH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)), NAM = cl.First().phanloaikhachhang }).ToList();
+                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { 
+                            MAQUAY = cl.First().DONVI, 
+                            dvt = cl.First().DVT.ToUpper(), 
+                            mahh = cl.Key.MAHH,
+                            mapl = cl.Key.MAKH, 
+                            NHOM = cl.First().MATINH, 
+                            soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
+                            tenhh = cl.First().TENHH, 
+                            tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)),
+                            NAM = cl.First().phanloaikhachhang }).ToList();
                     }
                     else
                     {
-                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.Key.MAKH, NHOM = cl.First().MATINH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)), NAM = cl.First().phanloaikhachhang }).ToList();
+                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { 
+                            MAQUAY = cl.First().DONVI,
+                            dvt = cl.First().DVT.ToUpper(), 
+                            mahh = cl.Key.MAHH,
+                            mapl = cl.Key.MAKH,
+                            NHOM = cl.First().MATINH,
+                            soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
+                            tenhh = cl.First().TENHH, 
+                            tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)), 
+                            NAM = cl.First().phanloaikhachhang }).ToList();
                     }
                     rpt.Load();
                     rpt.SetDataSource(data1.OrderBy(n => n.mapl));
