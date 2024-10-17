@@ -459,6 +459,7 @@ $(document).ready(function () {
                         "NGAYGIAO": $("#ngaygiao").val()
                         , "STT": dem
                         , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                        , "MACH": $("#khachhang option:selected").data('macn')
                         , "KHACHHANG": $("#khachhang").val()
                         , "MACTKM": $("#khuyenmai").val()
                         , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')
@@ -859,6 +860,7 @@ $(document).ready(function () {
                         "NGAYGIAO": $("#ngaygiao").val()
                         , "STT": dem
                         , "DONVI": $("#khachhang option:selected").attr('tabindex')
+                        , "MACH": $("#khachhang option:selected").data('macn')
                         , "KHACHHANG": $("#khachhang").val()
                         , "MACTKM": $("#khuyenmai").val()
                         , "TENCTKM": $("#khuyenmai option:selected").attr('tabindex')

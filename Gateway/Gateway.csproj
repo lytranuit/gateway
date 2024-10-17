@@ -470,7 +470,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\QLSPController.cs" />
-    <Compile Include="Controllers\ScheduleJob.cs" />
     <Compile Include="Controllers\ThauController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -724,7 +723,7 @@
       <DependentUpon>ModelPOWERBI.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TBL_DANHMUCHOPDONGCHUNG.cs">
-      <DependentUpon>KT_QN.tt</DependentUpon>
+      <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TBL_DANHMUCHOPDONG_WS.cs">
       <DependentUpon>KT_QN.tt</DependentUpon>
@@ -765,6 +764,9 @@
     <Compile Include="Models\TBL_DANHMUCNGUOIDUNG.cs">
       <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TBL_DANHMUCNHAPHANPHOI.cs">
+      <DependentUpon>UserData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TBL_DANHMUCNHOMHANG.cs">
       <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
@@ -793,7 +795,7 @@
       <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TBL_DANHMUCSODANGKY.cs">
-      <DependentUpon>KT_TH.tt</DependentUpon>
+      <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TBL_DANHMUCSODANGKY_AUDIT.cs">
       <DependentUpon>UserData.tt</DependentUpon>
@@ -1373,6 +1375,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CR_TONGHOP_CONGNO_DOICHIEU_MAKH.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\HOADON_DONHANG.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HOADON_DONHANG.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Report\TONGHOPCTBH.cs">
@@ -2624,11 +2632,13 @@
       <DependentUpon>VNPTINVOICE.edmx</DependentUpon>
       <LastGenOutput>VNPTINVOICE.cs</LastGenOutput>
     </Content>
+    <Content Include="Report\HOADON_DONHANG.vb" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\BaoCaoNPPJS.js" />
     <Content Include="Scripts\BaoCaoJS.js" />
     <Content Include="Scripts\bootstrap-datepicker-en.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -3600,6 +3610,7 @@
     <Content Include="Views\Home\GetPartialBaocaothuno.cshtml" />
     <Content Include="Views\Home\Quanlyphanmem.cshtml" />
     <Content Include="Views\Home\Tracuutonkhohandung.cshtml" />
+    <Content Include="Views\Home\BaoCaoNPP.cshtml" />
     <None Include="Views\Home\viewer.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -4137,6 +4148,10 @@
     <EmbeddedResource Include="Report\CR_TONGHOP_CONGNO_DOICHIEU_MAKH.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_TONGHOP_CONGNO_DOICHIEU_MAKH.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\HOADON_DONHANG.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>HOADON_DONHANG.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\TONGHOPCTBH.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

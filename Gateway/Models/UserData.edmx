@@ -28,7 +28,7 @@
           <Key>
             <PropertyRef Name="matdv" />
             <PropertyRef Name="ngay" />
-			<PropertyRef Name="makh" />
+            <PropertyRef Name="makh" />
             <PropertyRef Name="tenkh" />
           </Key>
           <Property Name="macn" Type="varchar" MaxLength="20" />
@@ -38,10 +38,10 @@
           <Property Name="tenkh" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="checkin" Type="bit" />
           <Property Name="ketqua" Type="int" />
-		  <Property Name="ketqua_text" Type="nvarchar(max)" />
           <Property Name="ghichu" Type="nvarchar(max)" />
           <Property Name="khoa" Type="bit" />
           <Property Name="checkgps" Type="bit" />
+          <Property Name="ketqua_text" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DTA_GIAOHANG">
           <Key>
@@ -261,6 +261,13 @@
           <Property Name="kho" Type="varchar" MaxLength="100" />
           <Property Name="manhom" Type="varchar(max)" />
           <Property Name="poc" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCNHAPHANPHOI">
+          <Key>
+            <PropertyRef Name="macn" />
+          </Key>
+          <Property Name="macn" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tencn" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TBL_DANHMUCNHOMHANG">
           <Key>
@@ -542,6 +549,7 @@
           <EntitySet Name="TBL_DANHMUCLOAIBAOCAO" EntityType="Self.TBL_DANHMUCLOAIBAOCAO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCMIEN" EntityType="Self.TBL_DANHMUCMIEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCNGUOIDUNG" EntityType="Self.TBL_DANHMUCNGUOIDUNG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCNHAPHANPHOI" EntityType="Self.TBL_DANHMUCNHAPHANPHOI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCNHOMHANG" EntityType="Self.TBL_DANHMUCNHOMHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCPHANLOAIKHACHHANG" EntityType="Self.TBL_DANHMUCPHANLOAIKHACHHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCPHANQUYENHCM" EntityType="Self.TBL_DANHMUCPHANQUYENHCM" Schema="dbo" store:Type="Tables" />
@@ -659,6 +667,7 @@
             <End Role="TBL_DANHMUCNGUOIDUNG" EntitySet="TBL_DANHMUCNGUOIDUNG" />
             <End Role="TBL_PHANQUYENCRM" EntitySet="TBL_PHANQUYENCRM" />
           </AssociationSet>
+          <EntitySet Name="TBL_DANHMUCNHAPHANPHOI" EntityType="ApplicationChartModel.TBL_DANHMUCNHAPHANPHOI" />
           </EntityContainer>
         <EntityType Name="DANHMUCPHANLOAIHD">
           <Key>
@@ -1189,6 +1198,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TBL_DANHMUCNHAPHANPHOI">
+          <Key>
+            <PropertyRef Name="macn" />
+          </Key>
+          <Property Name="macn" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tencn" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1643,6 +1659,14 @@
                 <ScalarProperty Name="matkhau" ColumnName="matkhau" />
                 <ScalarProperty Name="hoten" ColumnName="hoten" />
                 <ScalarProperty Name="nguoidung" ColumnName="nguoidung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCNHAPHANPHOI">
+            <EntityTypeMapping TypeName="ApplicationChartModel.TBL_DANHMUCNHAPHANPHOI">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCNHAPHANPHOI">
+                <ScalarProperty Name="tencn" ColumnName="tencn" />
+                <ScalarProperty Name="macn" ColumnName="macn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

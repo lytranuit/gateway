@@ -22,11 +22,5 @@ namespace ApplicationChart.Models
         public string makt { get; set; }
         public Nullable<bool> nghiviec { get; set; }
         public Nullable<System.DateTime> Ngaynghiviec { get; set; }
-        public string idlocal { get; set; }
-        public string idglobal { get; set; }
-        public string idglobal_supervisor { get; set; }
-        public string idglobal_manager { get; set; }
-        public string idglobal_director { get; set; }
-        public string idglobal_region { get; set; }
     }
 }

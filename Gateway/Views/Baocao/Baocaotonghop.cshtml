@@ -24,34 +24,42 @@
             font-size: 0.99154rem;
             line-height: 29.15385px;
         }
+
         table th {
             font-size: 0.83rem;
             font-weight: 400;
         }
+
         .btn-floating.btn-sm {
             width: 29.15385px;
             height: 29.15385px;
         }
+
         .bootstrap-select.btn-group .dropdown-toggle .caret {
             right: 10px;
             margin-top: -3px;
         }
+
         .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
             width: 100% !important;
         }
+
         .bootstrap-select .dropdown-menu {
             left: auto;
             right: 0;
             width: 100%;
         }
+
         .selectui .dropdown-menu {
             left: 0;
             right: auto;
         }
+
         div.dataTables_wrapper {
             width: 100%;
             margin: 0 auto;
         }
+
         table.dataTable tbody th, table.dataTable tbody td {
             padding: 5px 5px;
             font-size: 13px;
@@ -99,8 +107,6 @@
                                 <th class="font-weight-bold">Số ngày báo cáo</th>
                                 <th class="font-weight-bold">Số lần ghé thăm</th>
                                 <th class="font-weight-bold">Tổng đơn hàng</th>
-                                <th class="font-weight-bold">Doanh số OTC</th>
-                                <th class="font-weight-bold">Doanh số ETC</th>
                                 <th class="font-weight-bold">Tổng doanh số</th>
                             </tr>
                         </thead>
@@ -116,9 +122,7 @@
                                         <td class="text-center">@i.songaybaocao</td>
                                         <td class="text-center">@i.solantham</td>
                                         <td class="text-center">@i.sodonhang</td>
-                                        <td class="text-right">@((i.doanhsootc != null) ? string.Format("{0:#,##0}", i.doanhsootc) : "N/A")</td>
-                                        <td class="text-right">@((i.doanhsoetc != null) ? string.Format("{0:#,##0}", i.doanhsoetc) : "N/A")</td>
-                                        <td class="text-right">@((i.doanhsootc != null) ? string.Format("{0:#,##0}", i.doanhsootc + i.doanhsoetc) : "N/A")</td>
+                                        <td class="text-right">@((i.doanhso != null) ? string.Format("{0:#,##0}",i.doanhso) : "N/A")</td>
                                     </tr>
                                     count = count + 1;
                                 }

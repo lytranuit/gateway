@@ -121,7 +121,7 @@
                                     <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
                                         @foreach (var i in Model.ListKH)
                                         {
-                                            <option data-phanloaikhachhang="@i.phanloaikhachhang" data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-subtext="(@i.DIACHI)" data-matdv="@((User.Identity.Name == "HCM.ANHTIEN")?"":i.MATDV)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                            <option data-phanloaikhachhang="@i.phanloaikhachhang" data-macn="@i.macn" data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-subtext="(@i.DIACHI)" data-matdv="@((User.Identity.Name == "HCM.ANHTIEN")?"":i.MATDV)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
                                         }
                                     </select>
                                 </div>
@@ -363,5 +363,5 @@
         });
     </script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
-    <script src="~/Scripts/Taodonhangmobile.js?version=2704202441"></script>
+    <script src="~/Scripts/Taodonhangmobile.js?version=2704202445"></script>
 }

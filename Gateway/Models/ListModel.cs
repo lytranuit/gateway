@@ -38,6 +38,44 @@ namespace ApplicationChart.Models
         public decimal? hd_12_18 { get; set; }
         public decimal? hd_hon_18 { get; set; }
     }
+    public class MAU_DONDATHANG
+    {
+        public string MADH { get; set; }
+        public DateTime NgayDat { get; set; }
+        public int STT { get; set; }
+        public string MAHH { get; set; }
+        public string TENHH { get; set; }
+        public string DVT { get; set; }
+        public string DONVI { get; set; }
+        public string MACH { get; set; }
+        public string MATDV { get; set; }
+        public string MAKH { get; set; }
+        public decimal SOLUONG { get; set; }
+        public decimal GIABAN_VAT { get; set; }
+        public int VAT { get; set; }
+        public bool DUYETDH { get; set; }
+        public string MACTKM { get; set; }
+        public string TENCTKM { get; set; }
+        public string SOHD { get; set; }
+        public string GHICHU { get; set; }
+        public double ck { get; set; }
+        public string USERTAO { get; set; }
+        public string MACTHT { get; set; }
+        public string NGUOIDUYET { get; set; }
+        public int SOLUONG2 { get; set; }
+        public int SOLUONG3 { get; set; }
+        public string LIDO { get; set; }
+
+        public string tennguoidg { get; set; }
+
+        public string diachi { get; set; }
+
+        public string masothue { get; set; }
+
+        public string dienthoai { get; set; }
+
+        public string TENTDV { get; set; }
+    }
     public partial class EntitiesKT
     {
         public KTContext data { get; set; }
@@ -199,6 +237,7 @@ namespace ApplicationChart.Models
     }
     public partial class databoloc
     {
+        public List<TBL_DANHMUCNHAPHANPHOI> NPP { get; set; }
         public List<ListNhomSP> SP { get; set; }
         public List<ListKhuVuc> KV { get; set; }
         public List<ListKhuyenMai> KM { get; set; }
@@ -266,6 +305,7 @@ namespace ApplicationChart.Models
         public string email { get; set; }
         public string diachigiaohang { get; set; }
         public DateTime? NGAYSINH { get; set; }
+        public string tinhtrang { get; set; }
     }
     public partial class CONGNOKHACHHANG
     {
@@ -577,6 +617,7 @@ namespace ApplicationChart.Models
     }
     public partial class KhachHangFull
     {
+        public string macn { get; set; }
         public string MAKH { get; set; }
         public string DONVI { get; set; }
         public string DIACHI { get; set; }
@@ -817,8 +858,7 @@ namespace ApplicationChart.Models
         public int? songaybaocao { get; set; }
         public int? solantham { get; set; }
         public int? sodonhang { get; set; }
-        public decimal? doanhsootc { get; set; }
-        public decimal? doanhsoetc { get; set; }
+        public decimal? doanhso { get; set; }
     }
     public partial class BAOCAOTONGHOPTUNGNGAYCRM
     {

@@ -54,20 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label" for="chinhanh">Chi nhánh <code class="bg-white">(*)</code></label>
-                                    <div class="col-sm-8">
-                                        <select data-actions-box="true" data-selected-text-format="count > 1" name="chinhanh" title="Chọn..." class="selectpicker" id="chinhanh">
-                                            @foreach (var k in ViewBag.donvi)
-                                            {
-                                                <option value=@k.macn>@k.Tencn</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- Default input -->
-                            </div>
+
                             <div class="col-sm-6" id="divtdv">
                                 <div class="form-group row">
                                     <label id="labeltdv" class="col-sm-4 col-form-label" for="matdv">Đại diện nhãn hàng <code class="bg-white">(*)</code></label>
@@ -258,28 +245,7 @@
             $('#denngay1').datepicker("setDate", "@DateTime.Now.ToString("dd/MM/yyyy")");
             $('.selectpicker').selectpicker();
 
-            $("#chinhanh").change(function () {
-                $("#matdv").empty();
-                var url = '@Url.Action("GetTrinhDuocVien", "Baocao")';
-                $.post(url, { macn: $("#chinhanh").val() },
-                          function (data) {
-                              for (var i = 0; i < data.length; i++) {
-                                  $("#matdv").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
-                              }
-                              $('.selectpicker').selectpicker('refresh');
-                          });
-            });
-            $("#chinhanh1").change(function () {
-                $("#matdv1").empty();
-                var url = '@Url.Action("GetTrinhDuocVien", "Baocao")';
-                $.post(url, { macn: $("#chinhanh1").val() },
-                          function (data) {
-                              for (var i = 0; i < data.length; i++) {
-                                  $("#matdv1").append('<option tabindex="' + data[i].TENTDV + '" value="' + data[i].MATDV + '">' + data[i].MATDV + " - " + data[i].TENTDV + '</option>')
-                              }
-                              $('.selectpicker').selectpicker('refresh');
-                          });
-            });
+
             $("#matdv").change(function () {
                 $("#tentdv").val($("#matdv option:selected").attr("tabindex"));
             });
@@ -320,25 +286,36 @@
                 }
                 if ($("#baocao").val() == 4) {
                     e.preventDefault();
-                    var url = '@Url.Action("ExcelKhachhangMoi", "Baocao")' + '?macn=' + encodeURIComponent($("#chinhanh").val()) + '&matdv=' + encodeURIComponent($("#matdv").val());
+                    var url = '@Url.Action("ExcelKhachhangMoi", "Baocao")' + '?matdv=' + encodeURIComponent($("#matdv").val());
                     window.open(url, '_blank');
 
                 }
                 if ($("#baocao").val() == 5) {
                     e.preventDefault();
-                    var url = '@Url.Action("Excelbaocaongay", "Baocao")' + '?macn=' + encodeURIComponent($("#chinhanh").val()) + '&matdv=' + encodeURIComponent($("#matdv").val()) + '&tungay=' + moment($("#tungay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD") + '&denngay=' + moment($("#denngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
+                    var url = '@Url.Action("Excelbaocaongay", "Baocao")' + '?matdv=' + encodeURIComponent($("#matdv").val()) + '&tungay=' + moment($("#tungay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD") + '&denngay=' + moment($("#denngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
                     window.open(url, '_blank');
 
                 }
                 if ($("#baocao").val() == 6) {
                     e.preventDefault();
-                    var url = '@Url.Action("Excelkehoachtuan", "Baocao")' + '?macn=' + encodeURIComponent($("#chinhanh").val()) + '&matdv=' + encodeURIComponent($("#matdv").val()) + '&ngay=' + moment($("#ngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
+                    var url = '@Url.Action("Excelkehoachtuan", "Baocao")' + '?matdv=' + encodeURIComponent($("#matdv").val()) + '&ngay=' + moment($("#ngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
                     window.open(url, '_blank');
 
                 }
             });
 
-
+            getTDV();
         });
+        function getTDV() {
+             $("#matdv").empty();
+             var url = '@Url.Action("GetTrinhduoc", "Home")';
+             $.post(url, {  },
+                function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#matdv").append('<option tabindex="' + data[i].tentdv + '" value="' + data[i].matdv + '">' + data[i].matdv + " - " + data[i].tentdv + '</option>')
+                    }
+                    $('#matdv').selectpicker('refresh');
+                });
+        }
     </script>
 }

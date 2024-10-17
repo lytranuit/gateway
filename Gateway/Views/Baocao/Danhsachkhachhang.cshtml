@@ -33,38 +33,12 @@
                             <th>Mã KH</th>
                             <th>Tên khách hàng</th>
                             <th>Địa chỉ</th>
-                            <th>Ngày sinh</th>
                             <th>ĐT liên hệ</th>
+                            <th>Mã nhà phân phối</th>
                             <th style="width:110px;">Hành động</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @{
-                            int count = 1;
-                            foreach (var i in Model)
-                            {
-                                <tr id="@(i.MAKH.Replace(".",""))">
-                                    <th scope="row" class="text-center">@(count)</th>
-                                    <td class="text-center">@i.MAKH</td>
-                                    <td>@i.DONVI</td>
-                                    <td>@i.DIACHI</td>
-                                    <td class="text-center">@((i.NGAYSINH != null) ? ((DateTime)(i.NGAYSINH)).ToString("dd/MM/yyyy") : "N/A")</td>
-                                    <td>@i.DT</td>
-                                    <td class="p-1 align-middle text-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
-                                                <span class="fa fa-caret-down"></span>
-                                            </button>
-                                            <ul class="dropdown-menu text-left dropdown-menu-right">
-                                                <li><a class="btnview" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Thông tin chi tiết</a></li>
-                                                <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                count = count + 1;
-                            }
-                        }
+                    <tbody id="khachhang">
                     </tbody>
                 </table>
             </div>
@@ -92,6 +66,11 @@
                             </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
+                            <label for="CNedit">Nhà phân phối<span style="color:red">*</span></label>
+                            <select class="form-control" id="CNedit">
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
                             <label for="diachiedit">Địa chỉ</label>
                             <input autocomplete="off" type="text" class="form-control" id="diachiedit">
                         </div>
@@ -110,11 +89,6 @@
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="tinhedit">Tỉnh</label>
                             <select class="form-control" id="tinhedit">
-                                <option value=""></option>
-                                @foreach (var i in ViewBag.tinh)
-                                {
-                                    <option value="@i.MaTinh">@i.TenTinh</option>
-                                }
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -161,6 +135,11 @@
                             <input disabled autocomplete="off" type="text" class="form-control" id="view2">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
+                            <label for="viewCN">Nhà phân phối<span style="color:red">*</span></label>
+                            <select class="form-control" id="viewCN" disabled>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
                             <label for="view3">Địa chỉ</label>
                             <input disabled autocomplete="off" type="text" class="form-control" id="view3">
                         </div>
@@ -179,11 +158,6 @@
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="viewtinh">Tỉnh</label>
                             <select class="form-control" id="viewtinh" disabled>
-                                <option value=""></option>
-                                @foreach (var i in ViewBag.tinh)
-                                {
-                                    <option value="@i.MaTinh">@i.TenTinh</option>
-                                }
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -224,6 +198,12 @@
                             <label for="KH2">Tên khách hàng <span style="color:red">*</span></label>
                             <input autocomplete="off" type="text" class="form-control" id="KH2">
                         </div>
+
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="KHCN">Nhà phân phối<span style="color:red">*</span></label>
+                            <select class="form-control" id="KHCN">
+                            </select>
+                        </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="KH3">Địa chỉ <span style="color:red">*</span></label>
                             <input autocomplete="off" type="text" class="form-control" id="KH3">
@@ -239,11 +219,6 @@
                         <div class="form-group col-sm-12 col-md-6">
                             <label for="KH7">Tỉnh</label>
                             <select class="form-control" id="KH7">
-                                <option value=""></option>
-                                @foreach (var i in ViewBag.tinh)
-                                {
-                                    <option value="@i.MaTinh">@i.TenTinh</option>
-                                }
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -263,11 +238,44 @@
                                 <option value="VIP">VIP</option>
                             </select>
                         </div>
+
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-sm transition-3d-hover saveKH">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalChange" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered fadeInDown scrollable-auto-y" style="max-width:1024px" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">THAY ĐỔI MÃ KHÁCH HÀNG</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="fromKH">Từ mã khách hàng <span style="color:red">*</span></label>
+                            <input autocomplete="off" type="text" class="form-control" id="fromKH" disabled>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="toKH">Sang mã khách hàng<span style="color:red">*</span></label>
+                            <input autocomplete="off" type="text" class="form-control" id="toKH">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm transition-3d-hover changeMAKH">Lưu lại</button>
             </div>
         </div>
     </div>
@@ -279,6 +287,8 @@
     <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
     <script src="~/Content/Order/js/lib/datatables/datatables-init.js?version=2"></script>
     <script>
+        var quyen = '@ViewBag.quyen';
+        quyen = quyen.split(",");
         function CovertDatetime(i) {
             var milli = i.replace(/\/Date\((-?\d+)\)\//, '$1');
             var d = new Date(parseInt(milli));
@@ -286,11 +296,7 @@
             return dformat;   // The function returns the product of p1 and p2
         }
         $(document).ready(function () {
-            $('.form-control1').datepicker({
-                format: 'dd/mm/yyyy',
-                todayHighlight: true,
-                autoclose: true,
-            });
+
             $("#btnedit").click(function () {
                 if ($("#dtedit").val() == "" || $("#ngaysinhedit").val() == "") {
                     toastr.options = {
@@ -334,6 +340,7 @@
                                             + ', quanhuyen: ' + JSON.stringify($("#quanedit").val())
                                             + ', lienhe: ' + JSON.stringify($("#lienheedit").val())
                                             + ', diachi: ' + JSON.stringify($("#diachiedit").val())
+                                            + ', macn: ' + JSON.stringify($("#CNedit").val())
                                             + ', masothue: ' + JSON.stringify($("#thueedit").val()) + '}',
                                         error: function () {
                                             toastr.options = {
@@ -395,44 +402,128 @@
             });
 
             $(document).on("click", ".saveKH", function () {
-                $('#loading').modal({ backdrop: 'static', keyboard: false })
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("SaveKH", "Baocao")",
-                    datatype: 'json',
-                    contentType: "application/json",
-                    data: '{tenkh: ' + JSON.stringify($("#KH2").val()) + ', diachi: ' + JSON.stringify($("#KH3").val()) + ', nguoilienhe: ' + JSON.stringify($("#KH4").val()) + ', dienthoai: ' + JSON.stringify($("#KH5").val()) + ', xeploai: ' + JSON.stringify($("#KH6").val()) + ', matinh: ' + JSON.stringify($("#KH7").val()) + ', maquan: ' + JSON.stringify($("#KHquan").val()) + ', masothue: ' + JSON.stringify($("#KHthue").val()) + '}',
-                    error: function () {
-                        $('#loading').modal('hide')
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
-                        Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
-                    },
-                    success: function (data) {
-                        $('#loading').modal('hide');
-                        $('#ModalTao').modal('hide');
-                        location.reload();
-                    },
-                    timeout: 5000,
-                });
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                if (!$("#KH2").val() || !$("#KH3").val() || !$("#KHCN").val()) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa điền đủ thông tin khách hàng!", "Thông báo")
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SaveKH", "Baocao")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{tenkh: ' + JSON.stringify($("#KH2").val()) + ', diachi: ' + JSON.stringify($("#KH3").val()) + ', nguoilienhe: ' + JSON.stringify($("#KH4").val()) + ', dienthoai: ' + JSON.stringify($("#KH5").val()) + ', xeploai: ' + JSON.stringify($("#KH6").val()) + ', matinh: ' + JSON.stringify($("#KH7").val()) + ', maquan: ' + JSON.stringify($("#KHquan").val()) + ', masothue: ' + JSON.stringify($("#KHthue").val()) + ', macn: ' + JSON.stringify($("#KHCN").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $('#loading').modal('hide');
+                            $('#ModalTao').modal('hide');
+                            location.reload();
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $(document).on("click", ".changeMAKH", function () {
+                $('#loading').modal({ backdrop: 'static', keyboard: false });
+                if (!$("#fromKH").val() || !$("#toKH").val()) {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa điền đủ thông tin!", "Thông báo")
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("changeMAKH", "Baocao")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{fromKH: ' + JSON.stringify($("#fromKH").val()) + ', toKH: ' + JSON.stringify($("#toKH").val()) + '}',
+                        error: function () {
+                            $('#loading').modal('hide')
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": true,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                        },
+                        success: function (data) {
+                            $('#loading').modal('hide');
+                            $('#ModalChange').modal('hide');
+                            location.reload();
+                        },
+                        timeout: 5000,
+                    });
+                }
             });
             $(document).on("click", ".btntao", function () {
 
+            });
+            $(document).on("click", ".btndoikh", function () {
+                var tr = $(this).closest("tr");
+                var id = tr.data("id");
+                $("#fromKH").val(id);
             });
             $(document).on("change", "#KH7", async function () {
                 var matinh = $(this).val();
@@ -463,6 +554,7 @@
                                   $("#view4").val(data.DT);
                                   $("#view5").val(data.TENNGUOILH);
                                   $("#view7").val(data.MST);
+                                  $("#viewCN").val(data.macn);
 
                                   $("#view8").val(data.xeploai);
                                   $("#viewtinh").val(data.matinh);
@@ -494,6 +586,7 @@
                         $("#xeploaiedit").val(data.xeploai);
                         $("#tinhedit").val(data.matinh);
                         $("#diachiedit").val(data.DIACHI);
+                        $("#CNedit").val(data.macn);
                         $("#lienheedit").val(data.TENNGUOILH);
                         $("#thueedit").val(data.MST);
 
@@ -508,11 +601,99 @@
                     });
             });
 
+            $('#loading').modal({ backdrop: 'static', keyboard: false });
+            getKhachhang();
+            getNhaPhanPhoi();
+            getKhuvuc();
+
+            $('#loading').modal('hide');
         });
+        function getKhachhang() {
+            var url2 = '@Url.Action("GetKhachHang", "Home")';
+            $.post(url2, {},
+                function (data) {
+                    $("#khachhang").empty();
+                    var html = "";
+                    //console.log(quyen);
+                    for (var i = 0; i < data.length; i++) {
+                        var append = `
+                            <tr data-id="`+ data[i].MAKH + `">
+                                <th scope="row" class="text-center">`+ (i + 1) + `</th>
+                                <td class="text-center">`+ data[i].MAKH + `</td>
+                                <td>`+ data[i].DONVI + `</td>
+                                <td>`+ data[i].DIACHI + `</td>
+                                <td>`+ data[i].DT + `</td>
+                                <td class="text-center">`+ data[i].macn + `</td>
+                                <td class="p-1 align-middle text-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                            <span class="fa fa-caret-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu text-left dropdown-menu-right">
+                                            <li><a class="btnview" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Thông tin chi tiết</a></li>`;
+                        if (data[i].tinhtrang == "Khách hàng mới" || quyen.indexOf("KHUYENMAI") != -1) {
+                            append += `
+                                            <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>`;
+                        }
+
+                        if (quyen.indexOf("KHUYENMAI") != -1) {
+                            append += `
+                                            <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>`;
+                        }
+                        append +=`
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                                `
+                        html += append;
+                        //console.log(html);
+                    }
+
+                    var table = $('#example23').DataTable();
+                    table.destroy();
+                    $("#khachhang").html(html);
+                    table = $("#example23").dataTable();
+                    //table.destroy();
+                    //table.clear().draw();
+                    //table.ajax.reload();
+                });
+        }
+        function getKhuvuc() {
+            var url2 = '@Url.Action("GetKhuvuc", "Home")';
+            $.post(url2, {},
+                function (data) {
+                    $("#KH7").empty();
+                    $("#viewtinh").empty();
+                    $("#tinhedit").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $("#KH7").append('<option value="' + data[i].matinh + '">' + data[i].tentinh + '</option>');
+                        $("#viewtinh").append('<option value="' + data[i].matinh + '">' + data[i].tentinh + '</option>');
+                        $("#tinhedit").append('<option value="' + data[i].matinh + '">' + data[i].tentinh + '</option>');
+                    }
+                    $("#KH7").trigger("change");
+                    $("#viewtinh").trigger("change");
+                    $("#tinhedit").trigger("change");
+                });
+        }
+        function getNhaPhanPhoi() {
+             var url2 = '@Url.Action("getNhaPhanPhoi", "Home")';
+             $.post(url2, {},
+                 function (data) {
+                     $("#CNedit").empty();
+                     $("#viewCN").empty();
+                     $("#KHCN").empty();
+                     for (var i = 0; i < data.length; i++) {
+                         $("#CNedit").append('<option value="' + data[i].macn + '">' + data[i].macn + " - " + data[i].tencn + '</option>');
+                         $("#viewCN").append('<option value="' + data[i].macn + '">' + data[i].macn + " - " + data[i].tencn + '</option>');
+                         $("#KHCN").append('<option value="' + data[i].macn + '">' + data[i].macn + " - " + data[i].tencn + '</option>');
+                     }
+                 });
+         }
         async function getQuan(matinh) {
              return  await $.ajax({
                 type: "POST",
-                url: "@Url.Action("GetQuan", "Baocao")",
+                url: "@Url.Action("GetQuan", "Home")",
                 contentType: "application/json",
                 datatype: 'json',
                   data: '{matinh: ' + JSON.stringify(matinh) + '}',

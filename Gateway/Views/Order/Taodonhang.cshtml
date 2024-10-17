@@ -31,13 +31,13 @@
         </ol>
     </div>
     @*<div class="alert alert-primary mb-0 p-2 font-small" role="alert">
-        <strong>THÔNG BÁO :</strong> Các sản phẩm <strong>60.P53-PYME ABZ, 60.P41-PYME FUCAN, 60.T07-TATACA</strong> đơn vị tính trong mục TẠO ĐƠN HÀNG TRÊN TẤT CẢ THIẾT BỊ sẽ là đơn vị <strong>VIÊN</strong>.
-    </div>
-    <div class="alert alert-danger mb-0 p-2 font-small" role="alert">
-        <strong>VIẾT TẮT :</strong> <strong>KSĐB :</strong> Kiểm soát đặc biệt, <strong>TPCN :</strong> Thực phẩm chức năng.
-    </div>*@
+            <strong>THÔNG BÁO :</strong> Các sản phẩm <strong>60.P53-PYME ABZ, 60.P41-PYME FUCAN, 60.T07-TATACA</strong> đơn vị tính trong mục TẠO ĐƠN HÀNG TRÊN TẤT CẢ THIẾT BỊ sẽ là đơn vị <strong>VIÊN</strong>.
+        </div>
+        <div class="alert alert-danger mb-0 p-2 font-small" role="alert">
+            <strong>VIẾT TẮT :</strong> <strong>KSĐB :</strong> Kiểm soát đặc biệt, <strong>TPCN :</strong> Thực phẩm chức năng.
+        </div>*@
     <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
-        <input id="tilechietkhau" type="hidden" value="0"/>
+        <input id="tilechietkhau" type="hidden" value="0" />
         <div class="w3-row">
             <div class="card mb-0">
                 <div class="card-header">
@@ -53,7 +53,7 @@
                                 <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
                                     @foreach (var i in Model.ListKH)
                                     {
-                                        <option data-phanloaikhachhang="@i.phanloaikhachhang" data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-matdv="@((User.Identity.Name == "HCM.ANHTIEN")?"":i.MATDV)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
+                                        <option data-phanloaikhachhang="@i.phanloaikhachhang" data-macn="@i.macn" data-tokens="@i.MAKH - @i.DONVI" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)" data-hanmuc="@((i.HANMUC != null)?String.Format("{0:0.##}", i.HANMUC):null)" data-matdv="@((User.Identity.Name == "HCM.ANHTIEN")?"":i.MATDV)" value="@i.MAKH">@i.MAKH - @i.DONVI</option>
                                     }
                                 </select>
                             </div>
@@ -245,5 +245,5 @@
         });
     </script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
-    <script src="~/Scripts/Taodonhang.js?version=270420241"></script>
+    <script src="~/Scripts/Taodonhang.js?version=270420245"></script>
 }

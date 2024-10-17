@@ -25,6 +25,7 @@ using System.Web;
 using OfficeOpenXml;
 using System.Net;
 using APIInvoice;
+using System.Data.SqlClient;
 
 namespace ApplicationChart.Controllers
 {
@@ -83,13 +84,15 @@ namespace ApplicationChart.Controllers
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
             new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
                  new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
+                 //new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY_TEST"},
                  //new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
         };
-        List<EntitiesCH> queryCH = new List<EntitiesCH> {
-            new EntitiesCH {data = new CHQ10Entities1("PTTTEntities") , macn = "PTTT"},
-            new EntitiesCH {data = new CHQ10Entities1("CHQ10Entities") , macn = "CHQ10"},
-            new EntitiesCH {data = new CHQ10Entities1("CHPPSPEntities") , macn = "CHPPSP"},
+        List<EntitiesCN> query = new List<EntitiesCN> {
+            new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
+                 new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
+                 //new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
         };
+        List<EntitiesCH> queryCH = new List<EntitiesCH>();
         Thuvieninvoice abc = new Thuvieninvoice();
         VNPTINVOICEEntities datainvoice = new VNPTINVOICEEntities();
         public string DOCHANGDONVI(string str_hangdonvi)
@@ -2166,6 +2169,176 @@ namespace ApplicationChart.Controllers
             return PartialView(data);
         }
         [HttpPost]
+        public ActionResult GetChinhanh()
+        {
+            var Info = GetInfo();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => 1 == 1);
+            if (Info.macn != "ALL")
+            {
+                List<string> listcn = Info.macn.Split(',').ToList();
+                donvi = donvi.Where(n => listcn.Contains(n.macn));
+            }
+            var data = donvi.ToList();
+
+            return Json(data);
+        }
+        [HttpPost]
+        public ActionResult GetNhaPhanPhoi()
+        {
+            var Info = GetInfo();
+            var donvi = db2.TBL_DANHMUCNHAPHANPHOI.Where(n => 1 == 1);
+            if (Info.macn != "ALL")
+            {
+                List<string> listcn = Info.macn.Split(',').ToList();
+                donvi = donvi.Where(n => listcn.Contains(n.macn));
+            }
+            var data = donvi.ToList();
+
+            return Json(data);
+        }
+        [HttpPost]
+        public ActionResult GetKhuvuc()
+        {
+            var Info = GetInfo();
+
+            var enti = queryCN.Where(d => d.macn == "DPY").FirstOrDefault().data;
+            var donvi = DULIEUKHUVUC(enti);
+            if (Info.matinh != "ALL")
+            {
+                List<string> list = Info.matinh.Split(',').ToList();
+                donvi = donvi.Where(n => list.Contains(n.matinh)).ToList();
+            }
+            var data = donvi.OrderBy(d => d.tentinh).ToList();
+
+            return Json(data);
+        }
+        [HttpPost]
+        public ActionResult GetTrinhduoc()
+        {
+            var Info = GetInfo();
+            var enti = query.SingleOrDefault(d => d.macn == "DPY").data;
+            var donvi = enti.TBL_DANHMUCTDV.Where(d => d.TDV == true);
+
+            if (Info.matdv != "ALL")
+            {
+                List<string> listtdv = Info.matdv.Split(',').ToList();
+                donvi = donvi.Where(n => listtdv.Contains(n.MaTDV));
+            }
+            var data = donvi.Select(d => new
+            {
+                matdv = d.MaTDV,
+                tentdv = d.TenTDV
+            }).ToList();
+            return Json(data);
+        }
+        [HttpPost]
+        public ActionResult GetKhachHang(string ChiNhanhId, string phanloai, string khuvuc)
+        {
+            var Info = GetInfo();
+
+            var KHACHHANG = DATAGETKHACHHANG(Info);
+
+            if (phanloai != null && phanloai != "ALL" && phanloai != "")
+            {
+                var listpl = phanloai.Split(',').ToList();
+                KHACHHANG = KHACHHANG.Where(d => listpl.Contains(d.phanloai)).ToList();
+            }
+            if (khuvuc != null && khuvuc != "")
+            {
+                var khuvuclist = khuvuc.Split(',').ToList();
+                KHACHHANG = KHACHHANG.Where(d => khuvuclist.Contains(d.MATINH)).ToList();
+            }
+
+
+            if (ChiNhanhId != null)
+            {
+                var listChiNhanhId = ChiNhanhId.Split(',').ToList();
+                KHACHHANG = KHACHHANG.Where(d => listChiNhanhId.Contains(d.macn)).ToList();
+            }
+
+
+
+            return Json(KHACHHANG.OrderBy(n => n.MAKH));
+        }
+        [HttpPost]
+        public ActionResult GetQuan(string matinh)
+        {
+            if (queryCN.SingleOrDefault(n => n.macn == "DPY") != null)
+            {
+                var enti = queryCN.SingleOrDefault(n => n.macn == "DPY").data;
+                return Json(DULIEUQUAN(enti, matinh));
+            }
+            return Json(new List<string>());
+        }
+        public List<ListQuan> DULIEUQUAN(Entities data, string matinh)
+        {
+            try
+            {
+                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan,matinh FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL and matinh = @matinh", new SqlParameter("matinh", matinh)).ToList();
+                return All;
+            }
+            catch (Exception)
+            {
+                return new List<ListQuan>();
+            }
+
+        }
+        private List<ListKhachHang> DATAGETKHACHHANG(TBL_DANHMUCNGUOIDUNG Info)
+        {
+            string strcn = "SELECT makh AS MAKH, donvi AS DONVI,phanloai,matinh,matdv,quanhuyen,macn,diachi,dt,tinhtrang FROM TBL_DANHMUCKHACHHANG WHERE tinhtrang != 'Ngừng giao dịch'";
+            if (Info.phanloai != "ALL")
+            {
+                var listpl = Info.phanloai.Split(',').ToList();
+                strcn = strcn + string.Format(" AND phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
+            }
+            if (Info.matinh != "ALL")
+            {
+                var listmt = Info.matinh.Split(',').ToList();
+                strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
+            }
+            if (Info.matdv != "ALL")
+            {
+                var listtdv = Info.matdv.Split(',').ToList();
+                strcn = strcn + string.Format(" AND matdv IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
+            }
+            if (Info.maquan != "ALL")
+            {
+                var listquan = Info.maquan.Split(',').ToList();
+                strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
+            }
+            if (Info.macn != "ALL")
+            {
+                var listcn = Info.macn.Split(',').ToList();
+                strcn = strcn + string.Format(" AND macn IN ({0})", string.Join(",", listcn.Select(p => "'" + p + "'")));
+            }
+            List<ListKhachHang> data = new List<ListKhachHang>();
+
+            foreach (var item in query)
+            {
+                var data1 = DULIEUKHACHHANG(item.data, strcn).ToList();
+                data.AddRange(data1);
+            }
+
+
+
+
+            return data;
+        }
+        //public List<ListKhachHang> DULIEUKHACHHANG(string str)
+        //{
+        //    try
+        //    {
+        //        enti.Database.CommandTimeout = 3200;
+        //        var All = enti.Database.SqlQuery<ListKhachHang>(str).ToList();
+        //        return All;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return new List<ListKhachHang>();
+        //    }
+
+        //}
+        [HttpPost]
         public ActionResult GETKHO(string macn)
         {
             var Info = GetInfo();
@@ -2894,10 +3067,7 @@ namespace ApplicationChart.Controllers
 
                 data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUCUAHANGKHACHHANG(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data, strch).ToList();
-            }
+
 
             return data;
         }
@@ -3135,108 +3305,112 @@ namespace ApplicationChart.Controllers
             var Info = GetInfo();
             var listpl = Info.phanloai.Split(',').ToList();
             string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG";
-            string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI FROM DM_KHACHHANG_PTTT";
             if (phanloai != null && phanloai != "ALL" && phanloai != "")
             {
                 strcn = strcn + string.Format(" WHERE phanloai IN ('{0}')", phanloai);
-                strch = strch + string.Format(" WHERE PHANLOAI IN ('{0}')", phanloai);
             }
             else
             {
                 strcn = strcn + string.Format(" WHERE phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" WHERE PHANLOAI IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
             }
 
             if (khuvuc != null && khuvuc != "")
             {
                 var khuvuclist = khuvuc.Split(',').ToList();
                 strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
             }
             else if (Info.matinh != "ALL" && (khuvuc == null || khuvuc == ""))
             {
                 var listmt = Info.matinh.Split(',').ToList();
                 strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
             }
             if (Info.matdv != "ALL")
             {
                 var listtdv = Info.matdv.Split(',').ToList();
                 strcn = strcn + string.Format(" AND matdv IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTDV IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
             }
             if (Info.maquan != "ALL")
             {
                 var listquan = Info.maquan.Split(',').ToList();
                 strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
+            }
+            if (Info.macn != "ALL")
+            {
+                var list = Info.macn.Split(',').ToList();
+                strcn = strcn + string.Format(" AND macn IN ({0})", string.Join(",", list.Select(p => "'" + p + "'")));
             }
             List<ListKhachHang> data = new List<ListKhachHang>();
-            if (ChiNhanhId == "ALL")
+            if (ChiNhanhId != "ALL" && queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
             {
-                foreach (var item in queryCN)
+                data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
+            }
+            else if (ChiNhanhId == "ALL")
+            {
+                foreach (var item in query)
                 {
                     data.AddRange(DULIEUKHACHHANG(item.data, strcn).ToList());
                 }
+                data = data.GroupBy(n => n.MAKH)     // Group by MAKH
+            .Select(g => g.First()).ToList();    // Select the first item from each group
             }
-            else if (queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
-            }
-            return PartialView(data.Distinct().OrderBy(n => n.MAKH));
+
+            data = data
+            .OrderBy(n => n.MAKH)      // Order by MAKH
+            .ToList();                 // Convert the result to a list
+            return PartialView(data);
         }
-        [HttpPost]
-        public ActionResult GetKhachHang(string ChiNhanhId, string phanloai, string khuvuc)
-        {
-            var Info = GetInfo();
-            var listpl = Info.phanloai.Split(',').ToList();
-            string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG";
-            string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI FROM DM_KHACHHANG_PTTT";
-            if (phanloai != null && phanloai != "ALL" && phanloai != "")
-            {
-                strcn = strcn + string.Format(" WHERE phanloai IN ('{0}')", phanloai);
-                strch = strch + string.Format(" WHERE PHANLOAI IN ('{0}')", phanloai);
-            }
-            else
-            {
-                strcn = strcn + string.Format(" WHERE phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" WHERE PHANLOAI IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
-            }
-            if (khuvuc != null && khuvuc != "")
-            {
-                var khuvuclist = khuvuc.Split(',').ToList();
-                strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
-            }
-            else if (Info.matinh != "ALL" && (khuvuc == null || khuvuc == ""))
-            {
-                var listmt = Info.matinh.Split(',').ToList();
-                strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
-            }
-            if (Info.matdv != "ALL")
-            {
-                var listtdv = Info.matdv.Split(',').ToList();
-                strcn = strcn + string.Format(" AND matdv IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTDV IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
-            }
-            if (Info.maquan != "ALL")
-            {
-                var listquan = Info.maquan.Split(',').ToList();
-                strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
-            }
-            List<ListKhachHang> data = new List<ListKhachHang>();
-            if (queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
-            }
-            else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUCUAHANGKHACHHANG(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data, strch).ToList();
-            }
-            return Json(data.OrderBy(n => n.MAKH));
-        }
+        //[HttpPost]
+        //public ActionResult GetKhachHang(string ChiNhanhId, string phanloai, string khuvuc)
+        //{
+        //    var Info = GetInfo();
+        //    var listpl = Info.phanloai.Split(',').ToList();
+        //    string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG";
+        //    string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI FROM DM_KHACHHANG_PTTT";
+        //    if (phanloai != null && phanloai != "ALL" && phanloai != "")
+        //    {
+        //        strcn = strcn + string.Format(" WHERE phanloai IN ('{0}')", phanloai);
+        //        strch = strch + string.Format(" WHERE PHANLOAI IN ('{0}')", phanloai);
+        //    }
+        //    else
+        //    {
+        //        strcn = strcn + string.Format(" WHERE phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
+        //        strch = strch + string.Format(" WHERE PHANLOAI IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
+        //    }
+        //    if (khuvuc != null && khuvuc != "")
+        //    {
+        //        var khuvuclist = khuvuc.Split(',').ToList();
+        //        strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
+        //        strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
+        //    }
+        //    else if (Info.matinh != "ALL" && (khuvuc == null || khuvuc == ""))
+        //    {
+        //        var listmt = Info.matinh.Split(',').ToList();
+        //        strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
+        //        strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
+        //    }
+        //    if (Info.matdv != "ALL")
+        //    {
+        //        var listtdv = Info.matdv.Split(',').ToList();
+        //        strcn = strcn + string.Format(" AND matdv IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
+        //        strch = strch + string.Format(" AND MaTDV IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
+        //    }
+        //    if (Info.maquan != "ALL")
+        //    {
+        //        var listquan = Info.maquan.Split(',').ToList();
+        //        strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
+        //        strch = strch + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
+        //    }
+        //    List<ListKhachHang> data = new List<ListKhachHang>();
+        //    if (queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
+        //    {
+        //        data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
+        //    }
+        //    else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
+        //    {
+        //        data = DULIEUCUAHANGKHACHHANG(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data, strch).ToList();
+        //    }
+        //    return Json(data.OrderBy(n => n.MAKH));
+        //}
 
         public List<string> GetMAKH(string ChiNhanhId, TBL_DANHMUCNGUOIDUNG Info, List<string> matinh, List<string> matdv, List<string> maquan)
         {
@@ -3287,10 +3461,6 @@ namespace ApplicationChart.Controllers
             {
                 data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUCUAHANGKHACHHANG(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data, strch).ToList();
-            }
             return data.OrderBy(n => n.MAKH).Select(n => n.MAKH).ToList();
         }
 
@@ -3329,23 +3499,25 @@ namespace ApplicationChart.Controllers
         public ListKhuyenMai GetDataKM(string ChiNhanh, string MAKM)
         {
             var str = "SELECT MaCTKM AS MAKM, TenCTKM AS TENKM, ngaybatdau, ngayketthuc  FROM TBL_DANHMUCKM WHERE MaCTKM = '" + MAKM + "'";
-            var strch = "SELECT MACTKM AS MAKM, TENCTKM AS TENKM FROM TBL_DANHMUCKHUYENMAI WHERE MACTKM = '" + MAKM + "'";
             ListKhuyenMai data = new ListKhuyenMai();
             if (queryCN.SingleOrDefault(n => n.macn == ChiNhanh) != null)
             {
-                if (ChiNhanh == "TT423")
-                {
-                    data = queryCN.SingleOrDefault(n => n.macn == ChiNhanh).data.Database.SqlQuery<ListKhuyenMai>("SELECT MaCTKM AS MAKM, TenCTKM AS TENKM , TRY_CONVERT(datetime, TBL_DANHMUCKHUYENMAI.ngaybd, 103) AS ngaybatdau,TRY_CONVERT(datetime, TBL_DANHMUCKHUYENMAI.ngaykt, 103) as ngayketthuc  FROM TBL_DANHMUCKHUYENMAI WHERE MaCTKM = '" + MAKM + "'").FirstOrDefault();
-                }
-                else
-                {
-                    data = queryCN.SingleOrDefault(n => n.macn == ChiNhanh).data.Database.SqlQuery<ListKhuyenMai>(str).FirstOrDefault();
-                }
 
+                data = queryCN.SingleOrDefault(n => n.macn == ChiNhanh).data.Database.SqlQuery<ListKhuyenMai>(str).FirstOrDefault();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanh) != null)
+            return data;
+        }
+        public ListKhuyenMai GetDataKM1(string MAKM)
+        {
+            var str = "SELECT MaCTKM AS MAKM, TenCTKM AS TENKM, ngaybatdau, ngayketthuc  FROM TBL_DANHMUCKM WHERE MaCTKM = '" + MAKM + "'";
+            ListKhuyenMai data = new ListKhuyenMai();
+            foreach (var item in query)
             {
-                data = queryCH.SingleOrDefault(n => n.macn == ChiNhanh).data.Database.SqlQuery<ListKhuyenMai>(strch).FirstOrDefault();
+                data = item.data.Database.SqlQuery<ListKhuyenMai>(str).FirstOrDefault();
+                if (data != null)
+                {
+                    return data;
+                }
             }
 
             return data;
@@ -4952,158 +5124,6 @@ namespace ApplicationChart.Controllers
             foreach (var x in soso)
             {
 
-                if (x == "QN")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(QuangNgai, strcn));
-                }
-                else if (x == "TN")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(TayNinh, strcn));
-                }
-                //else if (x == "TB2")
-                //{
-                //    DATAX.AddRange(BAOCAOMIENBAC(ThaiBinh2, strnew));
-                //}
-                ////else if (x == "HN_2")
-                ////{
-                ////    DATAX.AddRange(BAOCAOCHINHANH(HaNoi, strcn));
-                ////}
-                //else if (x == "HN2")
-                //{
-                //    DATAX.AddRange(BAOCAOMIENBAC(HaNoi2, strnew));
-                //    //DATAX.AddRange(BAOCAOMIENBAC(ThaiNguyen, strnew.Replace("KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH = TBL_DANHMUCCUAHANG.MaCH", "KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH IN ('HN','TB','PT')")));
-                //}
-                //else if (x == "TNG2")
-                //{
-                //    DATAX.AddRange(BAOCAOMIENBAC(ThaiNguyen2, strnew));
-                //    //DATAX.AddRange(BAOCAOMIENBAC(ThaiNguyen, strnew.Replace("KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH = TBL_DANHMUCCUAHANG.MaCH", "KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH IN ('HN','TB','PT')")));
-                //}
-                else if (x == "CHQ10")
-                {
-                    DATAX.AddRange(BAOCAOCUAHANG(CHQ10, strch));
-                }
-                else if (x == "CHPPSP")
-                {
-                    DATAX.AddRange(BAOCAOCUAHANG(CHPPSP, strch.Replace("SOHD_DT", "SoHD")));
-                }
-                else if (x == "TT423")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(TT423, strcn));
-                }
-
-                else if (x == "BD")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(BinhDinh, strcn));
-                }
-                else if (x == "CT")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(CanTho, strcn));
-                }
-                else if (x == "DN")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(DongNai, strcn));
-                }
-                else if (x == "BDG")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(BinhDuong, strcn));
-                }
-                else if (x == "DNA")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(DaNang, strcn));
-                }
-                else if (x == "HCM")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(HoChiMinh, strcn));
-                }
-                else if (x == "NA")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(NgheAn, strcn));
-                }
-                else if (x == "HN")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(HaNoi, strcn));
-                }
-                else if (x == "TB")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(ThaiBinh, strcn));
-                }
-                else if (x == "PT")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(PhuTho, strcn));
-                }
-                else if (x == "TNG")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(ThaiNguyen, strcn));
-                }
-                else if (x == "BT")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(BinhThuan, strcn));
-                }
-
-                else if (x == "THO")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(ThanhHoa, strcn));
-                }
-                //else if (x == "PT2")
-                //{
-                //    DATAX.AddRange(BAOCAOMIENBAC(PhuTho2, strnew));
-                //}
-                else if (x == "PY")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(PhuYen, strcn));
-                }
-                else if (x == "SC")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(SC, strcn));
-                }
-                else if (x == "AG")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(AnGiang, strcn));
-                }
-                else if (x == "CM")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(CaMau, strcn));
-                }
-                else if (x == "GL")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(GiaLai, strcn));
-                }
-                else if (x == "HUE")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(Hue, strcn));
-                }
-                else if (x == "HP")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(HaiPhong, strcn));
-                }
-                else if (x == "LD")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(LamDong, strcn));
-                }
-                else if (x == "NT")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(NhaTrang, strcn));
-                }
-                else if (x == "TG")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(TienGiang, strcn));
-                }
-                else if (x == "VL")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(VinhLong, strcn));
-                }
-                else if (x == "DNONG")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(Daknong, strcn.Replace(", TBL_DANHMUCKHACHHANG.phanloaikhachhang", "")));
-                }
-                else if (x == "PTTT")
-                {
-                    DATAX.AddRange(BAOCAOCUAHANG(PTTT, strch));
-                }
-                else if (x == "QT")
-                {
-                    DATAX.AddRange(BAOCAOCHINHANH(QuangTri, strcn));
-                }
             }
             return DATAX;
         }
@@ -6195,42 +6215,113 @@ namespace ApplicationChart.Controllers
             }
             return DATAX;
         }
+        public List<DULIEUBAOCAO> DATABAOCAONPP(DateTime tungay, DateTime denngay, List<string> list_cn, string phanloai, List<string> phanloaikhachhang, List<string> nhomhang, List<string> sanpham, List<string> quanhuyen, List<string> matinh, List<string> matdv, List<string> hopdong, List<string> makh, List<string> makm, List<string> loaihd, List<string> mactht)
+        {
+            denngay = denngay.AddDays(1);
+            var DATAX = new List<DULIEUBAOCAO>();
+            //String CN
+            string strcn = $"seleCT CT.MADH ,SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.GIABAN_VAT AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.GIABAN_VAT AS MONEY),0)*CT.ck/100,0) )) AS tienvat,"
+                        + "ROUND(SUM(CT.SOLUONG * (CT.GIABAN_VAT / (1 + (CAST(CT.vat as MONEY)/100))) * (CAST(CT.ck AS MONEY)/100)),0) AS TIENCK,"
+                        + "CT.MATDV AS MATDV ,TBL_DANHMUCTDV.TenTDV AS TENTDV,"
+                        + "CT.NgayDat AS NGAY, "
+                        + "TBL_DANHMUCKHACHHANG.matinh AS MATINH,"
+                        + "CT.MACTKM AS MAKM,CT.MACTHT AS MACTHT,"
+                        + "CT.mahh AS MAHH,TBL_DANHMUCHANGHOA.TENHH AS TENHH, "
+                        + "TBL_DANHMUCKHACHHANG.phanloai,"
+                        + "TBL_DANHMUCKHACHHANG.phanloaikhachhang, "
+                        + "TBL_DANHMUCKHACHHANG.MAKH, "
+                        + "TBL_DANHMUCKHACHHANG.DONVI,"
+                        + "SUM(CT.SOLUONG) as SOLUONG,"
+                        + "(CT.GIABAN_VAT / (1 + (CAST(CT.vat as MONEY)/100))) as DONGIA,"
+                        + "CAST(CT.GIABAN_VAT AS MONEY) AS DONGIA_VAT, "
+                        + "CT.DVT,"
+                        + "TBL_DANHMUCHANGHOA.nhom AS NHOM,"
+                        + "ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.GIABAN_VAT AS MONEY)), 0) AS TIEN, "
+                        + "CT.MACH as MACN "
+                        + "from DTA_DONDATHANG CT "
+                        + "LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.MAHH = TBL_DANHMUCHANGHOA.MAHH "
+                        + "LEFT JOIN   TBL_DANHMUCKHACHHANG ON CT.MAKH = TBL_DANHMUCKHACHHANG.makh "
+                        + "LEFT JOIN TBL_DANHMUCTDV on CT.MATDV = TBL_DANHMUCTDV.MaTDV   "
+                        + "where CT.NgayDat >= '" + tungay.ToString("yyyy-MM-dd") + "' and CT.NgayDat <='" + denngay.ToString("yyyy-MM-dd") + "' "
+                        + "AND CT.DUYETDH = 1 ";
+
+            if (phanloai != "ALL")
+            {
+                strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.phanloai IN ({0})", "'" + phanloai + "'");
+            }
+            if (list_cn != null)
+            {
+                strcn = strcn + string.Format(" AND CT.MACH IN ({0})", string.Join(",", list_cn.Select(p => "'" + p + "'")));
+            }
+
+            if (phanloaikhachhang != null)
+            {
+                strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.phanloaikhachhang IN ({0})", string.Join(",", phanloaikhachhang.Select(p => "'" + p + "'")));
+            }
+
+            if (nhomhang != null)
+            {
+                strcn = strcn + string.Format(" AND TBL_DANHMUCHANGHOA.nhom IN ({0})", string.Join(",", nhomhang.Select(p => "'" + p + "'")));
+                //strnew = strnew + string.Format(" AND substring(replace(dclChiTietHangHoa.MaCap, ' ', ''), 1, 2) in ({0})", string.Join(",", nhomhang.Select(p => "'" + p + "'")));
+            }
+            if (sanpham != null)
+            {
+                strcn = strcn + string.Format(" AND CT.mahh IN ({0})", string.Join(",", sanpham.Select(p => "'" + p + "'")));
+            }
+            if (quanhuyen != null)
+            {
+                strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.quanhuyen IN ({0})", string.Join(",", quanhuyen.Select(p => "'" + p + "'")));
+            }
+            if (matinh != null)
+            {
+                strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.matinh IN ({0})", string.Join(",", matinh.Select(p => "'" + p + "'")));
+            }
+            if (matdv != null)
+            {
+                strcn = strcn + string.Format(" AND CT.matdv IN ({0})", string.Join(",", matdv.Select(p => "'" + p + "'")));
+            }
+            if (makh != null)
+            {
+                strcn = strcn + string.Format(" AND CT.makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
+            }
+            if (makm != null)
+            {
+                strcn = strcn + string.Format(" AND CT.MACTKM IN ({0})", string.Join(",", makm.Select(p => "'" + p + "'")));
+            }
+            if (mactht != null)
+            {
+
+                strcn = strcn + string.Format(" AND CT.MACTHT IN ({0})", string.Join(",", mactht.Select(p => "'" + p + "'")));
+
+            }
+            strcn += " GROUP BY CT.MACH,TBL_DANHMUCTDV.TenTDV,CT.MACTKM,CT.MACTHT,CT.MATDV,CT.MADH,CT.NgayDat, TBL_DANHMUCKHACHHANG.matinh, CT.mahh, TBL_DANHMUCHANGHOA.TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, TBL_DANHMUCKHACHHANG.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), (CT.GIABAN_VAT / (1 + (CAST(CT.vat as MONEY)/100))),CT.GIABAN_VAT , CT.DVT, TBL_DANHMUCHANGHOA.nhom, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.GIABAN_VAT AS MONEY), 0)";
+            foreach (var item in query)
+            {
+                DATAX.AddRange(BAOCAOCHINHANH(item.data, strcn));
+            }
+
+            return DATAX;
+        }
         public List<DULIEUBAOCAO> DATABAOCAO(List<string> mapl, List<string> soso, DateTime tungay, DateTime denngay, string phanloai, List<string> phanloaikhachhang, List<string> nhomhang, List<string> sanpham, List<string> quanhuyen, List<string> matinh, List<string> matdv, List<string> hopdong, List<string> makh, List<string> makm, List<string> loaihd, List<string> mactht)
         {
             var DATAX = new List<DULIEUBAOCAO>();
             //String CN
             string strcn = "seleCT SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SOHD_DT as SoHD,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,HOADON.MaTDV AS MATDV ,TBL_DANHMUCTDV.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL,TBL_MIEN.mien AS MIEN,TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC,TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM,CT.MACTHT AS MACTHT,CT.mahh AS MAHH,TBL_DANHMUCHANGHOA.TENHH AS TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA, CT.DVT, CT.MaLo AS SOLO, CT.HanDung as HANDUNG, TBL_DANHMUCHANGHOA.nhom AS NHOM, ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.DONGIA AS MONEY)), 0) AS TIEN from TBL_MIEN, TBL_DANHMUCTIEUDEBAOCAO, DTA_CT_HOADON_XUAT CT LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.mahh = TBL_DANHMUCHANGHOA.mahh, DTA_HOADON_XUAT HOADON   LEFT JOIN   TBL_DANHMUCKHACHHANG ON HOADON.makh = TBL_DANHMUCKHACHHANG.makh LEFT JOIN TBL_DANHMUCTDV on HOADON.matdv = TBL_DANHMUCTDV.MaTDV " + ((loaihd != null) ? " ,DTA_HOADON_XUAT DTA_HOADON_XUAT_1  LEFT JOIN TBL_DANHMUCHOPDONG ON DTA_HOADON_XUAT_1.HOPDONG=TBL_DANHMUCHOPDONG.mahd AND DTA_HOADON_XUAT_1.MAKH=TBL_DANHMUCHOPDONG.MAKH" : " ") + " where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1 AND HOADON.SOHD_DT is not null";
-            //String CH
-            string strch = "Select SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SOHD_DT as SoHD,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,HOADON.MaTDV AS MATDV,DS_TDV_PTTT.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL, TBL_MIEN.mien AS MIEN, TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC, TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM , CT.mahh AS MAHH, DM_HANGHOA.TENHH AS TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA , CT.DVT , CT.MaLo AS SOLO, CT.HanDung as HANDUNG ,DM_HANGHOA.nhom AS NHOM , ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0) AS TIEN from TBL_MIEN,tieude TBL_DANHMUCTIEUDEBAOCAO, CT_HOADON_XUAT CT  LEFT JOIN  DM_HANGHOA ON CT.mahh = DM_HANGHOA.mahh, DM_KHACHHANG_PTTT TBL_DANHMUCKHACHHANG right join HOADON_XUAT  HOADON on TBL_DANHMUCKHACHHANG.makh = HOADON.makh left join DS_TDV_PTTT on HOADON.MaTDV = DS_TDV_PTTT.MaTDV " + ((loaihd != null) ? " ,HOADON_XUAT DTA_HOADON_XUAT_1  LEFT JOIN TBL_DANHMUCHOPDONG ON DTA_HOADON_XUAT_1.HOPDONG=TBL_DANHMUCHOPDONG.mahd AND DTA_HOADON_XUAT_1.MAKH=TBL_DANHMUCHOPDONG.MAKH" : " ") + " where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1 AND HOADON.SOHD_DT is not null ";
-            //String MB
-            //string strcn = "seleCT SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SOHD_DT as SoHD,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,HOADON.MaTDV AS MATDV ,TBL_DANHMUCTDV.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL,TBL_MIEN.mien AS MIEN,TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC,TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM,CT.MACTHT AS MACTHT,CT.mahh AS MAHH,TBL_DANHMUCHANGHOA.TENHH AS TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA, CT.DVT, CT.MaLo AS SOLO, CT.HanDung as HANDUNG, TBL_DANHMUCHANGHOA.nhom AS NHOM, ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.DONGIA AS MONEY)), 0) AS TIEN from TBL_MIEN, TBL_DANHMUCTIEUDEBAOCAO, DTA_CT_HOADON_XUAT CT LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.mahh = TBL_DANHMUCHANGHOA.mahh, DTA_HOADON_XUAT HOADON   LEFT JOIN   TBL_DANHMUCKHACHHANG ON HOADON.makh = TBL_DANHMUCKHACHHANG.makh LEFT JOIN TBL_DANHMUCTDV on HOADON.matdv = TBL_DANHMUCTDV.MaTDV " + ((loaihd != null) ? " ,DTA_HOADON_XUAT DTA_HOADON_XUAT_1  LEFT JOIN TBL_DANHMUCHOPDONG ON DTA_HOADON_XUAT_1.HOPDONG=TBL_DANHMUCHOPDONG.mahd AND DTA_HOADON_XUAT_1.MAKH=TBL_DANHMUCHOPDONG.MAKH" : " ") + " where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1 ";
-            ////String CH
-            //string strch = "Select SUM((ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)  -  ROUND(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CT.TYLECK/100,0) ) *HOADON.THUESUAT/100) AS tienvat,HOADON.SOHD_DT as SoHD,SUM(round(ROUND(CAST(CT.SOLUONG AS MONEY)*CAST(CT.DONGIA AS MONEY),0)*CAST(TYLECK AS MONEY)/100,0)) AS TIENCK,HOADON.MaTDV AS MATDV,DS_TDV_PTTT.TenTDV AS TENTDV,HOADON.ngaylaphd AS NGAY, HOADON.MaPL, TBL_MIEN.mien AS MIEN, TBL_DANHMUCTIEUDEBAOCAO.tendvbc AS TENDVBC, TBL_DANHMUCKHACHHANG.matinh AS MATINH,CT.MAKM AS MAKM , CT.mahh AS MAHH, DM_HANGHOA.TENHH AS TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, CAST(CT.DonGia AS MONEY) AS DONGIA , CT.DVT , CT.MaLo AS SOLO, CT.HanDung as HANDUNG ,DM_HANGHOA.nhom AS NHOM , ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0) AS TIEN from TBL_MIEN,tieude TBL_DANHMUCTIEUDEBAOCAO, CT_HOADON_XUAT CT  LEFT JOIN  DM_HANGHOA ON CT.mahh = DM_HANGHOA.mahh, DM_KHACHHANG_PTTT TBL_DANHMUCKHACHHANG right join HOADON_XUAT  HOADON on TBL_DANHMUCKHACHHANG.makh = HOADON.makh left join DS_TDV_PTTT on HOADON.MaTDV = DS_TDV_PTTT.MaTDV " + ((loaihd != null) ? " ,HOADON_XUAT DTA_HOADON_XUAT_1  LEFT JOIN TBL_DANHMUCHOPDONG ON DTA_HOADON_XUAT_1.HOPDONG=TBL_DANHMUCHOPDONG.mahd AND DTA_HOADON_XUAT_1.MAKH=TBL_DANHMUCHOPDONG.MAKH" : " ") + " where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' AND HOADON.SOHD = CT.SOHD AND HOADON.NGAYLAPHD = CT.NGAYLAPHD AND HOADON.MACH = CT.MACH AND CT.KT = 1  ";
-            ////String MB
-            //string strnew = "select SUM(ISNULL(CAST(TIENCHIETKHAU   AS MONEY ),0)) as TIENCK,CAST(sum((ISNULL(CAST(TIENBAN   AS MONEY ),0) -   ISNULL(CAST(TIENCHIETKHAU   AS MONEY ),0)  )*dtasoluong.tylethue/100 ) as FLOAT) as TIENVAT, (select dbo.TCVN2Unicode(dclDanhSachDonViTinh.TenDonViTinh)) as DVT , SUM(ISNULL(CAST(dtasoluong.SOLUONG AS MONEY),0)) as SOLUONG ,SUM(CAST(TIENBAN   AS MONEY))/SUM(CAST(dtasoluong.SOLUONG AS MONEY)) as DONGIA,substring(dtaDinhKhoan.TaiKhoanNo, 1, 3) AS MAPL , dtaChungTu.ngaychungtu as NGAY, substring(replace(dclChiTietHangHoa.MaCap, ' ', ''), 1, 2) as NHOM ,replace(dclChiTietHangHoa.MaCap, ' ', '') AS MAHH, replace(dclChiTietHangHoa.TENCAP, ' ', '')  AS TENHH, ISNULL(CAST(TIENBAN   AS MONEY), 0)  AS TIEN, TBL_DANHMUCTIEUDEBAOCAO.TENDVBC, TBL_MIEN.MIEN, KT_TH.DBO.TBL_DANHMUCKHACHHANG.matinh as MATINH,dtaChungTu.SoHoaDon as SOHD , cast(dtaChungTu.KHACHHANGID as varchar) as MAKH, (select dbo.TCVN2Unicode(dclChiTietKhachHang.TENCAP)) as DONVI, KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloaikhachhang FROM dtasoluong, dtaDinhKhoan, dclChiTietHangHoa, dclChiTietKhachHang, dclDanhSachDonViTinh, tbl_danhmuctieudebaocao, tbl_mien , KT_TH.DBO.TBL_DANHMUCKHACHHANG right join TBL_DANHMUCCUAHANG on KT_TH.DBO.TBL_DANHMUCKHACHHANG.MACH = TBL_DANHMUCCUAHANG.MaCH right join dtaChungTu ON KT_TH.DBO.TBL_DANHMUCKHACHHANG.makh = CAST(dtaChungTu.KhachHangID as varchar) where dtasoluong.dinhkhoanid = dtaDinhKhoan.CapDKID And dclChiTietKhachHang.TaiKhoanID = dtaChungTu.KHACHHANGID And dtaDinhKhoan.chungtuid = dtaChungTu.chungtuid and dtaDinhKhoan.IDTaiKhoanCo = dclChiTietHangHoa.TaiKhoanID and dclDanhSachDonViTinh.DonViTinhID = dclChiTietHangHoa.DonViTinhID and dtasoluong.SOLUONG != 0  And dtaChungTu.KHACHHANGID IN(select dclChiTietKhachHang.TaiKhoanID from dclChiTietKhachHang) AND substring(dtaDinhKhoan.TaiKhoanNo, 1, 3) = '632' AND dtaChungTu.ngaychungtu between  '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "'";
             if (mapl != null)
             {
                 strcn = strcn + string.Format(" AND HOADON.MaPL IN ({0})", string.Join(",", mapl.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND HOADON.MaPL IN ({0})", string.Join(",", mapl.Select(p => "'" + p + "'")));
-                //strnew = strnew + string.Format(" AND KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloai IN ({0})", "'" + phanloai + "'");
             }
             if (phanloai != "ALL")
             {
                 strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.phanloai IN ({0})", "'" + phanloai + "'");
-                strch = strch + string.Format(" AND TBL_DANHMUCKHACHHANG.phanloai IN ({0})", "'" + phanloai + "'");
-                //strnew = strnew + string.Format(" AND KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloai IN ({0})", "'" + phanloai + "'");
             }
             if (phanloaikhachhang != null)
             {
                 strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.phanloaikhachhang IN ({0})", string.Join(",", phanloaikhachhang.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND TBL_DANHMUCKHACHHANG.phanloaikhachhang IN ({0})", string.Join(",", phanloaikhachhang.Select(p => "'" + p + "'")));
-                //strnew = strnew + string.Format(" AND KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloaikhachhang IN ({0})", string.Join(",", phanloaikhachhang.Select(p => "'" + p + "'")));
             }
             if (loaihd != null)
             {
                 strcn = strcn + " AND HOADON.SOHD=DTA_HOADON_XUAT_1.SOHD And HOADON.NGAYLAPHD=DTA_HOADON_XUAT_1.NGAYLAPHD And HOADON.MACH=DTA_HOADON_XUAT_1.MACH " + string.Format("AND tbl_danhmuchopdong.loaihd IN ({0})", string.Join(",", loaihd.Select(p => "N'" + p + "'")));
-                strch = strch + " AND HOADON.SOHD=DTA_HOADON_XUAT_1.SOHD And HOADON.NGAYLAPHD=DTA_HOADON_XUAT_1.NGAYLAPHD And HOADON.MACH=DTA_HOADON_XUAT_1.MACH " + string.Format("AND tbl_danhmuchopdong.loaihd IN ({0})", string.Join(",", loaihd.Select(p => "N'" + p + "'")));
-                //strnew = strnew + " AND HOADON.SOHD=DTA_HOADON_XUAT_1.SOHD And HOADON.NGAYLAPHD=DTA_HOADON_XUAT_1.NGAYLAPHD And HOADON.MACH=DTA_HOADON_XUAT_1.MACH " + string.Format("AND tbl_danhmuchopdong.loaihd IN ({0})", string.Join(",", loaihd.Select(p => "N'" + p + "'")));
             }
             if (hopdong != null)
             {
@@ -6243,58 +6334,43 @@ namespace ApplicationChart.Controllers
                     kh.Add(k.Last());
                 }
                 strcn = strcn + string.Format(" AND HOADON.HOPDONG IN ({0})", string.Join(",", hd.Select(p => "'" + p + "'"))) + string.Format(" AND HOADON.MAKH IN ({0})", string.Join(",", kh.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND HOADON.HOPDONG IN ({0})", string.Join(",", hd.Select(p => "'" + p + "'"))) + string.Format(" AND HOADON.MaKH IN ({0})", string.Join(",", kh.Select(p => "'" + p + "'")));
-                //strnew = strnew + string.Format(" AND substring(replace(dclChiTietHangHoa.MaCap, ' ', ''), 1, 2) in ({0})", string.Join(",", nhomhang.Select(p => "'" + p + "'")));
             }
             if (nhomhang != null)
             {
                 strcn = strcn + string.Format(" AND TBL_DANHMUCHANGHOA.nhom IN ({0})", string.Join(",", nhomhang.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND DM_HANGHOA.nhom IN ({0})", string.Join(",", nhomhang.Select(p => "'" + p + "'")));
-                //strnew = strnew + string.Format(" AND substring(replace(dclChiTietHangHoa.MaCap, ' ', ''), 1, 2) in ({0})", string.Join(",", nhomhang.Select(p => "'" + p + "'")));
             }
             if (sanpham != null)
             {
                 strcn = strcn + string.Format(" AND CT.mahh IN ({0})", string.Join(",", sanpham.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND CT.mahh IN ({0})", string.Join(",", sanpham.Select(p => "'" + p + "'")));
-                //strnew = strnew + string.Format(" AND replace(dclChiTietHangHoa.MaCap, ' ', '') IN ({0})", string.Join(",", sanpham.Select(p => "'" + p + "'")));
             }
             if (quanhuyen != null)
             {
                 strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.quanhuyen IN ({0})", string.Join(",", quanhuyen.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND TBL_DANHMUCKHACHHANG.quanhuyen IN ({0})", string.Join(",", quanhuyen.Select(p => "'" + p + "'")));
             }
             if (matinh != null)
             {
                 strcn = strcn + string.Format(" AND TBL_DANHMUCKHACHHANG.matinh IN ({0})", string.Join(",", matinh.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND TBL_DANHMUCKHACHHANG.matinh IN ({0})", string.Join(",", matinh.Select(p => "'" + p + "'")));
-                //strnew = strnew + string.Format(" AND KT_TH.DBO.TBL_DANHMUCKHACHHANG.matinh IN ({0})", string.Join(",", matinh.Select(p => "'" + p + "'")));
             }
             if (matdv != null)
             {
                 strcn = strcn + string.Format(" AND HOADON.matdv IN ({0})", string.Join(",", matdv.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND HOADON.MaTDV IN ({0})", string.Join(",", matdv.Select(p => "'" + p + "'")));
             }
             if (makh != null)
             {
                 strcn = strcn + string.Format(" AND HOADON.makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND HOADON.makh IN ({0})", string.Join(",", makh.Select(p => "'" + p + "'")));
             }
             if (makm != null)
             {
                 strcn = strcn + string.Format(" AND CT.MAKM IN ({0})", string.Join(",", makm.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND CT.MAKM IN ({0})", string.Join(",", makm.Select(p => "'" + p + "'")));
             }
             if (mactht != null)
             {
 
                 strcn = strcn + string.Format(" AND CT.MACTHT IN ({0})", string.Join(",", mactht.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND CT.MACTHT IN ({0})", string.Join(",", mactht.Select(p => "'" + p + "'")));
 
             }
             //String MB
             strcn = strcn + " GROUP BY TBL_DANHMUCTDV.TenTDV,HOADON.SOHD_DT,CT.MAKM,CT.MaLo,CT.HanDung,CT.MACTHT,HOADON.MATDV,HOADON.ngaylaphd, HOADON.MaPL, TBL_MIEN.mien, TBL_DANHMUCTIEUDEBAOCAO.tendvbc, TBL_DANHMUCKHACHHANG.matinh, CT.mahh, TBL_DANHMUCHANGHOA.TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), CT.DonGia, CT.DVT, TBL_DANHMUCHANGHOA.nhom, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0)";
-            strch = strch + " GROUP BY DS_TDV_PTTT.TenTDV,HOADON.SOHD_DT,CT.MAKM,CT.MaLo,CT.HanDung ,HOADON.MaTDV,DM_HANGHOA.nhom, HOADON.MaPL, HOADON.ngaylaphd, TBL_MIEN.mien, TBL_DANHMUCTIEUDEBAOCAO.tendvbc, TBL_DANHMUCKHACHHANG.matinh, CT.mahh, DM_HANGHOA.TENHH, TBL_DANHMUCKHACHHANG.phanloai, TBL_DANHMUCKHACHHANG.phanloaikhachhang, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), CT.DonGia, CT.DVT, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0)";
-            //strnew = strnew + "group by dclChiTietKhachHang.TENCAP, dclChiTietKhachHang.TaiKhoanID,dtaChungTu.SoHoaDon,dtasoluong.TienBan, dclDanhSachDonViTinh.TenDonViTinh, dtasoluong.SOLUONG, dtasoluong.GIAban, dtaDinhKhoan.TaiKhoanNo, dtaChungTu.ngaychungtu, dclChiTietHangHoa.MaCap, dclChiTietHangHoa.TENCAP, tbl_danhmuctieudebaocao.tendvbc, tbl_mien.mien, dtaChungTu.khachhangid, TBL_DANHMUCCUAHANG.MACH ,KT_TH.DBO.TBL_DANHMUCKHACHHANG.matinh , KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloai , KT_TH.DBO.TBL_DANHMUCKHACHHANG.phanloaikhachhang";
             foreach (var x in soso)
             {
                 if (queryCN.SingleOrDefault(n => n.macn == x) != null)
@@ -6600,6 +6676,58 @@ namespace ApplicationChart.Controllers
                 .Where(n => n.MAKM != "")
                 .OrderByDescending(n => n.ngaybatdau).ThenBy(n => n.MAKM).ToList();
             data.NHOM = getnhomcn(ChiNhanhId);
+            if (Info.mahh != "ALL")
+            {
+                var taphopsp = Info.mahh.Split(',').ToList();
+                data.SP = data.SP.Where(n => taphopsp.Contains(n.MaHH)).ToList();
+            }
+            if (Info.matinh != "ALL")
+            {
+                var taphopkv = Info.matinh.Split(',').ToList();
+                data.KV = data.KV.Where(n => taphopkv.Contains(n.matinh)).ToList();
+            }
+            if (Info.maquan != "ALL")
+            {
+                var taphop = Info.maquan.Split(',').ToList();
+                data.Quan = data.Quan.Where(n => taphop.Contains(n.maquan)).ToList();
+            }
+            if (Info.matdv != "ALL")
+            {
+                var taphop = Info.matdv.ToUpper().Split(',').ToList();
+                data.TDV = data.TDV.Where(n => taphop.Contains(n.MATDV.ToUpper())).ToList();
+            }
+            return Json(data);
+        }
+        [HttpPost]
+        public ActionResult GetBoLocNPP()
+        {
+            var Info = GetInfo();
+            var data = new databoloc();
+            var ChiNhanhId = "DPY";
+            if (queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
+            {
+                var enti = queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data;
+                data.KV = DULIEUKHUVUC(enti).ToList();
+                data.SP = DULIEUNHOMSP(enti).ToList();
+                data.LOAIHD = DULIEULOAIHD(enti).ToList();
+                data.KM = DULIEUKHUYENMAI(enti).ToList();
+                data.TDV = DULIEUTRINHDUOCVIEN(enti).ToList();
+                data.Quan = DULIEUQUAN(enti).ToList();
+                data.NPP = db2.TBL_DANHMUCNHAPHANPHOI.ToList();
+            }
+            var km = DATATH1.TBL_DANHMUCKM.Select(n => new { n.MACTKM, n.TENCTKM, n.PHAMVI, n.ngaybatdau, n.ngayketthuc }).ToList();
+            var ctkmchung = km
+                .Select(n => new ListKhuyenMai { MAKM = n.MACTKM, TENKM = n.TENCTKM, hieuluc = (n.ngaybatdau <= DateTime.Today && n.ngayketthuc >= DateTime.Today) ? true : false, ngaybatdau = n.ngaybatdau, ngayketthuc = n.ngayketthuc })
+                .ToList();
+            data.KM = data.KM.Where(n => !ctkmchung.Select(c => c.MAKM).Contains(n.MAKM)).Concat(ctkmchung).Distinct()
+                .Where(n => n.MAKM != "")
+                .OrderByDescending(n => n.ngaybatdau).ThenBy(n => n.MAKM).ToList();
+            data.NHOM = getnhomcn(ChiNhanhId);
+            if (Info.macn != "ALL")
+            {
+                var taphopcn = Info.macn.Split(',').ToList();
+                data.NPP = data.NPP.Where(n => taphopcn.Contains(n.macn)).ToList();
+            }
             if (Info.mahh != "ALL")
             {
                 var taphopsp = Info.mahh.Split(',').ToList();
@@ -7345,20 +7473,20 @@ namespace ApplicationChart.Controllers
                         {
                             if (z.idglobal_region != "" && z.idglobal_region != null)
                             {
-                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_region, TenTDV = z.ten_region, idglobal = z.idglobal_region });
+                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_region, TenTDV = z.ten_region,  });
                             }
                             if (z.idglobal_manager != "" && z.idglobal_manager != null)
                             {
-                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_manager, TenTDV = z.ten_manager, idglobal = z.idglobal_manager });
+                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_manager, TenTDV = z.ten_manager,  });
                             }
                             if (z.idglobal_director != "" && z.idglobal_director != null)
                             {
-                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_director, TenTDV = z.ten_director, idglobal = z.idglobal_director });
+                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_director, TenTDV = z.ten_director, });
                             }
                         }
                         matdvthem = matdvthem.GroupBy(n => n.MaTDV).Select(n => n.FirstOrDefault()).ToList();
-                        var matdv = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCTDV.Select(n => n.idglobal).Distinct().ToList();
-                        queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCTDV.AddRange(matdvthem.Where(n => !matdv.Contains(n.idglobal)));
+                        var matdv = queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCTDV.Select(n => n.MaTDV).Distinct().ToList();
+                        queryCN.SingleOrDefault(n => n.macn == i).data.TBL_DANHMUCTDV.AddRange(matdvthem.Where(n => !matdv.Contains(n.MaTDV)));
                         queryCN.SingleOrDefault(n => n.macn == i).data.SaveChanges();
                     }
                     else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
@@ -9639,107 +9767,7 @@ namespace ApplicationChart.Controllers
             var DATAX = new List<TBL_DANHMUCCHUONGTRINHHOTRO>();
             foreach (var x in macn)
             {
-                if (x == "QN")
-                {
-                    DATAX.AddRange(QuangNgai.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "TN")
-                {
-                    DATAX.AddRange(TayNinh.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                //else if (x == "CHQ10")
-                //{
-                //    DATAX.AddRange(CHQ10.Database.SqlQuery<TBL_DANHMUCKM>(strch).ToList());
-                //}
-                else if (x == "TT423")
-                {
-                    DATAX.AddRange(TT423.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>("select TBL_DANHMUCKHUYENMAI_SP.MACTKM,TBL_DANHMUCKHUYENMAI_SP.TENCTKM,TBL_DANHMUCKHUYENMAI_SP.SP AS MAHH,TRY_CONVERT(datetime, TBL_DANHMUCKHUYENMAI.ngaybd, 103) AS ngaybatdau,TRY_CONVERT(datetime, TBL_DANHMUCKHUYENMAI.ngaykt, 103) as ngayketthuc from TBL_DANHMUCKHUYENMAI_SP inner join TBL_DANHMUCKHUYENMAI ON TBL_DANHMUCKHUYENMAI_SP.MACTKM = TBL_DANHMUCKHUYENMAI.MACTKM where TBL_DANHMUCKHUYENMAI_SP.MACTKM = '" + mactht + "'").ToList());
-                }
-                else if (x == "BD")
-                {
-                    DATAX.AddRange(BinhDinh.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "CT")
-                {
-                    DATAX.AddRange(CanTho.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "DN")
-                {
-                    DATAX.AddRange(DongNai.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "BDG")
-                {
-                    DATAX.AddRange(BinhDuong.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "DNA")
-                {
-                    DATAX.AddRange(DaNang.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "HCM")
-                {
-                    DATAX.AddRange(HoChiMinh.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "NA")
-                {
-                    DATAX.AddRange(NgheAn.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "BT")
-                {
-                    DATAX.AddRange(BinhThuan.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-
-                else if (x == "THO")
-                {
-                    DATAX.AddRange(ThanhHoa.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "PY")
-                {
-                    DATAX.AddRange(PhuYen.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "SC")
-                {
-                    DATAX.AddRange(SC.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "AG")
-                {
-                    DATAX.AddRange(AnGiang.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "CM")
-                {
-                    DATAX.AddRange(CaMau.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "GL")
-                {
-                    DATAX.AddRange(GiaLai.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "HUE")
-                {
-                    DATAX.AddRange(Hue.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "HP")
-                {
-                    DATAX.AddRange(HaiPhong.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "LD")
-                {
-                    DATAX.AddRange(LamDong.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "NT")
-                {
-                    DATAX.AddRange(NhaTrang.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "TG")
-                {
-                    DATAX.AddRange(TienGiang.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "VL")
-                {
-                    DATAX.AddRange(VinhLong.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
-                else if (x == "DNONG")
-                {
-                    DATAX.AddRange(Daknong.Database.SqlQuery<TBL_DANHMUCCHUONGTRINHHOTRO>(strcn).ToList());
-                }
+                
                 //else if (x == "PTTT")
                 //{
                 //    DATAX.AddRange(PTTT.Database.SqlQuery<TBL_DANHMUCKM>(strch).ToList());
@@ -10693,6 +10721,58 @@ namespace ApplicationChart.Controllers
             else
             {
                 return View("BaoCao", data);
+            }
+        }
+        [Authorize(Roles = "CAP1,CAP2,ADMIN")]
+        [ActionName("bao-cao-npp")]
+        public ActionResult BaoCaoNPP()
+        {
+            //var dd = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var Info = GetInfo();
+            ViewBag.dathang = Info.dathang;
+            ViewBag.ten = Info.hoten;
+            ViewBag.quyen = Info.quyen;
+            if (!(db2.TBL_DANHMUCNGUOIDUNG.Any(n => n.nguoidung == User.Identity.Name)))
+            {
+                return RedirectToAction("dang-xuat", "Login");
+            }
+            List<string> listcn = Info.macn.Split(',').ToList();
+            var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
+            ViewBag.mientrung = donvi.Where(n => n.Mien == "MIỀN TRUNG").OrderBy(n => n.stt);
+            ViewBag.miennam = donvi.Where(n => n.Mien == "MIỀN NAM").OrderBy(n => n.stt);
+            ViewBag.mienbac = donvi.Where(n => n.Mien == "MIỀN BẮC").OrderBy(n => n.stt);
+            ViewBag.maplkh = db2.TBL_DANHMUCPHANLOAIKHACHHANG.OrderBy(n => n.phanloaikhachhang).ToList();
+            ViewBag.maplhd = DATATH1.TBL_DANHMUCPHANLOAIHD.OrderBy(n => n.TKHN == "632").ToList();
+            ViewBag.otc = Info.phanloai.Split(',').ToList();
+            ViewBag.READ_ONLY = Info.READ_ONLY;
+            ViewBag.word = Info.WORD;
+            ViewBag.excel = Info.EXCEL;
+            ViewBag.pdf = Info.PDF;
+            if (Info.manhom != null && Info.manhom != "ALL")
+            {
+                var listnhom = Info.manhom.Split(',').ToList();
+                ViewBag.nhomhang = DATATH1.TBL_DANHMUCNHOMSANPHAM.Where(n => listnhom.Contains(n.MANHOM)).ToList();
+            }
+            else
+            {
+                ViewBag.nhomhang = DATATH1.TBL_DANHMUCNHOMSANPHAM.ToList();
+            }
+            var data = new BAOCAODATA()
+            {
+                CTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.OrderByDescending(n => n.ngayketthuc).Select(n => new BAOCAOCTHT { MACTHT = n.MACTHT, TENCTHT = n.TENCTHT, NGAYBATDAU = n.ngaybatdau, NGAYKETTHUC = n.ngayketthuc }).ToList(),
+                LOAIBC = db2.TBL_DANHMUCLOAIBAOCAO.ToList()
+            };
+            if (Info.email == null)
+            {
+                ViewBag.email = true;
+            }
+            if (Info.khoatk == true)
+            {
+                return RedirectToAction("closetab");
+            }
+            else
+            {
+                return View("BaoCaoNPP", data);
             }
         }
         [Authorize(Roles = "ADMIN")]
@@ -15034,6 +15114,1459 @@ namespace ApplicationChart.Controllers
         {
             return View();
         }
+
+        [ActionName("xem-bao-cao-npp")]
+        [Authorize(Roles = "CAP1,CAP2,ADMIN")]
+        [HttpPost]
+        [AllowAnonymous]
+        [OutputCache(VaryByParam = "*", Duration = 0, NoStore = true)] // will disable caching for Index only
+        [ValidateAntiForgeryToken]
+        [NoCache]
+        public ActionResult ReportViewNPP(List<string> nhomhang, int btnin, string tungay1, string denngay1, string maphanloai, string Checkboxlist2, List<string> Checkboxlist33, List<string> Checkboxlist3, List<string> Checkboxlist4, List<string> Checkboxlist5, List<string> Checkboxlist6, List<string> Checkboxlist8, List<string> Checkboxlist9, List<string> Checkboxlist10, List<string> Checkboxlist11, List<string> Checkboxlist12, List<string> Checkboxlist13, List<string> Checkboxlist14, int loaibaocao, string tienck, string qui, int nam, int top, bool? cogia, bool? khonggia)
+        {
+
+            //try
+            //{
+            var phanquyen = GetInfo();
+            if (phanquyen.PDF == true)
+            {
+                ViewBag.PDF = 1;
+            }
+            else
+            {
+                ViewBag.PDF = null;
+            }
+
+            //DateTime gioihan = DateTime.ParseExact("01/01/2023", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime tungay = DateTime.ParseExact(tungay1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //var loaitru = new List<string>() { "PY.MEN", "PY.DIEN", "HCM.LACVY", "HCM.PHUONGLINH", "PY.NHUNG", "ADMIN", "HCM.PHUONGTHAO", "HCM.NGOCTRINH", "HCM.VANTHI", "HCM.UYENPHUONG", "GL.BINH", "PY.TRI" };
+            //if (tungay < gioihan && !loaitru.Contains(User.Identity.Name.ToUpper()))
+            //{
+            //    tungay1 = "01/01/2023";
+            //    tungay = gioihan;
+            //}
+            DateTime denngay = DateTime.ParseExact(denngay1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            denngay = denngay.Date.AddDays(1).AddTicks(-1);
+
+            if (phanquyen.READ_ONLY == true && btnin != 1)
+            {
+                return Content("<script type='text/javascript'>alert('Bạn không có quyền tải báo cáo'); window.close();</script>");
+            }
+            else if (phanquyen.READ_ONLY == false)
+            {
+                if (phanquyen.PDF == false && btnin == 2)
+                {
+                    return Content("<script type='text/javascript'>alert('Bạn không có quyền tải báo cáo định dạng PDF'); window.close();</script>");
+                }
+                else if (phanquyen.EXCEL == false && btnin == 4)
+                {
+                    return Content("<script type='text/javascript'>alert('Bạn không có quyền tải báo cáo định dạng EXCEL'); window.close();</script>");
+                }
+                else if (phanquyen.WORD == false && btnin == 3)
+                {
+                    return Content("<script type='text/javascript'>alert('Bạn không có quyền tải báo cáo định dạng WORD'); window.close();</script>");
+                }
+            }
+            if (Checkboxlist4 == null)
+            {
+                if (nhomhang.Contains("ALL"))
+                {
+                    if (phanquyen.manhom != null)
+                    {
+                        Checkboxlist4 = string.Join(",", phanquyen.manhom).Split(',').ToList();
+                    }
+                    else
+                    {
+                        Checkboxlist4 = null;
+                    }
+                }
+                else
+                {
+                    Checkboxlist4 = string.Join(",", nhomhang).Split(',').ToList();
+                }
+            }
+            if (phanquyen.manhom != null)
+            {
+                Checkboxlist4 = (Checkboxlist4 != null && phanquyen.manhom.Split(',').Intersect(Checkboxlist4).ToList().Count() > 0) ? phanquyen.manhom.Split(',').Intersect(Checkboxlist4).ToList() : phanquyen.manhom.Split(',').ToList();
+            }
+            //var listcheckbox1 = String.Join(",", Checkboxlist1.ToArray()).Split(',').Distinct().ToList();
+            //Checkboxlist1 = phanquyen.macn.Split(',').Intersect(listcheckbox1).ToList();
+            if (phanquyen.macn != "ALL")
+            {
+                Checkboxlist33 = (Checkboxlist33 != null && phanquyen.macn.Split(',').Intersect(Checkboxlist33).ToList().Count() > 0) ? phanquyen.macn.Split(',').Intersect(Checkboxlist33).ToList() : phanquyen.macn.Split(',').ToList();
+            }
+            if (phanquyen.phanloai != "ETC,OTC")
+            {
+                Checkboxlist2 = phanquyen.phanloai;
+            }
+            if (phanquyen.mahh != "ALL")
+            {
+                Checkboxlist5 = (Checkboxlist5 != null && phanquyen.mahh.Split(',').Intersect(Checkboxlist5).ToList().Count() > 0) ? phanquyen.mahh.Split(',').Intersect(Checkboxlist5).ToList() : phanquyen.mahh.Split(',').ToList();
+            }
+
+            if (phanquyen.matinh != "ALL")
+            {
+                Checkboxlist6 = (Checkboxlist6 != null && phanquyen.matinh.Split(',').Intersect(Checkboxlist6).ToList().Count() > 0) ? phanquyen.matinh.Split(',').Intersect(Checkboxlist6).ToList() : phanquyen.matinh.Split(',').ToList();
+            }
+            if (phanquyen.matdv != "ALL")
+            {
+                if (Checkboxlist10 != null)
+                {
+                    Checkboxlist10 = Checkboxlist10.Select(x => x.ToUpper()).ToList();
+                }
+                Checkboxlist10 = (Checkboxlist10 != null && phanquyen.matdv.ToUpper().Split(',').Intersect(Checkboxlist10).ToList().Count() > 0) ? phanquyen.matdv.ToUpper().Split(',').Intersect(Checkboxlist10).ToList() : phanquyen.matdv.ToUpper().Split(',').ToList();
+            }
+            if (phanquyen.maquan != "ALL")
+            {
+                Checkboxlist11 = (Checkboxlist11 != null && phanquyen.maquan.Split(',').Intersect(Checkboxlist11).ToList().Count() > 0) ? phanquyen.maquan.Split(',').Intersect(Checkboxlist11).ToList() : phanquyen.maquan.Split(',').ToList();
+            }
+
+
+            List<string> listcn = phanquyen.macn.Split(',').ToList();
+            var cacdonvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
+            var data = DATABAOCAONPP(
+                tungay,
+                denngay,
+                Checkboxlist33,
+                Checkboxlist2,
+                Checkboxlist3,
+                Checkboxlist4,
+                Checkboxlist5,
+                Checkboxlist11,
+                Checkboxlist6,
+                Checkboxlist10,
+                Checkboxlist12,
+                Checkboxlist8,
+                Checkboxlist9,
+                Checkboxlist13,
+                Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+
+            if (khonggia == true)
+            {
+                data = data.Where(n => n.DONGIA == 0).ToList();
+            }
+            if (cogia == true)
+            {
+                data = data.Where(n => n.DONGIA != 0).ToList();
+            }
+
+            if (!data.Any())
+            {
+                return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+            }
+            else if (loaibaocao == 1)
+            {
+                BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN rpt = new BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN();
+                var data0 = data.GroupBy(n => new { n.MACN, n.TENDVBC }).Select(cl => new DULIEUBAOCAO0
+                {
+                    chuky1 = "",
+                    TENDVBC = db2.TBL_DANHMUCNHAPHANPHOI.Where(n => n.macn == cl.Key.MACN).FirstOrDefault().tencn,
+                    TIENCK = cl.Sum(c => c.TIENCK),
+                    TONGTIEN_CT_HOADON = cl.Sum(c => c.TIEN),
+                    thangdau = tungay1,
+                    nam = denngay1
+                }).ToList();
+                if (!data0.Any())
+                {
+                    return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                }
+                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + maphanloai + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
+                if (Checkboxlist2 != "ALL")
+                {
+                    LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại khách hàng : " : ". Customer type") + Checkboxlist2;
+                }
+                if (Checkboxlist3 != null)
+                {
+                    LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại chi tiết khách hàng : " : ". Customer detail type : ") + string.Join(",", Checkboxlist3.ToArray());
+                }
+                if (Checkboxlist6 != null)
+                {
+                    LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Khu vực : " : ". Area") + string.Join(",", Checkboxlist6.ToArray());
+                }
+                rpt.Load();
+                rpt.SetDataSource(data0.OrderBy(n => n.TENDVBC));
+                rpt.SetParameterValue("LOC", LOC);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "TONGHOPDOANHTHU.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "TONGHOPDOANHTHU.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "TONGHOPDOANHTHU.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+
+            else if (loaibaocao == 13)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_TDV rpt = new BAOCAO_TONGHOP_CT_XUAT_TDV();
+                //var data0 = DATABAOCAO13( tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist13, Checkboxlist14, tienck);
+                var data0 = data.Select(cl => new DULIEUBAOCAO13
+                {
+                    TENHH = cl.TENHH,
+                    MAHH = cl.MAHH,
+                    MAQUAY = cl.MATDV,
+                    TIEN = cl.TIEN,
+                    SOLUONG = cl.SOLUONG,
+                    DVT = cl.DVT
+                }).ToList();
+                if (!data0.Any())
+                {
+                    return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                }
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "HANGHOATRA.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "HANGHOATRA.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "HANGHOATRA.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 28)
+            {
+                CR_CANDOI_CONGNO_TATCA_1 rpt = new CR_CANDOI_CONGNO_TATCA_1();
+                var data0 = data.GroupBy(d => new { d.MAKH, d.DONVI, d.MATINH }).Select(cl => new DULIEUBAOCAO28
+                {
+                    MAKH = cl.Key.MAKH,
+                    TENKH = cl.Key.DONVI,
+                    TINH = cl.Key.MATINH,
+                    MUAHANG = cl.Sum(c => c.TIEN),
+                    MUAHANG1 = cl.Where(c => c.NGAY.Month == 1).Sum(c => c.TIEN),
+                    MUAHANG2 = cl.Where(c => c.NGAY.Month == 2).Sum(c => c.TIEN),
+                    MUAHANG3 = cl.Where(c => c.NGAY.Month == 3).Sum(c => c.TIEN),
+                    MUAHANG4 = cl.Where(c => c.NGAY.Month == 4).Sum(c => c.TIEN),
+                    MUAHANG5 = cl.Where(c => c.NGAY.Month == 5).Sum(c => c.TIEN),
+                    MUAHANG6 = cl.Where(c => c.NGAY.Month == 6).Sum(c => c.TIEN),
+                    MUAHANG7 = cl.Where(c => c.NGAY.Month == 7).Sum(c => c.TIEN),
+                    MUAHANG8 = cl.Where(c => c.NGAY.Month == 8).Sum(c => c.TIEN),
+                    MUAHANG9 = cl.Where(c => c.NGAY.Month == 9).Sum(c => c.TIEN),
+                    MUAHANG10 = cl.Where(c => c.NGAY.Month == 10).Sum(c => c.TIEN),
+                    MUAHANG11 = cl.Where(c => c.NGAY.Month == 11).Sum(c => c.TIEN),
+                    MUAHANG12 = cl.Where(c => c.NGAY.Month == 12).Sum(c => c.TIEN),
+                }).ToList();
+                if (!data0.Any())
+                {
+                    return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                }
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                rpt.SetParameterValue("SONAM", nam);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "HANGHOATRA.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "HANGHOATRA.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "HANGHOATRA.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 29)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAKH_TOP_2022 rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAKH_TOP_2022();
+                var data0 = data.Select(cl => new DULIEUBAOCAO29_2022
+                {
+                    mahh = cl.MAHH,
+                    soluong = cl.SOLUONG,
+                    dvt = cl.MATINH,
+                    tien = cl.TIEN,
+                    NHOM = cl.MACN,
+                    tenhh = cl.TENHH,
+                    MAQUAY = cl.phanloai
+                }).ToList();
+                if (!data0.Any())
+                {
+
+                    return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                }
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                rpt.SetParameterValue("top", top);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "HANGHOATRA.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "HANGHOATRA.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "HANGHOATRA.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 33)
+            {
+                var data1 = new List<TONGHOPCTBHDATA>();
+                if (Checkboxlist9 != null && Checkboxlist14 == null)
+                {
+                    TONGHOPCTBH rpt = new TONGHOPCTBH();
+                    data1 = data.GroupBy(n => new { n.MATINH, n.MAKM }).Select(cl => new TONGHOPCTBHDATA
+                    {
+                        MATINH = cl.Key.MATINH,
+                        MAKM = cl.Key.MAKM,
+                        DOANHSO = cl.Sum(x => Math.Round(x.TIEN, 0, MidpointRounding.AwayFromZero))
+                    }).ToList();
+                    foreach (var i in data1)
+                    {
+                        var tv = DATATH1.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == i.MAKM);
+                        if (tv != null)
+                        {
+                            i.NGAYBATDAU = ((DateTime)tv.ngaybatdau).ToString("dd/MM/yyyy");
+                            i.NGAYKETTHUC = ((DateTime)tv.ngayketthuc).ToString("dd/MM/yyyy");
+                            i.TENKM = tv.TENCTKM;
+                        }
+                        else
+                        {
+                            var abc = GetDataKM1(i.MAKM);
+                            if (abc != null)
+                            {
+                                i.TENKM = abc.TENKM;
+                                i.NGAYBATDAU = (abc.ngaybatdau != null) ? ((DateTime)abc.ngaybatdau).ToString("dd/MM/yyyy") : "N/A";
+                                i.NGAYKETTHUC = (abc.ngayketthuc != null) ? ((DateTime)abc.ngayketthuc).ToString("dd/MM/yyyy") : "N/A";
+                            }
+                            else
+                            {
+                                i.TENKM = "N/A";
+                                i.NGAYBATDAU = "N/A";
+                                i.NGAYKETTHUC = "N/A";
+                            }
+                        }
+                        if (i.MACTHT != "" && i.MACTHT != null)
+                        {
+                            var tv1 = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.SingleOrDefault(n => n.MACTHT == i.MACTHT);
+                            if (tv1 != null)
+                            {
+                                i.NGAYBATDAU = ((DateTime)tv1.ngaybatdau).ToString("dd/MM/yyyy");
+                                i.NGAYKETTHUC = ((DateTime)tv1.ngayketthuc).ToString("dd/MM/yyyy");
+                                i.TENCTHT = tv1.TENCTHT;
+                            }
+                            else
+                            {
+                                i.TENCTHT = "N/A";
+                            }
+                        }
+                        var z = DATATH1.TBL_DANHMUCTINH.SingleOrDefault(n => n.matinh == i.MATINH);
+                        if (z != null)
+                        {
+                            i.TENTINH = z.tentinh;
+                        }
+                    }
+                    rpt.Load();
+                    rpt.SetDataSource(data1);
+                    rpt.SetParameterValue("tungay", tungay1);
+                    rpt.SetParameterValue("denngay", denngay1);
+                    rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+
+                    if (btnin == 4)
+                    {
+                        Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                        rpt.Close();
+                        rpt.Dispose();
+                        GC.Collect();
+                        return File(s, "application/msword", "TONGHOPCTBH.doc");
+                    }
+                    else if (btnin == 2)
+                    {
+                        Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                        rpt.Close();
+                        rpt.Dispose();
+                        GC.Collect();
+                        return File(s, "application/pdf", "TONGHOPCTBH.pdf");
+                    }
+                    else if (btnin == 3)
+                    {
+                        Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                        rpt.Close();
+                        rpt.Dispose();
+                        GC.Collect();
+                        return File(s, "application/vnd.ms-excel", "TONGHOPCTBH.xls");
+                    }
+                    else if (btnin == 1)
+                    {
+                        Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                        rpt.Close();
+                        rpt.Dispose();
+                        GC.Collect();
+                        return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                    }
+                }
+            }
+            else if (loaibaocao == 34)
+            {
+                CHITIETCTBH rpt = new CHITIETCTBH();
+                var data1 = new List<TONGHOPCTBHDATA>();
+                data1 = data.GroupBy(n => new { n.MATINH, n.MAKM, n.MACTHT }).Select(cl => new TONGHOPCTBHDATA
+                {
+                    MATINH = cl.Key.MATINH,
+                    MACTHT = cl.Key.MACTHT,
+                    MAKM = cl.Key.MAKM,
+                    DOANHSO = cl.Sum(x => Math.Round(x.TIEN, 0, MidpointRounding.AwayFromZero))
+                }).ToList();
+                foreach (var i in data1)
+                {
+                    var tv = DATATH1.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == i.MAKM);
+                    if (tv != null)
+                    {
+                        i.NGAYBATDAU = ((DateTime)tv.ngaybatdau).ToString("dd/MM/yyyy");
+                        i.NGAYKETTHUC = ((DateTime)tv.ngayketthuc).ToString("dd/MM/yyyy");
+                        i.TENKM = tv.TENCTKM;
+                    }
+                    else
+                    {
+                        var abc = GetDataKM1(i.MAKM);
+                        if (abc != null)
+                        {
+                            i.TENKM = abc.TENKM;
+                            i.NGAYBATDAU = (abc.ngaybatdau != null) ? ((DateTime)abc.ngaybatdau).ToString("dd/MM/yyyy") : "N/A";
+                            i.NGAYKETTHUC = (abc.ngayketthuc != null) ? ((DateTime)abc.ngayketthuc).ToString("dd/MM/yyyy") : "N/A";
+                        }
+                        else
+                        {
+                            i.TENKM = "N/A";
+                            i.NGAYBATDAU = "N/A";
+                            i.NGAYKETTHUC = "N/A";
+                        }
+                    }
+                    if (i.MACTHT != "" && i.MACTHT != null)
+                    {
+                        var tv1 = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.SingleOrDefault(n => n.MACTHT == i.MACTHT);
+                        if (tv1 != null)
+                        {
+                            i.NGAYBATDAU = ((DateTime)tv1.ngaybatdau).ToString("dd/MM/yyyy");
+                            i.NGAYKETTHUC = ((DateTime)tv1.ngayketthuc).ToString("dd/MM/yyyy");
+                            i.TENCTHT = tv1.TENCTHT;
+                        }
+                        else
+                        {
+                            i.TENCTHT = "N/A";
+                        }
+                    }
+                    var z = DATATH1.TBL_DANHMUCTINH.SingleOrDefault(n => n.matinh == i.MATINH);
+                    if (z != null)
+                    {
+                        i.TENTINH = z.tentinh;
+                    }
+                    if (i.MACTHT == null || i.MACTHT == "")
+                    {
+                        i.MACTHT = "N/A";
+                        i.TENCTHT = "N/A";
+                    }
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "TONGHOPCTBH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "TONGHOPCTBH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "TONGHOPCTBH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 18)
+            {
+
+                BAOCAO_TONGHOP_CT_XUAT_KHUYENMAI_KHACHHANG rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUYENMAI_KHACHHANG();
+                var data0 = new List<DULIEUBAOCAO15>();
+                data0 = data.Where(d => d.MAKM != null).GroupBy(n => new { n.MAKH, n.MAKM }).Select(n => new DULIEUBAOCAO15
+                {
+                    TIEN = n.Sum(x => Math.Round(x.TIEN, 0, MidpointRounding.AwayFromZero)),
+                    MAHH = n.Key.MAKH,
+                    TENHH = n.FirstOrDefault().DONVI,
+                    MAQUAY = n.Key.MAKM
+                }).ToList();
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKHACHHANG.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKHACHHANG.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKHACHHANG.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 9)
+            {
+                BAOCAOTONGTOP_KHACHHANG_CHIETKHAU rpt = new BAOCAOTONGTOP_KHACHHANG_CHIETKHAU();
+                var data2 = new List<BAOCAO9>();
+                data2 = data.OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAKH).Select(cl => new BAOCAO9 { MATDV = cl.First().MATDV, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, MATINH = cl.First().MATINH, TONGTIEN_CT_HOADON = (double)(cl.Sum(cx => Math.Round(cx.SOLUONG * cx.DONGIA, 0, MidpointRounding.AwayFromZero))), THANHTIEN = (double)(cl.Sum(cx => Math.Round(cx.SOLUONG * cx.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(cx => cx.TIENCK)), TIENCK = (double)cl.Sum(cx => cx.TIENCK) }).ToList();
+                rpt.Load();
+                rpt.SetDataSource(data2.OrderBy(n => n.MAKH));
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                var loc = "";
+                if (Checkboxlist9 != null)
+                {
+                    loc = loc + "CTKM : " + string.Join(",", Checkboxlist9.ToArray()) + ".";
+                }
+                if (Checkboxlist14 != null)
+                {
+                    loc = loc + "\nCTHT : " + string.Join(",", Checkboxlist14.ToArray()) + ".";
+                }
+                rpt.SetParameterValue("LOC", loc);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKHACHHANG.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKHACHHANG.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKHACHHANG.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 5)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MIEN_CHITIET_TINH_MOI rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MIEN_CHITIET_TINH_MOI();
+                var data0 = new List<DULIEUBAOCAO5>();
+                data0 = data.GroupBy(n => new
+                {
+                    n.MATINH,
+                    n.TENDVBC
+                }).Select(n => new DULIEUBAOCAO5() { dongia = n.Sum(x => x.TIENCK), tien = (n.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - n.Sum(x => x.TIENCK)), soluong = n.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)), MAQUAY = n.Key.MATINH, tenhh = n.Key.TENDVBC, mahh = n.First().MIEN, TUTHANG = tungay1, THANG = denngay1 }).ToList();
+                foreach (var i in data0)
+                {
+                    if (DATATH1.TBL_DANHMUCTINH.SingleOrDefault(n => n.matinh == i.MAQUAY) != null)
+                    {
+                        i.NHOM = DATATH1.TBL_DANHMUCTINH.SingleOrDefault(n => n.matinh == i.MAQUAY).tentinh;
+                    }
+                }
+
+
+                //data0 = data0.GroupBy(n => new { n.chuky1, n.TENDVBC }).Select(cl => new DULIEUBAOCAO0 { chuky1 = cl.First().chuky1, TENDVBC = cl.First().TENDVBC, TIENCK = cl.Sum(c => c.TIENCK), TONGTIEN_CT_HOADON = cl.Sum(c => c.TONGTIEN_CT_HOADON), thangdau = dataview.tungay1, nam = dataview.denngay1 }).ToList();
+                if (!data0.Any())
+                {
+                    return View("ReportViewNew", new PDFBase64 { Base64 = "" });
+                }
+                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + maphanloai + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
+                if (Checkboxlist2 != "ALL")
+                {
+                    LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại khách hàng : " : ". Customer type") + Checkboxlist2;
+                }
+                if (Checkboxlist3 != null)
+                {
+                    LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại chi tiết khách hàng : " : ". Customer detail type : ") + string.Join(",", Checkboxlist3.ToArray());
+                }
+                if (Checkboxlist6 != null)
+                {
+                    LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Khu vực : " : ". Area") + string.Join(",", Checkboxlist6.ToArray());
+                }
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                rpt.SetParameterValue("LOC", LOC);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "CHITIETCONGNO.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "CHITIETCONGNO.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "CHITIETCONGNO.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+
+            else if (loaibaocao == 8)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_KHUVUC rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC();
+
+                var data1 = new List<BAOCAO8>();
+                if (tienck == "1")
+                {
+                    data1 = data.OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAHH).Select(cl => new BAOCAO8 { dvt = cl.First().DVT.ToUpper(), mahh = cl.Key, NHOM = cl.First().NHOM, soluong = (int)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAHH).Select(cl => new BAOCAO8 { dvt = cl.First().DVT.ToUpper(), mahh = cl.Key, NHOM = cl.First().NHOM, soluong = (int)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1.OrderBy(n => n.mahh));
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                var loc = "";
+                //if (Checkboxlist1 != null)
+                //{
+                //    loc = loc + "CN : " + string.Join(",", Checkboxlist1.ToArray()) + ". \n";
+                //}
+                if (Checkboxlist9 != null)
+                {
+                    loc = loc + "CTKM : " + string.Join(",", Checkboxlist9.ToArray()) + ".";
+                }
+                if (Checkboxlist14 != null)
+                {
+                    loc = loc + "\nCTHT : " + string.Join(",", Checkboxlist14.ToArray()) + ".";
+                }
+                rpt.SetParameterValue("LOC", loc);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCHANGHOA.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCHANGHOA.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCHANGHOA.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+            else if (loaibaocao == 14)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAHH_TOP rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAHH_TOP();
+
+                var data1 = new List<BAOCAO8>();
+                if (tienck == "1")
+                {
+                    data1 = data.OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAHH).Select(cl => new BAOCAO8 { dvt = cl.First().DVT.ToUpper(), mahh = cl.Key, soluong = (int)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAHH).Select(cl => new BAOCAO8 { dvt = cl.First().DVT.ToUpper(), mahh = cl.Key, soluong = (int)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1.OrderBy(n => n.mahh));
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                rpt.SetParameterValue("top", top);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                var loc = "";
+                if (Checkboxlist9 != null)
+                {
+                    loc = loc + "CTKM : " + string.Join(",", Checkboxlist9.ToArray()) + ".";
+                }
+                if (Checkboxlist14 != null)
+                {
+                    loc = loc + "\nCTHT : " + string.Join(",", Checkboxlist14.ToArray()) + ".";
+                }
+                rpt.SetParameterValue("LOC", loc);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "TOPHANGHOA.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "TOPHANGHOA.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "TOPHANGHOA.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+
+            else if (loaibaocao == 10)
+            {
+
+                BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH();
+
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.Key.MAKH, NHOM = cl.First().MATINH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)), NAM = cl.First().phanloaikhachhang }).ToList();
+                }
+                else
+                {
+                    data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.Key.MAKH, NHOM = cl.First().MATINH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)), NAM = cl.First().phanloaikhachhang }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1.OrderBy(n => n.mapl));
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKHACHHANG-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKHACHHANG-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    string fileName = "BCKHACHHANG-MAHH.xlsx";
+                    try
+                    {
+                        using (var workbook = new XLWorkbook())
+                        {
+                            IXLWorksheet worksheet =
+                            workbook.Worksheets.Add("KHACHHANG-SANPHAM");
+
+                            worksheet.Cell(1, 1).Value = "MATINH";
+                            worksheet.Cell(1, 2).Value = "MAKH";
+                            worksheet.Cell(1, 3).Value = "TENKH";
+                            worksheet.Cell(1, 4).Value = "MAHH";
+                            worksheet.Cell(1, 5).Value = "TENHH";
+                            worksheet.Cell(1, 6).Value = "SOLUONG";
+                            worksheet.Cell(1, 7).Value = "DONGIA";
+                            worksheet.Cell(1, 8).Value = "THANHTIEN";
+                            for (int index = 1; index <= data1.Count; index++)
+                            {
+                                worksheet.Cell(index + 1, 1).Value = data1[index - 1].NHOM;
+                                worksheet.Cell(index + 1, 2).Value = "'" + data1[index - 1].mapl;
+                                worksheet.Cell(index + 1, 3).Value = data1[index - 1].MAQUAY;
+                                worksheet.Cell(index + 1, 4).Value = "'" + data1[index - 1].mahh;
+                                worksheet.Cell(index + 1, 5).Value = data1[index - 1].tenhh;
+                                worksheet.Cell(index + 1, 6).Value = data1[index - 1].soluong;
+                                worksheet.Cell(index + 1, 7).Value = data1[index - 1].tien / data1[index - 1].soluong;
+                                worksheet.Cell(index + 1, 8).Value = data1[index - 1].tien;
+                            }
+                            //required using System.IO;
+                            using (var stream = new MemoryStream())
+                            {
+                                workbook.SaveAs(stream);
+                                var content = stream.ToArray();
+                                return File(content, contentType, fileName);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                    }
+                    //Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    //rpt.Close();
+                    //rpt.Dispose();
+                    //GC.Collect();
+                    //return File(s, "application/vnd.ms-excel", "BCKHACHHANG-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+            else if (loaibaocao == 45)
+            {
+                var datazz = data.Select(cl => new DULIEUBAOCAO45() { SOHD = cl.SOHD, NGAY = cl.NGAY, MAKH = cl.MAKH, DONVI = cl.DONVI, MAHH = cl.MAHH, TENHH = cl.TENHH, SOLUONG = cl.SOLUONG, DONGIA = cl.DONGIA, TIEN = cl.TIEN }).ToList();
+                IExportEngine engine = new ExcelExportEngine();
+                engine.AddData(datazz);
+                MemoryStream memory = engine.Export();
+                return File(memory, "text/csv", "DATAHDHHKH.csv");
+            }
+            else if (loaibaocao == 11)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAHH rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAHH();
+
+                if (tienck == "1")
+                {
+                    data = data.GroupBy(n => new { n.MAHH, n.MATINH }).Select(cl => new DULIEUBAOCAO { MATINH = cl.Key.MATINH, TENDVBC = cl.First().TENDVBC, MIEN = cl.First().MIEN, MAHH = cl.Key.MAHH, SOLUONG = cl.Sum(cx => cx.SOLUONG), TENHH = cl.First().TENHH, TIEN = cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK) }).ToList();
+                }
+                else
+                {
+                    data = data.GroupBy(n => new { n.MAHH, n.MATINH }).Select(cl => new DULIEUBAOCAO { MATINH = cl.Key.MATINH, TENDVBC = cl.First().TENDVBC, MIEN = cl.First().MIEN, MAHH = cl.Key.MAHH, SOLUONG = cl.Sum(cx => cx.SOLUONG), TENHH = cl.First().TENHH, TIEN = cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                var data1 = new List<BAOCAO10>();
+
+                foreach (var i in data)
+                {
+                    try
+                    {
+                        data1.Add(new BAOCAO10 { MAQUAY = db2.KhuVucs.SingleOrDefault(n => n.MaKhuVuc == i.MATINH).TenKhuVuc, dvt = i.MIEN, mahh = i.MAHH, mapl = i.MATINH, NHOM = "", soluong = (Int32)i.SOLUONG, tenhh = i.TENHH, tien = (double)(i.TIEN) });
+                    }
+                    catch (Exception)
+                    {
+                        data1.Add(new BAOCAO10 { MAQUAY = "", dvt = i.MIEN, mahh = i.MAHH, mapl = i.MATINH, NHOM = "", soluong = (Int32)i.SOLUONG, tenhh = i.TENHH, tien = (double)(i.TIEN) });
+                    }
+                }
+
+                rpt.Load();
+                rpt.SetDataSource(data1.OrderBy(n => n.mapl));
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKHUVUC-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKHUVUC-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKHUVUC-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+            else if (loaibaocao == 12)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD();
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).ThenBy(n => n.SOHD).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).ThenBy(n => n.SOHD).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+
+            else if (loaibaocao == 46)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD_SOLO_HANDUNG rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD_SOLO_HANDUNG();
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).ThenBy(n => n.SOHD).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA, n.SOLO, n.HANDUNG }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper() + "  " + cl.Key.SOLO + "  " + cl.Key.HANDUNG, mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).ThenBy(n => n.SOHD).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA, n.SOLO, n.HANDUNG }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper() + "  " + cl.Key.SOLO + "  " + cl.Key.HANDUNG, mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                if (!data1.Any())
+                {
+                    return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 20)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD();
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.Where(n => n.DONGIA == 0 && n.SOLUONG != 0).OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.TIEN, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.Where(n => n.DONGIA == 0 && n.SOLUONG != 0).OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.TIEN, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                if (!data1.Any())
+                {
+                    return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 21)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD();
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.Where(n => n.DONGIA != 0).OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.Where(n => n.DONGIA != 0).OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+
+            else if (loaibaocao == 6)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_TDV_CHITIET rpt = new BAOCAO_TONGHOP_CT_XUAT_TDV_CHITIET();
+
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.GroupBy(n => new { n.MATDV, n.MATINH }).Select(cl => new BAOCAO10 { tenhh = cl.First().TENTDV, MAQUAY = cl.Key.MATDV, mapl = cl.Key.MATINH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), mahh = cl.First().TENDVBC, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.GroupBy(n => new { n.MATDV, n.MATINH }).Select(cl => new BAOCAO10 { tenhh = cl.First().TENTDV, MAQUAY = cl.Key.MATDV, mapl = cl.Key.MATINH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), mahh = cl.First().TENDVBC, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                var noidung = ((Checkboxlist9 != null) ? (", Mã CTKM: " + String.Join(", ", Checkboxlist9.ToArray())) : "") + ((Checkboxlist14 != null) ? (", Mã CTKM: " + String.Join(", ", Checkboxlist14.ToArray())) : "");
+                rpt.SetParameterValue("LOC", noidung);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCTRINHDUOCVIEN.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCTRINHDUOCVIEN.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    string fileName = "TONGHOPTDV.xlsx";
+                    try
+                    {
+                        using (var workbook = new XLWorkbook())
+                        {
+                            IXLWorksheet worksheet =
+                            workbook.Worksheets.Add("Sheet1");
+
+                            worksheet.Cell(1, 1).Value = "MACN";
+                            worksheet.Cell(1, 2).Value = "MATINH";
+                            worksheet.Cell(1, 3).Value = "MATDV";
+                            worksheet.Cell(1, 4).Value = "TENTDV";
+                            worksheet.Cell(1, 5).Value = "SOLUONG";
+                            worksheet.Cell(1, 6).Value = "TIENXUAT";
+
+                            for (int index = 1; index <= data1.Count; index++)
+                            {
+                                worksheet.Cell(index + 1, 1).Value = data1[index - 1].mahh;
+                                worksheet.Cell(index + 1, 2).Value = data1[index - 1].mapl;
+                                worksheet.Cell(index + 1, 3).Value = data1[index - 1].MAQUAY;
+                                worksheet.Cell(index + 1, 4).Value = data1[index - 1].tenhh;
+
+                                worksheet.Cell(index + 1, 5).Value = data1[index - 1].soluong;
+
+                                worksheet.Cell(index + 1, 6).Value = data1[index - 1].tien;
+                            }
+                            //required using System.IO;
+                            using (var stream = new MemoryStream())
+                            {
+                                workbook.SaveAs(stream);
+                                var content = stream.ToArray();
+                                return File(content, contentType, fileName);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
+                    }
+                    //Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    //rpt.Close();
+                    //rpt.Dispose();
+                    //GC.Collect();
+                    //return File(s, "application/vnd.ms-excel", "BCTRINHDUOCVIEN.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+            else if (loaibaocao == 40)
+            {
+                BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN_MANV rpt = new BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN_MANV();
+
+                var data1 = new List<DULIEUBAOCAO40>();
+
+                data1 = data.GroupBy(n => new { n.MATDV }).Select(cl => new DULIEUBAOCAO40 { SOHD = cl.First().MANV, MAKH = cl.Key.MATDV, DONVI = cl.First().TENTDV, TONGTIEN = cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)), THANHTIEN = (cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)), TIENCK = (decimal)(500000.0 * Math.Floor(((double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) / 3000000.0))) }).ToList();
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                var noidung = ((Checkboxlist9 != null) ? (", Mã CTKM: " + String.Join(", ", Checkboxlist9.ToArray())) : "") + ((Checkboxlist14 != null) ? (", Mã CTKM: " + String.Join(", ", Checkboxlist14.ToArray())) : "");
+                rpt.SetParameterValue("LOC", noidung);
+                rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCTRINHDUOCVIEN.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCTRINHDUOCVIEN.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCTRINHDUOCVIEN.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+            else if (loaibaocao == 22)
+            {
+                BAOCAO_TONGHOP_CT_XUAT_MAHH_MAKH rpt = new BAOCAO_TONGHOP_CT_XUAT_MAHH_MAKH();
+
+                var data1 = new List<BAOCAO10>();
+                if (tienck == "1")
+                {
+                    data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.Key.MAKH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)) }).ToList();
+                }
+                else
+                {
+                    data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.Key.MAKH, soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                }
+                rpt.Load();
+                rpt.SetDataSource(data1.OrderBy(n => n.mapl));
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCHANGHOA-KHACHHANG.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCHANGHOA-KHACHHANG.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCHANGHOA-KHACHHANG.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+
+            }
+            return Content("<script type='text/javascript'>alert('Không thể kết nối đến cơ sở dữ liệu, vui lòng liên hệ PHÒNG TIN HỌC VÀ PHÂN TÍCH DỮ LIỆU'); window.close();</script>");
+            //}
+            //catch(Exception)
+            //{
+            //    return Content("<script type='text/javascript'>alert('Không thể kết nối đến cơ sở dữ liệu, vui lòng liên hệ PHÒNG TIN HỌC VÀ PHÂN TÍCH DỮ LIỆU'); window.close();</script>");
+            //}
+        }
         [ActionName("xem-bao-cao-bsc")]
         [Authorize(Roles = "CAP1,CAP2,ADMIN")]
         [HttpPost]
@@ -18518,29 +20051,33 @@ namespace ApplicationChart.Controllers
                     var data1 = new List<BAOCAO10>();
                     if (tienck == "1")
                     {
-                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { 
-                            MAQUAY = cl.First().DONVI, 
-                            dvt = cl.First().DVT.ToUpper(), 
-                            mahh = cl.Key.MAHH,
-                            mapl = cl.Key.MAKH, 
-                            NHOM = cl.First().MATINH, 
-                            soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
-                            tenhh = cl.First().TENHH, 
-                            tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)),
-                            NAM = cl.First().phanloaikhachhang }).ToList();
-                    }
-                    else
-                    {
-                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10 { 
+                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10
+                        {
                             MAQUAY = cl.First().DONVI,
-                            dvt = cl.First().DVT.ToUpper(), 
+                            dvt = cl.First().DVT.ToUpper(),
                             mahh = cl.Key.MAHH,
                             mapl = cl.Key.MAKH,
                             NHOM = cl.First().MATINH,
                             soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
-                            tenhh = cl.First().TENHH, 
-                            tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)), 
-                            NAM = cl.First().phanloaikhachhang }).ToList();
+                            tenhh = cl.First().TENHH,
+                            tien = (double)(cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(x => x.TIENCK)),
+                            NAM = cl.First().phanloaikhachhang
+                        }).ToList();
+                    }
+                    else
+                    {
+                        data1 = data.GroupBy(n => new { n.MAKH, n.MAHH }).Select(cl => new BAOCAO10
+                        {
+                            MAQUAY = cl.First().DONVI,
+                            dvt = cl.First().DVT.ToUpper(),
+                            mahh = cl.Key.MAHH,
+                            mapl = cl.Key.MAKH,
+                            NHOM = cl.First().MATINH,
+                            soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
+                            tenhh = cl.First().TENHH,
+                            tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)),
+                            NAM = cl.First().phanloaikhachhang
+                        }).ToList();
                     }
                     rpt.Load();
                     rpt.SetDataSource(data1.OrderBy(n => n.mapl));

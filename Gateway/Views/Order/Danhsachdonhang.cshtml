@@ -126,6 +126,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
                                                     @*<button class="dropdown-item btnsuahd" type="button">Thay đổi</button>*@
                                                     <button class="dropdown-item btnxemhd" type="button">Xem</button>
+                                                    <button class="dropdown-item btnxuathd" type="button">Xuất file</button>
                                                     <button class="dropdown-item btnxoahd" type="button">Xóa</button>
                                                 </div>
                                             </div>
@@ -139,7 +140,10 @@
                                     else if (i.DUYETDH == true)
                                     {
                                         <td class="text-center" title="Đã duyệt"><span hidden>2</span><i class="fa fa-check-circle fa-2x" style="color:#228117;" aria-hidden="true"></i></td>
-                                        <td class="text-center"><button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnxemhd m-0"><i class="fa fa-2x fa-eye"></i></button></td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-primary waves-effect transition-3d-hover btnxemhd m-0"><i class="fa fa-2x fa-eye"></i></button>
+                                            <button type="button" class="btn btn-sm btn-warning waves-effect transition-3d-hover btnxuathd ml-2"><i class="fa fa-2x fa-file"></i></button>
+                                        </td>
                                     }
                                 </tr>
                             }
@@ -1124,7 +1128,12 @@
                     $("#ModalEdit").modal({ backdrop: 'static', keyboard: false })
                 }
             });
-           
+              $("#example23").on("click", ".btnxuathd", function () {
+                  var id = $(this).closest('tr').find('td:eq(0)').data("id");
+                  var url = '@Url.Action("XuatHoaDon", "Order")';
+                  url += "?id="+id;
+                  window.open(url, '_blank');
+              });
             $("#example23").on("click", ".btnxoahd", function () {
                 var id = $(this).closest('tr').find('td:eq(0)').data("id");
                 $.confirm({
@@ -1938,7 +1947,7 @@
                                                          , "GHICHU": $("#editghichu").val()
                                                            , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                        });
-                                                   
+
                                                });
                                                $.ajax({
                                                    url: '@Url.Action("AddHoaDon", "Order")',
@@ -2323,7 +2332,7 @@
                                                                                , "GHICHU": $("#ghichu").val()
                                                                                , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                                            });
-                                                                       
+
                                                                        dem = dem + 1;
                                                                    });
 
@@ -2465,7 +2474,7 @@
                                                            , "GHICHU": $("#ghichu").val()
                                                            , "ck": Number($(this).find('.ck').val().replace(/[^\d.]/g, '').replace(".00", ""))
                                                        });
-                                                   
+
                                                    dem = dem + 1;
                                                });
 

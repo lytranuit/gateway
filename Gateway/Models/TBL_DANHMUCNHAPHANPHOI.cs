@@ -12,18 +12,9 @@ namespace ApplicationChart.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DTA_CONGTACTRINHDUOC
+    public partial class TBL_DANHMUCNHAPHANPHOI
     {
         public string macn { get; set; }
-        public string matdv { get; set; }
-        public System.DateTime ngay { get; set; }
-        public string makh { get; set; }
-        public string tenkh { get; set; }
-        public Nullable<bool> checkin { get; set; }
-        public Nullable<int> ketqua { get; set; }
-        public string ghichu { get; set; }
-        public string ketqua_text { get; set; }
-        public Nullable<bool> khoa { get; set; }
-        public Nullable<bool> checkgps { get; set; }
+        public string tencn { get; set; }
     }
 }

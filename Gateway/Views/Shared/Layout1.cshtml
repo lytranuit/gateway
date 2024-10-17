@@ -233,6 +233,9 @@
                             <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/bao-cao-bsc" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/pdf.png?version=1"><span class="align-middle">@Html.Raw(GlobalRes.lbbaocaobsc.ToUpper())</span></a>
                         </li>
                         <li class="sub-menu-1">
+                            <a class="a-sub-menu-1" href="/@ViewBag.flag/he-thong/bao-cao-npp" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/pdf.png?version=1"><span class="align-middle">BÁO CÁO NPP</span></a>
+                        </li>
+                        <li class="sub-menu-1">
                             <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse6" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/chart.png?version=1"><span class="align-middle">@Html.Raw(GlobalRes.lbbieudo.ToUpper())</span><span class="fa fa-angle-down"></span></a>
                             <div class="collapse" id="collapse6">
                                 <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/he-thong/doanh-so-theo-thang"><i class="fa fa-circle-o"></i> @Html.Raw(GlobalRes.lbdoanhsotheothang.ToUpper())</a>
@@ -248,9 +251,9 @@
                         }
                     }
                     @*@if (((string[])(ViewBag.quyen.Split(','))).Contains("CHART"))
-                        {
+        {
 
-                        }*@
+        }*@
                     @if (((string[])(ViewBag.quyen.Split(','))).Contains("GIAYTO"))
                     {
                         <li class="sub-menu-1">
@@ -467,12 +470,6 @@
                                 {
                                     <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/ke-hoach-cong-tac"><i class="fa fa-circle-o"></i> KẾ HOẠCH</a>
                                 }
-                                @if (ViewBag.dathang == 1)
-                                {
-                                    @*<a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/ke-hoach-hom-nay"><i class="fa fa-circle-o"></i> KẾ HOẠCH HÔM NAY</a>*@
-                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/thu-thap-vi-tri-khach-hang"><i class="fa fa-circle-o"></i> THU THẬP VỊ TRÍ</a>
-                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/vi-tri-khach-hang"><i class="fa fa-circle-o"></i> VỊ TRÍ KHÁCH HÀNG</a>
-                                }
                                 <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/danh-sach-khach-hang"><i class="fa fa-circle-o"></i> DANH MỤC KHÁCH HÀNG</a>
                                 <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/cong-tac-trinh-duoc/bao-cao-cong-tac-trinh-duoc"><i class="fa fa-circle-o"></i> BÁO CÁO CÔNG TÁC</a>
 
@@ -533,44 +530,44 @@
                     }
 
                     @*@if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGKD"))
+        {
+            <li class="sub-menu-1">
+                <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse3" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. KINH DOANH PY</span><span class="fa fa-angle-down"></span></a>
+                <div class="collapse" id="collapse3">
+                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangkdclass" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-phong-kinh-doanh"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-phong-kinh-doanh"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHKD"))
                     {
-                        <li class="sub-menu-1">
-                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse3" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. KINH DOANH PY</span><span class="fa fa-angle-down"></span></a>
-                            <div class="collapse" id="collapse3">
-                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4 taodonhangkdclass" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-phong-kinh-doanh"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
-                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-phong-kinh-doanh"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
-                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
-                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHKD"))
-                                {
-                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-kinh-doanh"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG KD</a>
-                                }
-                            </div>
-                        </li>
+                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-kinh-doanh"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG KD</a>
                     }
-                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGHCM"))
+                </div>
+            </li>
+        }
+        @if (((string[])(ViewBag.quyen.Split(','))).Contains("DONHANGHCM"))
+        {
+            <li class="sub-menu-1">
+                <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse4" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. KINH DOANH HCM</span><span class="fa fa-angle-down"></span></a>
+                <div class="collapse" id="collapse4">
+                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-hcm"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
+                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-hcm"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
+                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
+                    @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHHCM"))
                     {
-                        <li class="sub-menu-1">
-                            <a class="a-sub-menu-1 noa" data-toggle="collapse" href="#collapse4" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/26-256.png?version=1"><span class="align-middle">P. KINH DOANH HCM</span><span class="fa fa-angle-down"></span></a>
-                            <div class="collapse" id="collapse4">
-                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tao-don-dat-hang-ve-hcm"><i class="fa fa-circle-o"></i> TẠO ĐƠN HÀNG</a>
-                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-don-hang-ve-hcm"><i class="fa fa-circle-o"></i> QUẢN LÝ ĐƠN HÀNG</a>
-                                <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/tra-cuu-so-dang-ky"><i class="fa fa-circle-o"></i> TRA CỨU SỐ ĐĂNG KÝ</a>
-                                @if (((string[])(ViewBag.quyen.Split(','))).Contains("QLKHHCM"))
-                                {
-                                    <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-hcm"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG HCM</a>
-                                }
-                            </div>
-                        </li>
+                        <a class="a-sub-menu-2 pt-3 pb-3 pl-4" href="/@ViewBag.flag/crm/quan-ly-khach-hang-hcm"><i class="fa fa-circle-o"></i> QUẢN LÝ KHÁCH HÀNG HCM</a>
                     }
-                    @if (!((string[])(ViewBag.quyen.Split(','))).Contains("CAP1"))
-                    {
-                        <li class="sub-menu-1">
-                            <a class="a-sub-menu-1 noa" href="#" data-toggle="modal" data-target="#hotromodal" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/help.png"><span class="align-middle">LIÊN HỆ HỖ TRỢ</span></a>
-                        </li>
-                        <li class="sub-menu-1">
-                            <a class="a-sub-menu-1 noa" href="#" data-toggle="modal" data-target="#gopymodal" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/feedback.png"><span class="align-middle">ĐÓNG GÓP Ý KIẾN</span></a>
-                        </li>
-                    }*@
+                </div>
+            </li>
+        }
+        @if (!((string[])(ViewBag.quyen.Split(','))).Contains("CAP1"))
+        {
+            <li class="sub-menu-1">
+                <a class="a-sub-menu-1 noa" href="#" data-toggle="modal" data-target="#hotromodal" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/help.png"><span class="align-middle">LIÊN HỆ HỖ TRỢ</span></a>
+            </li>
+            <li class="sub-menu-1">
+                <a class="a-sub-menu-1 noa" href="#" data-toggle="modal" data-target="#gopymodal" style="white-space:normal;"><img class="marginimg" src="~/Content/Image/feedback.png"><span class="align-middle">ĐÓNG GÓP Ý KIẾN</span></a>
+            </li>
+        }*@
                 </ul>
             </div>
         </div>
