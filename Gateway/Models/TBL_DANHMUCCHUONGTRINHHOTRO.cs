@@ -11,7 +11,9 @@ namespace ApplicationChart.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
     public partial class TBL_DANHMUCCHUONGTRINHHOTRO
     {
         public string MACTHT { get; set; }
@@ -25,5 +27,14 @@ namespace ApplicationChart.Models
         public string GHICHU { get; set; }
         public byte[] FILEDATA { get; set; }
         public string MACTKM { get; set; }
+        [NotMapped]
+
+        public List<string> list_phamvi
+        {
+            get
+            {
+                return PHAMVI.Split(',').ToList();
+            }
+        }
     }
 }
