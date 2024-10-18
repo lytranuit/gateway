@@ -469,7 +469,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\QLSPController.cs" />
-    <Compile Include="Controllers\ScheduleJob.cs" />
     <Compile Include="Controllers\ThauController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

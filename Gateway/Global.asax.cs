@@ -27,7 +27,7 @@ namespace ApplicationChart
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             MvcHandler.DisableMvcResponseHeader = true;
-            JobScheduler.Start();
+            //JobScheduler.Start();
             Application.Lock();
             Application["UserCount"] = 0;
         }
