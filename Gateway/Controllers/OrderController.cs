@@ -57,47 +57,11 @@ namespace ApplicationChart.Controllers
         CHQ10Entities1 CHPPSP = new CHQ10Entities1("CHPPSPEntities");
         Entities Pypharm = new Entities("KT_PYPHARMEntities");
         KT_THEntities1 DATATH1 = new KT_THEntities1("KT_THEntities1");
-        KT_THEntities1 DATATH2 = new KT_THEntities1("KT_THEntities2");
         CHQ10Entities1 PTTT = new CHQ10Entities1("PTTTEntities");
         ApplicationChartEntities1 db2 = new ApplicationChartEntities1();
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
-            new EntitiesCN {data = new Entities("TT423Entities") , macn = "TT423"},
-            new EntitiesCN {data = new Entities("KT_TNEntities") , macn = "TN"},
-            new EntitiesCN {data = new Entities("KT_BDEntities") , macn = "BD"},
-            new EntitiesCN {data = new Entities("KT_CTEntities") , macn = "CT"},
-            new EntitiesCN {data = new Entities("KT_DNEntities") , macn = "DN"},
-            new EntitiesCN {data = new Entities("KT_BDGEntities") , macn = "BDG"},
-            new EntitiesCN {data = new Entities("KT_DNAEntities") , macn = "DNA"},
-            new EntitiesCN {data = new Entities("KT_HCMEntities") , macn = "HCM"},
-            new EntitiesCN {data = new Entities("KT_NAEntities") , macn = "NA"},
-            new EntitiesCN {data = new Entities("KT_NA_2Entities") , macn = "NA2"},
             new EntitiesCN {data = new Entities("KT_QTEntities") , macn = "QT"},
-            new EntitiesCN {data = new Entities("KT_QNEntities") , macn = "QN"},
-            new EntitiesCN {data = new Entities("KTEntities") , macn = "PY"},
-                new EntitiesCN {data = new Entities("KT_SCEntities") , macn = "SC"},
-            new EntitiesCN {data = new Entities("KT_AGEntities") , macn = "AG"},
-            new EntitiesCN {data = new Entities("KT_CMEntities") , macn = "CM"},
-            new EntitiesCN {data = new Entities("KT_GLEntities") , macn = "GL"},
-            new EntitiesCN {data = new Entities("KT_HUEEntities") , macn = "HUE"},
-            new EntitiesCN {data = new Entities("KT_HPEntities") , macn = "HP"},
-            new EntitiesCN {data = new Entities("KT_LDEntities") , macn = "LD"},
-            new EntitiesCN {data = new Entities("KT_NTEntities") , macn = "NT"},
-            new EntitiesCN {data = new Entities("KT_TGEntities") , macn = "TG"},
-            new EntitiesCN {data = new Entities("KT_VLEntities") , macn = "VL"},
-            new EntitiesCN {data = new Entities("KT_DNONGEntities") , macn = "DNONG"},
-            new EntitiesCN {data = new Entities("KT_THOEntities") , macn = "THO"},
-               new EntitiesCN {data = new Entities("KT_BTEntities") , macn = "BT"},
-                     new EntitiesCN {data = new Entities("KT_PTEntities") , macn = "PT"},
-            new EntitiesCN {data = new Entities("KT_HNEntities") , macn = "HN"},
-               new EntitiesCN {data = new Entities("KT_TNGEntities") , macn = "TNG"},
-            new EntitiesCN {data = new Entities("KT_TBEntities") , macn = "TB"},
-                 new EntitiesCN {data = new Entities("KT_PYPHARMEntities") , macn = "DPY"},
-                 new EntitiesCN {data = new Entities("KT_PYPHARM_HCMEntities") , macn = "DPY_HCM"},
-        };
-        List<EntitiesCH> queryCH = new List<EntitiesCH> {
-            new EntitiesCH {data = new CHQ10Entities1("PTTTEntities") , macn = "PTTT"},
-            new EntitiesCH {data = new CHQ10Entities1("CHQ10Entities") , macn = "CHQ10"},
-            new EntitiesCH {data = new CHQ10Entities1("CHPPSPEntities") , macn = "CHPPSP"},
+            
         };
         Thuvieninvoice abc = new Thuvieninvoice();
         VNPTINVOICEEntities datainvoice = new VNPTINVOICEEntities();
@@ -127,22 +91,7 @@ namespace ApplicationChart.Controllers
                     }
                     queryCN.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-                {
-                    var data = queryCH.SingleOrDefault(n => n.macn == macn).data.DTA_DONDATHANG.Where(n => n.GIABAN_VAT == null);
-                    foreach (var i in data)
-                    {
-                        try
-                        {
-                            i.GIABAN_VAT = Convert.ToDecimal(datahanghoa.ListHH.SingleOrDefault(n => n.MAHH == i.MAHH).GIABAN);
-                        }
-                        catch (Exception)
-                        {
-                            i.GIABAN_VAT = 0;
-                        }
-                    }
-                    queryCH.SingleOrDefault(n => n.macn == macn).data.SaveChanges();
-                }
+              
             }
             return Content("<script type='text/javascript'>alert('Hoàn tất');</script>");
         }
@@ -968,10 +917,7 @@ namespace ApplicationChart.Controllers
                     }
 
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == i) != null)
-                {
-                    data.AddRange(DULIEUCUAHANGKHACHHANG(queryCH.SingleOrDefault(n => n.macn == i).data, strch).ToList());
-                }
+               
             }
             //
 
@@ -1212,10 +1158,7 @@ namespace ApplicationChart.Controllers
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<thongtinkhachhang>(str).First();
 
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<thongtinkhachhang>(strch).First();
-            }
+           
             return DATAX;
         }
         private thongtinbbtt Getthongtinbbtt(string x, string makh)
@@ -1236,10 +1179,7 @@ namespace ApplicationChart.Controllers
                         data3 = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<thongtinbbtt>(str).ToList();
                     }
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-                {
-                    data3 = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<thongtinbbtt>(strch).ToList();
-                }
+               
                 if (data3.Count != 0)
                 {
                     return data3.First();
@@ -1286,10 +1226,7 @@ namespace ApplicationChart.Controllers
             {
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListKhachHang>(strcn).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListKhachHang>(strch).ToList();
-            }
+           
             return Json(DATAX);
         }
         public List<ListKhachHang> DATAGETKH(string x, List<string> MATDV)
@@ -1313,10 +1250,7 @@ namespace ApplicationChart.Controllers
 
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListKhachHang>(strcn).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListKhachHang>(strch).ToList();
-            }
+            
             return DATAX;
         }
         public List<ListKhachHang> GetMAKH(string ChiNhanhId, TBL_DANHMUCNGUOIDUNG Info, List<string> matinh, List<string> matdv, List<string> maquan)
@@ -1368,10 +1302,7 @@ namespace ApplicationChart.Controllers
             {
                 data = DULIEUKHACHHANG(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data, strcn).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUCUAHANGKHACHHANG(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data, strch).ToList();
-            }
+           
             return data.OrderBy(n => n.MAKH).ToList();
         }
         public List<ListKhachHang> DULIEUKHACHHANG(Entities data, string str)
@@ -1423,10 +1354,7 @@ namespace ApplicationChart.Controllers
 
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListKhachHang>(strcn).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListKhachHang>(strch).ToList();
-            }
+           
             return DATAX;
         }
         public List<CHECKBBTT> DATAGETBBTT(string x, string makh, string mactkm)
@@ -1438,11 +1366,7 @@ namespace ApplicationChart.Controllers
 
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<CHECKBBTT>(strcn).ToList();
             }
-            if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-
-                DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<CHECKBBTT>(strcn).ToList();
-            }
+            
             return DATAX;
         }
         [HttpPost]
@@ -1567,15 +1491,7 @@ namespace ApplicationChart.Controllers
 
             DATATH1.TBL_DANHMUCKM.Add(new TBL_DANHMUCKM { HANMUC = hanmuc1, ck = ck, MACTKM = mactkm, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, BBTT = bbtt1, TENCTKM = tenctkm, GHICHU = ghichu });
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCKM.Add(new TBL_DANHMUCKM { HANMUC = hanmuc1, ck = ck, MACTKM = mactkm, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, BBTT = bbtt1, TENCTKM = tenctkm, GHICHU = ghichu });
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-
-            }
+           
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1585,15 +1501,7 @@ namespace ApplicationChart.Controllers
 
             DATATH1.TBL_DANHMUCKM_CHITIET.AddRange(data);
             DATATH1.SaveChanges();
-            try
-            {
-
-                DATATH2.TBL_DANHMUCKM_CHITIET.AddRange(data);
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-            }
+            
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1604,16 +1512,7 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCKM_CHITIET.RemoveRange(tv);
 
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCKM_CHITIET.RemoveRange(tv);
-
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-
-            }
+           
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1623,15 +1522,7 @@ namespace ApplicationChart.Controllers
 
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.AddRange(data);
             DATATH1.SaveChanges();
-            try
-            {
-
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.AddRange(data);
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-            }
+           
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1642,16 +1533,7 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv);
 
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv);
-
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-
-            }
+            
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1680,15 +1562,7 @@ namespace ApplicationChart.Controllers
             mahh1 = string.Join(",", mahh.ToArray());
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Add(new TBL_DANHMUCCHUONGTRINHHOTRO { HANMUC = hanmuc1, MACTHT = mactht, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, TENCTHT = tenctht, MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null, GHICHU = ghichu });
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO.Add(new TBL_DANHMUCCHUONGTRINHHOTRO { HANMUC = hanmuc1, MACTHT = mactht, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, TENCTHT = tenctht, MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null, GHICHU = ghichu });
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-
-            }
+            
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1732,20 +1606,7 @@ namespace ApplicationChart.Controllers
                 tv.ck = ck;
                 DATATH1.SaveChanges();
             }
-            var tv2 = DATATH2.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == mactkm);
-            if (tv2 != null)
-            {
-                tv2.TENCTKM = tenctkm;
-                tv2.ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.PHAMVI = phamvi1;
-                tv.BBTT = bbtt1;
-                tv2.HANMUC = hanmuc1;
-                tv2.MAHH = mahh1;
-                tv2.GHICHU = ghichu;
-                tv2.ck = ck;
-                DATATH2.SaveChanges();
-            }
+            
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1787,19 +1648,7 @@ namespace ApplicationChart.Controllers
                 tv.MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null;
                 DATATH1.SaveChanges();
             }
-            var tv2 = DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO.SingleOrDefault(n => n.MACTHT == mactht);
-            if (tv2 != null)
-            {
-                tv2.TENCTHT = tenctht;
-                tv2.ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.PHAMVI = phamvi1;
-                tv2.HANMUC = hanmuc1;
-                tv2.MAHH = mahh1;
-                tv2.GHICHU = ghichu;
-                tv2.MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null;
-                DATATH2.SaveChanges();
-            }
+           
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1811,16 +1660,7 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCKM.Remove(tv);
             DATATH1.TBL_DANHMUCKM_CHITIET.RemoveRange(tv1);
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCKM.Remove(tv);
-                DATATH2.TBL_DANHMUCKM_CHITIET.RemoveRange(tv1);
-                DATATH2.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            
 
             return Json(1);
         }
@@ -1833,16 +1673,7 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Remove(tv);
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv1);
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO.Remove(tv);
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv1);
-                DATATH2.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1865,10 +1696,7 @@ namespace ApplicationChart.Controllers
             {
                 data = queryCN.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListKhuyenMai>(strcnctkm).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-            {
-                data = queryCH.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListKhuyenMai>(strcnctkm).ToList();
-            }
+          
             return Json(data.FirstOrDefault());
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -2404,10 +2232,7 @@ namespace ApplicationChart.Controllers
             {
                 data = queryCN.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListKhuyenMai>(strcnctkm).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-            {
-                data = queryCH.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListKhuyenMai>(strcnctkm).ToList();
-            }
+           
             return PartialView(data);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -4591,10 +4416,7 @@ namespace ApplicationChart.Controllers
             {
                 DATAX.AddRange(BAOCAOCHINHANH0(queryCN.SingleOrDefault(n => n.macn == soso).data, strcn));
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == soso) != null)
-            {
-                DATAX.AddRange(BAOCAOCUAHANG0(queryCH.SingleOrDefault(n => n.macn == soso).data, strch));
-            }
+            
             return DATAX;
         }
         public List<DULIEUBAOCAO0> BAOCAOCHINHANH0(Entities data, string str)
@@ -4631,20 +4453,7 @@ namespace ApplicationChart.Controllers
                         return Json(0);
                     }
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == MACH) != null)
-                {
-                    var strcn = "exec sp_kyhan_capnhap_DENNGAY_MAKH_KIEMTRA '131','" + makh + "'";
-
-                    data = queryCH.SingleOrDefault(n => n.macn == MACH).data.Database.SqlQuery<TIENNOQUAHAN>(strcn).ToList();
-                    if (data.Count() != 0)
-                    {
-                        return Json(1);
-                    }
-                    else
-                    {
-                        return Json(0);
-                    }
-                }
+               
             }
             catch (Exception)
             {
@@ -4675,10 +4484,7 @@ namespace ApplicationChart.Controllers
                     }
                     return Json(data);
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == MACH) != null)
-                {
-                    return Json(new DATATIENNO());
-                }
+                
             }
             catch (Exception)
             {
@@ -4694,10 +4500,7 @@ namespace ApplicationChart.Controllers
             {
                 data = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<double>(str).First();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                data = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<double>(str).First();
-            }
+           
             return data;
         }
         public List<ListTrinhDuocVien> DULIEUTRINHDUOCVIENLOC(Entities data, List<string> MATDV)
@@ -4740,10 +4543,7 @@ namespace ApplicationChart.Controllers
             {
                 data = DULIEUTRINHDUOCVIEN(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-            {
-                data = DULIEUCUAHANGTRINHDUOCVIEN(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data).ToList();
-            }
+            
             return data.Select(cl => cl.MATDV).ToList();
         }
         public int DATA_GET(string x)
@@ -4760,10 +4560,7 @@ namespace ApplicationChart.Controllers
 
                     MADH = Int32.Parse(old_MADH) + 1;
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-                {
-                    MADH = Int32.Parse(queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.OrderByDescending(n => n.MADH).FirstOrDefault().MADH) + 1;
-                }
+               
             }
             catch (Exception ex)
             {
@@ -4815,10 +4612,7 @@ namespace ApplicationChart.Controllers
                 //var str = string.Format("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where (makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "')", string.Join(",", list.Select(p => "'" + p.MAHD + "'")));
                 ListHopdong = queryCN.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                ListHopdong = queryCH.SingleOrDefault(n => n.macn == x).data.Database.SqlQuery<ListHopdongKD>("select MAHD AS MAHOPDONG,noidung AS TENHOPDONG from TBL_DANHMUCHOPDONG where makh = '" + makh + "' and NGAYBATDAU <= '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and NGAYKETTHUC >= '" + DateTime.Now.ToString("yyyy-MM-dd") + "'").ToList();
-            }
+           
             return Json(ListHopdong);
         }
         [HttpPost]
@@ -4846,10 +4640,7 @@ namespace ApplicationChart.Controllers
             {
                 ListHopdong = queryCN.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "' and makh='" + makh + "' ").ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-            {
-                ListHopdong = queryCH.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "' and makh='" + makh + "' ").ToList();
-            }
+           
 
             //}
 
@@ -4925,10 +4716,7 @@ namespace ApplicationChart.Controllers
             {
                 ListHopdong = queryCN.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "' and makh='" + makh + "' ").ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == macn) != null)
-            {
-                ListHopdong = queryCH.SingleOrDefault(n => n.macn == macn).data.Database.SqlQuery<ListHangHoa>("select top 1 sp AS MAHH,GIASP AS GIABAN from TBL_DANHMUCHOPDONG where mahd = '" + mahd + "' and makh='" + makh + "' ").ToList();
-            }
+           
 
             //}
 
@@ -6388,11 +6176,7 @@ namespace ApplicationChart.Controllers
                 queryCN.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.AddRange(data);
                 queryCN.SingleOrDefault(n => n.macn == x).data.SaveChanges();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.AddRange(data);
-                queryCH.SingleOrDefault(n => n.macn == x).data.SaveChanges();
-            }
+           
         }
         public ListData DATA(string x, string MATDV, DateTime tungay, DateTime denngay)
         {
@@ -6515,10 +6299,7 @@ namespace ApplicationChart.Controllers
                 {
                     DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.MATDV == matdv && n.NgayDat >= dt1 && n.NgayDat <= dt2).OrderByDescending(n => n.MADH).Take(1000).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { NgayGiao = (DateTime?)cl.First().NgayGiao, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO, MACH = cl.First().MACH, MATDV = cl.First().MATDV }).ToList();
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-                {
-                    DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.MATDV == matdv && n.NgayDat >= dt1 && n.NgayDat <= dt2).OrderByDescending(n => n.MADH).Take(1000).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { NgayGiao = (DateTime?)cl.First().NgayGiao, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO, MACH = cl.First().MACH, MATDV = cl.First().MATDV }).ToList();
-                }
+                
             }
             else
             {
@@ -6526,10 +6307,7 @@ namespace ApplicationChart.Controllers
                 {
                     DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).OrderByDescending(n => n.MADH).Take(1000).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { NgayGiao = (DateTime?)cl.First().NgayGiao, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO, MACH = cl.First().MACH, MATDV = cl.First().MATDV }).ToList();
                 }
-                else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-                {
-                    DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.NgayDat >= dt1 && n.NgayDat <= dt2).OrderByDescending(n => n.MADH).Take(1000).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { NgayGiao = (DateTime?)cl.First().NgayGiao, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO, MACH = cl.First().MACH, MATDV = cl.First().MATDV }).ToList();
-                }
+               
             }
             return DATAX;
         }
@@ -6541,10 +6319,7 @@ namespace ApplicationChart.Controllers
             {
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.MADH == MADH).ToList();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                DATAX = queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.MADH == MADH).ToList();
-            }
+            
             var datahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(kiemsoat AS INT) as kiemsoat,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where mahh ='" + DATAX.First().MAHH + "'").First();
             var tpcn = db2.TBL_DANHMUCTPCN.Select(n => n.mahh).ToList();
             if (tpcn.Contains(datahh.MAHH))
@@ -6740,13 +6515,7 @@ namespace ApplicationChart.Controllers
                 queryCN.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.RemoveRange(data);
                 queryCN.SingleOrDefault(n => n.macn == x).data.SaveChanges();
             }
-            else if (queryCH.SingleOrDefault(n => n.macn == x) != null)
-            {
-                var data = queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.MADH == MADH && n.DUYETDH == false);
-                ngaydat = data.FirstOrDefault().NgayDat;
-                queryCH.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.RemoveRange(data);
-                queryCH.SingleOrDefault(n => n.macn == x).data.SaveChanges();
-            }
+          
 
             return ngaydat;
         }
