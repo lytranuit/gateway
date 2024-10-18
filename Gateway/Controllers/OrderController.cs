@@ -18,6 +18,7 @@ using APIInvoice;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using it_report.Models;
+using System.Data.Entity.Migrations;
 
 namespace ApplicationChart.Controllers
 {
@@ -60,7 +61,6 @@ namespace ApplicationChart.Controllers
         CHQ10Entities1 CHPPSP = new CHQ10Entities1("CHPPSPEntities");
         Entities Pypharm = new Entities("KT_PYPHARMEntities");
         KT_THEntities1 DATATH1 = new KT_THEntities1("KT_THEntities1");
-        KT_THEntities1 DATATH2 = new KT_THEntities1("KT_THEntities2");
         CHQ10Entities1 PTTT = new CHQ10Entities1("PTTTEntities");
         ApplicationChartEntities1 db2 = new ApplicationChartEntities1();
         List<EntitiesCN> queryCN = new List<EntitiesCN> {
@@ -212,6 +212,19 @@ namespace ApplicationChart.Controllers
                 HANGHOA = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,TENHH,DVT,GIABAN FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND MAHH != '' AND MAHH != '..' ").ToList()
             };
             return View("QuanlyCTBH", data);
+        }
+        [Authorize(Roles = "KHUYENMAI")]
+        [ActionName("quan-ly-nha-phan-phoi")]
+        public ActionResult QuanlyNPP()
+        {
+            var Info = GetInfo();
+            ViewBag.dathang = Info.dathang;
+            ViewBag.ten = Info.hoten;
+            ViewBag.quyen = Info.quyen;
+            var NPP = db2.TBL_DANHMUCNHAPHANPHOI.ToList();
+
+
+            return View("QuanlyNPP", NPP);
         }
         [Authorize(Roles = "HANGHOA")]
         [ActionName("quan-ly-danh-muc-hang-hoa")]
@@ -1505,15 +1518,7 @@ namespace ApplicationChart.Controllers
 
             DATATH1.TBL_DANHMUCKM.Add(new TBL_DANHMUCKM { HANMUC = hanmuc1, ck = ck, MACTKM = mactkm, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, BBTT = bbtt1, TENCTKM = tenctkm, GHICHU = ghichu });
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCKM.Add(new TBL_DANHMUCKM { HANMUC = hanmuc1, ck = ck, MACTKM = mactkm, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, BBTT = bbtt1, TENCTKM = tenctkm, GHICHU = ghichu });
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
 
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1523,15 +1528,7 @@ namespace ApplicationChart.Controllers
 
             DATATH1.TBL_DANHMUCKM_CHITIET.AddRange(data);
             DATATH1.SaveChanges();
-            try
-            {
 
-                DATATH2.TBL_DANHMUCKM_CHITIET.AddRange(data);
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1542,16 +1539,7 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCKM_CHITIET.RemoveRange(tv);
 
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCKM_CHITIET.RemoveRange(tv);
 
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1561,15 +1549,7 @@ namespace ApplicationChart.Controllers
 
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.AddRange(data);
             DATATH1.SaveChanges();
-            try
-            {
 
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.AddRange(data);
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1580,16 +1560,7 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv);
 
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv);
 
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
-
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1618,20 +1589,12 @@ namespace ApplicationChart.Controllers
             mahh1 = string.Join(",", mahh.ToArray());
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Add(new TBL_DANHMUCCHUONGTRINHHOTRO { HANMUC = hanmuc1, MACTHT = mactht, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, TENCTHT = tenctht, MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null, GHICHU = ghichu });
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO.Add(new TBL_DANHMUCCHUONGTRINHHOTRO { HANMUC = hanmuc1, MACTHT = mactht, MAHH = mahh1, ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture), ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture), PHAMVI = phamvi1, TENCTHT = tenctht, MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null, GHICHU = ghichu });
-                DATATH2.SaveChanges();
-            }
-            catch
-            {
 
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
         [HttpPost]
-        public ActionResult EditCTBH(string tenctkm, float? ck, string mactkm, string ngaybatdau, string ngayketthuc, string bbtt, List<string> phamvi, List<string> mahh, string hanmuc, List<string> mactht, string ghichu)
+        public ActionResult EditCTBH(string tenctkm, float? ck, string mactkm, string ngaybatdau, string ngayketthuc, string bbtt, List<string> phamvi, List<string> mahh, List<string> gia, bool is_gia, string hanmuc, List<string> mactht, string ghichu)
         {
             bool? bbtt1 = (bbtt == "1") ? true : false;
             decimal? hanmuc1 = null;
@@ -1655,6 +1618,12 @@ namespace ApplicationChart.Controllers
             string mahh1 = null;
 
             mahh1 = string.Join(",", mahh.ToArray());
+            string gia1 = null;
+
+            if (is_gia == true)
+            {
+                gia1 = string.Join(",", gia.ToArray());
+            }
 
             var tv = DATATH1.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == mactkm);
             if (tv != null)
@@ -1668,21 +1637,8 @@ namespace ApplicationChart.Controllers
                 tv.MAHH = mahh1;
                 tv.GHICHU = ghichu;
                 tv.ck = ck;
+                tv.GIA = gia1;
                 DATATH1.SaveChanges();
-            }
-            var tv2 = DATATH2.TBL_DANHMUCKM.SingleOrDefault(n => n.MACTKM == mactkm);
-            if (tv2 != null)
-            {
-                tv2.TENCTKM = tenctkm;
-                tv2.ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.PHAMVI = phamvi1;
-                tv.BBTT = bbtt1;
-                tv2.HANMUC = hanmuc1;
-                tv2.MAHH = mahh1;
-                tv2.GHICHU = ghichu;
-                tv2.ck = ck;
-                DATATH2.SaveChanges();
             }
             return Json(1);
         }
@@ -1725,19 +1681,6 @@ namespace ApplicationChart.Controllers
                 tv.MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null;
                 DATATH1.SaveChanges();
             }
-            var tv2 = DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO.SingleOrDefault(n => n.MACTHT == mactht);
-            if (tv2 != null)
-            {
-                tv2.TENCTHT = tenctht;
-                tv2.ngaybatdau = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngaybatdau), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.ngayketthuc = DateTime.ParseExact(Sanitizer.GetSafeHtmlFragment(ngayketthuc), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                tv2.PHAMVI = phamvi1;
-                tv2.HANMUC = hanmuc1;
-                tv2.MAHH = mahh1;
-                tv2.GHICHU = ghichu;
-                tv2.MACTKM = (mactkm != null) ? string.Join(",", mactkm.ToArray()) : null;
-                DATATH2.SaveChanges();
-            }
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]
@@ -1749,16 +1692,6 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCKM.Remove(tv);
             DATATH1.TBL_DANHMUCKM_CHITIET.RemoveRange(tv1);
             DATATH1.SaveChanges();
-            try
-            {
-                DATATH2.TBL_DANHMUCKM.Remove(tv);
-                DATATH2.TBL_DANHMUCKM_CHITIET.RemoveRange(tv1);
-                DATATH2.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-            }
 
             return Json(1);
         }
@@ -1771,16 +1704,41 @@ namespace ApplicationChart.Controllers
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Remove(tv);
             DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv1);
             DATATH1.SaveChanges();
-            try
+            return Json(1);
+        }
+        [Authorize(Roles = "KHUYENMAI")]
+        [HttpPost]
+        public ActionResult DelNPP(string manpp)
+        {
+            var tv = db2.TBL_DANHMUCNHAPHANPHOI.SingleOrDefault(n => n.macn == manpp);
+            db2.TBL_DANHMUCNHAPHANPHOI.Remove(tv);
+            db2.SaveChanges();
+
+            return Json(1);
+        }
+        [Authorize(Roles = "KHUYENMAI")]
+        [HttpPost]
+        public ActionResult SaveNPP(string manpp, string tennpp, bool is_add)
+        {
+            if (is_add == true)
             {
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO.Remove(tv);
-                DATATH2.TBL_DANHMUCCHUONGTRINHHOTRO_CHITIET.RemoveRange(tv1);
-                DATATH2.SaveChanges();
+                var npp = new TBL_DANHMUCNHAPHANPHOI()
+                {
+                    macn = manpp,
+                    tencn = tennpp,
+                };
+                db2.TBL_DANHMUCNHAPHANPHOI.Add(npp);
+                db2.SaveChanges();
             }
-            catch (Exception ex)
+            else
             {
+                var tv = db2.TBL_DANHMUCNHAPHANPHOI.SingleOrDefault(n => n.macn == manpp);
+                tv.tencn = tennpp;
+                db2.TBL_DANHMUCNHAPHANPHOI.AddOrUpdate(tv);
+                db2.SaveChanges();
 
             }
+
             return Json(1);
         }
         [Authorize(Roles = "KHUYENMAI")]

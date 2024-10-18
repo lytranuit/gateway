@@ -1,0 +1,341 @@
+﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCNHAPHANPHOI>
+@{
+    ViewBag.Title = "Quản lý nhà phân phối";
+    Layout = "~/Views/Shared/Layout1.cshtml";
+}
+@section styles {
+    <link href="~/Content/Datatable.css?version=11" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="~/Content/OrderStyle.css?version=43">
+    <style>
+        .dropdown-menu {
+            font-size: 12px;
+        }
+
+        .custom-control-label {
+            font-size: 17px;
+        }
+
+        .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            font-size: 11px !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 26px;
+        }
+
+        .overflow-auto {
+            overflow: auto !important;
+        }
+
+        .checkbox {
+            font-size: 15px;
+        }
+    </style>
+}
+<div id="heightscreen">
+    <div class="w3-card w3-white" style="border-radius:0.25rem">
+        <ol class="breadcrumb" style="margin-top:42px;margin-bottom:0px;">
+            <li class="breadcrumb-item"><a style="color:#007bff;font-weight:700" href="#">CRM</a></li>
+            <li class="breadcrumb-item active w3-text-black font-weight-normal">QUẢN LÝ NHÀ PHÂN PHỐI</li>
+        </ol>
+    </div>
+    <div class="w3-container box text-left" style="margin-top:3px;margin-bottom:2px;background-color:white;">
+        <div class="row pt-2 pb-2">
+            <div class="btn-group col-12 mt-1" role="group" aria-label="Basic example">
+                <button type="button" id="btnadd" class="btn btn-success btn-sm transition-3d-hover font-weight-bold w-auto" data-backdrop="static" data-toggle="modal" data-target="#ModalAdd">
+                    <i class="fa fa-plus"></i> THÊM
+                </button>
+                <button type="button" class="btn btn-danger btn-sm transition-3d-hover font-weight-bold w-auto" onClick="window.location.reload();"><i class="fa fa-refresh" aria-hidden="true"></i> TẢI LẠI</button>
+            </div>
+        </div>
+    </div>
+    <div class="w3-content p-1 box" style="background-color:white;" id="Viewtable">
+        <table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
+            <!--Table head-->
+            <thead style="background-color:rgb(66, 133, 244);">
+                <tr class="text-white">
+                    <th>MÃ NPP</th>
+                    <th>Tên NPP</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var i in Model)
+                    {
+                        <tr>
+                            <td>@i.macn</td>
+                            <td>@i.tencn</td>
+                            <td class="p-1 align-middle text-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">
+                                        <span class="fa fa-caret-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu text-left dropdown-menu-right">
+                                        <li><a class="btnedit" data-toggle="modal" data-backdrop="static" data-target="#ModalAdd">Thay đổi thông tin</a></li>
+                                        <li><a class="btnxoa">Xóa</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <!--Table body-->
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered scrollable-auto-y mt-md-auto" style="max-width:800px" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h6 class="modal-title font-weight-bold p-2">TẠO MỚI NHÀ PHÂN PHỐI</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card mb-0">
+                <div class="card-body pt-0 pb-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="manpp">Mã nhà phân phối <code>(*)</code></label>
+                                <input id="manpp" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="tennpp">Tên nhà phân phối <code>(*)</code></label>
+                                <input id="tennpp" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer modal-footer p-2">
+                    <button id="btnsubmit" type="button" class="btn btn-success btn-sm transition-3d-hover mb-0">HOÀN TẤT</button>
+                    <button type="button" class="btn btn-danger btn-sm transition-3d-hover" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/bootstrap-select.js?version=3"></script>
+    <script src="~/Content/Order/js/lib/datatables/datatables.min.js?version=6"></script>
+
+    <script>
+        var is_add = true;
+        $(document).ready(function () {
+
+
+
+            $('#example23').DataTable({
+                "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false,
+                }],
+                "order": [],
+            }
+           );
+            $("#Viewtable").on("click", ".btnedit", function () {
+                is_add = false;
+                var manpp = $(this).closest('tr').find('td:eq(0)').text();
+                var tennpp = $(this).closest('tr').find('td:eq(1)').text();
+                $("#manpp").prop("disabled", true).val(manpp);
+                $("#tennpp").val(tennpp);
+            });
+            $("#Viewtable").on("click", ".btnxoa", function () {
+                var manpp = $(this).closest('tr').find('td:eq(0)').text();
+                $.confirm({
+                    title: '<b>THÔNG BÁO</b>',
+                    content: 'Bạn có chắc chắn muốn xóa NPP này ?',
+                    buttons: {
+                        confirm: {
+                            text: 'Chắc chắn',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("DelNPP", "Order")",
+                                    datatype: 'json',
+                                    contentType: "application/json",
+                                    data: '{manpp: ' + JSON.stringify(manpp) + '}',
+                                    success: function (data) {
+                                        toastr.options = {
+                                            "closeButton": false,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["success"]("Xóa thành công !", "Thông báo")
+                                        location.reload();
+                                    },
+                                    error: function (request, status, error) {
+                                        toastr.options = {
+                                            "closeButton": false,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["warning"]("Không thành công. Vui lòng kiểm tra lại kết nối Internet !", "Thông báo")
+                                    },
+                                    timeout: 5000,
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+
+            $("#btnadd").click( function () {
+
+                is_add = true;
+                $("#manpp").prop("disabled",false).val("");
+                $("#tennpp").val("");
+            });
+
+            $("#btnsubmit").click(function () {
+                var prevent = 0;
+                if ($("#manpp").val() == "" || $("#tennpp").val() == "") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Bạn chưa điền đầy đủ thông tin bắt buộc", "Lỗi")
+                    prevent = 1;
+                    return false;
+                }
+
+
+                if (prevent == 0) {
+                    $.confirm({
+                        title: '<b>THÔNG BÁO</b>',
+                        content: 'Bạn có chắc chắn muốn thay đổi NPP này ?',
+                        buttons: {
+                            confirm: {
+                                text: 'Chắc chắn',
+                                btnClass: 'btn-success',
+                                keys: ['enter'],
+                                action: function () {
+                                    var data = [];
+                                    $('input[name="Checkboxlist6"]:checked').each(function () {
+                                        data.push(this.value);
+                                    });
+                                    var datagia = [];
+                                    $('.editdatagia').each(function () {
+                                        datagia.push($(this).val());
+                                    });
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("SaveNPP", "Order")",
+                                        datatype: 'json',
+                                        contentType: "application/json",
+                                        data: '{manpp: ' + JSON.stringify($("#manpp").val()) +
+                                            ', tennpp: ' + JSON.stringify($("#tennpp").val()) +
+                                            ', is_add: ' + JSON.stringify(is_add)+ '}',
+                                        success: function (data) {
+                                            toastr.options = {
+                                                "closeButton": false,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["success"]("Chỉnh sửa thành công !", "Thông báo")
+                                            location.reload();
+                                        },
+                                        error: function (request, status, error) {
+                                            toastr.options = {
+                                                "closeButton": false,
+                                                "debug": false,
+                                                "newestOnTop": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-top-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            }
+                                            Command: toastr["warning"]("Không thành công. Vui lòng kiểm tra lại kết nối Internet !", "Thông báo")
+                                        },
+                                        timeout: 5000,
+                                    });
+                                }
+                            },
+                            cancel: {
+                                text: 'Hủy',
+                                btnClass: 'btn-danger',
+                                keys: ['esc'],
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

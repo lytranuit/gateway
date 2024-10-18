@@ -365,6 +365,27 @@
                                     <label id="countsanpham1" class="col-form-label font-weight-light w-50" for="editngaygiao">0 Sản phẩm đã chọn</label>
                                     <button type="button" data-backdrop="static" data-toggle="modal" data-target="#id05edit" class="btn btn-primary w-50 m-0">CHỌN SẢN PHẨM</button>
                                 </div>
+                                <div>
+                                    <input type="checkbox" id="editcaidatgia" />
+                                    <label class="col-form-label" for="editngaygiao">Cài đặt giá</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12" id="editchitietgia">
+                            <div class="form-group mb-0">
+                                <div class="table-responsive">
+                                    <table id="editsp" class="table table-bordered border-top mb-0 table-centered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-dark">Sản phẩm</th>
+                                                <th class="text-dark">Giá</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+
+                                    </table><!--end /table-->
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-6">
@@ -628,6 +649,14 @@
         }
         $(document).ready(function () {
             $('.selectpicker').selectpicker();
+            $("#editcaidatgia").change(function () {
+                var value = $(this).is(":checked");
+                if (value) {
+                    $("#editchitietgia").show();
+                } else {
+                    $("#editchitietgia").hide();
+                }
+            });
             $("#btnexcel").click(function () {
                 if ($("#excelvalue").val() == "") {
                     toastr.options = {
@@ -753,7 +782,13 @@
             });
             $("#id05edit").on("change", ".Checkboxlist6", function () {
                 $("#sanphamcount1").text($(".Checkboxlist6:checked").length);
-                $("#countsanpham1").text($(".Checkboxlist6:checked").length + " Sản phẩm đã chọn")
+                $("#countsanpham1").text($(".Checkboxlist6:checked").length + " Sản phẩm đã chọn
+                var html = "";
+                $(".Checkboxlist6:checked").each(function () {
+                    html += "<tr><td>" + $(this).val() + "</td><td><input type='text' class='form-control editdatagia'></td></tr>";
+                });
+                $("#editsp tbody").html(html);
+
             });
             $("#CheckAll5").change(function () {
                 $(".Checkboxlist5:visible").prop('checked', $(this).prop("checked"));
@@ -1246,15 +1281,18 @@
                             $(".Checkboxlist6").prop('checked', true);
                         }
                         else {
-                            data.MAHH.split(",").forEach(function (element) {
-                                try {
-                                    $("#" + element.replace(".", "") + "edit").prop('checked', true);
-                                }
-                                catch (err) {
-
-                                }
-                                
+                            var html = "";
+                            var list_mahh = data.MAHH.split(",");
+                            var list_gia = data.GIA != null ? data.GIA.split(",") : [];
+                            var is_gia = data.GIA != null ? true : false;
+                            $("#editcaidatgia").prop("checked", is_gia).change();
+                            list_mahh.forEach(function (element, index) {
+                                var gia = list_gia[index] != null ? list_gia[index] : "";
+                                $("#" + element.replace(".", "") + "edit").prop('checked', true);
+                                html += "<tr><td>" + element + "</td><td><input type='text' class='form-control editdatagia' value='" + gia +"'></td></tr>";
                             });
+
+                            $("#editsp tbody").html(html);
                         }
                         $("#sanphamcount1").text($(".Checkboxlist6:checked").length);
                         $("#countsanpham1").text($(".Checkboxlist6:checked").length + " Sản phẩm đã chọn")
@@ -1379,12 +1417,27 @@
                                     $('input[name="Checkboxlist6"]:checked').each(function () {
                                         data.push(this.value);
                                     });
+                                    var datagia = [];
+                                    $('.editdatagia').each(function () {
+                                        datagia.push($(this).val());
+                                    });
                                     $.ajax({
                                         type: "POST",
                                         url: "@Url.Action("EditCTBH", "Order")",
                                         datatype: 'json',
                                         contentType: "application/json",
-                                        data: '{mactkm: ' + JSON.stringify($("#editmactkm").val()) + ', tenctkm: ' + JSON.stringify($("#edittenctkm").val()) + ', ngaybatdau: ' + JSON.stringify($("#editngaybatdau").val()) + ', ck: ' + JSON.stringify(($("#editck").val() == "") ? null : $("#editck").val().replace('.', ',')) + ', ngayketthuc: ' + JSON.stringify($("#editngayketthuc").val()) + ', bbtt: ' + JSON.stringify($("#editbbtt").val()) + ', phamvi: ' + JSON.stringify($("#editphamvi").val()) + ', mahh: ' + JSON.stringify(data) + ', hanmuc: ' + JSON.stringify(($("#edithanmuc").val() == "") ? "N/A" : $("#edithanmuc").val().replace(/[^\d.]/g, '')) + ', ghichu: ' + JSON.stringify($("#editghichu").val()) + '}',
+                                        data: '{mactkm: ' + JSON.stringify($("#editmactkm").val()) +
+                                            ', tenctkm: ' + JSON.stringify($("#edittenctkm").val()) +
+                                            ', ngaybatdau: ' + JSON.stringify($("#editngaybatdau").val()) +
+                                            ', ck: ' + JSON.stringify(($("#editck").val() == "") ? null : $("#editck").val().replace('.', ',')) +
+                                            ', ngayketthuc: ' + JSON.stringify($("#editngayketthuc").val()) +
+                                            ', bbtt: ' + JSON.stringify($("#editbbtt").val()) +
+                                            ', phamvi: ' + JSON.stringify($("#editphamvi").val()) +
+                                            ', mahh: ' + JSON.stringify(data) +
+                                            ', is_gia: ' + JSON.stringify($("#editcaidatgia").is(":checked")) +
+                                            ', gia: ' + JSON.stringify(datagia) +
+                                            ', hanmuc: ' + JSON.stringify(($("#edithanmuc").val() == "") ? "N/A" : $("#edithanmuc").val().replace(/[^\d.]/g, '')) +
+                                            ', ghichu: ' + JSON.stringify($("#editghichu").val()) + '}',
                                         success: function (data) {
                                             toastr.options = {
                                                 "closeButton": false,

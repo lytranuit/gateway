@@ -3807,6 +3807,7 @@
     <Content Include="Views\Order\PartialQLHH.cshtml" />
     <Content Include="Views\Order\Partialchitiethanghoa.cshtml" />
     <Content Include="Views\Order\Partialeditchitiethanghoa.cshtml" />
+    <Content Include="Views\Order\QuanlyNPP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
