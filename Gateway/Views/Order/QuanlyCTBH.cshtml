@@ -750,6 +750,7 @@
                 else {
                     var data = $("#excelvalue1").val();
                     var rows = data.split("\n");
+                    console.log(rows);
                     for (var y in rows) {
                         $("#" + rows[y].replace(".", "") + "edit").prop('checked', true);
                     }
@@ -782,7 +783,7 @@
             });
             $("#id05edit").on("change", ".Checkboxlist6", function () {
                 $("#sanphamcount1").text($(".Checkboxlist6:checked").length);
-                $("#countsanpham1").text($(".Checkboxlist6:checked").length + " Sản phẩm đã chọn
+                $("#countsanpham1").text($(".Checkboxlist6:checked").length + " Sản phẩm đã chọn")
                 var html = "";
                 $(".Checkboxlist6:checked").each(function () {
                     html += "<tr><td>" + $(this).val() + "</td><td><input type='text' class='form-control editdatagia'></td></tr>";

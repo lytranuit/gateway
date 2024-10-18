@@ -2282,8 +2282,9 @@ namespace ApplicationChart.Controllers
         [HttpGet]
         public ActionResult PartialQLBH()
         {
-            var Info = GetInfo();
+           
             var data = DATATH1.TBL_DANHMUCKM.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTKM).ToList();
+            var Info = GetInfo();
             if (Info.macn != "ALL")
             {
                 List<string> listcn = Info.macn.Split(',').ToList();
@@ -2312,7 +2313,14 @@ namespace ApplicationChart.Controllers
         [HttpGet]
         public ActionResult PartialQLHT()
         {
-            var data = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTHT);
+            var data = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTHT).ToList();
+            var Info = GetInfo();
+            if (Info.macn != "ALL")
+            {
+                List<string> listcn = Info.macn.Split(',').ToList();
+                data = data.Where(d => d.list_phamvi.Intersect(listcn).Any()).ToList();
+
+            }
             return PartialView(data);
         }
         //[Authorize(Roles = "DONHANGHCM")]
