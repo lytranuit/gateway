@@ -470,7 +470,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\QLSPController.cs" />
-    <Compile Include="Controllers\ScheduleJob.cs" />
     <Compile Include="Controllers\ThauController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2117,6 +2116,7 @@
     <Content Include="Content\Layout1\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Layout1\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Layout1\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Content\Layout1\images\logo.png" />
     <Content Include="Content\Layout1\images\logo.jpg" />
     <Content Include="Content\Layout1\images\mark.png" />
     <Content Include="Content\Layout1\images\User-Icon.png" />

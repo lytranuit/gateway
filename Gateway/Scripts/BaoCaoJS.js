@@ -134,6 +134,7 @@ function myFunction4() {
 }
 $(document).ready(function () {
     $(".poc").hide();
+   
     //$("#nhomhang").change(function () {
     //    if ($("#nhomhang").val() == 3) {
 
@@ -1259,6 +1260,9 @@ $(document).ready(function () {
             Command: toastr["error"]("Bạn chưa chọn ngày.", "Lỗi !")
         }
     });
+    $("#chon").val(0);
+    $("#donvi").val("FP").change();
+
 });
 function taiclick() {
     var x = document.getElementById("taidrop");
