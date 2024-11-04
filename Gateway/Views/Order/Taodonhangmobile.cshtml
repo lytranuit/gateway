@@ -104,7 +104,7 @@
         </ol>
     </div>
     <div class="w3-content w3-padding box p-0 pt-0" style="background-color:white;margin-top:3px;">
-        <input id="tilechietkhau" type="hidden" value="0"/>
+        <input id="tilechietkhau" type="hidden" value="0" />
         <div class="w3-row">
             <div class="card mb-0">
                 <div class="card-header font-small">
@@ -127,6 +127,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-3 col-lg-4 col-form-label" for="nhaphanphoi">Nhà phân phối</label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <input id="nhaphanphoi" readonly class="form-control font-weight-normal m-0" type="text" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-sm-12 col-md-12 col-lg-6 hidden" id="divmatdv">
                             <div class="form-group row mb-0">
                                 <label class="col-sm-3 col-md-3 col-lg-4 col-form-label" for="khachhang">Mã trình dược viên<code class="bg-white">(*)</code></label>
@@ -143,7 +151,7 @@
                         <div class="col-sm-6 col-md-12 col-lg-6">
                             <!-- Default input -->
                             <div class="form-group row mb-sm-0 mb-0">
-                                <label class="col-sm-3 col-lg-4 col-form-label" for="ngaygiao">Hạn mức</label>
+                                <label class="col-sm-3 col-lg-4 col-form-label" for="hanmuc">Hạn mức</label>
                                 <div class="col-sm-9 col-lg-8">
                                     <input id="hanmuc" readonly class="form-control font-weight-normal m-0" type="text" autocomplete="off">
                                 </div>
@@ -152,7 +160,7 @@
                         <div class="col-sm-6 col-md-12 col-lg-6">
                             <!-- Default input -->
                             <div class="form-group row mb-sm-0 mb-0">
-                                <label class="col-sm-3 col-lg-4 col-form-label" for="ngaygiao">Tiền nợ</label>
+                                <label class="col-sm-3 col-lg-4 col-form-label" for="tienno" ">Tiền nợ</label>
                                 <div class="col-sm-9 col-lg-8">
                                     <input id="tienno" readonly class="form-control font-weight-normal m-0" type="text" autocomplete="off">
                                 </div>
@@ -161,7 +169,7 @@
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <!-- Default input -->
                             <div class="form-group row mb-sm-0 mb-0">
-                                <label class="col-sm-3 col-lg-4 col-form-label" for="ngaygiao">Tiền nợ quá hạn (<a href="#!" class="text-danger font-weight-bold" data-toggle="modal" data-target="#modaltiennoquahan">Xem chi tiết</a>)</label>
+                                <label class="col-sm-3 col-lg-4 col-form-label" for="tiennoquahan">Tiền nợ quá hạn (<a href="#!" class="text-danger font-weight-bold" data-toggle="modal" data-target="#modaltiennoquahan">Xem chi tiết</a>)</label>
                                 <div class="col-sm-9 col-lg-8">
                                     <input class="form-control font-weight-normal m-0" readonly id="tiennoquahan" type="text" autocomplete="off">
                                 </div>
@@ -363,5 +371,5 @@
         });
     </script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
-    <script src="~/Scripts/Taodonhangmobile.js?version=2704202445"></script>
+    <script src="~/Scripts/Taodonhangmobile.js?version=2704202446"></script>
 }

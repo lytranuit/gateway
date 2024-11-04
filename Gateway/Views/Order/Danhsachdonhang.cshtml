@@ -101,6 +101,7 @@
                             <th>Số ĐH</th>
                             <th>Ngày đặt</th>
                             <th>Tên khách hàng</th>
+                            <th>Nhà phân phối</th>
                             <th hidden>Người tạo</th>
                             <th class="no-sort">Trạng thái</th>
                             <th class="no-sort"></th>
@@ -114,6 +115,7 @@
                                     <td class="text-center" data-id="@i.MADH">@Int32.Parse(i.MADH)</td>
                                     <td class="text-center">@i.NgayDat.ToString("dd/MM/yyyy")</td>
                                     <td>@i.DONVI</td>
+                                    <td>@i.MACH</td>
                                     <td hidden>@i.USERTAO</td>
                                     @if (i.DUYETDH == false)
                                     {
@@ -172,6 +174,7 @@
                             <th>Số ĐH</th>
                             <th>Ngày đặt</th>
                             <th>Tên khách hàng</th>
+                            <th>Nhà phân phối</th>
                             <th>Người tạo</th>
                             <th class="no-sort">Trạng thái</th>
                             <th class="no-sort"></th>
@@ -186,6 +189,7 @@
                                     <td class="text-center" data-id="@i.MADH">@Int32.Parse(i.MADH)</td>
                                     <td class="text-center">@i.NgayDat.ToString("dd/MM/yyyy")</td>
                                     <td>@i.DONVI</td>
+                                    <td>@i.MACH</td>
                                     <td>@i.USERTAO</td>
                                     @if (i.DUYETDH == false)
                                     {

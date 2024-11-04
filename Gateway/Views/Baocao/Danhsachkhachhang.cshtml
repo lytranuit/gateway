@@ -525,6 +525,65 @@
                 var id = tr.data("id");
                 $("#fromKH").val(id);
             });
+            $(document).on("click", ".btnxoakh", function () {
+                var tr = $(this).closest("tr");
+                var id = tr.data("id");
+                $.confirm({
+                    title: '<b>Xác nhận</b>',
+                    content: 'Bạn có muốn xóa khách hàng này?',
+                    buttons: {
+                        confirm: {
+                            text: 'Xác nhận',
+                            btnClass: 'btn-success',
+                            keys: ['enter'],
+                            action: function () {
+                                $('#loading').modal('show')
+                               $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("xoaMAKH", "Baocao")",
+                                    datatype: 'json',
+                                    contentType: "application/json",
+                                   data: '{makh: ' + JSON.stringify(id) + '}',
+                                    error: function () {
+                                        $('#loading').modal('hide')
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "debug": false,
+                                            "newestOnTop": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
+                                        Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                                    },
+                                    success: function (data) {
+                                        location.reload();
+                                    },
+                                    timeout: 5000,
+                               });
+                            }
+                        },
+                        cancel: {
+                            text: 'Hủy',
+                            btnClass: 'btn-danger',
+                            keys: ['esc'],
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            });
+
             $(document).on("change", "#KH7", async function () {
                 var matinh = $(this).val();
                 var list = await getQuan(matinh);
@@ -638,7 +697,8 @@
 
                         if (quyen.indexOf("KHUYENMAI") != -1) {
                             append += `
-                                            <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>`;
+                                            <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>
+                                            <li><a class="btnxoakh">Xóa</a></li>`;
                         }
                         append +=`
                                         </ul>

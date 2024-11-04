@@ -276,6 +276,13 @@
           <Property Name="MANHOM" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="TENNHOM" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="TBL_DANHMUCPHANLOAIHD">
+          <Key>
+            <PropertyRef Name="MAPL" />
+          </Key>
+          <Property Name="MAPL" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TENPL" Type="nvarchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="TBL_DANHMUCPHANLOAIKHACHHANG">
           <Key>
             <PropertyRef Name="phanloaikhachhang" />
@@ -551,6 +558,7 @@
           <EntitySet Name="TBL_DANHMUCNGUOIDUNG" EntityType="Self.TBL_DANHMUCNGUOIDUNG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCNHAPHANPHOI" EntityType="Self.TBL_DANHMUCNHAPHANPHOI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCNHOMHANG" EntityType="Self.TBL_DANHMUCNHOMHANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCPHANLOAIHD" EntityType="Self.TBL_DANHMUCPHANLOAIHD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCPHANLOAIKHACHHANG" EntityType="Self.TBL_DANHMUCPHANLOAIKHACHHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCPHANQUYENHCM" EntityType="Self.TBL_DANHMUCPHANQUYENHCM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DANHMUCPHANQUYENKD" EntityType="Self.TBL_DANHMUCPHANQUYENKD" Schema="dbo" store:Type="Tables" />
@@ -668,6 +676,7 @@
             <End Role="TBL_PHANQUYENCRM" EntitySet="TBL_PHANQUYENCRM" />
           </AssociationSet>
           <EntitySet Name="TBL_DANHMUCNHAPHANPHOI" EntityType="ApplicationChartModel.TBL_DANHMUCNHAPHANPHOI" />
+          <EntitySet Name="TBL_DANHMUCPHANLOAIHDs" EntityType="ApplicationChartModel.TBL_DANHMUCPHANLOAIHDs" />
           </EntityContainer>
         <EntityType Name="DANHMUCPHANLOAIHD">
           <Key>
@@ -1205,6 +1214,13 @@
           <Property Name="macn" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="tencn" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="TBL_DANHMUCPHANLOAIHDs">
+          <Key>
+            <PropertyRef Name="MAPL" />
+          </Key>
+          <Property Name="MAPL" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TENPL" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1667,6 +1683,14 @@
               <MappingFragment StoreEntitySet="TBL_DANHMUCNHAPHANPHOI">
                 <ScalarProperty Name="tencn" ColumnName="tencn" />
                 <ScalarProperty Name="macn" ColumnName="macn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCPHANLOAIHDs">
+            <EntityTypeMapping TypeName="ApplicationChartModel.TBL_DANHMUCPHANLOAIHDs">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCPHANLOAIHD">
+                <ScalarProperty Name="TENPL" ColumnName="TENPL" />
+                <ScalarProperty Name="MAPL" ColumnName="MAPL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

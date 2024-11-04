@@ -74,7 +74,7 @@
                         <select title="Chọn khách hàng" id="khachhangthem" class="selectpicker" data-live-search="true" name="option" multiple data-selected-text-format="count">
                             @foreach (var i in ViewBag.KH)
                             {
-                                <option value="@i.MAKH" tabindex="@i.DONVI">@i.MAKH - @i.DONVI</option>
+                                <option value="@i.MAKH" tabindex="@i.DONVI" data-subtext="(@i.DIACHI)">@i.MAKH - @i.DONVI</option>
                             }
                         </select>
                         <button title="Thêm" id="add_row_them" class="btn btn-sm btn-success waves-effect font-weight-bold w-100 pull-left ml-0 mr-0 mt-2 mb-2 pl-2 pr-2 themkhachhang"><i class="fa fa-plus"></i> THÊM KHÁCH HÀNG</button>

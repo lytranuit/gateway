@@ -51,6 +51,7 @@
         <AssociationConnector Association="ApplicationChartModel.FK_TBL_DANHMUCPHANQUYENWS_TBL_DANHMUCNGUOIDUNG" />
         <AssociationConnector Association="ApplicationChartModel.FK_TBL_PHANQUYENCRM_ToTable" />
         <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCNHAPHANPHOI" Width="1.5" PointX="9.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ApplicationChartModel.TBL_DANHMUCPHANLOAIHDs" Width="1.5" PointX="11.375" PointY="17.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

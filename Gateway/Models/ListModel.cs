@@ -307,6 +307,12 @@ namespace ApplicationChart.Models
         public DateTime? NGAYSINH { get; set; }
         public string tinhtrang { get; set; }
     }
+    public partial class ListNhaPhanPhoi
+    {
+        public string macn { get; set; }
+        public string tencn { get; set; }
+       
+    }
     public partial class CONGNOKHACHHANG
     {
         public double? MAKH { get; set; }
@@ -2599,6 +2605,7 @@ namespace ApplicationChart.Models
         public List<ListKhachHang> ListKH { get; set; }
         public List<ListChuongTrinhKM> ListCTKM { get; set; }
         public List<ListChuongTrinhHT> ListCTHT { get; set; }
+        public List<ListNhaPhanPhoi> ListNPP { get; set; }
     }
     //public partial class ListDataHoaDonWS
     //{

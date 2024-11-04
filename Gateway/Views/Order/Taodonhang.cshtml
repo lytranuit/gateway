@@ -47,7 +47,7 @@
                 </div>
                 <div class="card-body pb-0 pt-1 pl-2 pr-2">
                     <div class="row mb-1">
-                        <div class="col-sm-12 col-md-12 col-lg-9">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
                             <div class="form-group mb-0">
                                 <label class="col-form-label" for="khachhang">Khách hàng<code class="bg-white">(*)</code></label>
                                 <select id="khachhang" title="Chọn khách hàng" class="selectpicker" data-live-search="true" name="option">
@@ -58,6 +58,13 @@
                                 </select>
                             </div>
                             <!-- Default input -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <!-- Default input -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label" for="nhaphanphoi">Nhà phân phối<code class="bg-white">(*)</code></label>
+                                <input id="nhaphanphoi" class="form-control font-weight-normal m-0" value="" type="text" readonly autocomplete="off">
+                            </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-3">
                             <!-- Default input -->
@@ -240,10 +247,10 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
+        @*$(document).ready(function () {
             $("#khachhang").val('@ViewBag.makh');
-        });
+        });*@
     </script>
     <script src="~/Scripts/bootstrap-select.js?version=3"></script>
-    <script src="~/Scripts/Taodonhang.js?version=270420245"></script>
+    <script src="~/Scripts/Taodonhang.js?version=270420246"></script>
 }

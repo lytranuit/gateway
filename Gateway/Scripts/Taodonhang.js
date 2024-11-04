@@ -7,6 +7,7 @@ $(document).ready(function () {
         autoclose: true,
     })
     $("#khachhang").change(function () {
+        $("#nhaphanphoi").val($("#khachhang option:selected").data('macn'));
         try {
             $("#hanmuc").val(parseInt($("#khachhang option:selected").attr('data-hanmuc')).format());
         }

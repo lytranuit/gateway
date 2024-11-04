@@ -773,8 +773,9 @@
     <Compile Include="Models\TBL_DANHMUCNHOMSANPHAM.cs">
       <DependentUpon>KT_TH.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TBL_DANHMUCPHANLOAIHD.cs">
-      <DependentUpon>KT_TH.tt</DependentUpon>
+    <Compile Include="Models\TBL_DANHMUCPHANLOAIHD.cs" />
+    <Compile Include="Models\TBL_DANHMUCPHANLOAIHDs.cs">
+      <DependentUpon>UserData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TBL_DANHMUCPHANLOAIKHACHHANG.cs">
       <DependentUpon>UserData.tt</DependentUpon>

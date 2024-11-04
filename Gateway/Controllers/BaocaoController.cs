@@ -169,11 +169,11 @@ namespace ApplicationChart.Controllers
                 var listquan = Info.maquan.Split(',').ToList();
                 strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
             }
-            if (Info.macn != "ALL")
-            {
-                var listcn = Info.macn.Split(',').ToList();
-                strcn = strcn + string.Format(" AND macn IN ({0})", string.Join(",", listcn.Select(p => "'" + p + "'")));
-            }
+            //if (Info.macn != "ALL")
+            //{
+            //    var listcn = Info.macn.Split(',').ToList();
+            //    strcn = strcn + string.Format(" AND macn IN ({0})", string.Join(",", listcn.Select(p => "'" + p + "'")));
+            //}
 
             if (MATDV != null && MATDV != "")
             {
@@ -274,6 +274,62 @@ namespace ApplicationChart.Controllers
 
             return Json(new { success = true });
         }
+        [HttpPost]
+        public ActionResult changeMAKH(string fromKH, string toKH)
+        {
+
+
+            try
+            {
+                foreach (var item in query)
+                {
+                    var enti = item.data;
+                    var a = enti.Database.SqlQuery<T>("UPDATE TBL_DANHMUCKHACHHANG SET makh = '" + toKH + "', tinhtrang = N'Đang giao dịch' WHERE makh = '" + fromKH + "'").ToList();
+
+                    var c = enti.Database.SqlQuery<T>("UPDATE DTA_DONDATHANG SET makh = '" + toKH + "' WHERE makh = '" + fromKH + "'").ToList();
+
+                }
+                var b = db2.Database.SqlQuery<T>("UPDATE DTA_CONGTACTRINHDUOC SET makh = '" + toKH + "' WHERE makh = '" + fromKH + "'").ToList();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false });
+            }
+
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public ActionResult xoaMAKH(string makh)
+        {
+
+
+            try
+            {
+                foreach (var item in queryKT)
+                {
+                    var enti = item.data;
+                    var kh = enti.TBL_DANHMUCKHACHHANG.Where(d => d.makh == makh).FirstOrDefault();
+                    if (kh != null)
+                    {
+                        enti.TBL_DANHMUCKHACHHANG.Remove(kh);
+                        enti.SaveChanges();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false });
+            }
+
+            return Json(new { success = true });
+        }
+
         [ActionName("bao-cao-cong-tac-trinh-duoc")]
         public ActionResult Congtactrinhduoc()
         {
@@ -352,7 +408,16 @@ namespace ApplicationChart.Controllers
                     {
                         ViewBag.doanhso = null;
                     }
-                    var final = new LISTBAOCAOCHITIETNGAYCRM() { tungay = tungay1, denngay = denngay1, hovaten = crm.TBL_DANHMUCNGUOIDUNG.hoten, macn = crm.macn, taikhoan = crm.TBL_DANHMUCNGUOIDUNG.nguoidung, data = DATA(crm.matdv).OrderBy(n => n.DONVI).ToList(), tencn = "" };
+                    var final = new LISTBAOCAOCHITIETNGAYCRM()
+                    {
+                        tungay = tungay1,
+                        denngay = denngay1,
+                        hovaten = crm.TBL_DANHMUCNGUOIDUNG.hoten,
+                        macn = crm.macn,
+                        taikhoan = crm.TBL_DANHMUCNGUOIDUNG.nguoidung,
+                        data = DATA(crm.matdv).OrderBy(n => n.DONVI).ToList(),
+                        tencn = ""
+                    };
                     return View("/Views/Baocao/Baocaochitietngay.cshtml", final);
                 }
                 else if (loaibaocao == 2)
@@ -430,16 +495,26 @@ namespace ApplicationChart.Controllers
             else if (baocao == 2)
             {
                 var infocrm = GetCRM();
+                var Info = GetInfo();
                 DateTime tungay1 = (loaibaocao == 1) ? DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture) : DateTime.ParseExact(thang, "MM/yyyy", CultureInfo.InvariantCulture);
                 DateTime denngay1 = (loaibaocao == 1) ? DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture) : tungay1.AddMonths(1).AddDays(-1);
                 List<Tuple<int, string, string>> allDates = new List<Tuple<int, string, string>>();
                 for (DateTime date = tungay1; date <= denngay1; date = date.AddDays(1))
                     allDates.Add(new Tuple<int, string, string>(date.Day, date.DayOfWeek.ToString(), date.ToString("dd/MM/yyyy")));
                 var data = new LISTBAOCAOTONGHOPCRM { tungay = tungay1, denngay = denngay1, songaylamviec = allDates.Where(n => n.Item2 != "Sunday").Count() };
-                var listtdv = infocrm.matdv.Split(',');
-                var enti = query.SingleOrDefault(d => d.macn == "DPY").data;
-                var alltdv = enti.TBL_DANHMUCTDV.Select(d => d.MaTDV).ToList();
-                var taikhoan = (infocrm.quyen == "QUANLY") ? db2.TBL_PHANQUYENCRM.Where(n => alltdv.Contains(n.matdv)).ToList() : db2.TBL_PHANQUYENCRM.Where(n => listtdv.Contains(n.matdv)).ToList();
+                var alltdv = db2.TBL_PHANQUYENCRM.Where(d => d.quyen == "TDV");
+
+                if (Info.matdv != "ALL")
+                {
+                    List<string> listtdv = Info.matdv.Split(',').ToList();
+                    alltdv = alltdv.Where(n => listtdv.Contains(n.taikhoan));
+                }
+                if (Info.macn != "ALL")
+                {
+                    List<string> listcn = Info.macn.Split(',').ToList();
+                    alltdv = alltdv.Where(n => listcn.Contains(n.macn));
+                }
+                var taikhoan = alltdv.ToList();
                 var list = new List<BAOCAOTONGHOPCRM>();
                 foreach (var i in taikhoan)
                 {
@@ -461,6 +536,7 @@ namespace ApplicationChart.Controllers
             else if (baocao == 3)
             {
                 var infocrm = GetCRM();
+                var Info = GetInfo();
                 DateTime tungay1 = (loaibaocao == 1) ? DateTime.ParseExact(tungay, "dd/MM/yyyy", CultureInfo.InvariantCulture) : DateTime.ParseExact(thang, "MM/yyyy", CultureInfo.InvariantCulture);
                 DateTime denngay1 = (loaibaocao == 1) ? DateTime.ParseExact(denngay, "dd/MM/yyyy", CultureInfo.InvariantCulture) : tungay1.AddMonths(1).AddDays(-1);
                 List<Tuple<int, string, string>> allDates = new List<Tuple<int, string, string>>();
@@ -468,10 +544,21 @@ namespace ApplicationChart.Controllers
                     allDates.Add(new Tuple<int, string, string>(date.Day, date.DayOfWeek.ToString(), date.ToString("dd/MM/yyyy")));
                 ViewBag.alldate = allDates;
                 var data = new LISTBAOCAOTONGHOPTUNGNGAYCRM { tungay = tungay1, denngay = denngay1, songaylamviec = allDates.Where(n => n.Item2 != "Sunday").Count() };
-                var listtdv = infocrm.matdv.Split(',');
-                var enti = query.SingleOrDefault(d => d.macn == "DPY").data;
-                var alltdv = enti.TBL_DANHMUCTDV.Select(d => d.MaTDV).ToList();
-                var taikhoan = (infocrm.quyen == "QUANLY") ? db2.TBL_PHANQUYENCRM.Where(n => alltdv.Contains(n.matdv)).ToList() : db2.TBL_PHANQUYENCRM.Where(n => listtdv.Contains(n.matdv)).ToList();
+
+                //var enti = query.SingleOrDefault(d => d.macn == "DPY").data;
+                var alltdv = db2.TBL_PHANQUYENCRM.Where(d => d.quyen == "TDV");
+
+                if (Info.matdv != "ALL")
+                {
+                    List<string> listtdv = Info.matdv.Split(',').ToList();
+                    alltdv = alltdv.Where(n => listtdv.Contains(n.taikhoan));
+                }
+                if (Info.macn != "ALL")
+                {
+                    List<string> listcn = Info.macn.Split(',').ToList();
+                    alltdv = alltdv.Where(n => listcn.Contains(n.macn));
+                }
+                var taikhoan = alltdv.ToList();
                 var chitiet = taikhoan.Select(cl => new BAOCAOTONGHOPTUNGNGAYCRM { taikhoan = cl.taikhoan, hovaten = cl.TBL_DANHMUCNGUOIDUNG.hoten, chinhanh = cl.macn }).ToList();
                 foreach (var i in chitiet)
                 {
@@ -593,7 +680,87 @@ namespace ApplicationChart.Controllers
             UPDATETHONGTINKHACHHANG(Infocrm.macn, makh, dt, xeploai, matinh, diachi, lienhe, quanhuyen, masothue);
             return Json(1);
         }
+        public ActionResult ExcelKhachhang(string matdv)
+        {
 
+            string path = Server.MapPath("~/Content/mauKHmoi.xlsx");
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(new FileInfo(path)))
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelWorkbook workbook = package.Workbook;
+                    ExcelWorksheet worksheet = workbook.Worksheets[0];
+
+                    var tdv = db2.TBL_DANHMUCNGUOIDUNG.FirstOrDefault(d => d.nguoidung == matdv);
+                    if (tdv != null)
+                    {
+                        var matinh = tdv.matinh;
+                        var hoten = tdv.hoten;
+
+                        worksheet.Cells["C1"].Value = matdv + " - " + hoten;
+
+                        var enti = queryKT.SingleOrDefault(d => d.macn == "DPY").data;
+                        var enti1 = queryKT.SingleOrDefault(d => d.macn == "DPY_HCM").data;
+                        var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == matinh).FirstOrDefault();
+                        if (tinh != null)
+                        {
+                            worksheet.Cells["C2"].Value = tinh.TenTinh;
+                        }
+                        else
+                        {
+                            worksheet.Cells["C2"].Value = matinh;
+                        }
+                        var danhsach = enti.TBL_DANHMUCKHACHHANG
+                            .Where(d => d.matdv == matdv && d.tinhtrang != "Ngừng giao dịch")
+                            .ToList();
+                        danhsach.AddRange(enti1.TBL_DANHMUCKHACHHANG
+                            .Where(d => d.matdv == matdv && d.tinhtrang != "Ngừng giao dịch")
+                            .ToList());
+
+                        int start_r = 4;
+                        foreach (var d in danhsach)
+                        {
+                            worksheet.Cells["A" + start_r].Value = d.donvi;
+                            worksheet.Cells["B" + start_r].Value = d.diachi;
+                            var quan = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == d.quanhuyen).FirstOrDefault();
+                            if (quan != null)
+                            {
+                                worksheet.Cells["C" + start_r].Value = quan.tenquan;
+                            }
+                            else
+                            {
+                                worksheet.Cells["C" + start_r].Value = d.quanhuyen;
+                            }
+                            var tinh1 = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == d.matinh).FirstOrDefault();
+                            if (tinh1 != null)
+                            {
+                                worksheet.Cells["D" + start_r].Value = tinh1.TenTinh;
+                            }
+                            else
+                            {
+                                worksheet.Cells["D" + start_r].Value = d.matinh;
+                            }
+                            worksheet.Cells["E" + start_r].Value = d.tennguoigd;
+                            worksheet.Cells["F" + start_r].Value = d.dt;
+                            worksheet.Cells["G" + start_r].Value = d.xeploai;
+                            worksheet.Cells["H" + start_r].Value = d.ngaycapnhat != null ? d.ngaycapnhat.Value.ToString("dd/MM/yyyy") : "";
+                            worksheet.Cells["I" + start_r].Value = d.makh;
+                            start_r++;
+                        }
+
+                    }
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                    package.SaveAs(memoryStream);
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                memoryStream.Position = 0;
+                return File(memoryStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+
+            }
+
+        }
         public ActionResult ExcelKhachhangMoi(string matdv)
         {
 
@@ -707,6 +874,15 @@ namespace ApplicationChart.Controllers
 
 
                     }
+                    var enti2 = queryKT.SingleOrDefault(d => d.macn == "DPY").data;
+                    var enti1 = queryKT.SingleOrDefault(d => d.macn == "DPY_HCM").data;
+                    var danhsach = enti2.TBL_DANHMUCKHACHHANG
+                          .Where(d => d.tinhtrang != "Ngừng giao dịch")
+                          .ToList();
+                    danhsach.AddRange(enti1.TBL_DANHMUCKHACHHANG
+                        .Where(d => d.tinhtrang != "Ngừng giao dịch")
+                        .ToList());
+
 
                     var congtac = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay >= tungay && d.ngay <= denngay).ToList();
                     var groupby_ngay = congtac.GroupBy(d => d.ngay).Select(d => new
@@ -726,7 +902,8 @@ namespace ApplicationChart.Controllers
 
 
                             var enti = db3;
-                            var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                            var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
+
                             if (kh != null)
                             {
 
@@ -809,13 +986,22 @@ namespace ApplicationChart.Controllers
                     var congtac_t2 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t2).ToList();
                     int start_r = 5;
 
+                    var enti2 = queryKT.SingleOrDefault(d => d.macn == "DPY").data;
+                    var enti1 = queryKT.SingleOrDefault(d => d.macn == "DPY_HCM").data;
+                    var danhsach = enti2.TBL_DANHMUCKHACHHANG
+                          .Where(d => d.tinhtrang != "Ngừng giao dịch")
+                          .ToList();
+                    danhsach.AddRange(enti1.TBL_DANHMUCKHACHHANG
+                        .Where(d => d.tinhtrang != "Ngừng giao dịch")
+                        .ToList());
+
                     foreach (var d in congtac_t2)
                     {
 
 
 
                         var enti = db3;
-                        var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                        var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
                         if (kh != null)
                         {
 
@@ -845,7 +1031,7 @@ namespace ApplicationChart.Controllers
 
 
                         var enti = db3;
-                        var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                        var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
                         if (kh != null)
                         {
 
@@ -873,7 +1059,7 @@ namespace ApplicationChart.Controllers
                     {
 
                         var enti = db3;
-                        var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                        var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
                         if (kh != null)
                         {
 
@@ -900,7 +1086,7 @@ namespace ApplicationChart.Controllers
                     {
 
                         var enti = db3;
-                        var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                        var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
                         if (kh != null)
                         {
 
@@ -928,7 +1114,7 @@ namespace ApplicationChart.Controllers
                     {
 
                         var enti = db3;
-                        var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                        var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
                         if (kh != null)
                         {
 
@@ -957,7 +1143,7 @@ namespace ApplicationChart.Controllers
 
 
                         var enti = db3;
-                        var kh = enti.TBL_DANHMUCKHACHHANG.Where(r => r.makh == d.makh).FirstOrDefault();
+                        var kh = danhsach.Where(r => r.makh == d.makh).FirstOrDefault();
                         if (kh != null)
                         {
 

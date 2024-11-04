@@ -2187,11 +2187,11 @@ namespace ApplicationChart.Controllers
         {
             var Info = GetInfo();
             var donvi = db2.TBL_DANHMUCNHAPHANPHOI.Where(n => 1 == 1);
-            if (Info.macn != "ALL")
-            {
-                List<string> listcn = Info.macn.Split(',').ToList();
-                donvi = donvi.Where(n => listcn.Contains(n.macn));
-            }
+            //if (Info.macn != "ALL")
+            //{
+            //    List<string> listcn = Info.macn.Split(',').ToList();
+            //    donvi = donvi.Where(n => listcn.Contains(n.macn));
+            //}
             var data = donvi.ToList();
 
             return Json(data);
@@ -2216,18 +2216,22 @@ namespace ApplicationChart.Controllers
         public ActionResult GetTrinhduoc()
         {
             var Info = GetInfo();
-            var enti = query.SingleOrDefault(d => d.macn == "DPY").data;
-            var donvi = enti.TBL_DANHMUCTDV.Where(d => d.TDV == true);
 
+            var donvi = db2.TBL_PHANQUYENCRM.Where(d => d.quyen == "TDV");
             if (Info.matdv != "ALL")
             {
                 List<string> listtdv = Info.matdv.Split(',').ToList();
-                donvi = donvi.Where(n => listtdv.Contains(n.MaTDV));
+                donvi = donvi.Where(n => listtdv.Contains(n.taikhoan));
+            }
+            if (Info.macn != "ALL")
+            {
+                List<string> listcn = Info.macn.Split(',').ToList();
+                donvi = donvi.Where(n => listcn.Contains(n.macn));
             }
             var data = donvi.Select(d => new
             {
-                matdv = d.MaTDV,
-                tentdv = d.TenTDV
+                matdv = d.taikhoan,
+                tentdv = d.TBL_DANHMUCNGUOIDUNG.hoten
             }).ToList();
             return Json(data);
         }
@@ -2306,11 +2310,11 @@ namespace ApplicationChart.Controllers
                 var listquan = Info.maquan.Split(',').ToList();
                 strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
             }
-            if (Info.macn != "ALL")
-            {
-                var listcn = Info.macn.Split(',').ToList();
-                strcn = strcn + string.Format(" AND macn IN ({0})", string.Join(",", listcn.Select(p => "'" + p + "'")));
-            }
+            //if (Info.macn != "ALL")
+            //{
+            //    var listcn = Info.macn.Split(',').ToList();
+            //    strcn = strcn + string.Format(" AND macn IN ({0})", string.Join(",", listcn.Select(p => "'" + p + "'")));
+            //}
             List<ListKhachHang> data = new List<ListKhachHang>();
 
             foreach (var item in query)
@@ -2983,10 +2987,6 @@ namespace ApplicationChart.Controllers
                 if (queryCN.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
                 {
                     data.AddRange(queryCN.SingleOrDefault(n => n.macn == ChiNhanhId).data.Database.SqlQuery<string>(str).ToList());
-                }
-                else if (queryCH.SingleOrDefault(n => n.macn == ChiNhanhId) != null)
-                {
-                    data.AddRange(queryCH.SingleOrDefault(n => n.macn == ChiNhanhId).data.Database.SqlQuery<string>(str).ToList());
                 }
             }
             return data;
@@ -7473,11 +7473,11 @@ namespace ApplicationChart.Controllers
                         {
                             if (z.idglobal_region != "" && z.idglobal_region != null)
                             {
-                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_region, TenTDV = z.ten_region,  });
+                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_region, TenTDV = z.ten_region, });
                             }
                             if (z.idglobal_manager != "" && z.idglobal_manager != null)
                             {
-                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_manager, TenTDV = z.ten_manager,  });
+                                matdvthem.Add(new TBL_DANHMUCTDV() { MaTDV = z.idglobal_manager, TenTDV = z.ten_manager, });
                             }
                             if (z.idglobal_director != "" && z.idglobal_director != null)
                             {
@@ -9767,7 +9767,7 @@ namespace ApplicationChart.Controllers
             var DATAX = new List<TBL_DANHMUCCHUONGTRINHHOTRO>();
             foreach (var x in macn)
             {
-                
+
                 //else if (x == "PTTT")
                 //{
                 //    DATAX.AddRange(PTTT.Database.SqlQuery<TBL_DANHMUCKM>(strch).ToList());
@@ -10690,6 +10690,7 @@ namespace ApplicationChart.Controllers
             var donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn) && n.check == true).ToList();
             ViewBag.donvi = donvi;
             ViewBag.maplkh = db2.TBL_DANHMUCPHANLOAIKHACHHANG.OrderBy(n => n.phanloaikhachhang).ToList();
+            ViewBag.phanloahd = db2.TBL_DANHMUCPHANLOAIHDs.OrderBy(d => d.MAPL).ToList();
             ViewBag.maplhd = DATATH1.TBL_DANHMUCPHANLOAIHD.OrderBy(n => n.TKHN == "632").ToList();
             ViewBag.otc = Info.phanloai.Split(',').ToList();
             ViewBag.READ_ONLY = Info.READ_ONLY;
@@ -15324,7 +15325,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 13)
             {
                 BAOCAO_TONGHOP_CT_XUAT_TDV rpt = new BAOCAO_TONGHOP_CT_XUAT_TDV();
-                //var data0 = DATABAOCAO13( tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist13, Checkboxlist14, tienck);
+                //var data0 = DATABAOCAO13( tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist13, Checkboxlist14, tienck);
                 var data0 = data.Select(cl => new DULIEUBAOCAO13
                 {
                     TENHH = cl.TENHH,
@@ -16574,9 +16575,9 @@ namespace ApplicationChart.Controllers
         [OutputCache(VaryByParam = "*", Duration = 0, NoStore = true)] // will disable caching for Index only
         [ValidateAntiForgeryToken]
         [NoCache]
-        public ActionResult ReportViewNew(List<string> nhomhang, int btnin, string tungay1, string denngay1, string maphanloai, List<string> Checkboxlist1, string Checkboxlist2, List<string> Checkboxlist3, List<string> Checkboxlist4, List<string> Checkboxlist5, List<string> Checkboxlist6, List<string> Checkboxlist8, List<string> Checkboxlist9, List<string> Checkboxlist10, List<string> Checkboxlist11, List<string> Checkboxlist12, List<string> Checkboxlist13, List<string> Checkboxlist14, int loaibaocao, string tienck, int loctheo, string qui, int nam, int top, bool? spthauquocgia, bool? spkhongkedon, bool? cogia, bool? khonggia, string poc, int chc)
+        public ActionResult ReportViewNew(List<string> nhomhang, int btnin, string tungay1, string denngay1, List<string> maphanloai, List<string> Checkboxlist1, string Checkboxlist2, List<string> Checkboxlist3, List<string> Checkboxlist4, List<string> Checkboxlist5, List<string> Checkboxlist6, List<string> Checkboxlist8, List<string> Checkboxlist9, List<string> Checkboxlist10, List<string> Checkboxlist11, List<string> Checkboxlist12, List<string> Checkboxlist13, List<string> Checkboxlist14, int loaibaocao, string tienck, int loctheo, string qui, int nam, int top, bool? spthauquocgia, bool? spkhongkedon, bool? cogia, bool? khonggia, string poc, int chc)
         {
-
+            //maphanloai = maphanloai == "" ? null : maphanloai;
             //try
             //{
             var phanquyen = GetInfo();
@@ -16731,13 +16732,13 @@ namespace ApplicationChart.Controllers
             if (loaibaocao == 1)
             {
                 BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN rpt = new BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN();
-                var data0 = DATABAOCAO0(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist6, Checkboxlist12, Checkboxlist9, Checkboxlist14, poc, phanquyen);
+                var data0 = DATABAOCAO0(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist6, Checkboxlist12, Checkboxlist9, Checkboxlist14, poc, phanquyen);
                 data0 = data0.GroupBy(n => new { n.chuky1, n.TENDVBC }).Select(cl => new DULIEUBAOCAO0 { chuky1 = cl.First().chuky1, TENDVBC = cl.First().TENDVBC, TIENCK = cl.Sum(c => c.TIENCK), TONGTIEN_CT_HOADON = cl.Sum(c => c.TONGTIEN_CT_HOADON), thangdau = tungay1, nam = denngay1 }).ToList();
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
                 }
-                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + maphanloai + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
+                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + string.Join(",", maphanloai) + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
                 if (Checkboxlist2 != "ALL")
                 {
                     LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại khách hàng : " : ". Customer type") + Checkboxlist2;
@@ -16790,7 +16791,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 41)
             {
                 BAOCAODOANHSOBANTHEO_KH_SOYTE rpt = new BAOCAODOANHSOBANTHEO_KH_SOYTE();
-                var data0 = DATABAOCAO41(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
+                var data0 = DATABAOCAO41(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -16848,12 +16849,12 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 42)
             {
                 BAOCAODOANHSOBANTHEO_KH_SOYTE_CHITIET rpt = new BAOCAODOANHSOBANTHEO_KH_SOYTE_CHITIET();
-                var data0 = DATABAOCAO42(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
+                var data0 = DATABAOCAO42(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
                 }
-                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + maphanloai + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
+                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + string.Join(",", maphanloai) + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
                 if (Checkboxlist2 != "ALL")
                 {
                     LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại khách hàng : " : ". Customer type") + Checkboxlist2;
@@ -16906,12 +16907,12 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 43)
             {
                 BAOCAODOANHSOBANTHEO_KH_SOYTE_TONGHOP rpt = new BAOCAODOANHSOBANTHEO_KH_SOYTE_TONGHOP();
-                var data0 = DATABAOCAO43(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
+                var data0 = DATABAOCAO43(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
                 }
-                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + maphanloai + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
+                string LOC = ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Mã phân loại : " : " Classification code : ") + string.Join(",", maphanloai) + ". " + ((Checkboxlist4 != null) ? (((Thread.CurrentThread.CurrentCulture.Name == "vi") ? "Nhóm hàng : " : "Product groups : ") + string.Join(",", Checkboxlist4.ToArray())) : "");
                 if (Checkboxlist2 != "ALL")
                 {
                     LOC = LOC + ((Thread.CurrentThread.CurrentCulture.Name == "vi") ? ". Phân loại khách hàng : " : ". Customer type") + Checkboxlist2;
@@ -17028,7 +17029,7 @@ namespace ApplicationChart.Controllers
             {
                 var listtinh = DATATH1.TBL_DANHMUCTINH.ToList();
                 var listmahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH,dangbaoche as DANGBAOCHE,quicachhop as QUICACH FROM TBL_DANHMUCHANGHOA where nhom in ('50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
-                var data2 = DATABAOCAO39(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                var data2 = DATABAOCAO39(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
                 foreach (var x in data2)
                 {
                     x.DANGBAOCHE = (listmahh.SingleOrDefault(n => "#" + n.MAHH == x.MAHH) != null) ? listmahh.SingleOrDefault(n => "#" + n.MAHH == x.MAHH).DANGBAOCHE : null;
@@ -17043,7 +17044,7 @@ namespace ApplicationChart.Controllers
             }
             else if (loaibaocao == 44)
             {
-                var datazz = DATALAYDULIEU(maphanloai.Split(',').ToList(), tungay1, denngay1, Checkboxlist1);
+                var datazz = DATALAYDULIEU(maphanloai, tungay1, denngay1, Checkboxlist1);
                 IExportEngine engine = new ExcelExportEngine();
                 engine.AddData(datazz);
                 MemoryStream memory = engine.Export();
@@ -17051,58 +17052,6 @@ namespace ApplicationChart.Controllers
             }
             else if (loaibaocao == 2)
             {
-                if (Checkboxlist1.Contains("CHQ10") || Checkboxlist1.Contains("PTTT") || Checkboxlist1.Contains("CHPPSP"))
-                {
-                    var data1 = DATABAOCAO1CH(Checkboxlist1, tungay, denngay, Checkboxlist8, Checkboxlist6, Checkboxlist10, Checkboxlist11);
-                    if (!data1.Any())
-                    {
-                        return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
-                    }
-                    var dataa = new List<DULIEUBAOCAO1CH>();
-                    foreach (var i in data1)
-                    {
-                        dataa.Add(new DULIEUBAOCAO1CH { denngay = denngay1, makh1 = i.makh1, sohd = i.sohd, TENKH = i.TENKH, tenkh1 = i.tenkh1, tienban = i.tienban, tiendauky = i.tiendauky, tienthu = i.tienthu, tientrahang = i.tientrahang, tungay = tungay1, ngaylaphd = (i.ngaylaphd == null) ? "" : ((DateTime)i.ngaylaphd).ToString("dd/MM/yyyy") });
-                    }
-                    if (!dataa.Any())
-                    {
-                        return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
-                    }
-                    CR_CHITIET_CONGNO_CUAHANG rpt1 = new CR_CHITIET_CONGNO_CUAHANG();
-                    rpt1.Load();
-                    rpt1.SetDataSource(dataa);
-                    if (btnin == 4)
-                    {
-                        Stream s = rpt1.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
-                        rpt1.Close();
-                        rpt1.Dispose();
-                        GC.Collect();
-                        return File(s, "application/msword", "CHITIETCONGNO.doc");
-                    }
-                    else if (btnin == 2)
-                    {
-                        Stream s = rpt1.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                        rpt1.Close();
-                        rpt1.Dispose();
-                        GC.Collect();
-                        return File(s, "application/pdf", "CHITIETCONGNO.pdf");
-                    }
-                    else if (btnin == 3)
-                    {
-                        Stream s = rpt1.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
-                        rpt1.Close();
-                        rpt1.Dispose();
-                        GC.Collect();
-                        return File(s, "application/vnd.ms-excel", "CHITIETCONGNO.xls");
-                    }
-                    else if (btnin == 1)
-                    {
-                        Stream s = rpt1.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                        rpt1.Close();
-                        rpt1.Dispose();
-                        GC.Collect();
-                        return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
-                    }
-                }
                 var data0 = DATABAOCAO1(Checkboxlist1, tungay, denngay, Checkboxlist8, Checkboxlist6, Checkboxlist10, Checkboxlist11);
                 if (!data0.Any())
                 {
@@ -17370,10 +17319,10 @@ namespace ApplicationChart.Controllers
                     return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
                 }
             }
-            if (loaibaocao == 8 && (maphanloai.Split(',').ToList().Contains("TH") || maphanloai.Split(',').ToList().Contains("NTH")))
+            if (loaibaocao == 8 && (maphanloai.Contains("TH") || maphanloai.Contains("NTH")))
             {
                 BAOCAO_TONGHOP_CT_XUAT_KHUVUC rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC();
-                var data0 = DATABAOCAO8(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, tienck);
+                var data0 = DATABAOCAO8(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, tienck);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17419,10 +17368,10 @@ namespace ApplicationChart.Controllers
                     return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
                 }
             }
-            if (loaibaocao == 12 && (maphanloai.Split(',').ToList().Contains("TH") || maphanloai.Split(',').ToList().Contains("NTH")))
+            if (loaibaocao == 12 && (maphanloai.Contains("TH") || maphanloai.Contains("NTH")))
             {
                 BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD();
-                var data0 = DATABAOCAO12(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, tienck);
+                var data0 = DATABAOCAO12(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, tienck);
                 if (!data0.Any())
                 {
 
@@ -17572,7 +17521,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 16)
             {
                 BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN_DASHBOARD_TH_MIEN_CN rpt = new BAOCAODOANHSOBANTHEO_KH_TONGHOP_MIEN_DASHBOARD_TH_MIEN_CN();
-                var data0 = DATABAOCAO16(Checkboxlist1, Checkboxlist2, Checkboxlist3, maphanloai.Split(',').ToList(), tungay, denngay, Checkboxlist5, Checkboxlist6, Checkboxlist10, Checkboxlist11, phanquyen);
+                var data0 = DATABAOCAO16(Checkboxlist1, Checkboxlist2, Checkboxlist3, maphanloai, tungay, denngay, Checkboxlist5, Checkboxlist6, Checkboxlist10, Checkboxlist11, phanquyen);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17581,7 +17530,7 @@ namespace ApplicationChart.Controllers
                 rpt.SetDataSource(data0.OrderByDescending(n => n.tien));
                 rpt.SetParameterValue("tungay", tungay1);
                 rpt.SetParameterValue("denngay", denngay1);
-                //var noidung = "Đơn vị: " + String.Join(", ", Checkboxlist1.ToArray()) + "\nMã PL: " + String.Join(", ", maphanloai.Split(',').ToList().ToArray()) + "\nPhân loại khách hàng: " + Checkboxlist2 + ((Checkboxlist4 != null) ? ("\nNhóm sản phẩm: " + String.Join(", ", Checkboxlist4.ToArray())) : "") + ((Checkboxlist5 != null) ? ("\nSản phẩm: " + String.Join(", ", Checkboxlist5.ToArray())) : "") + ((Checkboxlist10 != null) ? ("\nMã TDV: " + String.Join(", ", Checkboxlist10.ToArray())) : "") + ((Checkboxlist6 != null) ? ("\nMã tỉnh: " + String.Join(", ", Checkboxlist6.ToArray())) : "" + ((Checkboxlist11 != null) ? ("\nQuận/Huyện: " + String.Join(", ", Checkboxlist11.ToArray())) : ""));
+                //var noidung = "Đơn vị: " + String.Join(", ", Checkboxlist1.ToArray()) + "\nMã PL: " + String.Join(", ", maphanloai.ToArray()) + "\nPhân loại khách hàng: " + Checkboxlist2 + ((Checkboxlist4 != null) ? ("\nNhóm sản phẩm: " + String.Join(", ", Checkboxlist4.ToArray())) : "") + ((Checkboxlist5 != null) ? ("\nSản phẩm: " + String.Join(", ", Checkboxlist5.ToArray())) : "") + ((Checkboxlist10 != null) ? ("\nMã TDV: " + String.Join(", ", Checkboxlist10.ToArray())) : "") + ((Checkboxlist6 != null) ? ("\nMã tỉnh: " + String.Join(", ", Checkboxlist6.ToArray())) : "" + ((Checkboxlist11 != null) ? ("\nQuận/Huyện: " + String.Join(", ", Checkboxlist11.ToArray())) : ""));
                 rpt.SetParameterValue("LOC", "");
                 rpt.SetParameterValue("LANG", Thread.CurrentThread.CurrentCulture.Name);
                 if (btnin == 4)
@@ -17712,7 +17661,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 13)
             {
                 BAOCAO_TONGHOP_CT_XUAT_TDV rpt = new BAOCAO_TONGHOP_CT_XUAT_TDV();
-                var data0 = DATABAOCAO13(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist13, Checkboxlist14, tienck);
+                var data0 = DATABAOCAO13(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist13, Checkboxlist14, tienck);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17757,7 +17706,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 15)
             {
                 BAOCAO_TONGHOP_CT_XUAT_KHUYENMAI rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUYENMAI();
-                var data0 = DATABAOCAO15(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, tienck);
+                var data0 = DATABAOCAO15(Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, tienck);
                 if (!data0.Any())
                 {
 
@@ -17811,7 +17760,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 27)
             {
                 BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN rpt = new BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN();
-                var data0 = DATABAOCAO27(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, qui, nam);
+                var data0 = DATABAOCAO27(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, qui, nam);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17856,7 +17805,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 25)
             {
                 BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI rpt = new BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI();
-                var data0 = DATABAOCAO25(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, nam);
+                var data0 = DATABAOCAO25(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, nam);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17900,7 +17849,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 53)
             {
                 BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH rpt = new BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH();
-                var data0 = DATABAOCAO53(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, nam);
+                var data0 = DATABAOCAO53(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, nam);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17944,7 +17893,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 54)
             {
                 BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH rpt = new BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_QUI_MAHH();
-                var data0 = DATABAOCAO54(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, nam);
+                var data0 = DATABAOCAO54(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, nam);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -17988,7 +17937,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 55)
             {
                 BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH rpt = new BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH();
-                var data0 = DATABAOCAO55(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, qui, nam);
+                var data0 = DATABAOCAO55(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, qui, nam);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -18033,7 +17982,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 56)
             {
                 BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH rpt = new BAOCAO_TONGHOP__KHACHHANG_THUONGXUYEN_MAHH();
-                var data0 = DATABAOCAO56(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, qui, nam);
+                var data0 = DATABAOCAO56(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, qui, nam);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -18080,8 +18029,8 @@ namespace ApplicationChart.Controllers
                 BAOCAO23NEW rpt = new BAOCAO23NEW();
                 //var data0 = new List<DULIEUBAOCAOFINAL>();
                 var list = db2.TBL_DSKHOAN.Where(n => n.nam == denngay.Year).ToList();
-                var datanow = DATABAOCAO23(maphanloai.Split(',').ToList(), Checkboxlist1, new DateTime(denngay.Year, 1, 1), denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
-                var datalate = DATABAOCAO23(maphanloai.Split(',').ToList(), Checkboxlist1, new DateTime(denngay.Year - 1, 1, 1), denngay.AddYears(-1), Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
+                var datanow = DATABAOCAO23(maphanloai, Checkboxlist1, new DateTime(denngay.Year, 1, 1), denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
+                var datalate = DATABAOCAO23(maphanloai, Checkboxlist1, new DateTime(denngay.Year - 1, 1, 1), denngay.AddYears(-1), Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).ToList();
                 var tentinh = DATATH1.TBL_DANHMUCTINH.ToList();
                 datanow.AddRange(datalate);
                 var data0 = datanow.GroupBy(n => n.MATINH).Select(n => new DULIEUBAOCAOFINAL { MATINH = n.Key, TENDVBC = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? list.SingleOrDefault(cl => cl.matinh == n.Key).tencn : "ORTHER", DSKHOAN = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (decimal)list.SingleOrDefault(cl => cl.matinh == n.Key).doanhso : 0, DSTUDAUNAMNOW = n.Where(z => z.NAM == denngay.Year).Sum(z => z.TIEN), DSTUDAUNAMLAST = n.Where(z => z.NAM == (denngay.Year - 1)).Sum(z => z.TIEN), DSTUDAUNAMTHANGTRUOCNOW = n.Where(z => z.NAM == denngay.Year && z.THANG < denngay.Month).Sum(z => z.TIEN), DSTUDAUNAMTHANGTRUOCLAST = n.Where(z => z.NAM == (denngay.Year - 1) && z.THANG < denngay.Month).Sum(z => z.TIEN), DSTRONGTHANGNOW = n.Where(z => z.NAM == denngay.Year && z.THANG == denngay.Month).Sum(z => z.TIEN), DSTRONGTHANGLAST = n.Where(z => z.NAM == (denngay.Year - 1) && z.THANG == denngay.Month).Sum(z => z.TIEN), TENTINH = (tentinh.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? tentinh.SingleOrDefault(cl => cl.matinh == n.Key).tentinh : "ORTHER", DSKHOANTHANGTRUOC = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (decimal)list.SingleOrDefault(cl => cl.matinh == n.Key).doanhso / 12 * (denngay.Month - 1) : 0, DSKHOANTHANG = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (decimal)list.SingleOrDefault(cl => cl.matinh == n.Key).doanhso / 12 * (denngay.Month) : 0, DSKHOANTRONGTHANG = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (decimal)list.SingleOrDefault(cl => cl.matinh == n.Key).doanhso / 12 : 0, TILETHANGTRUOC = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (n.Where(z => z.NAM == denngay.Year && z.THANG < denngay.Month).Sum(z => z.TIEN)) / ((decimal)list.SingleOrDefault(z => z.matinh == n.Key).doanhso / 12 * (denngay.Month - 1)) * 100 : 0, TILETHANG = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (n.Where(z => z.NAM == denngay.Year).Sum(z => z.TIEN)) / ((decimal)list.SingleOrDefault(z => z.matinh == n.Key).doanhso / 12 * (denngay.Month)) * 100 : 0, TILETRONGTHANG = (list.SingleOrDefault(cl => cl.matinh == n.Key) != null) ? (n.Where(z => z.NAM == denngay.Year && z.THANG == denngay.Month).Sum(z => z.TIEN)) / ((decimal)list.SingleOrDefault(z => z.matinh == n.Key).doanhso / 12) * 100 : 0 });
@@ -18194,7 +18143,7 @@ namespace ApplicationChart.Controllers
             }
             else if (loaibaocao == 33)
             {
-                var datakm = DATABAOCAOKM(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                var datakm = DATABAOCAOKM(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
                 if (khonggia == true)
                 {
                     datakm = datakm.Where(n => n.DONGIA == 0).ToList();
@@ -18481,7 +18430,7 @@ namespace ApplicationChart.Controllers
             }
             else if (loaibaocao == 34)
             {
-                var datakm = DATABAOCAOKM(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                var datakm = DATABAOCAOKM(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
                 if (khonggia == true)
                 {
                     datakm = datakm.Where(n => n.DONGIA == 0).ToList();
@@ -18587,7 +18536,7 @@ namespace ApplicationChart.Controllers
             }
             else if (loaibaocao == 18)
             {
-                var datakm = DATABAOCAOKM(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                var datakm = DATABAOCAOKM(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
                 if (khonggia == true)
                 {
                     datakm = datakm.Where(n => n.DONGIA == 0).ToList();
@@ -18650,7 +18599,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 28)
             {
                 CR_CANDOI_CONGNO_TATCA_1 rpt = new CR_CANDOI_CONGNO_TATCA_1();
-                var data0 = DATABAOCAO28(Checkboxlist1, nam, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14);
+                var data0 = DATABAOCAO28(Checkboxlist1, nam, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14);
                 if (!data0.Any())
                 {
                     return Content("<script type='text/javascript'>alert('Không có dữ liệu'); window.close();</script>");
@@ -18741,11 +18690,11 @@ namespace ApplicationChart.Controllers
                 var data2 = new List<BAOCAO9>();
                 if (tienck == "1")
                 {
-                    data2 = DATABAOCAO19(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAKH).Select(cl => new BAOCAO9 { TENNGUOIGD = cl.First().TENTDV, MATDV = cl.First().MATDV, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, MATINH = cl.First().MATINH, TONGTIEN_CT_HOADON = (double)(cl.Sum(cx => Math.Round(cx.SOLUONG * cx.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(cx => cx.TIENCK)) }).ToList();
+                    data2 = DATABAOCAO19(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAKH).Select(cl => new BAOCAO9 { TENNGUOIGD = cl.First().TENTDV, MATDV = cl.First().MATDV, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, MATINH = cl.First().MATINH, TONGTIEN_CT_HOADON = (double)(cl.Sum(cx => Math.Round(cx.SOLUONG * cx.DONGIA, 0, MidpointRounding.AwayFromZero)) - cl.Sum(cx => cx.TIENCK)) }).ToList();
                 }
                 else
                 {
-                    data2 = DATABAOCAO19(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAKH).Select(cl => new BAOCAO9 { TENNGUOIGD = cl.First().TENTDV, MATDV = cl.First().MATDV, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, MATINH = cl.First().MATINH, TONGTIEN_CT_HOADON = (double)cl.Sum(cx => Math.Round(cx.SOLUONG * cx.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
+                    data2 = DATABAOCAO19(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).OrderByDescending(n => n.DONGIA).GroupBy(n => n.MAKH).Select(cl => new BAOCAO9 { TENNGUOIGD = cl.First().TENTDV, MATDV = cl.First().MATDV, DONVI = cl.First().DONVI, MAKH = cl.First().MAKH, MATINH = cl.First().MATINH, TONGTIEN_CT_HOADON = (double)cl.Sum(cx => Math.Round(cx.SOLUONG * cx.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
                 }
                 rpt.Load();
                 rpt.SetDataSource(data2.OrderBy(n => n.MAKH));
@@ -18787,7 +18736,7 @@ namespace ApplicationChart.Controllers
             //else if (loaibaocao == 29)
             //{
             //    BAOCAO_TONGHOP__KHACHHANG_VIP rpt = new BAOCAO_TONGHOP__KHACHHANG_VIP();
-            //    var data0 = DATABAOCAO29(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, tungay, denngay, top);
+            //    var data0 = DATABAOCAO29(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, tungay, denngay, top);
             //    if (!data0.Any())
             //    {
 
@@ -18833,7 +18782,7 @@ namespace ApplicationChart.Controllers
             else if (loaibaocao == 29)
             {
                 BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAKH_TOP_2022 rpt = new BAOCAO_TONGHOP_CT_XUAT_KHUVUC_MAKH_TOP_2022();
-                var data0 = DATABAOCAO29_2022(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai.Split(',').ToList(), Checkboxlist9, Checkboxlist14, tungay, denngay, top);
+                var data0 = DATABAOCAO29_2022(Checkboxlist1, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist8, Checkboxlist10, Checkboxlist12, maphanloai, Checkboxlist9, Checkboxlist14, tungay, denngay, top);
                 if (!data0.Any())
                 {
 
@@ -18880,7 +18829,7 @@ namespace ApplicationChart.Controllers
             }
             else if (loaibaocao == 36)
             {
-                var data0 = DATABAOCAO36(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                var data0 = DATABAOCAO36(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
                 BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD_VAT rpt = new BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD_VAT();
                 var data1 = new List<BAOCAO10>();
                 if (tienck == "1")
@@ -18928,7 +18877,7 @@ namespace ApplicationChart.Controllers
                     return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
                 }
             }
-            var data = DATABAOCAO(maphanloai.Split(',').ToList(), Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+            var data = DATABAOCAO(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
             if (khonggia == true)
             {
                 data = data.Where(n => n.DONGIA == 0).ToList();

@@ -64,5 +64,6 @@ namespace ApplicationChart.Models
         public virtual DbSet<TBL_DANHMUCPHANQUYENWS> TBL_DANHMUCPHANQUYENWS { get; set; }
         public virtual DbSet<TBL_DANHMUCNGUOIDUNG> TBL_DANHMUCNGUOIDUNG { get; set; }
         public virtual DbSet<TBL_DANHMUCNHAPHANPHOI> TBL_DANHMUCNHAPHANPHOI { get; set; }
+        public virtual DbSet<TBL_DANHMUCPHANLOAIHDs> TBL_DANHMUCPHANLOAIHDs { get; set; }
     }
 }

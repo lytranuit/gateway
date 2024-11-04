@@ -2282,7 +2282,7 @@ namespace ApplicationChart.Controllers
         [HttpGet]
         public ActionResult PartialQLBH()
         {
-           
+
             var data = DATATH1.TBL_DANHMUCKM.OrderByDescending(n => n.ngayketthuc).ThenBy(n => n.MACTKM).ToList();
             var Info = GetInfo();
             if (Info.macn != "ALL")
@@ -4156,6 +4156,11 @@ namespace ApplicationChart.Controllers
                 .Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TICHDIEM = cl.TICHDIEM, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, HANMUC = cl.HANMUC, ck = cl.ck, GIA = cl.GIA }).ToList();
                 Data.ListCTKM = THKM.Concat(Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM))).ToList();
                 Data.ListCTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, HANMUC = cl.HANMUC, MACTKM = cl.MACTKM }).ToList();
+                Data.ListNPP = db2.TBL_DANHMUCNHAPHANPHOI.Select(d => new ListNhaPhanPhoi()
+                {
+                    macn = d.macn,
+                    tencn = d.tencn
+                }).ToList();
                 if (Infocrm.matdv != null)
                 {
                     Data.ListTDV = Infocrm.matdv.Split(',').ToList();
@@ -6256,7 +6261,7 @@ namespace ApplicationChart.Controllers
             string strcn = "";
             string strch = "";
             List<string> listMATDV = null;
-            if (MATDV != null)
+            if (MATDV != null && MATDV != "")
             {
                 listMATDV = MATDV.Split(',').ToList();
                 strcn = "SELECT makh AS MAKH, donvi AS DONVI, matdv AS MATDV, diachi AS DIACHI,phanloaikhachhang from TBL_DANHMUCKHACHHANG" + string.Format(" WHERE (matdv IN ({0}) or matdv = '' or matdv is null) and (tinhtrang = N'Đang giao dịch' or tinhtrang = N'Nợ quá hạn' or tinhtrang is null or tinhtrang = '' or tinhtrang = 'Giao d?ch')", string.Join(",", listMATDV.Select(p => "'" + p + "'")));
@@ -6278,13 +6283,13 @@ namespace ApplicationChart.Controllers
                 DATAX.ListKH = enti.Database.SqlQuery<ListKhachHang>(strcn).ToList();
                 if (listMATDV != null)
                 {
-                    DATAX.ListDDH = enti.DTA_DONDATHANG.Where(n => (listMATDV.Contains(n.MATDV) || n.USERTAO == User.Identity.Name) && n.NgayDat >= tungay && n.NgayDat < denngay).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO }).ToList();
+                    DATAX.ListDDH = enti.DTA_DONDATHANG.Where(n => (listMATDV.Contains(n.MATDV) || n.USERTAO == User.Identity.Name) && n.NgayDat >= tungay && n.NgayDat < denngay).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { MACH = cl.First().MACH, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO }).ToList();
                 }
                 else
                 {
                     var don = enti.DTA_DONDATHANG.Where(n => n.NgayDat >= tungay && n.NgayDat < denngay).ToList();
 
-                    DATAX.ListDDH = don.GroupBy(n => n.MADH).Select(cl => new DTA_DONDATHANG { MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO }).ToList();
+                    DATAX.ListDDH = don.GroupBy(n => n.MADH).Select(cl => new DTA_DONDATHANG { MADH = cl.Key, MACH = cl.First().MACH, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO }).ToList();
                 }
             }
             return DATAX;

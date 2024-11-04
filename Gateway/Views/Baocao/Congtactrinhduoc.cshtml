@@ -48,6 +48,7 @@
                                             <option value="2">Báo cáo tổng hợp</option>
                                             <option value="3">Báo cáo tổng hợp từng ngày</option>
                                             <option value="4">Danh sách khách hàng mới(Excel)</option>
+                                            <option value="7">Danh sách khách hàng(Excel)</option>
                                             <option value="6">Kế hoạch tuần(Excel)</option>
                                             <option value="5">Báo cáo ngày(Excel)</option>
                                         </select>
@@ -217,6 +218,14 @@
                     $("#dinhdangbaocao").hide();
                     $("#theongay").hide();
                     $("#ngay").show();
+                } else if ($("#baocao").val() == 7) {
+                    $('#chinhanh').selectpicker('destroy');
+                    $('#chinhanh').removeClass('show-tick');
+                    $('#chinhanh').removeAttr("multiple");
+                    $("#dinhdangbaocao").hide();
+                    $("#theothang").hide();
+                    $("#theongay").hide();
+                    $("#ngay").hide();
                 } else {
                     $('#chinhanh').selectpicker('destroy');
                     $('#chinhanh').addClass('show-tick');
@@ -229,7 +238,7 @@
                 $('#chinhanh').selectpicker();
                 $('#chinhanh').selectpicker('deselectAll');
 
-                if ($("#baocao").val() == 1 || $("#baocao").val() == 4 || $("#baocao").val() == 5 || $("#baocao").val() == 6) {
+                if ($("#baocao").val() == 1 || $("#baocao").val() == 4 || $("#baocao").val() == 5 || $("#baocao").val() == 6 || $("#baocao").val() == 7) {
                     $("#labeltdv").html('Đại diện nhãn hàng <code class="bg-white">(*)</code>');
                     $("#divtdv").css("display", "block");
                 }
@@ -283,6 +292,7 @@
                         "hideMethod": "fadeOut"
                     }
                     Command: toastr["warning"]("Bạn chưa điền đủ thông tin !", "Thông báo")
+                    return
                 }
                 if ($("#baocao").val() == 4) {
                     e.preventDefault();
@@ -300,6 +310,12 @@
                     e.preventDefault();
                     var url = '@Url.Action("Excelkehoachtuan", "Baocao")' + '?matdv=' + encodeURIComponent($("#matdv").val()) + '&ngay=' + moment($("#ngay1").val(), "DD/MM/YYYY").format("YYYY-MM-DD");
                     window.open(url, '_blank');
+
+                }
+                if ($("#baocao").val() == 7) {
+                     e.preventDefault();
+                     var url = '@Url.Action("ExcelKhachhang", "Baocao")' + '?matdv=' + encodeURIComponent($("#matdv").val());
+                     window.open(url, '_blank');
 
                 }
             });
