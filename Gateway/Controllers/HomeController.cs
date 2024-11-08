@@ -2289,7 +2289,7 @@ namespace ApplicationChart.Controllers
         }
         private List<ListKhachHang> DATAGETKHACHHANG(TBL_DANHMUCNGUOIDUNG Info)
         {
-            string strcn = "SELECT makh AS MAKH, donvi AS DONVI,phanloai,matinh,matdv,quanhuyen,macn,diachi,dt,tinhtrang FROM TBL_DANHMUCKHACHHANG WHERE tinhtrang != 'Ngừng giao dịch'";
+            string strcn = "SELECT makh AS MAKH, donvi AS DONVI,phanloai,matinh,matdv,quanhuyen,macn,diachi,dt,tinhtrang FROM TBL_DANHMUCKHACHHANG WHERE  (tinhtrang != N'Ngừng giao dịch' or tinhtrang is null)";
             if (Info.phanloai != "ALL")
             {
                 var listpl = Info.phanloai.Split(',').ToList();

@@ -141,14 +141,15 @@ namespace ApplicationChart.Controllers
             ViewBag.KH = Data;
             var tuantruoc = DateTime.Now.AddDays(-14);
 
-            ViewBag.data = db2.DTA_CONGTACTRINHDUOC.Where(n => n.macn == MACH && n.matdv == Infocrm.taikhoan && n.ngay >= tuantruoc).ToList().GroupBy(n => n.ngay).Select(cl => new { ngay = cl.Key.ToString("dd/MM/yyyy"), soluong = cl.Count(), khoa = !(cl.Any(n => n.khoa == false)) }).ToList();
+            ViewBag.data = db2.DTA_CONGTACTRINHDUOC.Where(n => n.macn == MACH && n.matdv == Infocrm.taikhoan && n.ngay >= tuantruoc).ToList()
+                .GroupBy(n => n.ngay).Select(cl => new { ngay = cl.Key.ToString("dd/MM/yyyy"), soluong = cl.Count(), khoa = !(cl.Any(n => n.khoa == false)) }).ToList();
             return View("Lich");
         }
         public List<ListKhachHang> DATA(string MATDV)
         {
             var Info = GetInfo();
 
-            string strcn = "SELECT makh AS MAKH, donvi AS DONVI,phanloai,matinh,matdv,quanhuyen,macn,diachi,dt,tinhtrang FROM TBL_DANHMUCKHACHHANG WHERE tinhtrang != 'Ngừng giao dịch'";
+            string strcn = "SELECT makh AS MAKH, donvi AS DONVI,phanloai,matinh,matdv,quanhuyen,macn,diachi,dt,tinhtrang FROM TBL_DANHMUCKHACHHANG WHERE (tinhtrang != N'Ngừng giao dịch' or tinhtrang is null)";
             if (Info.phanloai != "ALL")
             {
                 var listpl = Info.phanloai.Split(',').ToList();
@@ -521,7 +522,7 @@ namespace ApplicationChart.Controllers
                     var ngaybc = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == i.taikhoan && n.ngay >= tungay1 && n.ngay <= denngay1 && n.khoa == true);
                     list.Add(new BAOCAOTONGHOPCRM
                     {
-                        doanhso = DATABAOCAODOANHSO(tungay1, denngay1, i.TBL_DANHMUCNGUOIDUNG),
+                        doanhso = DATABAOCAODOANHSO(tungay1, denngay1, i.taikhoan),
                         taikhoan = i.taikhoan,
                         hovaten = i.TBL_DANHMUCNGUOIDUNG.hoten,
                         chinhanh = i.macn,
@@ -1777,7 +1778,7 @@ namespace ApplicationChart.Controllers
             }
             return DATAX;
         }
-        public decimal? DATABAOCAODOANHSO(DateTime tungay, DateTime denngay, TBL_DANHMUCNGUOIDUNG Info)
+        public decimal? DATABAOCAODOANHSO(DateTime tungay, DateTime denngay, string matdv)
         {
             try
             {
@@ -1790,7 +1791,6 @@ namespace ApplicationChart.Controllers
                     "where CT.NgayDat>= '" + tungay.ToString("yyyy-MM-dd") + "' and CT.NgayDat <='" + denngay.AddDays(1).ToString("yyyy-MM-dd") + "' AND CT.DUYETDH = 1 ";
 
 
-                var matdv = Info.nguoidung;
                 strcn = strcn + string.Format(" AND CT.MaTDV = '" + matdv + "'");
 
                 strcn = strcn + " GROUP BY  CT.MACH,CT.SOLUONG,CT.GIABAN_VAT";
@@ -1813,7 +1813,7 @@ namespace ApplicationChart.Controllers
             foreach (var item in query)
             {
                 var enti = item.data;
-                DATAX = enti.DTA_DONDATHANG.Where(n => n.USERTAO == taikhoan && n.NgayDat >= tungay && n.NgayDat <= denngay).Count();
+                DATAX += enti.DTA_DONDATHANG.Where(n => n.MATDV == taikhoan && n.NgayDat >= tungay && n.NgayDat <= denngay).GroupBy(d => d.MADH).Count();
             }
 
             return DATAX;
