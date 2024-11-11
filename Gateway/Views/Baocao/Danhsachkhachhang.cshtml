@@ -295,7 +295,7 @@
             var dformat = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
             return dformat;   // The function returns the product of p1 and p2
         }
-        $(document).ready(function () {
+        $(document).ready(async function () {
 
             $("#btnedit").click(function () {
                 if ($("#dtedit").val() == "" || $("#ngaysinhedit").val() == "") {
@@ -661,15 +661,15 @@
             });
 
             $('#loading').modal({ backdrop: 'static', keyboard: false });
-            getKhachhang();
+            await getKhachhang();
             getNhaPhanPhoi();
             getKhuvuc();
 
             $('#loading').modal('hide');
         });
-        function getKhachhang() {
+        async function getKhachhang() {
             var url2 = '@Url.Action("GetKhachHang", "Home")';
-            $.post(url2, {},
+            return $.post(url2, {},
                 function (data) {
                     $("#khachhang").empty();
                     var html = "";

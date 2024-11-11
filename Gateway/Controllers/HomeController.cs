@@ -2261,8 +2261,9 @@ namespace ApplicationChart.Controllers
             }
 
 
-
-            return Json(KHACHHANG.OrderBy(n => n.MAKH));
+            var jsonResult = Json(KHACHHANG.OrderBy(n => n.MAKH), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
         [HttpPost]
         public ActionResult GetQuan(string matinh)
