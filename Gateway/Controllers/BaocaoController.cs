@@ -526,7 +526,7 @@ namespace ApplicationChart.Controllers
                         taikhoan = i.taikhoan,
                         hovaten = i.TBL_DANHMUCNGUOIDUNG.hoten,
                         chinhanh = i.macn,
-                        sodonhang = DATAGETQLDHCOUNT(i.taikhoan, tungay1, denngay1),
+                        sodonhang = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == i.taikhoan && n.ngay >= tungay1 && n.ngay <= denngay1 && n.ketqua == 2 && n.checkin == true).Count(),
                         solantham = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == i.taikhoan && n.ngay >= tungay1 && n.ngay <= denngay1 && n.checkin == true).Count(),
                         songaybaocao = (ngaybc.Count() == 0) ? 0 : ngaybc.GroupBy(n => n.ngay).Count()
                     });

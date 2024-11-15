@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\AppicationChart</_PublishTargetUrl>
-    <History>True|2024-11-11T04:08:32.7739350Z;True|2024-11-08T08:08:41.8569795+07:00;True|2024-11-06T09:47:46.3174383+07:00;True|2024-11-06T09:28:00.1725864+07:00;True|2024-11-04T09:43:54.2451135+07:00;True|2024-11-02T11:36:44.5965734+07:00;True|2024-10-18T08:21:40.5772545+07:00;True|2024-10-17T11:11:09.9450492+07:00;True|2024-10-16T09:50:25.9177073+07:00;True|2024-10-16T09:49:21.9518325+07:00;True|2024-10-15T16:34:28.0939518+07:00;True|2024-10-09T14:44:53.0273076+07:00;True|2024-10-03T14:10:38.2642165+07:00;False|2024-09-13T14:36:51.5445891+07:00;False|2024-09-13T14:36:44.5667226+07:00;True|2024-09-13T13:54:24.9323818+07:00;True|2024-09-07T08:07:21.6802539+07:00;True|2024-09-06T09:56:32.4534054+07:00;True|2024-09-05T14:58:46.6196387+07:00;True|2024-05-20T13:49:09.1219361+07:00;True|2024-05-11T20:40:39.2651927+07:00;True|2024-04-02T08:06:01.2298909+07:00;True|2024-03-18T14:28:24.6925460+07:00;True|2024-03-15T10:21:48.8677890+07:00;True|2024-03-15T10:19:20.9042372+07:00;True|2024-03-08T10:19:28.3641922+07:00;True|2024-03-07T15:40:22.1102980+07:00;True|2024-03-07T10:26:04.9508267+07:00;True|2024-03-07T10:14:40.4463127+07:00;True|2024-03-04T10:40:15.5643904+07:00;True|2024-03-01T09:01:50.9378936+07:00;True|2024-02-29T09:33:59.2156884+07:00;True|2024-02-01T16:46:02.4185609+07:00;True|2024-01-31T15:14:50.2017267+07:00;True|2024-01-31T14:40:51.6423190+07:00;True|2024-01-29T11:26:08.3126467+07:00;True|2024-01-22T13:53:37.5103615+07:00;True|2024-01-17T11:25:43.4310325+07:00;True|2024-01-15T10:45:38.1369168+07:00;True|2024-01-15T10:02:53.2189151+07:00;True|2024-01-15T10:02:17.4188145+07:00;True|2024-01-15T09:32:47.1029682+07:00;True|2024-01-15T09:32:37.2034997+07:00;True|2024-01-12T17:05:51.6576398+07:00;True|2024-01-12T17:02:21.0409691+07:00;True|2024-01-12T16:49:01.1094530+07:00;True|2024-01-12T16:39:01.4783117+07:00;True|2024-01-12T16:37:47.6936738+07:00;True|2024-01-12T11:06:16.2784611+07:00;True|2024-01-12T10:54:32.9564019+07:00;False|2024-01-12T10:53:54.4996162+07:00;False|2024-01-12T10:53:13.3337288+07:00;False|2024-01-12T10:51:25.2183455+07:00;True|2023-12-11T11:48:46.5328839+07:00;True|2023-12-11T10:00:19.7421651+07:00;True|2023-12-04T13:36:26.5940904+07:00;True|2023-12-04T12:19:27.3059864+07:00;True|2023-11-30T08:53:33.9462347+07:00;True|2023-11-22T08:21:39.0364782+07:00;</History>
+    <History>True|2024-11-13T06:17:42.4209697Z;True|2024-11-11T11:08:32.7739350+07:00;True|2024-11-08T08:08:41.8569795+07:00;True|2024-11-06T09:47:46.3174383+07:00;True|2024-11-06T09:28:00.1725864+07:00;True|2024-11-04T09:43:54.2451135+07:00;True|2024-11-02T11:36:44.5965734+07:00;True|2024-10-18T08:21:40.5772545+07:00;True|2024-10-17T11:11:09.9450492+07:00;True|2024-10-16T09:50:25.9177073+07:00;True|2024-10-16T09:49:21.9518325+07:00;True|2024-10-15T16:34:28.0939518+07:00;True|2024-10-09T14:44:53.0273076+07:00;True|2024-10-03T14:10:38.2642165+07:00;False|2024-09-13T14:36:51.5445891+07:00;False|2024-09-13T14:36:44.5667226+07:00;True|2024-09-13T13:54:24.9323818+07:00;True|2024-09-07T08:07:21.6802539+07:00;True|2024-09-06T09:56:32.4534054+07:00;True|2024-09-05T14:58:46.6196387+07:00;True|2024-05-20T13:49:09.1219361+07:00;True|2024-05-11T20:40:39.2651927+07:00;True|2024-04-02T08:06:01.2298909+07:00;True|2024-03-18T14:28:24.6925460+07:00;True|2024-03-15T10:21:48.8677890+07:00;True|2024-03-15T10:19:20.9042372+07:00;True|2024-03-08T10:19:28.3641922+07:00;True|2024-03-07T15:40:22.1102980+07:00;True|2024-03-07T10:26:04.9508267+07:00;True|2024-03-07T10:14:40.4463127+07:00;True|2024-03-04T10:40:15.5643904+07:00;True|2024-03-01T09:01:50.9378936+07:00;True|2024-02-29T09:33:59.2156884+07:00;True|2024-02-01T16:46:02.4185609+07:00;True|2024-01-31T15:14:50.2017267+07:00;True|2024-01-31T14:40:51.6423190+07:00;True|2024-01-29T11:26:08.3126467+07:00;True|2024-01-22T13:53:37.5103615+07:00;True|2024-01-17T11:25:43.4310325+07:00;True|2024-01-15T10:45:38.1369168+07:00;True|2024-01-15T10:02:53.2189151+07:00;True|2024-01-15T10:02:17.4188145+07:00;True|2024-01-15T09:32:47.1029682+07:00;True|2024-01-15T09:32:37.2034997+07:00;True|2024-01-12T17:05:51.6576398+07:00;True|2024-01-12T17:02:21.0409691+07:00;True|2024-01-12T16:49:01.1094530+07:00;True|2024-01-12T16:39:01.4783117+07:00;True|2024-01-12T16:37:47.6936738+07:00;True|2024-01-12T11:06:16.2784611+07:00;True|2024-01-12T10:54:32.9564019+07:00;False|2024-01-12T10:53:54.4996162+07:00;False|2024-01-12T10:53:13.3337288+07:00;False|2024-01-12T10:51:25.2183455+07:00;True|2023-12-11T11:48:46.5328839+07:00;True|2023-12-11T10:00:19.7421651+07:00;True|2023-12-04T13:36:26.5940904+07:00;True|2023-12-04T12:19:27.3059864+07:00;True|2023-11-30T08:53:33.9462347+07:00;True|2023-11-22T08:21:39.0364782+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -36,10 +36,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/ApplicationChart.dll">
-      <publishTime>11/11/2024 11:44:06</publishTime>
+      <publishTime>11/13/2024 13:17:16</publishTime>
     </File>
     <File Include="bin/ApplicationChart.pdb">
-      <publishTime>11/11/2024 11:44:06</publishTime>
+      <publishTime>11/13/2024 13:17:16</publishTime>
     </File>
     <File Include="bin/CaptchaMvc.dll">
       <publishTime>11/22/2023 09:34:40</publishTime>
@@ -210,7 +210,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/en/ApplicationChart.resources.dll">
-      <publishTime>11/11/2024 11:44:07</publishTime>
+      <publishTime>11/13/2024 13:17:17</publishTime>
     </File>
     <File Include="bin/en/CrystalDecisions.CrystalReports.Engine.resources.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -3594,7 +3594,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Layout1/images/logopymestada_doc112.png">
-      <publishTime>11/11/2024 10:57:04</publishTime>
+      <publishTime>11/12/2024 15:35:10</publishTime>
     </File>
     <File Include="Content/Layout1/images/LOGOV3.png">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -4335,19 +4335,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:29:02</publishTime>
     </File>
     <File Include="Content/mauBCNgay.xlsx">
-      <publishTime>11/11/2024 10:57:04</publishTime>
+      <publishTime>11/12/2024 15:35:10</publishTime>
     </File>
     <File Include="Content/maudanhmuchopdongWS.xlsx">
       <publishTime>11/22/2023 09:29:02</publishTime>
     </File>
     <File Include="Content/mauKHmoi.xlsx">
-      <publishTime>11/11/2024 10:57:04</publishTime>
+      <publishTime>11/12/2024 15:35:10</publishTime>
     </File>
     <File Include="Content/MAUKHOANTDV.xlsx">
       <publishTime>11/22/2023 09:29:02</publishTime>
     </File>
     <File Include="Content/mauKHtuan.xlsx">
-      <publishTime>11/11/2024 10:57:04</publishTime>
+      <publishTime>11/12/2024 15:35:10</publishTime>
     </File>
     <File Include="Content/mautaodonhang.xlsx">
       <publishTime>11/22/2023 09:29:02</publishTime>
@@ -10782,13 +10782,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:30:42</publishTime>
     </File>
     <File Include="Models/UserData.edmx.diagram">
-      <publishTime>11/11/2024 10:57:05</publishTime>
+      <publishTime>11/12/2024 15:35:11</publishTime>
     </File>
     <File Include="Models/VNPTINVOICE.edmx.diagram">
       <publishTime>11/22/2023 09:30:47</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/11/2023 09:45:11</publishTime>
+      <publishTime>11/12/2023 09:45:11</publishTime>
     </File>
     <File Include="PrivateSettings.config">
       <publishTime>11/22/2023 09:28:32</publishTime>
@@ -10896,7 +10896,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Report/HOADON_DONHANG.vb">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Scripts/angular-mocks.js">
       <publishTime>11/22/2023 09:34:16</publishTime>
@@ -10920,10 +10920,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:16</publishTime>
     </File>
     <File Include="Scripts/BaoCaoJS.js">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Scripts/BaoCaoNPPJS.js">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Scripts/bootbox.min.js">
       <publishTime>01/04/2018 13:59:02</publishTime>
@@ -11031,7 +11031,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2017 08:24:44</publishTime>
     </File>
     <File Include="Scripts/LichJS.js">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Scripts/LoginJS.js">
       <publishTime>01/11/2024 15:56:23</publishTime>
@@ -11085,7 +11085,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:19</publishTime>
     </File>
     <File Include="Scripts/Taodonhang.js">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Scripts/Taodonhangetc.js">
       <publishTime>11/22/2023 09:34:19</publishTime>
@@ -11106,7 +11106,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:19</publishTime>
     </File>
     <File Include="Scripts/Taodonhangmobile.js">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Scripts/Taodonhangsc.js">
       <publishTime>11/22/2023 09:34:19</publishTime>
@@ -11163,43 +11163,43 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/03/2018 15:47:35</publishTime>
     </File>
     <File Include="Views/Baocao/Baocaochitietngay.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/13/2024 10:10:56</publishTime>
     </File>
     <File Include="Views/Baocao/Baocaochitietthang.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:13</publishTime>
     </File>
     <File Include="Views/Baocao/Baocaotonghop.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Baocao/Baocaotonghoptungngay.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Baocao/Baocaoview.cshtml">
       <publishTime>06/04/2019 15:36:55</publishTime>
     </File>
     <File Include="Views/Baocao/Congtactrinhduoc.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Baocao/Danhsachkhachhang.cshtml">
-      <publishTime>11/11/2024 11:07:28</publishTime>
+      <publishTime>11/13/2024 13:16:52</publishTime>
     </File>
     <File Include="Views/Baocao/Huongdancrm.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Baocao/Index.cshtml">
       <publishTime>11/22/2023 09:34:23</publishTime>
     </File>
     <File Include="Views/Baocao/Lich.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/13/2024 09:36:19</publishTime>
     </File>
     <File Include="Views/Baocao/PartialQLKH.cshtml">
       <publishTime>11/22/2023 09:34:23</publishTime>
     </File>
     <File Include="Views/Baocao/Partialtable.cshtml">
-      <publishTime>11/11/2024 10:57:07</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Baocao/Quanlykhachhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Duuoc/Baocao.cshtml">
       <publishTime>11/22/2023 09:34:23</publishTime>
@@ -11298,25 +11298,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/BaoCao.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/BaoCaoNPP.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/BaoCaoThuGon.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Baocaothuno.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Chat.cshtml">
       <publishTime>08/08/2018 15:56:27</publishTime>
     </File>
     <File Include="Views/Home/Chitietcongno.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Chitiethanghoa.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/CloseTab.cshtml">
       <publishTime>11/22/2023 09:34:25</publishTime>
@@ -11349,7 +11349,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:25</publishTime>
     </File>
     <File Include="Views/Home/GetPartialKetqua.cshtml">
-      <publishTime>12/04/2023 12:10:51</publishTime>
+      <publishTime>04/12/2023 12:10:51</publishTime>
     </File>
     <File Include="Views/Home/GetPartialKyhan.cshtml">
       <publishTime>11/22/2023 09:34:26</publishTime>
@@ -11376,13 +11376,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:26</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Index1.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/Kyhanno.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Laydulieu.cshtml">
       <publishTime>11/22/2023 09:34:26</publishTime>
@@ -11397,13 +11397,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/Nhapkhoantdv.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Nhapphuphi.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Home/Nhapthuno.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Nhaptonkho.cshtml">
       <publishTime>11/22/2023 09:34:26</publishTime>
@@ -11448,19 +11448,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:27</publishTime>
     </File>
     <File Include="Views/Home/Quanlyhopdongthau.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Quanlykhoantdv.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Quanlynguoidung.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Quanlyphanmem.cshtml">
       <publishTime>11/22/2023 09:34:27</publishTime>
     </File>
     <File Include="Views/Home/Quanlyphuphi.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Quanlysanpham.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -11478,31 +11478,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/11/2024 15:56:43</publishTime>
     </File>
     <File Include="Views/Home/SoSanh.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Theodoibbtt.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Thongtincuatoi.cshtml">
       <publishTime>11/22/2023 09:34:27</publishTime>
     </File>
     <File Include="Views/Home/ThongTinNhanhTonKho.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Timkiem.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Tinhphuphi.cshtml">
       <publishTime>11/22/2023 09:34:27</publishTime>
     </File>
     <File Include="Views/Home/TonKho.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Tracuutonkhohandung.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/Tracuutonkhonhap.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Home/UserManager.cshtml">
       <publishTime>05/08/2018 15:24:29</publishTime>
@@ -11520,7 +11520,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:28</publishTime>
     </File>
     <File Include="Views/Ketoan/Thongketaikhoan.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Login/Chinhsachbaomat.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -11553,10 +11553,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:28</publishTime>
     </File>
     <File Include="Views/Order/Danhsachdonhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Danhsachkhachhangchoduyet.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Duyetdonhang.cshtml">
       <publishTime>11/22/2023 09:34:28</publishTime>
@@ -11703,7 +11703,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:31</publishTime>
     </File>
     <File Include="Views/Order/PartialQLBH.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/PartialQLBHCN.cshtml">
       <publishTime>11/22/2023 09:34:31</publishTime>
@@ -11775,7 +11775,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:32</publishTime>
     </File>
     <File Include="Views/Order/QuanlyCTBH.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/QuanlyCTBHCN.cshtml">
       <publishTime>01/12/2024 17:01:00</publishTime>
@@ -11787,7 +11787,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2023 09:34:15</publishTime>
     </File>
     <File Include="Views/Order/Quanlydonhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Quanlydonhangdagiao.cshtml">
       <publishTime>11/22/2023 09:34:32</publishTime>
@@ -11811,7 +11811,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:33</publishTime>
     </File>
     <File Include="Views/Order/QuanlyNPP.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Quanlyquydoi.cshtml">
       <publishTime>11/22/2023 09:34:33</publishTime>
@@ -11823,7 +11823,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:33</publishTime>
     </File>
     <File Include="Views/Order/Taodonhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Taodonhangetc.cshtml">
       <publishTime>11/22/2023 09:34:33</publishTime>
@@ -11844,7 +11844,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:33</publishTime>
     </File>
     <File Include="Views/Order/Taodonhangmobile.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Taodonhangsc.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
@@ -11865,31 +11865,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Order/Theodoiduongdi.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Thuthapvitri.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/TimkiemhoadonWS.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
     </File>
     <File Include="Views/Order/Timkiemkhachhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Tracuukhachhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Tracuusdk.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
     </File>
     <File Include="Views/Order/Tracuuthecao.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Order/Trangthaidonhang.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
     </File>
     <File Include="Views/Order/Vitrikhachhang.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/QLSP/PartialQLHH.cshtml">
       <publishTime>11/22/2023 09:34:34</publishTime>
@@ -11904,7 +11904,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:35</publishTime>
     </File>
     <File Include="Views/Shared/Layout1.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Shared/LoginLayout.cshtml">
       <publishTime>04/11/2018 10:57:20</publishTime>
@@ -11925,7 +11925,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/11/2024 15:59:51</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutLogin.cshtml">
-      <publishTime>11/11/2024 10:57:08</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutLoginnew.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -11943,7 +11943,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:35</publishTime>
     </File>
     <File Include="Views/Thau/Index.cshtml">
-      <publishTime>11/11/2024 10:57:09</publishTime>
+      <publishTime>11/12/2024 15:35:14</publishTime>
     </File>
     <File Include="Views/Thau/IndexIN.cshtml">
       <publishTime>01/11/2024 16:00:54</publishTime>
@@ -11958,7 +11958,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:34:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/11/2024 11:08:07</publishTime>
+      <publishTime>11/12/2024 15:46:55</publishTime>
     </File>
     <File Include="web/cmaps/78-EUC-H.bcmap">
       <publishTime>11/02/2019 16:24:41</publishTime>

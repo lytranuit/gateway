@@ -695,7 +695,7 @@
                                             <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>`;
                         }
 
-                        if (quyen.indexOf("KHUYENMAI") != -1) {
+                        if (data[i].tinhtrang == "Khách hàng mới" || quyen.indexOf("KHUYENMAI") != -1) {
                             append += `
                                             <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>
                                             <li><a class="btnxoakh">Xóa</a></li>`;

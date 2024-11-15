@@ -163,13 +163,14 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="font-weight-bold text-center">Tổng lần thăm</th>
-                                    <th class="font-weight-bold text-center">Tổng đơn hàng</th>
+                                    <th class="font-weight-bold text-center">Tổng đơn hàng báo cáo</th>
+                                    <th class="font-weight-bold text-center">Tổng đơn hàng hệ thống</th>
                                     <th class="font-weight-bold text-center">Bình quân ghé thăm</th>
                                     <th class="font-weight-bold text-center">DOANH SỐ</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td class="text-center"><span class="tongtham"></span></td><td class="text-center"><span class="tongdonhang"></span></td><td class="text-center"><span class="binhquan"></span></td><td class="text-danger text-center font-weight-bold">@((ViewBag.doanhso != null) ? string.Format("{0:#,##0}", ViewBag.doanhso) : "N/A")</td></tr>
+                                <tr><td class="text-center"><span class="tongtham"></span></td><td class="text-center"><span class="tongdonhangbc"></span></td><td class="text-center"><span class="tongdonhanght"></span></td><td class="text-center"><span class="binhquan"></span></td><td class="text-danger text-center font-weight-bold">@((ViewBag.doanhso != null) ? string.Format("{0:#,##0}", ViewBag.doanhso) : "N/A")</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -360,7 +361,8 @@
         $(".modal-mask").css("display", "none");
         var asum = 0;
         var bsum= 0;
-        var abot = 0 ;
+        var abot = 0;
+        var bhtsum = 0;
         var bbot = 0;
         $('#mytable > tbody > tr').not(':last').each(function () {
             var makh = $(this).find('td').eq(0).text();
@@ -401,6 +403,7 @@
             $(this).find('.B').text($(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length);
 
             asum = asum + $(this).find('.btn-success .fa-check').length + $(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length;
+            bhtsum = bhtsum + $(this).find('.btn-info .fa-shopping-cart, .success-color-dark').length;
             bsum = bsum + $(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length;
             if($(this).find('.btn-primary .fa-shopping-cart, .success-color-dark').length == 0)
             {
@@ -412,7 +415,8 @@
         }
         $('#mytable > tbody > tr').last().find('.A').html(asum);
         $('.tongtham').text(asum);
-        $('.tongdonhang').text(bsum);
+        $('.tongdonhangbc').text(bsum);
+        $('.tongdonhanght').text(bhtsum);
         $('.binhquan').text((asum / @Model.data.Count()).toFixed(2));
         $('#mytable > tbody > tr').last().find('.B').html(bsum);
         $("#loaibaocao2").css("display","none");
