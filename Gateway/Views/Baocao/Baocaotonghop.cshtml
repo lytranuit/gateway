@@ -107,6 +107,7 @@
                                 <th class="font-weight-bold">Số ngày báo cáo</th>
                                 <th class="font-weight-bold">Số lần ghé thăm</th>
                                 <th class="font-weight-bold">Tổng đơn hàng</th>
+                                <th class="font-weight-bold">Doanh số</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,6 +122,7 @@
                                         <td class="text-center">@i.songaybaocao</td>
                                         <td class="text-center">@i.solantham</td>
                                         <td class="text-center">@i.sodonhang</td>
+                                        <td class="text-right">@((i.doanhso != null) ? string.Format("{0:#,##0}",i.doanhso) : "N/A")</td>
                                     </tr>
                                     count = count + 1;
                                 }

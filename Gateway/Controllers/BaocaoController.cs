@@ -403,7 +403,7 @@ namespace ApplicationChart.Controllers
                     ViewBag.result = data1;
                     try
                     {
-                        ViewBag.doanhso = DATABAOCAO0(tungay1, denngay1, db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == matdv.FirstOrDefault())).First().TONGTIEN_CT_HOADON;
+                        ViewBag.doanhso = DATABAOCAODOANHSO(tungay1, denngay1, matdv.FirstOrDefault());
                     }
                     catch (Exception)
                     {
@@ -908,14 +908,14 @@ namespace ApplicationChart.Controllers
                             if (kh != null)
                             {
 
-                                var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                                var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                                 if (tinh != null)
                                 {
-                                    destinationWorksheet.Cells["A" + start_r].Value = tinh.TenTinh;
+                                    destinationWorksheet.Cells["A" + start_r].Value = tinh.tenquan;
                                 }
                                 else
                                 {
-                                    destinationWorksheet.Cells["A" + start_r].Value = kh.matinh;
+                                    destinationWorksheet.Cells["A" + start_r].Value = kh.quanhuyen;
                                 }
                             }
 
@@ -1006,14 +1006,14 @@ namespace ApplicationChart.Controllers
                         if (kh != null)
                         {
 
-                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                            var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                             if (tinh != null)
                             {
-                                worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                worksheet.Cells["B" + start_r].Value = tinh.tenquan;
                             }
                             else
                             {
-                                worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                worksheet.Cells["B" + start_r].Value = kh.quanhuyen;
                             }
                         }
 
@@ -1036,14 +1036,14 @@ namespace ApplicationChart.Controllers
                         if (kh != null)
                         {
 
-                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                            var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                             if (tinh != null)
                             {
-                                worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                worksheet.Cells["B" + start_r].Value = tinh.tenquan;
                             }
                             else
                             {
-                                worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                worksheet.Cells["B" + start_r].Value = kh.quanhuyen;
                             }
                         }
 
@@ -1064,14 +1064,14 @@ namespace ApplicationChart.Controllers
                         if (kh != null)
                         {
 
-                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                            var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                             if (tinh != null)
                             {
-                                worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                worksheet.Cells["B" + start_r].Value = tinh.tenquan;
                             }
                             else
                             {
-                                worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                worksheet.Cells["B" + start_r].Value = kh.quanhuyen;
                             }
                         }
 
@@ -1091,14 +1091,14 @@ namespace ApplicationChart.Controllers
                         if (kh != null)
                         {
 
-                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                            var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                             if (tinh != null)
                             {
-                                worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                worksheet.Cells["B" + start_r].Value = tinh.tenquan;
                             }
                             else
                             {
-                                worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                worksheet.Cells["B" + start_r].Value = kh.quanhuyen;
                             }
                         }
 
@@ -1119,14 +1119,14 @@ namespace ApplicationChart.Controllers
                         if (kh != null)
                         {
 
-                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                            var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                             if (tinh != null)
                             {
-                                worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                worksheet.Cells["B" + start_r].Value = tinh.tenquan;
                             }
                             else
                             {
-                                worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                worksheet.Cells["B" + start_r].Value = kh.quanhuyen;
                             }
                         }
 
@@ -1148,14 +1148,14 @@ namespace ApplicationChart.Controllers
                         if (kh != null)
                         {
 
-                            var tinh = enti.TBL_DANHMUCDONVI.Where(r => r.MaTinh == kh.matinh).FirstOrDefault();
+                            var tinh = enti.TBL_DANHMUCQUAN.Where(r => r.maquan == kh.quanhuyen).FirstOrDefault();
                             if (tinh != null)
                             {
-                                worksheet.Cells["B" + start_r].Value = tinh.TenTinh;
+                                worksheet.Cells["B" + start_r].Value = tinh.tenquan;
                             }
                             else
                             {
-                                worksheet.Cells["B" + start_r].Value = kh.matinh;
+                                worksheet.Cells["B" + start_r].Value = kh.quanhuyen;
                             }
                         }
 
@@ -1792,7 +1792,7 @@ namespace ApplicationChart.Controllers
                         "LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.MAHH = TBL_DANHMUCHANGHOA.MAHH " +
                          "LEFT JOIN   TBL_DANHMUCKHACHHANG ON CT.MAKH = TBL_DANHMUCKHACHHANG.makh " +
                         "LEFT JOIN TBL_DANHMUCTDV on CT.MATDV = TBL_DANHMUCTDV.MaTDV   " +
-                    "where CT.NgayDat>= '" + tungay.ToString("yyyy-MM-dd") + "' and CT.NgayDat <='" + denngay.AddDays(1).ToString("yyyy-MM-dd") + "' AND CT.DUYETDH = 1 ";
+                    "where CT.NgayDat>= '" + tungay.ToString("yyyy-MM-dd") + "' and CT.NgayDat <='" + denngay.AddDays(1).ToString("yyyy-MM-dd") + "'";
 
 
                 strcn = strcn + string.Format(" AND CT.MaTDV = '" + matdv + "'");

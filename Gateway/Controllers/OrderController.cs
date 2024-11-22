@@ -6351,6 +6351,7 @@ namespace ApplicationChart.Controllers
                 var data1 = enti.Database.SqlQuery<ListKhachHang>(strcn).ToList();
                 DATAX.ListKH.AddRange(data1);
             }
+            DATAX.ListKH = DATAX.ListKH.OrderBy(d => d.MAKH).ToList();
             //if (x == "QT")
             //{
             //    DATAX.ListCTKM = QuangTri.Database.SqlQuery<ListChuongTrinhKM>(strcnctkm).ToList();
