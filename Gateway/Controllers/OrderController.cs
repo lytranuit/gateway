@@ -6281,17 +6281,26 @@ namespace ApplicationChart.Controllers
                 DATAX.ListCTKM = enti.Database.SqlQuery<ListChuongTrinhKM>(strcnctkm).ToList();
                 DATAX.ListHH = enti.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH, TENHH AS TENHH ,  DVT AS DVT ,GIABAN,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3,QUICACH as QUICACH from TBL_DANHMUCHANGHOA where GIABAN != '0' and SL3 is not null").ToList();
                 DATAX.ListKH = enti.Database.SqlQuery<ListKhachHang>(strcn).ToList();
+
+            }
+            DATAX.ListDDH = new List<DTA_DONDATHANG>();
+            foreach (var item in query)
+            {
+                var enti = item.data;
                 if (listMATDV != null)
                 {
-                    DATAX.ListDDH = enti.DTA_DONDATHANG.Where(n => (listMATDV.Contains(n.MATDV) || n.USERTAO == User.Identity.Name) && n.NgayDat >= tungay && n.NgayDat < denngay).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { MACH = cl.First().MACH, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO }).ToList();
+
+                    DATAX.ListDDH.AddRange(enti.DTA_DONDATHANG.Where(n => (listMATDV.Contains(n.MATDV) || n.USERTAO == User.Identity.Name) && n.NgayDat >= tungay && n.NgayDat < denngay).GroupBy(n => n.MADH).ToList().Select(cl => new DTA_DONDATHANG { MACH = cl.First().MACH, MADH = cl.Key, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO, CN = item.macn }).ToList());
                 }
                 else
                 {
                     var don = enti.DTA_DONDATHANG.Where(n => n.NgayDat >= tungay && n.NgayDat < denngay).ToList();
 
-                    DATAX.ListDDH = don.GroupBy(n => n.MADH).Select(cl => new DTA_DONDATHANG { MADH = cl.Key, MACH = cl.First().MACH, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO }).ToList();
+                    DATAX.ListDDH.AddRange(don.GroupBy(n => n.MADH).Select(cl => new DTA_DONDATHANG { MADH = cl.Key, MACH = cl.First().MACH, DONVI = cl.First().DONVI, NgayDat = cl.First().NgayDat, DUYETDH = cl.OrderByDescending(n => n.DUYETDH).First().DUYETDH, USERTAO = cl.First().USERTAO, CN = item.macn }).ToList());
                 }
+
             }
+
             return DATAX;
         }
         public List<ListChuongTrinhKM> DATACTHT(List<string> macn)
@@ -6404,29 +6413,12 @@ namespace ApplicationChart.Controllers
             {
                 DATAX = queryCN.SingleOrDefault(n => n.macn == x).data.DTA_DONDATHANG.Where(n => n.MADH == MADH).ToList();
             }
-            var datahh = SC.Database.SqlQuery<ListHangHoa>("SELECT MAHH AS MAHH,CAST(kiemsoat AS INT) as kiemsoat,CAST(SL1 AS INT) AS SL1 ,CAST(SL2 AS INT) AS SL2,CAST(SL3 AS INT) AS SL3 from TBL_DANHMUCHANGHOA where mahh ='" + DATAX.First().MAHH + "'").First();
-            var tpcn = db2.TBL_DANHMUCTPCN.Select(n => n.mahh).ToList();
-            if (tpcn.Contains(datahh.MAHH))
-            {
-                foreach (var i in DATAX)
-                {
-                    i.NGUOIDUYET = "2";
-                }
-            }
-            else
-            {
-                foreach (var i in DATAX)
-                {
-                    i.NGUOIDUYET = datahh.kiemsoat.ToString();
-                }
-            }
+
             return DATAX;
         }
-        public ActionResult XuatHoaDon(string id)
+        public ActionResult XuatHoaDon(string id, string MACH)
         {
             HOADON_DONHANG rpt = new HOADON_DONHANG();
-            var Infocrm = GetCRM();
-            var MACH = Infocrm.macn;
             var data = DATAGETDONHANG(MACH, id);
             if (!data.Any())
             {
@@ -6474,10 +6466,8 @@ namespace ApplicationChart.Controllers
 
         }
         [HttpPost]
-        public ActionResult GetEditHoaDon(string Id)
+        public ActionResult GetEditHoaDon(string Id, string MACH)
         {
-            var Infocrm = GetCRM();
-            var MACH = Infocrm.macn;
             var data = DATAGETDONHANG(MACH, Id);
             return Json(data.OrderByDescending(n => n.DUYETDH).ThenBy(n => n.STT));
         }
@@ -6543,11 +6533,9 @@ namespace ApplicationChart.Controllers
             return Json(DATACTHT(macn.Split(',').ToList()));
         }
         [HttpPost]
-        public ActionResult DelHoaDon(string Id)
+        public ActionResult DelHoaDon(string Id, string MACH)
         {
-            var Infocrm = GetCRM();
             string x = "";
-            var MACH = Infocrm.macn;
             try
             {
                 var export = (DateTime)DATA_DEL(MACH, Id);

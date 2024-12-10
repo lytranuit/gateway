@@ -42,5 +42,7 @@ namespace ApplicationChart.Models
         public Nullable<int> SOLUONG2 { get; set; }
         public Nullable<int> SOLUONG3 { get; set; }
         public string LIDO { get; set; }
+
+        public string CN { get; set; }
     }
 }

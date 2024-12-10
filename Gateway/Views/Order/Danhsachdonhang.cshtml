@@ -112,7 +112,7 @@
                             foreach (var i in Model.ListDDH.Where(n => n.USERTAO.ToUpper() == User.Identity.Name.ToUpper()).OrderByDescending(d => @Int32.Parse(d.MADH)))
                             {
                                 <tr>
-                                    <td class="text-center" data-id="@i.MADH">@Int32.Parse(i.MADH)</td>
+                                    <td class="text-center" data-id="@i.MADH" data-cn="@i.CN">@Int32.Parse(i.MADH)</td>
                                     <td class="text-center">@i.NgayDat.ToString("dd/MM/yyyy")</td>
                                     <td>@i.DONVI</td>
                                     <td>@i.MACH</td>
@@ -186,7 +186,7 @@
                             foreach (var i in Model.ListDDH.Where(n => n.USERTAO.ToUpper() != User.Identity.Name.ToUpper()).OrderByDescending(d => @Int32.Parse(d.MADH)))
                             {
                                 <tr>
-                                    <td class="text-center" data-id="@i.MADH">@Int32.Parse(i.MADH)</td>
+                                    <td class="text-center" data-id="@i.MADH" data-cn="@i.CN">@Int32.Parse(i.MADH)</td>
                                     <td class="text-center">@i.NgayDat.ToString("dd/MM/yyyy")</td>
                                     <td>@i.DONVI</td>
                                     <td>@i.MACH</td>
@@ -859,7 +859,8 @@
                 if($(window).width() < 576)
                 {
                     var id = $(this).closest('tr').find('td:eq(0)').data("id");
-                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id },
+                    var cn = $(this).closest('tr').find('td:eq(0)').data("cn");
+                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id,mach:cn },
                         function (data) {
                             var milli = data[0].NgayDat.replace(/\/Date\((-?\d+)\)\//, '$1');
                             var d = new Date(parseInt(milli));
@@ -993,7 +994,8 @@
                 else
                 {
                     var id = $(this).closest('tr').find('td:eq(0)').data("id");
-                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id },
+                    var cn = $(this).closest('tr').find('td:eq(0)').data("cn");
+                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id,mach:cn },
                         function (data) {
                             var milli = data[0].NgayDat.replace(/\/Date\((-?\d+)\)\//, '$1');
                             var d = new Date(parseInt(milli));
@@ -1134,12 +1136,14 @@
             });
               $("#example23").on("click", ".btnxuathd", function () {
                   var id = $(this).closest('tr').find('td:eq(0)').data("id");
+                  var cn = $(this).closest('tr').find('td:eq(0)').data("cn");
                   var url = '@Url.Action("XuatHoaDon", "Order")';
-                  url += "?id="+id;
+                  url += "?id="+id+"&mach="+cn;
                   window.open(url, '_blank');
               });
             $("#example23").on("click", ".btnxoahd", function () {
                 var id = $(this).closest('tr').find('td:eq(0)').data("id");
+                var cn = $(this).closest('tr').find('td:eq(0)').data("cn");
                 $.confirm({
                     title: '<b>THÔNG BÁO</b>',
                     content: 'Bạn có chắc chắn muốn xóa đơn hàng này ?',
@@ -1149,7 +1153,7 @@
                             btnClass: 'btn-success',
                             keys: ['enter'],
                             action: function () {
-                                $.post('@Url.Action("DelHoaDon", "Order")', { Id: id},
+                                $.post('@Url.Action("DelHoaDon", "Order")', { Id: id, mach: cn },
                                 function (data) {
                                     if(data != 1)
                                     {
@@ -1195,7 +1199,8 @@
                 if($(window).width() < 576)
                 {
                     var id = $(this).closest('tr').find('td:eq(0)').data("id");
-                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id },
+                    var cn = $(this).closest('tr').find('td:eq(0)').data("cn");
+                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id,mach:cn },
                      function (data) {
                          var milli = data[0].NgayDat.replace(/\/Date\((-?\d+)\)\//, '$1');
                          var d = new Date(parseInt(milli));
@@ -1331,7 +1336,8 @@
                 else
                 {
                     var id = $(this).closest('tr').find('td:eq(0)').data("id");
-                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id },
+                    var cn = $(this).closest('tr').find('td:eq(0)').data("cn");
+                    $.post('@Url.Action("GetEditHoaDon", "Order")', { Id: id,mach:cn },
                         function (data) {
                             var milli = data[0].NgayDat.replace(/\/Date\((-?\d+)\)\//, '$1');
                             var d = new Date(parseInt(milli));
