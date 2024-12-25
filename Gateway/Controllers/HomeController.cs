@@ -3280,7 +3280,7 @@ namespace ApplicationChart.Controllers
                 strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
                 strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
             }
-            if (Info.phanloai != "ETC,OTC")
+            if (Info.phanloai != "ALL")
             {
                 var listpl = Info.phanloai.Split(',').ToList();
                 strcn = strcn + string.Format(" AND phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
@@ -14604,7 +14604,7 @@ namespace ApplicationChart.Controllers
             }
             var listcheckbox1 = String.Join(",", Checkboxlist1.ToArray()).Split(',').Distinct().ToList();
             Checkboxlist1 = phanquyen.macn.Split(',').Intersect(listcheckbox1).ToList();
-            if (phanquyen.phanloai != "ETC,OTC")
+            if (phanquyen.phanloai != "ETC,OTC" && phanquyen.phanloai != "ALL")
             {
                 Checkboxlist2 = phanquyen.phanloai;
             }
