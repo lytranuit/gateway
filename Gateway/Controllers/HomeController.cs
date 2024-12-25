@@ -15197,7 +15197,7 @@ namespace ApplicationChart.Controllers
             {
                 Checkboxlist33 = (Checkboxlist33 != null && phanquyen.macn.Split(',').Intersect(Checkboxlist33).ToList().Count() > 0) ? phanquyen.macn.Split(',').Intersect(Checkboxlist33).ToList() : phanquyen.macn.Split(',').ToList();
             }
-            if (phanquyen.phanloai != "ETC,OTC")
+            if (phanquyen.phanloai != "ALL" && phanquyen.phanloai != "ETC,OTC")
             {
                 Checkboxlist2 = phanquyen.phanloai;
             }
@@ -16645,7 +16645,7 @@ namespace ApplicationChart.Controllers
             }
             var listcheckbox1 = String.Join(",", Checkboxlist1.ToArray()).Split(',').Distinct().ToList();
             Checkboxlist1 = phanquyen.macn.Split(',').Intersect(listcheckbox1).ToList();
-            if (phanquyen.phanloai != "ETC,OTC")
+            if (phanquyen.phanloai != "ALL" && phanquyen.phanloai != "ETC,OTC")
             {
                 Checkboxlist2 = phanquyen.phanloai;
             }
