@@ -319,196 +319,51 @@
             });
             $(".sidebar-icon").click(function(){
                 $('#calendar').empty();
+                //console.log(232);
                 setTimeout(function(){
-                    var calendar = $('#calendar').fullCalendar({
-                        header: {
-                            left: 'title',
-                            center: 'month',
-                            right: 'prev,next today'
-                        },
-                        editable: true,
-                        firstDay: 1,
-                        selectable: true,
-                        defaultView: 'month',
-
-                        axisFormat: 'h:mm',
-                        columnFormat: {
-                            month: 'ddd',
-                            week: 'ddd d',
-                            day: 'dddd M/d',
-                            agendaDay: 'dddd d'
-                        },
-                        titleFormat: {
-                            month: 'MMMM yyyy',
-                            week: "MMMM yyyy",
-                            day: 'MMMM yyyy'
-                        },
-                        allDaySlot: false,
-                        selectHelper: true,
-                        select: function (start, end, allDay) {
-                            var datelock = new Date(start);
-                            datelock.setDate(datelock.getDate() + 7);
-                            var x = new Date('@DateTime.Now.ToString("yyyy-MM-dd")');
-                            x.setHours(0,0,0,0);
-                            var ngay = moment(start).format("DD/MM/YYYY");
-                            var url = '@Url.Action("GetKehoach", "Baocao")';
-                            if(x.getTime() === start.getTime())
-                            {
-                                $("#btnluutatca").css("display","block");
-                                //$("#thluu").css("display","table-cell");
-                                $("#thxoa").css("display","table-cell");
-                                $(".themkhachhang").css("display","block");
-                                $("#ngay").text(ngay);
-                                $("#tabletdv > tbody").empty();
-                                $.post(url, { ngay: ngay },
-                          function (data) {
-                              for (var i = 0; i < data.length; i++) {
-                                  var check = (data[i].checkin == true) ? " checked" : "";
-                                  var hidden = (data[i].checkin == true) ? " hidden" : "";
-                                  var block = (data[i].checkin == false) ? " hidden" : "";
-                                  $("#tabletdv").find("tbody").append(
-                                   '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
-                                 + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
-                                 + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">' + data[i].makh + " - " + data[i].tenkh + '</td>'
-                                 + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>'
-                                 + ((data[i].checkgps == 1)?'<button type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
-                                     //+ '<td class="text-center text-dark"><button type="button" class="btn btn-primary btnluu"><i class="fa fa-check-circle"></i></button></td>'
-                                 + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
-                                      + '</tr><tr><td colspan="3"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
-                                  $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
-                                  $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
-                                  if (data[i].ketqua != null) {
-                                      $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
-                                      if(data[i].ketqua == 1)
-                                      {
-                                          $("#tabletdv > tbody > tr").last().find("button.btnadddonhang").addClass("hidden");
-                                      }
-                                  }
-                              }
-                          });
-                                $('#ModalView').modal({ backdrop: 'static', keyboard: false })
-                            }
-                            else if (x > start && x < moment(datelock).startOf('isoweek')) {
-                                $("#btnluutatca").css("display","block");
-                                $("#thxoa").css("display","none");
-                                $(".themkhachhang").css("display","none");
-                                $("#ngay").text(ngay);
-                                $("#tabletdv > tbody").empty();
-                                $.post(url, { ngay: ngay },
-                          function (data) {
-                              for (var i = 0; i < data.length; i++) {
-                                  var check = (data[i].checkin == true) ? " checked" : "";
-                                  var hidden = (data[i].checkin == true) ? " hidden" : "";
-                                  var block = (data[i].checkin == false) ? " hidden" : "";
-                                  $("#tabletdv").find("tbody").append(
-                                   '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
-                                 + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
-                                 + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
-                                 + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>' + ((data[i].checkgps == 1)?'<button  disabled type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button  disabled type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
-                                      + '</tr><tr><td colspan="2"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
-                                  $("#tabletdv > tbody > tr").last().find("input[type=text]").val(data[i].ghichu);
-                                  if (data[i].ketqua != null) {
-                                      $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
-
-                                      if(data[i].ketqua == 1)
-                                      {
-                                          $("#tabletdv > tbody > tr").last().find("button.btnadddonhang").addClass("hidden");
-                                      }
-                                  }
-                              }
-                          });
-                                $('#ModalView').modal({ backdrop: 'static', keyboard: false })
-                            }
-                            else if(x > start && x >= moment(datelock).startOf('isoweek'))
-                            {
-                                $("#btnluutatca").css("display","none");
-                                //$("#thluu").css("display","none");
-                                $("#thxoa").css("display","none");
-                                $(".themkhachhang").css("display","none");
-                                $("#ngay").text(ngay);
-                                $("#tabletdv > tbody").empty();
-                                $.post(url, { ngay: ngay },
-                          function (data) {
-                              for (var i = 0; i < data.length; i++) {
-                                  var check = (data[i].checkin == true) ? " checked" : "";
-                                  var hidden = (data[i].checkin == true) ? " hidden" : "";
-                                  var block = (data[i].checkin == false) ? " hidden" : "";
-                                  $("#tabletdv").find("tbody").append(
-                                   '<tr>'// need to change closing tag to an opening `<tr>` tag.
-                                 + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
-                                 + '<td class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
-                                 + '<td class="text-center"><input disabled class="largerCheckbox align-middle" type="checkbox"' + check + '></td>'
-                                      + '</tr><tr><td colspan="2"><input disabled type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input disabled type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><select disabled class="mt-2 custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select></td></td>');
-                                  $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
-                                  $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
-                                  if (data[i].ketqua != null) {
-                                      $("#tabletdv > tbody > tr").last().find("select").val(data[i].ketqua);
-                                  }
-                              }
-                          });
-
-                                $('#ModalView').modal({ backdrop: 'static', keyboard: false })
-                            }
-                            else {
-                                $("#ngaycreate").text(ngay);
-                                $("#tablecreate > tbody").empty();
-                                $.post(url, { ngay: ngay },
-                            function (data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    $("#tablecreate").find("tbody").append(
-                                     '<tr>'// need to change closing tag to an opening `<tr>` tag.
-                                   + '<td class="text-center text-dark">' + (i + 1) + '</td>'
-                                   + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
-                                   + '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
-                                   + '</tr>');
-                                }
-                            });
-                                $('#ModalCreate').modal({ backdrop: 'static', keyboard: false })
-                            }
-                            calendar.fullCalendar('unselect');
-                        },
-                        events:
-                            dataevent
-                ,
-                    });
+                    initCalendar();
                 }, 1000);
             });
-            var dataevent = [];
-            var datetimenow = new Date('@DateTime.Now.ToString("yyyy-MM-dd")');
-            var array = @Html.Raw(Json.Encode(ViewBag.data));
-            for(var i=0;i<array.length;i++)
-            {
-                var someDate = moment(array[i].ngay, "DD/MM/YYYY").toDate();
-                if(array[i].khoa == false && datetimenow > someDate)
-                {
-                    dataevent.push({
-                        title: array[i].soluong + " KH"
-                              ,start: someDate
-                              , end: someDate
-                              , allDay: true
-                              , className: 'important'
-                    });
-                }
-                else if(array[i].khoa == true && datetimenow > someDate){
-                    dataevent.push({
-                        title: array[i].soluong + " KH"
+            initCalendar()
+        });
+        function initCalendar() {
+             var dataevent = [];
+             var datetimenow = new Date('@DateTime.Now.ToString("yyyy-MM-dd")');
+             var array = @Html.Raw(Json.Encode(ViewBag.data));
+             for(var i=0;i<array.length;i++)
+             {
+                 var someDate = moment(array[i].ngay, "DD/MM/YYYY").toDate();
+                 if(array[i].khoa == false && datetimenow > someDate)
+                 {
+                     dataevent.push({
+                         title: array[i].soluong + " KH"
                                ,start: someDate
                                , end: someDate
                                , allDay: true
-                               , className: 'success'
-                    });
-                }
-                else
-                {
-                    dataevent.push({
-                        title: array[i].soluong + " KH"
-                              ,start: someDate
-                              , end: someDate
-                              , allDay: true
+                               , className: 'important'
+                     });
+                 }
+                 else if(array[i].khoa == true && datetimenow > someDate){
+                     dataevent.push({
+                         title: array[i].soluong + " KH"
+                                ,start: someDate
+                                , end: someDate
+                                , allDay: true
+                                , className: 'success'
+                     });
+                 }
+                 else
+                 {
+                     dataevent.push({
+                         title: array[i].soluong + " KH"
+                               ,start: someDate
+                               , end: someDate
+                               , allDay: true
 
-                    });
-                }
-            }
+                     });
+                 }
+             }
+
             var calendar = $('#calendar').fullCalendar({
                 header: {
                     left: 'title',
@@ -541,7 +396,7 @@
                     datelock.setDate(datelock.getDate() + 7);
                     var ngay = moment(start).format("DD/MM/YYYY");
                     var url = '@Url.Action("GetKehoach", "Baocao")';
-                    if(x.getTime() === start.getTime())
+                    if (x.getTime() === start.getTime())
                     {
                     $("#btnluutatca").css("display","block");
                     $("#thxoa").css("display","table-cell");
@@ -612,6 +467,7 @@
                     }
                     else if (x >= moment(datelock).startOf('isoweek')) /// Qua tuần
                     {
+                        //console.log(123123);
                         $("#btnluutatca").css("display","none");
                         //$("#thluu").css("display","none");
                         $("#thxoa").css("display","none");
@@ -639,7 +495,8 @@
                           });
                         $('#ModalView').modal({ backdrop: 'static', keyboard: false })
                     }
-                    else {
+                    else {/////Tương lai
+                       
                         $("#ngaycreate").text(ngay);
                         $("#tablecreate > tbody").empty();
                         $.post(url, { ngay: ngay },
@@ -661,7 +518,7 @@
                     dataevent
                 ,
             });
-        });
+        }
     </script>
 }
 

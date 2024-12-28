@@ -171,7 +171,7 @@
                 <div class="form-group col-md-3 col-sm-6 mb-1 pr-1 pl-1">
                     <label class="my-1 mr-2 font-weight-bold" for="Checkboxlist2">@Html.Raw(GlobalRes.lbphanloaikhachhang)</label>
                     <select class="selectpicker show-tick my-1 mr-sm-2" name="Checkboxlist2" id="Checkboxlist2">
-                        @if (ViewBag.otc.Count > 0 && ViewBag.otc[0] == "ALL")
+                        @if (ViewBag.otc.Count == 2 || (ViewBag.otc.Count > 0 && ViewBag.otc[0] == "ALL"))
                         {
                             <option value="ALL" checked>@Html.Raw(GlobalRes.lbtatca)</option>
                             <option data-subtext="Khối khách hàng ETC" value="ETC">ETC</option>

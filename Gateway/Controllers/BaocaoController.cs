@@ -249,7 +249,7 @@ namespace ApplicationChart.Controllers
             //var data = enti.DTA_DONDATHANG.Where(n => n.DUYETDH == true).ToList();
 
             var last_record = enti.TBL_DANHMUCKHACHHANG.Where(d => d.tinhtrang == "Khách hàng mới" && d.matdv == taikhoan).OrderByDescending(q => q.stt).FirstOrDefault();
-            var stt = last_record != null ? last_record.stt + 1 : 1;
+            var stt = last_record != null && last_record.stt != null ? last_record.stt + 1 : 1;
             //var stt = 1;
             var KHmoi = new TBL_DANHMUCKHACHHANG()
             {

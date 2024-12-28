@@ -67,9 +67,6 @@
     </style>
 </head>
 <body class="creative-lp p-2">
-    <script>
-        var loading = new Loading();
-    </script>
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-cascade narrower">
@@ -116,7 +113,7 @@
                                 foreach (var i in Model.data)
                                 {
                                     <tr>
-                                        <th class="text-center" scope="row">@count</th>
+                                        <td class="text-center" scope="row">@count</td>
                                         <td>@i.hovaten</td>
                                         <td>@i.taikhoan</td>
                                         <td class="text-center">@i.songaybaocao</td>
@@ -128,6 +125,16 @@
                                 }
                             }
                         </tbody>
+
+                        <tfoot align="right">
+                            <tr>
+                                <th class="text-center" colspan="3"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-right"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -181,7 +188,56 @@
             "iDisplayLength": 100, "scrollX": true, dom: 'Bfrtip',
             buttons: [
                 'copy', 'excel'
-            ]
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // converting to interger to find total
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/\./g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // computing column Total of the complete result
+                var songaybaocao = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                var solanghetham = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                var tongdonhang = api
+                    .column(5)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                var doanhso = api
+                    .column(6)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                console.log(doanhso);
+
+
+                // Update footer by showing the total with the reference of the column index
+                $(api.column(0).footer()).html('Total');
+                $(api.column(3).footer()).html(songaybaocao);
+                $(api.column(4).footer()).html(solanghetham);
+                $(api.column(5).footer()).html(tongdonhang);
+                $(api.column(6).footer()).html(doanhso.toLocaleString('vi-VN'));
+            },
         });
     });
 
