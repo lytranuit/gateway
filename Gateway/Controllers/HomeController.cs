@@ -3305,14 +3305,11 @@ namespace ApplicationChart.Controllers
         {
             var Info = GetInfo();
             var listpl = Info.phanloai.Split(',').ToList();
-            string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG";
+            string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG WHERE 1=1";
             if (phanloai != null && phanloai != "ALL" && phanloai != "")
             {
-                strcn = strcn + string.Format(" WHERE phanloai IN ('{0}')", phanloai);
-            }
-            else
-            {
-                strcn = strcn + string.Format(" WHERE phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
+
+                strcn = strcn + string.Format(" AND phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
             }
 
             if (khuvuc != null && khuvuc != "")
