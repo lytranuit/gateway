@@ -3108,42 +3108,31 @@ namespace ApplicationChart.Controllers
         {
             var Info = GetInfo();
             var listpl = Info.phanloai.Split(',').ToList();
-            string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG";
-            string strch = "SELECT MaKH AS MAKH, DonVi AS DONVI FROM DM_KHACHHANG_PTTT";
+            string strcn = "SELECT makh AS MAKH, donvi AS DONVI FROM TBL_DANHMUCKHACHHANG where 1=1";
             if (phanloai != null && phanloai != "ALL" && phanloai != "")
             {
-                strcn = strcn + string.Format(" WHERE phanloai IN ('{0}')", phanloai);
-                strch = strch + string.Format(" WHERE PHANLOAI IN ('{0}')", phanloai);
-            }
-            else
-            {
-                strcn = strcn + string.Format(" WHERE phanloai IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" WHERE PHANLOAI IN ({0})", string.Join(",", listpl.Select(p => "'" + p + "'")));
+                strcn = strcn + string.Format(" AND phanloai IN ('{0}')", phanloai);
             }
 
             if (khuvuc != null && khuvuc != "")
             {
                 var khuvuclist = khuvuc.Split(',').ToList();
                 strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", khuvuclist.Select(p => "'" + p + "'")));
             }
             else if (Info.matinh != "ALL" && (khuvuc == null || khuvuc == ""))
             {
                 var listmt = Info.matinh.Split(',').ToList();
                 strcn = strcn + string.Format(" AND matinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTinh IN ({0})", string.Join(",", listmt.Select(p => "'" + p + "'")));
             }
             if (Info.matdv != "ALL")
             {
                 var listtdv = Info.matdv.Split(',').ToList();
                 strcn = strcn + string.Format(" AND matdv IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND MaTDV IN ({0})", string.Join(",", listtdv.Select(p => "'" + p + "'")));
             }
             if (Info.maquan != "ALL")
             {
                 var listquan = Info.maquan.Split(',').ToList();
                 strcn = strcn + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
-                strch = strch + string.Format(" AND quanhuyen IN ({0})", string.Join(",", listquan.Select(p => "'" + p + "'")));
             }
             List<ListKhachHang> data = new List<ListKhachHang>();
             if (ChiNhanhId == "ALL")
