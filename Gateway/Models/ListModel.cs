@@ -37,6 +37,7 @@ namespace ApplicationChart.Models
         public decimal? hd_6_12 { get; set; }
         public decimal? hd_12_18 { get; set; }
         public decimal? hd_hon_18 { get; set; }
+        public string mahh_goc { get; set; }
     }
     public class MAU_DONDATHANG
     {

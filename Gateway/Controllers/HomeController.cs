@@ -2070,7 +2070,7 @@ namespace ApplicationChart.Controllers
         }
         [Authorize(Roles = "TONKHO")]
         [HttpPost]
-        public ActionResult GetPartialTracuutonkhohandung(List<string> macn, int thang, int nam)
+        public ActionResult GetPartialTracuutonkhohandung(List<string> macn, int thang, int nam, int chon = 0)
         {
             var Info = GetInfo();
             var tv = new List<Tonkhohandung>();
@@ -2080,7 +2080,7 @@ namespace ApplicationChart.Controllers
                 {
                     var _context = queryCN.SingleOrDefault(n => n.macn == i).data;
                     var ngay = DateTime.Now.ToString("MM/dd/yyyy");
-                    var strcn = $"EXECUTE SP_KIEMTRA_TONKHO_HANDUNG @thang = {thang}, @nam = {nam}, @NGAY = '{ngay}' ";
+                    var strcn = $"EXECUTE SP_KIEMTRA_TONKHO_HANDUNG @thang = {thang}, @nam = {nam}, @NGAY = '{ngay}' ,@CHON={chon}";
                     tv.AddRange(_context.Database.SqlQuery<Tonkhohandung>(strcn).ToList());
                 }
             }
@@ -2095,8 +2095,7 @@ namespace ApplicationChart.Controllers
                 hd_6_12 = d.Sum(e => e.hd_6_12),
                 hd_12_18 = d.Sum(e => e.hd_12_18),
                 hd_hon_18 = d.Sum(e => e.hd_hon_18)
-            }
-            ).ToList();
+            }).Where(d => d.mahh1 != null).ToList();
             return PartialView(tv);
         }
         [Authorize(Roles = "TRACUU")]
