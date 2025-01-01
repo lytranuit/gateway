@@ -6420,6 +6420,54 @@ namespace ApplicationChart.Controllers
             //var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('01','13','50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
             return View("Tracuutonkhonhap", Info.READ_ONLY);
         }
+        [ActionName("tra-cuu-ton-kho-han-dung")]
+        [Authorize(Roles = "TONKHO")]
+        public ActionResult Tracuutonkhohandung()
+        {
+            var Info = GetInfo();
+            List<TBL_DANHSACHCHINHANH> donvi = new List<TBL_DANHSACHCHINHANH>();
+            List<string> listcn = Info.macn.Split(',').ToList();
+            donvi = db2.TBL_DANHSACHCHINHANH.Where(n => listcn.Contains(n.macn)).ToList();
+            ViewBag.donvi = donvi;
+            ViewBag.dathang = Info.dathang;
+            ViewBag.ten = Info.hoten;
+            ViewBag.quyen = Info.quyen;
+
+            //var mahh = SC.Database.SqlQuery<string>("SELECT MAHH FROM TBL_DANHMUCHANGHOA WHERE MAHH IS NOT NULL AND nhom IN ('01','13','50', '51', '60', '61', '62', '63','64','64.PME','64.STA', '70','99','40','50.STA','51.STA','60.STA','62.STA')").ToList();
+            return View("Tracuutonkhohandung", Info.READ_ONLY);
+        }
+        [Authorize(Roles = "TONKHO")]
+        [HttpPost]
+        public ActionResult GetPartialTracuutonkhohandung(List<string> macn, int thang, int nam, int chon = 0)
+        {
+            var Info = GetInfo();
+            var tv = new List<Tonkhohandung>();
+            foreach (var i in macn)
+            {
+                if (queryCN.SingleOrDefault(n => n.macn == i) != null)
+                {
+                    var _context = queryCN.SingleOrDefault(n => n.macn == i).data;
+                    var ngay = DateTime.Now.ToString("MM/dd/yyyy");
+                    var strcn = $"EXECUTE SP_KIEMTRA_TONKHO_HANDUNG @thang = {thang}, @nam = {nam}, @NGAY = '{ngay}' ,@CHON={chon}";
+                    tv.AddRange(_context.Database.SqlQuery<Tonkhohandung>(strcn).ToList());
+                }
+            }
+            tv = tv.GroupBy(d => new { d.mahh1, d.malo, d.ngay_handung }).Select(d => new Tonkhohandung()
+            {
+                mahh1 = d.Key.mahh1,
+                tenhh = d.FirstOrDefault().tenhh,
+                dvt = d.FirstOrDefault().dvt,
+                malo = d.Key.malo,
+                ngay_handung = d.Key.ngay_handung,
+                hd_3_6 = d.Sum(e => e.hd_3_6),
+                hd_6_12 = d.Sum(e => e.hd_6_12),
+                hd_12_18 = d.Sum(e => e.hd_12_18),
+                hd_hon_18 = d.Sum(e => e.hd_hon_18)
+            }).Where(d => d.mahh1 != null).ToList();
+            return PartialView(tv);
+        }
+
+
         [ActionName("nhap-khoan-tdv")]
         [Authorize(Roles = "NHAPKHOANTDV")]
         public ActionResult Nhapkhoantdv()

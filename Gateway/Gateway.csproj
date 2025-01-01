@@ -3577,6 +3577,8 @@
     <Content Include="Views\Home\GetPartialNhapthuno.cshtml" />
     <Content Include="Views\Home\GetPartialBaocaothuno.cshtml" />
     <Content Include="Views\Home\Quanlyphanmem.cshtml" />
+    <Content Include="Views\Home\GetPartialTracuutonkhohandung.cshtml" />
+    <Content Include="Views\Home\Tracuutonkhohandung.cshtml" />
     <None Include="Views\Home\viewer.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -346,6 +346,22 @@ namespace ApplicationChart.Models
         public decimal t12 { get; set; }
         public decimal t13 { get; set; }
     }
+
+    public partial class Tonkhohandung
+    {
+        public string kho { get; set; }
+        public string mahh1 { get; set; }
+        public string tenhh { get; set; }
+        public string dvt { get; set; }
+        public string malo { get; set; }
+        public string handung { get; set; }
+        public DateTime ngay_handung { get; set; }
+        public decimal slton { get; set; }
+        public decimal? hd_3_6 { get; set; }
+        public decimal? hd_6_12 { get; set; }
+        public decimal? hd_12_18 { get; set; }
+        public decimal? hd_hon_18 { get; set; }
+    }
     public partial class DTA_TONKHO_CHITIET_HANDUNG
     {
         public string mahh { get; set; }

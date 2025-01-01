@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ApplicationChart.Models.Tonkhohandung>
+<table id="example" class="table-bordered display nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th class="center"></th>
+            <th class="text-center">MÃ HH</th>
+            <th class="text-center">TÊN HÀNG HÓA</th>
+            <th class="text-center">ĐVT</th>
+            <th class="text-center">MÃ LÔ</th>
+            <th class="text-center">NGÀY HẠN DÙNG</th>
+            <th class="text-center">HẠN DÙNG 3-6 THÁNG</th>
+            <th class="text-center">HẠN DÙNG 6-12 THÁNG</th>
+            <th class="text-center">HẠN DÙNG 12-18 THÁNG</th>
+            <th class="text-center">HẠN DÙNG HƠN 18 THÁNG</th>
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="center"></th>
+            <th class="text-center">MÃ HH</th>
+            <th class="text-center">TÊN HÀNG HÓA</th>
+            <th class="text-center">ĐVT</th>
+            <th class="text-center">MÃ LÔ</th>
+            <th class="text-center">NGÀY HẠN DÙNG</th>
+            <th class="text-center">HẠN DÙNG 3-6 THÁNG</th>
+            <th class="text-center">HẠN DÙNG 6-12 THÁNG</th>
+            <th class="text-center">HẠN DÙNG 12-18 THÁNG</th>
+            <th class="text-center">HẠN DÙNG HƠN 18 THÁNG</th>
+
+        </tr>
+    </tfoot>
+    <tbody id="Partialtable">
+        @{
+            var count = 1;
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td class="text-center">@count</td>
+
+                    <td>@i.mahh1</td>
+                    <td>@i.tenhh</td>
+                    <td>@i.dvt</td>
+                    <td>@i.malo</td>
+                    <td class="text-center">
+                        @if (@i.hd_3_6 != 0)
+                        {
+                            <span class="bg-danger p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
+                        }
+                        else if (i.hd_6_12 != 0)
+                        {
+                            <span class="bg-warning p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
+                        }
+                        else if (i.hd_12_18 != 0)
+                        {
+                            <span class="bg-primary p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
+                        }
+                        else if (i.hd_hon_18 != 0)
+                        {
+                            <span class="bg-success p-2 text-white">@i.ngay_handung.ToString("yyyy/MM/dd")</span>
+                        }
+                    </td>
+                    <td class="text-right">
+                        @if (@i.hd_3_6 != null)
+                        {
+                            @i.hd_3_6.Value.ToString("#,##0.##", System.Globalization.CultureInfo.InvariantCulture)
+                        }
+                    </td>
+                    <td class="text-right">
+                        @if (@i.hd_6_12 != null)
+                        {
+                            @i.hd_6_12.Value.ToString("#,##0.##", System.Globalization.CultureInfo.InvariantCulture)
+                        }
+                    </td>
+                    <td class="text-right">
+                        @if (@i.hd_12_18 != null)
+                        {
+                            @i.hd_12_18.Value.ToString("#,##0.##", System.Globalization.CultureInfo.InvariantCulture)
+                        }
+                    </td>
+                    <td class="text-right">
+                        @if (@i.hd_hon_18 != null)
+                        {
+                            @i.hd_hon_18.Value.ToString("#,##0.##", System.Globalization.CultureInfo.InvariantCulture)
+                        }
+                    </td>
+
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
