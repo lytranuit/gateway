@@ -63,38 +63,31 @@
                 </div>
                 <div class="card-body pb-0 pt-1">
                     <div class="form-row">
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md mb-0 d-none">
                             <label class="my-1 mr-2 font-weight-bold" for="chon">Chọn<code>(*)</code></label>
                             <select class="selectpicker my-1 mr-sm-2 show-tick" id="chon">
                                 <option selected value="1">Một chi nhánh</option>
                                 <option value="2">Nhiều chi nhánh</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-3 mb-0">
+                        <div class="form-group col-md mb-0 d-none">
                             <label class="my-1 mr-2 font-weight-bold" for="chinhanh">Chi nhánh<code>(*)</code></label>
                             <select class="selectpicker my-1 mr-sm-2" name="macn" title="Chọn chi nhánh" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
-                                <optgroup label="MIỀN TRUNG">
-                                    @foreach (var k in ViewBag.mientrung)
-                                    {
-                                        <option value=@k.macn>@k.Tencn</option>
-                                    }
-                                </optgroup>
-                                <optgroup label="MIỀN NAM">
-                                    @foreach (var k in ViewBag.miennam)
-                                    {
-                                        <option value=@k.macn>@k.Tencn</option>
-                                    }
-                                </optgroup>
-                                <optgroup label="MIỀN BẮC">
-                                    @foreach (var k in ViewBag.mienbac)
-                                    {
-                                        <option value=@k.macn>@k.Tencn</option>
-                                    }
-                                </optgroup>
+                                @foreach (var k in ViewBag.donvi)
+                                {
+                                    <option value=@k.macn>@k.Tencn</option>
+                                }
                             </select>
                         </div>
-                        <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
-                            <label class="my-1 mr-2 font-weight-bold" for="chon">Tháng<code>(*)</code></label>
+                        <div class="form-group col-md mb-0 divthang">
+                            <label class="my-1 mr-2 font-weight-bold" for="is_mahh_goc">Chọn<code>(*)</code></label>
+                            <select class="selectpicker my-1 mr-sm-2 show-tick" name="is_mahh_goc" id="is_mahh_goc">
+                                <option value="0" selected>Mã HH</option>
+                                <option value="1">Mã Gốc</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md mb-0 divthang">
+                            <label class="my-1 mr-2 font-weight-bold" for="thang">Tháng<code>(*)</code></label>
                             <select class="selectpicker my-1 mr-sm-2 show-tick" name="thang" id="thang">
                                 <option selected value="1">1</option>
                                 <option value="2">2</option>
@@ -110,8 +103,8 @@
                                 <option value="12">12</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-3 col-sm-6 mb-0 divthang">
-                            <label class="my-1 mr-2 font-weight-bold" for="chon">Năm<code>(*)</code></label>
+                        <div class="form-group col-md mb-0 divthang">
+                            <label class="my-1 mr-2 font-weight-bold" for="nam">Năm<code>(*)</code></label>
                             <select class="selectpicker my-1 mr-sm-2 show-tick" name="nam" id="nam">
                                 <option selected value="@DateTime.Now.Year">@DateTime.Now.Year</option>
                                 <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
@@ -180,7 +173,7 @@
                         url: "@Url.Action("GetPartialTracuutonkhohandung", "Home")",
                         datatype: 'json',
                         contentType: "application/json",
-                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + ', thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + '}',
+                        data: '{chon:' + JSON.stringify($("#is_mahh_goc").val()) +',macn: ' + JSON.stringify($("#chinhanh").val()) + ', thang: ' + JSON.stringify($("#thang").val()) + ', nam: ' + JSON.stringify($("#nam").val()) + '}',
                         success: function (data) {
                             $("#PartialResult").html(data);
                             if('@Model' == 'False')
@@ -225,7 +218,7 @@
                     });
                 }
             });
-         
+
             $("#chon").change(function () {
                 $("#PartialView").empty();
                 if ($("#chon").val() == 1) {
@@ -242,7 +235,7 @@
                 $('#chinhanh').selectpicker();
                 $('#chinhanh').selectpicker('deselectAll');
             });
-         
+            $("#chinhanh").val("FP");
         });
     </script>
 }
