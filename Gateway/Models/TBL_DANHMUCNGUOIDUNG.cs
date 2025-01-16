@@ -11,7 +11,8 @@ namespace ApplicationChart.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     public partial class TBL_DANHMUCNGUOIDUNG
     {
         public string nguoidung { get; set; }
@@ -40,7 +41,16 @@ namespace ApplicationChart.Models
         public string kho { get; set; }
         public string manhom { get; set; }
         public string poc { get; set; }
-    
+        public string loai { get; set; }
+        public string makh { get; set; }
+
+        public List<string> chinhanh
+        {
+            get
+            {
+                return macn != null ? macn.Split(',').ToList() : new List<string>();
+            }
+        }
         public virtual TBL_DANHMUCPHANQUYENHCM TBL_DANHMUCPHANQUYENHCM { get; set; }
         public virtual TBL_DANHMUCPHANQUYENKD TBL_DANHMUCPHANQUYENKD { get; set; }
         public virtual TBL_DANHMUCPHANQUYENSC TBL_DANHMUCPHANQUYENSC { get; set; }

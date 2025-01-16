@@ -136,12 +136,11 @@ namespace ApplicationChart.Controllers
             ViewBag.ten = Info.hoten;
             ViewBag.quyen = Info.quyen;
             ViewBag.dathang = Info.dathang;
-            var MACH = Infocrm.macn;
             var Data = DATA(null);
             ViewBag.KH = Data;
             var tuantruoc = DateTime.Now.AddDays(-14);
 
-            ViewBag.data = db2.DTA_CONGTACTRINHDUOC.Where(n => n.macn == MACH && n.matdv == Infocrm.taikhoan && n.ngay >= tuantruoc).ToList()
+            ViewBag.data = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == Infocrm.taikhoan && n.ngay >= tuantruoc).ToList()
                 .GroupBy(n => n.ngay).Select(cl => new { ngay = cl.Key.ToString("dd/MM/yyyy"), soluong = cl.Count(), khoa = !(cl.Any(n => n.khoa == false)) }).ToList();
             return View("Lich");
         }
@@ -221,6 +220,34 @@ namespace ApplicationChart.Controllers
         {
 
             return PartialView(DATA(String.Join(",", matdv.ToArray())));
+
+        }
+        [HttpPost]
+        public ActionResult GetQuan(string matinh)
+        {
+            if (queryCN.SingleOrDefault(n => n.macn == "DPY") != null)
+            {
+                var enti = queryCN.SingleOrDefault(n => n.macn == "DPY").data;
+                var data = DULIEUQUAN(enti);
+                if (matinh != null)
+                {
+                    data = data.Where(d => d.matinh == matinh).ToList();
+                }
+                return Json(data);
+            }
+            return Json(new List<string>());
+        }
+        public List<ListQuan> DULIEUQUAN(Entities data)
+        {
+            try
+            {
+                var All = data.Database.SqlQuery<ListQuan>("SELECT maquan,tenquan,matinh FROM TBL_DANHMUCQUAN WHERE maquan IS NOT NULL").ToList();
+                return All;
+            }
+            catch (Exception)
+            {
+                return new List<ListQuan>();
+            }
 
         }
         [HttpPost]
@@ -607,8 +634,7 @@ namespace ApplicationChart.Controllers
         {
             var Infocrm = GetCRM();
             var MATDV = Infocrm.taikhoan;
-            var MACH = Infocrm.macn;
-            return Json(DATAGETKEHOACH(MACH, MATDV, ngay));
+            return Json(DATAGETKEHOACH(MATDV, ngay));
         }
         public List<ListTrinhDuocVien> DULIEUTRINHDUOCVIEN(Entities data)
         {
@@ -665,7 +691,7 @@ namespace ApplicationChart.Controllers
                     }
                 }
             }
-            DATADELKEHOACH(MACH, MATDV, ngay);
+            DATADELKEHOACH(MATDV, ngay);
             if (data1 != null)
             {
                 db2.DTA_CONGTACTRINHDUOC.AddRange(data1);
@@ -1638,26 +1664,26 @@ namespace ApplicationChart.Controllers
         //        PTTT.SaveChanges();
         //    }
         //}
-        public void DATADELKEHOACH(string x, string MATDV, DateTime ngay)
+        public void DATADELKEHOACH(string MATDV, DateTime ngay)
         {
-            var data = db2.DTA_CONGTACTRINHDUOC.Where(n => n.macn == x && n.matdv == MATDV && n.ngay == ngay);
+            var data = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == MATDV && n.ngay == ngay);
             db2.DTA_CONGTACTRINHDUOC.RemoveRange(data);
             db2.SaveChanges();
         }
 
-        public List<DTA_CONGTACTRINHDUOC> DATAGETKEHOACH(string x, string MATDV, string ngay)
+        public List<DTA_CONGTACTRINHDUOC> DATAGETKEHOACH(string MATDV, string ngay)
         {
             DateTime date = DateTime.ParseExact(ngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            return db2.DTA_CONGTACTRINHDUOC.Where(n => n.macn == x && n.matdv == MATDV && n.ngay == date).ToList();
+            return db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == MATDV && n.ngay == date).ToList();
         }
         public List<DTA_CONGTACTRINHDUOC> DATAGETKEHOACHALL(string MATDV, DateTime tungay, DateTime denngay)
         {
             return db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == MATDV && n.ngay >= tungay && n.ngay <= denngay).ToList();
         }
-        public DTA_CONGTACTRINHDUOC DATAGETKEHOACHNOW(string x, string MATDV, string ngay, string makh, string tenkh)
+        public DTA_CONGTACTRINHDUOC DATAGETKEHOACHNOW(string MATDV, string ngay, string makh, string tenkh)
         {
             DateTime ngay1 = DateTime.ParseExact(ngay, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            return db2.DTA_CONGTACTRINHDUOC.SingleOrDefault(n => n.macn == x && n.matdv == MATDV && n.ngay == ngay1 && n.makh == makh);
+            return db2.DTA_CONGTACTRINHDUOC.SingleOrDefault(n => n.matdv == MATDV && n.ngay == ngay1 && n.makh == makh);
         }
 
         public List<ListKhachHangFull> DATAGETKHACHHANGCN(string x)

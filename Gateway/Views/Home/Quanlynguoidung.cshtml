@@ -46,20 +46,26 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="form-group mb-0">
-                        <label class="col-form-label" for="tenctkm">Họ và tên <code>(*)</code></label>
+                        <label class="col-form-label" for="hoten">Họ và tên <code>(*)</code></label>
                         <input id="hoten" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="form-group mb-0">
-                        <label class="col-form-label" for="mactkm">Tài khoản <code>(*)</code></label>
+                        <label class="col-form-label" for="taikhoan">Tài khoản <code>(*)</code></label>
                         <input id="taikhoan" class="form-control font-weight-normal m-0" type="text" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-4">
                     <div class="form-group mb-0">
-                        <label class="col-form-label" for="mactkm">Mật khẩu <code>(*)</code></label>
+                        <label class="col-form-label" for="matkhau">Mật khẩu <code>(*)</code></label>
                         <input maxlength="20" id="matkhau" class="form-control font-weight-normal m-0" type="password" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group mb-0">
+                        <label class="col-form-label" for="emailTN">Email <code>(*)</code></label>
+                        <input id="emailTN" class="form-control font-weight-normal m-0" type="email" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-4">
@@ -67,40 +73,20 @@
                         <label class="col-form-label" for="phamvi">Quyền <code>(*)</code></label>
                         <select id="quyen" class="selectpicker" multiple data-live-search="true" data-actions-box="true" data-selected-text-format="count">
                             <option selected value="CAP2">XEM BÁO CÁO BSC</option>
-                            <option value="DONHANG,KEHOACH">TẠO ĐƠN HÀNG/LÊN KẾ HOẠCH</option>
-                            <option value="TRACUU">TRA CỨU CHI TIẾT HÓA ĐƠN</option>
+                            <option value="DONHANG">TẠO ĐƠN HÀNG</option>
+                            <option value="DUYETDONHANG">DUYỆT ĐƠN HÀNG</option>
+                            <option value="KEHOACH">LÊN KẾ HOẠCH</option>
+                            <option value="KHUYENMAI">QUẢN LÝ CRM</option>
+                            <option value="QLNGUOIDUNG">QUẢN LÝ NGƯỜI DÙNG</option>
+                            <option value="XOASUAKHACHHANG">XÓA/SỬA KHÁCH HÀNG</option>
+                            <option value="LUIKEHOACH">LÙI BÁO CÁO KẾ HOẠCH</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4">
-                    <div class="form-group mb-0">
-                        <label class="col-form-label" for="phamvi">Chi nhánh <code>(*)</code></label>
-                        <select class="selectpicker my-1 mr-sm-2" data-dropdown-align-right="true" name="macn" title="@Html.Raw(GlobalRes.lbchonchinhanh)" data-actions-box="true" data-selected-text-format="count > 3" id="chinhanh">
-                            @foreach (var k in ViewBag.donvi)
-                            {
-                                <option value=@k.macn>@k.Tencn</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4">
-                    <div class="form-group mb-0">
-                        <label class="col-form-label" for="phanloai">Phân loại</label>
-                        <select id="phanloai" class="selectpicker">
-                            <option selected value="ETC,OTC">ETC,OTC</option>
-                            <option value="OTC">OTC</option>
-                            <option value="ETC">ETC</option>
-                        </select>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row" id="PartialView">
             </div>
         </div>
         <div class="card-footer modal-footer p-2">
-            <button id="btnadd" type="button" class="btn btn-success btn-sm transition-3d-hover mb-0">THÊM</button>
+            @*<button id="btnadd" type="button" class="btn btn-success btn-sm transition-3d-hover mb-0">THÊM</button>*@
             <button id="btnedit" type="button" class="btn btn-primary btn-sm transition-3d-hover mb-0">SỬA</button>
         </div>
 
@@ -120,7 +106,7 @@
 
     <script>
         $(document).ready(function () {
-            $('.selectpicker').selectpicker();
+            //$('.selectpicker').selectpicker();
             $('#example23').DataTable({
                 "columnDefs": [{
                     "targets": 'no-sort',
@@ -128,11 +114,36 @@
                 }],
                 "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
                 "order": [],
+                responsive: true,
+                fixedHeader: true,
             }
                              );
             $("#example23").on("click", ".btnedit", function () {
-                $("#taikhoan").val($(this).closest('tr').find('td:eq(1)').text());
-                $("#hoten").val($(this).closest('tr').find('td:eq(2)').text());
+                var tr = $(this).closest('tr');
+                var chinhanh = tr.find('td:eq(5)').text();
+                var quanloai = tr.find('td:eq(3)').text();
+                var khuvuc = tr.find('td:eq(6)').text();
+                var matdv = tr.find('td:eq(4)').text();
+                var maquan = tr.find('td:eq(7)').text();
+                var makh = tr.find('td:eq(8)').text();
+                var loai = tr.find('td:eq(9)').text();
+                var quyen = tr.find('td:eq(10)').text();
+                var email = tr.find('td:eq(11)').text();
+
+
+                $("#taikhoan").val(tr.find('td:eq(1)').text());
+                $("#hoten").val(tr.find('td:eq(2)').text());
+                $("#matkhau").val('');
+                $("#emailTN").val(email);
+                $("#phanloai").val(quanloai).selectpicker("refresh");
+                $("#loai").val(loai).selectpicker("refresh");
+
+                $("#makh").val(makh.split(",")).selectpicker("refresh");
+                $("#quyen").val(quyen.split(",")).selectpicker("refresh");
+                $("#chinhanh").val(chinhanh.split(",")).selectpicker("refresh");
+                $("#khuvuc").val(khuvuc.split(",")).selectpicker("refresh");
+                $("#matdv").val(matdv.split(",")).selectpicker("refresh");
+                $("#maquan").val(maquan.split(",")).selectpicker("refresh");
             });
             $("#example23").on("click", ".btnxoa", function () {
                 var taikhoan = $(this).closest('tr').find('td:eq(1)').text();
@@ -196,12 +207,31 @@
                              });
             });
             $("#btnadd").click(function () {
+                var formData = new FormData();
+                formData.append("email", $("#emailTN").val());
+                formData.append("taikhoan", $("#taikhoan").val());
+                formData.append("hoten", $("#hoten").val());
+                formData.append("quyen", $("#quyen").val());
+                formData.append("phanloai", $("#phanloai").val());
+                formData.append("macn", $("#chinhanh").val());
+                formData.append("matinh", $("#khuvuc").val());
+                formData.append("matdv", $("#matdv").val());
+                formData.append("maquan", $("#maquan").val());
+                formData.append("loai", $("#loai").val());
+                formData.append("makh", $("#makh").val());
+                formData.append("matkhau", md5($("#matkhau").val()))
+                if ($("#matkhau").val() == '') {
+                    alert("Chưa nhập mật khẩu!");
+                    return false;
+                }
                 $.ajax({
                     url: '@Url.Action("Addnguoidung", "Home")',
                     type: "POST",
                     datatype: 'json',
                     contentType: "application/json",
-                    data: '{taikhoan: ' + JSON.stringify($("#taikhoan").val()) + ', hoten: ' + JSON.stringify($("#hoten").val()) + ', matkhau: ' + JSON.stringify(md5($("#matkhau").val())) + ', quyen: ' + JSON.stringify($("#quyen").val()) + ', phanloai: ' + JSON.stringify($("#phanloai").val()) + ', macn: ' + JSON.stringify($("#chinhanh").val()) + ', matinh: ' + JSON.stringify($("#matinh").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + ', maquan: ' + JSON.stringify($("#maquan").val()) + '}',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                     success: function (data) {
                         toastr.options = {
                             "closeButton": false,
@@ -221,6 +251,7 @@
                             "hideMethod": "fadeOut"
                         }
                         Command: toastr["success"]("Thành công", "Thông báo")
+                        location.reload()
                     },
                     error: function (request, status, error) {
                         toastr.options = {
@@ -246,12 +277,29 @@
                 });
             });
             $("#btnedit").click(function () {
+                var formData = new FormData();
+                formData.append("email", $("#emailTN").val());
+                formData.append("taikhoan", $("#taikhoan").val());
+                formData.append("hoten", $("#hoten").val());
+                formData.append("quyen", $("#quyen").val());
+                formData.append("phanloai", $("#phanloai").val());
+                formData.append("macn", $("#chinhanh").val());
+                formData.append("matinh", $("#khuvuc").val());
+                formData.append("matdv", $("#matdv").val());
+                formData.append("loai", $("#loai").val());
+                formData.append("maquan", $("#maquan").val());
+                formData.append("makh", $("#makh").val());
+                if ($("#matkhau").val() != '') {
+                    formData.append("matkhau", md5($("#matkhau").val()))
+                }
                 $.ajax({
                     url: '@Url.Action("Editnguoidung", "Home")',
                     type: "POST",
                     datatype: 'json',
                     contentType: "application/json",
-                    data: '{taikhoan: ' + JSON.stringify($("#taikhoan").val()) + ', hoten: ' + JSON.stringify($("#hoten").val()) + ', matkhau: ' + JSON.stringify(md5($("#matkhau").val())) + ', quyen: ' + JSON.stringify($("#quyen").val()) + ', phanloai: ' + JSON.stringify($("#phanloai").val()) + ', macn: ' + JSON.stringify($("#macn").val()) + ', matinh: ' + JSON.stringify($("#matinh").val()) + ', matdv: ' + JSON.stringify($("#matdv").val()) + ', matdvdathang: ' + JSON.stringify($("#matdvdathang").val()) + '}',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                     success: function (data) {
                         toastr.options = {
                             "closeButton": false,
@@ -271,6 +319,7 @@
                             "hideMethod": "fadeOut"
                         }
                         Command: toastr["success"]("Thành công", "Thông báo")
+                        location.reload()
                     },
                     error: function (request, status, error) {
                         toastr.options = {
@@ -295,49 +344,132 @@
                     timeout: 5000,
                 });
             });
-            $("#chinhanh").change(function () {
-                if ($("#chinhanh").val() != "") {
-                    $('#loading').modal({ backdrop: 'static', keyboard: false });
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("GetPartiaQLND", "Home")",
-                        datatype: 'json',
-                        contentType: "application/json",
-                        data: '{macn: ' + JSON.stringify($("#chinhanh").val()) + '}',
-                        error: function () {
-                            $('#loading').modal('hide');
-                        },
-                        success: function (data) {
-                            $("#PartialView").html(data);
-                            $('#PartialView .selectpicker').selectpicker();
-                            $('#loading').modal('hide');
-                        },
-                        error: function (request, status, error) {
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": true,
-                                "progressBar": true,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
-                            $('#loading').modal('hide');
-                        },
-                        timeout: 5000,
-                    });
-                }
-            });
+            //GetPartiaQLND();
+            getKhachhang();
+            getChinhanh();
+            getKhuvuc();
+            getTDV();
+            getQuan();
         });
+         function getKhachhang() {
+             var url2 = '@Url.Action("GetKhachHang", "Home")';
+             $.post(url2, {},
+                 function (data) {
+                     for (var i = 0; i < data.length; i++) {
+
+                         $("#makh").append('<option value="' + data[i].MAKH + '" tabindex="' + data[i].DONVI + '" data-subtext="' + data[i].DIACHI + '" data-macn="' + data[i].macn +'">' + data[i].MAKH + " - " + data[i].DONVI + '</option>');
+                     }
+                     $('#makh').selectpicker('refresh');
+                 });
+         }
+        function getChinhanh() {
+             var url2 = '@Url.Action("GetChinhanh", "Home")';
+             $.post(url2, {},
+                 function (data) {
+                     //$("#chinhanh").empty();
+                     for (var i = 0; i < data.length; i++) {
+                         $("#chinhanh").append('<option value="' + data[i].macn + '">' + data[i].macn + " - " + data[i].Tencn + '</option>');
+                     }
+                     $("#chinhanh").selectpicker("refresh");
+                 });
+        }
+        function getKhuvuc() {
+            var url2 = '@Url.Action("GetKhuvuc", "Home")';
+            $.post(url2, {},
+                function (data) {
+                    //$("#khuvuc").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $("#khuvuc").append('<option value="' + data[i].matinh + '">' + data[i].matinh + " - " +data[i].tentinh + '</option>');
+                    }
+                    $("#khuvuc").selectpicker("refresh").trigger("change");
+                });
+        }
+        function getTDV() {
+             var url = '@Url.Action("GetTrinhduoc", "Home")';
+             $.post(url, {  },
+                function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#matdv").append('<option tabindex="' + data[i].tentdv + '" value="' + data[i].matdv + '">' + data[i].matdv + " - " + data[i].tentdv + '</option>')
+                    }
+                    $('#matdv').selectpicker('refresh');
+                });
+
+        }
+        function GetPartiaQLND() {
+             $.ajax({
+                 type: "POST",
+                 url: "@Url.Action("GetPartiaQLND", "Home")",
+                 datatype: 'json',
+                 contentType: "application/json",
+                 error: function () {
+                     $('#loading').modal('hide');
+                 },
+                 success: function (data) {
+                     $("#PartialView").html(data);
+                     $('#PartialView .selectpicker').selectpicker();
+                     $('#loading').modal('hide');
+                 },
+                 error: function (request, status, error) {
+                     toastr.options = {
+                         "closeButton": false,
+                         "debug": false,
+                         "newestOnTop": true,
+                         "progressBar": true,
+                         "positionClass": "toast-top-right",
+                         "preventDuplicates": false,
+                         "onclick": null,
+                         "showDuration": "300",
+                         "hideDuration": "1000",
+                         "timeOut": "5000",
+                         "extendedTimeOut": "1000",
+                         "showEasing": "swing",
+                         "hideEasing": "linear",
+                         "showMethod": "fadeIn",
+                         "hideMethod": "fadeOut"
+                     }
+                     Command: toastr["warning"]("Không thành công ,Vui lòng thử lại !", "Thông báo")
+                     $('#loading').modal('hide');
+                 },
+                 timeout: 5000,
+             });
+        }
+        async function getQuan() {
+             return  await $.ajax({
+                type: "POST",
+
+                url: "@Url.Action("GetQuan", "Baocao")",
+                contentType: "application/json",
+                datatype: 'json',
+                error: function () {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    Command: toastr["warning"]("Vui lòng thử lại", "Lỗi")
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        $("#maquan").append("<option value='" + d.maquan + "'>" + d.maquan + " - " +d.tenquan + "</option>")
+                    }
+                    $('#maquan').selectpicker('refresh');
+                },
+                timeout: 5000,
+            });
+        }
     </script>
 }
 

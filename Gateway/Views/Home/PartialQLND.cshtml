@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ApplicationChart.Models.TBL_DANHMUCNGUOIDUNG>
+
 <table id="example23" class="display nowrap table table-hover table-bordered w-100 pt-0 mb-1">
     <!--Table head-->
     <thead style="background-color:rgb(66, 133, 244);">
@@ -6,11 +7,15 @@
             <th>STT</th>
             <th>Tài khoản</th>
             <th>Họ tên</th>
-            <th>Chi Nhánh</th>
             <th>Phân loại</th>
-            <th>Mã tỉnh</th>
             <th>Mã TDV</th>
+            <th>Nhà Phân Phối</th>
+            <th>Mã tỉnh</th>
             <th>Mã Quận/Huyện</th>
+            <th>Mã Khách hàng</th>
+            <th>Loại</th>
+            <th>Quyền</th>
+            <th>Email</th>
             <th>Khóa</th>
             <th class="no-sort"></th>
         </tr>
@@ -18,7 +23,7 @@
     <tbody>
         @{
             var count = 1;
-            foreach (var i in Model)
+            foreach (var i in Model.Where(d => d.chinhanh.Contains("ASTA")).ToList())
             {
                 <tr>
                     <td class="text-center">
@@ -26,11 +31,15 @@
                     </td>
                     <td class="text-center">@i.nguoidung</td>
                     <td>@i.hoten</td>
-                    <td class="text-center">@(i.macn)</td>
                     <td class="text-center">@(i.phanloai)</td>
-                    <td class="text-center">@i.matinh</td>
-                    <td class="text-center">@i.matdv</td>
+                    <td class="text-center" style="word-break: break-all;">@i.matdv</td>
+                    <td class="text-center" style="word-break: break-all;">@(i.macn)</td>
+                    <td class="text-center" style="word-break: break-all;">@i.matinh</td>
                     <td class="text-center">@i.maquan</td>
+                    <td class="text-center">@i.makh</td>
+                    <td class="text-center">@i.loai</td>
+                    <td class="text-center">@i.quyen</td>
+                    <td class="text-center">@i.email</td>
                     @if (i.khoatk == true)
                     {
                         <td class="text-center"><input class="w3-check checkkhoa" type="checkbox" value="1" onclick="return confirm('Bạn chắc chắn muốn mở khóa tài khoản này?');" checked></td>

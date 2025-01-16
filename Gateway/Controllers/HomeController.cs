@@ -26,6 +26,7 @@ using OfficeOpenXml;
 using System.Net;
 using APIInvoice;
 using System.Data.SqlClient;
+using System.Data.Entity.Migrations;
 
 namespace ApplicationChart.Controllers
 {
@@ -1309,27 +1310,71 @@ namespace ApplicationChart.Controllers
             return Json(0);
         }
         [HttpPost]
-        public ActionResult Addnguoidung(string taikhoan, string hoten, string matkhau, List<string> quyen, string phanloai, List<string> macn, string matinh, string matdv, string matdvdathang)
+        public ActionResult Addnguoidung(string email, string taikhoan, string hoten, string matkhau, List<string> quyen, string phanloai, List<string> macn, string matinh, string matdv, string maquan, string loai, string makh)
         {
-            var nguoidung = new TBL_DANHMUCNGUOIDUNG() { nguoidung = taikhoan, hoten = hoten, matkhau = EncodePassword(matkhau), quyen = String.Join(",", quyen), phanloai = phanloai, macn = String.Join(",", macn), matinh = matinh, matdv = matdv, doimk = true, EXCEL = true, khoatk = false, ngaydangnhap = DateTime.Now, PDF = true, maquan = "ALL", mahh = "ALL", WORD = true, READ_ONLY = false, truycap = 1, dathang = 2 };
-            nguoidung.TBL_PHANQUYENCRM = new TBL_PHANQUYENCRM() { taikhoan = taikhoan, macn = String.Join(",", macn), quyen = (matdvdathang == "ALL") ? "QUANLY" : "TDV", matdv = matdvdathang };
+            var nguoidung = new TBL_DANHMUCNGUOIDUNG()
+            {
+                nguoidung = taikhoan,
+                hoten = hoten,
+                matkhau = EncodePassword(matkhau),
+                quyen = String.Join(",", quyen),
+                phanloai = phanloai,
+                macn = String.Join(",", macn),
+                matinh = matinh,
+                matdv = matdv,
+                doimk = true,
+                EXCEL = true,
+                khoatk = false,
+                ngaydangnhap = DateTime.Now,
+                PDF = true,
+                maquan = maquan,
+                mahh = "ALL",
+                WORD = true,
+                READ_ONLY = false,
+                truycap = 1,
+                dathang = 1,
+                email = email,
+                loai = loai,
+                makh = makh,
+            };
             db2.TBL_DANHMUCNGUOIDUNG.Add(nguoidung);
+
+            var crm = new TBL_PHANQUYENCRM();
+            crm.quyen = loai;
+            crm.macn = "DPY";
+            crm.taikhoan = taikhoan;
+            crm.matdv = taikhoan;
+            db2.TBL_PHANQUYENCRM.Add(crm);
+
             db2.SaveChanges();
             return Json(0);
         }
         [HttpPost]
-        public ActionResult Editnguoidung(string taikhoan, string hoten, string matkhau, List<string> quyen, string phanloai, List<string> macn, string matinh, string matdv, string matdvdathang)
+        public ActionResult Editnguoidung(string email, string taikhoan, string hoten, string matkhau, List<string> quyen, string phanloai, List<string> macn, string matinh, string matdv, string maquan, string loai, string makh)
         {
             var tv = db2.TBL_DANHMUCNGUOIDUNG.SingleOrDefault(n => n.nguoidung == taikhoan);
             tv.hoten = hoten;
-            tv.matkhau = EncodePassword(matkhau);
+            tv.matkhau = matkhau != null && matkhau != "" ? EncodePassword(matkhau) : tv.matkhau;
             tv.quyen = String.Join(",", quyen);
-            tv.phanloai = phanloai;
-            tv.macn = String.Join(",", macn);
-            tv.matinh = matinh;
-            tv.matdv = matdv;
-            tv.TBL_PHANQUYENCRM.matdv = matdvdathang;
-            tv.TBL_PHANQUYENCRM.macn = String.Join(",", macn);
+            //tv.phanloai = phanloai;
+            //tv.macn = String.Join(",", macn);
+            //tv.matinh = matinh;
+            //tv.maquan = maquan;
+            //tv.matdv = matdv;
+            //tv.loai = loai;
+            //tv.makh = makh;
+            tv.email = email;
+            db2.TBL_DANHMUCNGUOIDUNG.AddOrUpdate(tv);
+            //var crm = db2.TBL_PHANQUYENCRM.SingleOrDefault(n => n.taikhoan == taikhoan);
+            //if (crm == null)
+            //{
+            //    crm = new TBL_PHANQUYENCRM();
+            //    crm.quyen = loai;
+            //    crm.macn = "DPY";
+            //    crm.taikhoan = taikhoan;
+            //    crm.matdv = taikhoan;
+            //    db2.TBL_PHANQUYENCRM.AddOrUpdate(crm);
+            //}
             db2.SaveChanges();
             return Json(0);
         }
@@ -20969,7 +21014,7 @@ namespace ApplicationChart.Controllers
             var listloaitru = new List<string>();
             listloaitru.Add("ADMIN");
             listloaitru.Add("TGD");
-            var data = db2.TBL_DANHMUCNGUOIDUNG.Where(n => !listloaitru.Contains(n.nguoidung) && listcn.Contains(n.macn)).ToList();
+            var data = db2.TBL_DANHMUCNGUOIDUNG.Where(n => !listloaitru.Contains(n.nguoidung)).ToList();
             return PartialView(data);
         }
         [ActionName("chi-tiet-hang-hoa")]

@@ -690,14 +690,13 @@
                                         </button>
                                         <ul class="dropdown-menu text-left dropdown-menu-right">
                                             <li><a class="btnview" data-toggle="modal" data-backdrop="static" data-target="#ModalView">Thông tin chi tiết</a></li>`;
-                        if (data[i].tinhtrang == "Khách hàng mới" || quyen.indexOf("KHUYENMAI") != -1) {
-                            append += `
-                                            <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
-                                            <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>`;
-                        }
-
-                        if (data[i].tinhtrang == "Khách hàng mới") {
-                            append += `
+                        //if (data[i].tinhtrang == "Khách hàng mới" || quyen.indexOf("KHUYENMAI") != -1) {
+                        //    append += `
+                        //                    <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
+                        //                    <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>`;
+                        //}
+                        if (data[i].tinhtrang == "Khách hàng mới" || quyen.indexOf("XOASUAKHACHHANG") != -1) {
+                            append += `  <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
                                             <li><a class="btnxoakh">Xóa</a></li>`;
                         }
                         append +=`
