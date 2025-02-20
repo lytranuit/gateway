@@ -42,6 +42,8 @@
           <Property Name="khoa" Type="bit" />
           <Property Name="checkgps" Type="bit" />
           <Property Name="ketqua_text" Type="nvarchar(max)" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="DTA_GIAOHANG">
           <Key>
@@ -1035,6 +1037,8 @@
 		  <Property Name="ketqua_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="khoa" Type="Boolean" />
           <Property Name="checkgps" Type="Boolean" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="TBL_DANHMUCCTHT_QUATANG">
           <Key>
@@ -1561,6 +1565,8 @@
           <EntitySetMapping Name="DTA_CONGTACTRINHDUOC">
             <EntityTypeMapping TypeName="ApplicationChartModel.DTA_CONGTACTRINHDUOC">
               <MappingFragment StoreEntitySet="DTA_CONGTACTRINHDUOC">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="checkgps" ColumnName="checkgps" />
                 <ScalarProperty Name="khoa" ColumnName="khoa" />
                 <ScalarProperty Name="ghichu" ColumnName="ghichu" />

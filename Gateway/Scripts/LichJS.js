@@ -21,6 +21,7 @@
                         var formData = new FormData();
                         formData.append("ngay", moment($("#ngaycreate").text(), 'DD/MM/YYYY').format('YYYY-MM-DD'));
                         $("#tablecreate > tbody >tr").each(function (index) {
+                            formData.append('data1[' + index + '][id]', $(this).find('td').eq(1).attr("data-id"));
                             formData.append('data1[' + index + '][makh]', $(this).find('td').eq(1).attr("data-makh"));
                             formData.append('data1[' + index + '][tenkh]', $(this).find('td').eq(1).attr("data-tenkh"));
                             formData.append('data1[' + index + '][ngay]', moment($("#ngaycreate").text(), 'DD/MM/YYYY').format('YYYY-MM-DD'));
@@ -142,6 +143,8 @@
                                 var ketqua_text = x.next('tr').find('.ketqua').val();
                                 var khoa = false;
                             }
+
+                            formData.append('data1[' + index + '][id]', x.find('td').eq(1).attr("data-id"));
                             formData.append('data1[' + index + '][makh]', x.find('td').eq(1).attr("data-makh"));
                             formData.append('data1[' + index + '][tenkh]', x.find('td').eq(1).attr("data-tenkh"));
                             formData.append('data1[' + index + '][ngay]', moment($("#ngay").text(), 'DD/MM/YYYY').format('YYYY-MM-DD'));

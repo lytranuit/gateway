@@ -25,5 +25,7 @@ namespace ApplicationChart.Models
         public string ketqua_text { get; set; }
         public Nullable<bool> khoa { get; set; }
         public Nullable<bool> checkgps { get; set; }
+        public Nullable<System.DateTime> created_at { get; set; }
+        public int id { get; set; }
     }
 }

@@ -677,6 +677,8 @@ namespace ApplicationChart.Controllers
             var Infocrm = GetCRM();
             var MATDV = Infocrm.taikhoan;
             var MACH = Infocrm.macn;
+            var list_update = new List<DTA_CONGTACTRINHDUOC>();
+            var list_add = new List<DTA_CONGTACTRINHDUOC>();
             if (data1 != null)
             {
 
@@ -689,15 +691,36 @@ namespace ApplicationChart.Controllers
                     {
                         i.makh = "";
                     }
+                    if (i.id > 0)
+                    {
+                        list_update.Add(i);
+                    }
+                    else
+                    {
+                        i.created_at = DateTime.Now;
+                        list_add.Add(i);
+                    }
                 }
             }
-            DATADELKEHOACH(MATDV, ngay);
-            if (data1 != null)
+
+            var list_up_id = list_update.Select(d => d.id).ToList();
+            var data_delete = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == MATDV && n.ngay == ngay && !list_up_id.Contains(n.id));
+            db2.DTA_CONGTACTRINHDUOC.RemoveRange(data_delete);
+            db2.SaveChanges();
+            if (list_add.Count() > 0)
             {
-                db2.DTA_CONGTACTRINHDUOC.AddRange(data1);
+                ///ADD
+                db2.DTA_CONGTACTRINHDUOC.AddRange(list_add);
                 db2.SaveChanges();
             }
-
+            if (list_update.Count() > 0)
+            {
+                foreach (var i in list_update)
+                {
+                    db2.DTA_CONGTACTRINHDUOC.AddOrUpdate(i);
+                }
+                db2.SaveChanges();
+            }
             return Json(ngay.ToString("dd/MM/yyyy"));
         }
         [HttpPost]
