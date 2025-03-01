@@ -724,10 +724,10 @@ namespace ApplicationChart.Controllers
             return Json(ngay.ToString("dd/MM/yyyy"));
         }
         [HttpPost]
-        public ActionResult EditKhachHang(string macn, string makh, string dt, string xeploai, string matinh, string diachi, string lienhe, string quanhuyen, string masothue)
+        public ActionResult EditKhachHang(string macn, string makh, string tenkh, string dt, string xeploai, string matinh, string diachi, string lienhe, string quanhuyen, string masothue)
         {
             var Infocrm = GetCRM();
-            UPDATETHONGTINKHACHHANG(macn, makh, dt, xeploai, matinh, diachi, lienhe, quanhuyen, masothue);
+            UPDATETHONGTINKHACHHANG(macn, makh, tenkh, dt, xeploai, matinh, diachi, lienhe, quanhuyen, masothue);
             return Json(1);
         }
         public ActionResult ExcelKhachhang(string matdv)
@@ -1753,7 +1753,7 @@ namespace ApplicationChart.Controllers
             return DATAX;
         }
 
-        public void UPDATETHONGTINKHACHHANG(string macn, string makh, string dt, string xeploai, string matinh, string diachi, string lienhe, string quanhuyen, string masothue)
+        public void UPDATETHONGTINKHACHHANG(string macn, string makh, string tenkh, string dt, string xeploai, string matinh, string diachi, string lienhe, string quanhuyen, string masothue)
         {
             //DateTime ngaysinh1 = DateTime.ParseExact(ngaysinh, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             //string str = "UPDATE TBL_DANHMUCKHACHHANG SET dt = '" + dt + "', xeploai = '" + xeploai + "' WHERE makh = '" + makh + "'";
@@ -1773,6 +1773,7 @@ namespace ApplicationChart.Controllers
                     record.quanhuyen = quanhuyen;
                     record.tennguoigd = lienhe;
                     record.ngaycapnhat = DateTime.Now;
+                    record.donvi = tenkh;
                     record.macn = macn;
                     enti.TBL_DANHMUCKHACHHANG.AddOrUpdate(record);
                     enti.SaveChanges();

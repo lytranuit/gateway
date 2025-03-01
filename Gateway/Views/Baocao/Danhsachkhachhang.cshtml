@@ -61,8 +61,14 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="font-weight-bold" for="donviedit">Mã KH - Tên khách hàng</label>
+                                <label class="font-weight-bold" for="donviedit">Mã KH</label>
                                 <input readonly autocomplete="off" type="text" class="form-control" id="donviedit" placeholder="Tên khách hàng">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="tenedit">Tên khách hàng</label>
+                                <input autocomplete="off" type="text" class="form-control" id="tenedit" placeholder="Tên khách hàng">
                             </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -298,7 +304,7 @@
         $(document).ready(async function () {
 
             $("#btnedit").click(function () {
-                if ($("#dtedit").val() == "" || $("#ngaysinhedit").val() == "") {
+                if ($("#dtedit").val() == "" || $("#ngaysinhedit").val() == "" || $("#tenedit").val() == "") {
                     toastr.options = {
                         "closeButton": false,
                         "debug": false,
@@ -340,6 +346,7 @@
                                             + ', quanhuyen: ' + JSON.stringify($("#quanedit").val())
                                             + ', lienhe: ' + JSON.stringify($("#lienheedit").val())
                                             + ', diachi: ' + JSON.stringify($("#diachiedit").val())
+                                            + ', tenkh: ' + JSON.stringify($("#tenedit").val())
                                             + ', macn: ' + JSON.stringify($("#CNedit").val())
                                             + ', masothue: ' + JSON.stringify($("#thueedit").val()) + '}',
                                         error: function () {
@@ -645,6 +652,7 @@
                         $("#xeploaiedit").val(data.xeploai);
                         $("#tinhedit").val(data.matinh);
                         $("#diachiedit").val(data.DIACHI);
+                        $("#tenedit").val(data.DONVI);
                         $("#CNedit").val(data.macn);
                         $("#lienheedit").val(data.TENNGUOILH);
                         $("#thueedit").val(data.MST);
@@ -695,7 +703,7 @@
                         //                    <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
                         //                    <li><a class="btndoikh" data-toggle="modal" data-backdrop="static" data-target="#ModalChange">Đổi mã</a></li>`;
                         //}
-                        if (data[i].tinhtrang == "Khách hàng mới" || quyen.indexOf("XOASUAKHACHHANG") != -1) {
+                        if (data[i].tinhtrang == "Khách hàng mới") {
                             append += `  <li><a class="btnsuakh" data-toggle="modal" data-backdrop="static" data-target="#ModalEdit">Thay đổi thông tin</a></li>
                                             <li><a class="btnxoakh">Xóa</a></li>`;
                         }

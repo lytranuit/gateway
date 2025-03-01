@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\AppicationChart</_PublishTargetUrl>
-    <History>True|2025-02-17T08:28:58.6301430Z;True|2025-01-11T10:18:17.9452451+07:00;True|2025-01-11T09:06:47.8434240+07:00;True|2025-01-01T22:27:55.3123347+07:00;True|2024-11-18T13:39:04.0326147+07:00;True|2024-11-18T07:58:23.2738082+07:00;True|2024-11-13T13:17:42.4209697+07:00;True|2024-11-11T11:08:32.7739350+07:00;True|2024-11-08T08:08:41.8569795+07:00;True|2024-11-06T09:47:46.3174383+07:00;True|2024-11-06T09:28:00.1725864+07:00;True|2024-11-04T09:43:54.2451135+07:00;True|2024-11-02T11:36:44.5965734+07:00;True|2024-10-18T08:21:40.5772545+07:00;True|2024-10-17T11:11:09.9450492+07:00;True|2024-10-16T09:50:25.9177073+07:00;True|2024-10-16T09:49:21.9518325+07:00;True|2024-10-15T16:34:28.0939518+07:00;True|2024-10-09T14:44:53.0273076+07:00;True|2024-10-03T14:10:38.2642165+07:00;False|2024-09-13T14:36:51.5445891+07:00;False|2024-09-13T14:36:44.5667226+07:00;True|2024-09-13T13:54:24.9323818+07:00;True|2024-09-07T08:07:21.6802539+07:00;True|2024-09-06T09:56:32.4534054+07:00;True|2024-09-05T14:58:46.6196387+07:00;True|2024-05-20T13:49:09.1219361+07:00;True|2024-05-11T20:40:39.2651927+07:00;True|2024-04-02T08:06:01.2298909+07:00;True|2024-03-18T14:28:24.6925460+07:00;True|2024-03-15T10:21:48.8677890+07:00;True|2024-03-15T10:19:20.9042372+07:00;True|2024-03-08T10:19:28.3641922+07:00;True|2024-03-07T15:40:22.1102980+07:00;True|2024-03-07T10:26:04.9508267+07:00;True|2024-03-07T10:14:40.4463127+07:00;True|2024-03-04T10:40:15.5643904+07:00;True|2024-03-01T09:01:50.9378936+07:00;True|2024-02-29T09:33:59.2156884+07:00;True|2024-02-01T16:46:02.4185609+07:00;True|2024-01-31T15:14:50.2017267+07:00;True|2024-01-31T14:40:51.6423190+07:00;True|2024-01-29T11:26:08.3126467+07:00;True|2024-01-22T13:53:37.5103615+07:00;True|2024-01-17T11:25:43.4310325+07:00;True|2024-01-15T10:45:38.1369168+07:00;True|2024-01-15T10:02:53.2189151+07:00;True|2024-01-15T10:02:17.4188145+07:00;True|2024-01-15T09:32:47.1029682+07:00;True|2024-01-15T09:32:37.2034997+07:00;True|2024-01-12T17:05:51.6576398+07:00;True|2024-01-12T17:02:21.0409691+07:00;True|2024-01-12T16:49:01.1094530+07:00;True|2024-01-12T16:39:01.4783117+07:00;True|2024-01-12T16:37:47.6936738+07:00;True|2024-01-12T11:06:16.2784611+07:00;True|2024-01-12T10:54:32.9564019+07:00;False|2024-01-12T10:53:54.4996162+07:00;False|2024-01-12T10:53:13.3337288+07:00;False|2024-01-12T10:51:25.2183455+07:00;True|2023-12-11T11:48:46.5328839+07:00;True|2023-12-11T10:00:19.7421651+07:00;True|2023-12-04T13:36:26.5940904+07:00;True|2023-12-04T12:19:27.3059864+07:00;True|2023-11-30T08:53:33.9462347+07:00;True|2023-11-22T08:21:39.0364782+07:00;</History>
+    <History>True|2025-02-28T08:27:09.5807390Z;True|2025-02-17T15:28:58.6301430+07:00;True|2025-01-11T10:18:17.9452451+07:00;True|2025-01-11T09:06:47.8434240+07:00;True|2025-01-01T22:27:55.3123347+07:00;True|2024-11-18T13:39:04.0326147+07:00;True|2024-11-18T07:58:23.2738082+07:00;True|2024-11-13T13:17:42.4209697+07:00;True|2024-11-11T11:08:32.7739350+07:00;True|2024-11-08T08:08:41.8569795+07:00;True|2024-11-06T09:47:46.3174383+07:00;True|2024-11-06T09:28:00.1725864+07:00;True|2024-11-04T09:43:54.2451135+07:00;True|2024-11-02T11:36:44.5965734+07:00;True|2024-10-18T08:21:40.5772545+07:00;True|2024-10-17T11:11:09.9450492+07:00;True|2024-10-16T09:50:25.9177073+07:00;True|2024-10-16T09:49:21.9518325+07:00;True|2024-10-15T16:34:28.0939518+07:00;True|2024-10-09T14:44:53.0273076+07:00;True|2024-10-03T14:10:38.2642165+07:00;False|2024-09-13T14:36:51.5445891+07:00;False|2024-09-13T14:36:44.5667226+07:00;True|2024-09-13T13:54:24.9323818+07:00;True|2024-09-07T08:07:21.6802539+07:00;True|2024-09-06T09:56:32.4534054+07:00;True|2024-09-05T14:58:46.6196387+07:00;True|2024-05-20T13:49:09.1219361+07:00;True|2024-05-11T20:40:39.2651927+07:00;True|2024-04-02T08:06:01.2298909+07:00;True|2024-03-18T14:28:24.6925460+07:00;True|2024-03-15T10:21:48.8677890+07:00;True|2024-03-15T10:19:20.9042372+07:00;True|2024-03-08T10:19:28.3641922+07:00;True|2024-03-07T15:40:22.1102980+07:00;True|2024-03-07T10:26:04.9508267+07:00;True|2024-03-07T10:14:40.4463127+07:00;True|2024-03-04T10:40:15.5643904+07:00;True|2024-03-01T09:01:50.9378936+07:00;True|2024-02-29T09:33:59.2156884+07:00;True|2024-02-01T16:46:02.4185609+07:00;True|2024-01-31T15:14:50.2017267+07:00;True|2024-01-31T14:40:51.6423190+07:00;True|2024-01-29T11:26:08.3126467+07:00;True|2024-01-22T13:53:37.5103615+07:00;True|2024-01-17T11:25:43.4310325+07:00;True|2024-01-15T10:45:38.1369168+07:00;True|2024-01-15T10:02:53.2189151+07:00;True|2024-01-15T10:02:17.4188145+07:00;True|2024-01-15T09:32:47.1029682+07:00;True|2024-01-15T09:32:37.2034997+07:00;True|2024-01-12T17:05:51.6576398+07:00;True|2024-01-12T17:02:21.0409691+07:00;True|2024-01-12T16:49:01.1094530+07:00;True|2024-01-12T16:39:01.4783117+07:00;True|2024-01-12T16:37:47.6936738+07:00;True|2024-01-12T11:06:16.2784611+07:00;True|2024-01-12T10:54:32.9564019+07:00;False|2024-01-12T10:53:54.4996162+07:00;False|2024-01-12T10:53:13.3337288+07:00;False|2024-01-12T10:51:25.2183455+07:00;True|2023-12-11T11:48:46.5328839+07:00;True|2023-12-11T10:00:19.7421651+07:00;True|2023-12-04T13:36:26.5940904+07:00;True|2023-12-04T12:19:27.3059864+07:00;True|2023-11-30T08:53:33.9462347+07:00;True|2023-11-22T08:21:39.0364782+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -36,10 +36,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/ApplicationChart.dll">
-      <publishTime>02/17/2025 15:37:29</publishTime>
+      <publishTime>02/28/2025 15:26:43</publishTime>
     </File>
     <File Include="bin/ApplicationChart.pdb">
-      <publishTime>02/17/2025 15:37:29</publishTime>
+      <publishTime>02/28/2025 15:26:43</publishTime>
     </File>
     <File Include="bin/CaptchaMvc.dll">
       <publishTime>11/22/2023 09:34:40</publishTime>
@@ -207,10 +207,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DocumentFormat.OpenXml.dll">
-      <publishTime>11/22/2023 09:35:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/en/ApplicationChart.resources.dll">
-      <publishTime>02/17/2025 15:37:31</publishTime>
+      <publishTime>02/28/2025 15:26:44</publishTime>
     </File>
     <File Include="bin/en/CrystalDecisions.CrystalReports.Engine.resources.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -495,10 +495,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:35:59</publishTime>
     </File>
     <File Include="bin/PagedList.dll">
-      <publishTime>11/22/2023 09:36:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PagedList.Mvc.dll">
-      <publishTime>11/22/2023 09:36:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/pl/CrystalDecisions.CrystalReports.Engine.resources.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -4905,64 +4905,64 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2023 09:29:59</publishTime>
     </File>
     <File Include="Content/Order/js/lib/line-progress/line-progress-init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/menubar/sidebar.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/metismenu/jquery.slimscroll.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/metismenu/metismenu.init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/metismenu/metismenu.min.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/moment/moment.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/morris-chart/dashboard1-init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/morris-chart/morris-init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/morris-chart/morris.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/morris-chart/raphael-min.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/nestable/jquery.nestable.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/nestable/nestable.init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/owl-carousel/owl.carousel-init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/owl-carousel/owl.carousel.min.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/peitychart/jquery.peity.min.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/peitychart/peitychart.init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/portlets/portlets-init.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/portlets/portlets.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/preloader/pace.min.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/rangeSlider/ion.rangeSlider.min.js">
-      <publishTime>11/22/2023 09:30:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/Order/js/lib/rangeSlider/moment-with-locales.js">
       <publishTime>11/22/2023 09:30:01</publishTime>
@@ -11181,7 +11181,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/02/2025 09:10:04</publishTime>
     </File>
     <File Include="Views/Baocao/Danhsachkhachhang.cshtml">
-      <publishTime>01/16/2025 10:18:17</publishTime>
+      <publishTime>02/28/2025 15:25:11</publishTime>
     </File>
     <File Include="Views/Baocao/Huongdancrm.cshtml">
       <publishTime>01/02/2025 09:10:04</publishTime>
