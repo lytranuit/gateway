@@ -144,7 +144,7 @@
     <script src="~/Scripts/bootstrap-select.js?version=4"></script>
     <script src='~/Content/Calendar/fullcalendar.js?version=10'></script>
     <script src='~/Scripts/moment.js'></script>
-    <script src='~/Scripts/LichJS.js?version=52'></script>
+    <script src='~/Scripts/LichJS.js?version=54'></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfubNaXE2rKxO3-COIS4Do5qpgvd82TLw&callback=myMap"></script>
     <script>
         var quyen = '@ViewBag.quyen';
@@ -398,8 +398,7 @@
                     datelock.setDate(datelock.getDate() + 7);
                     var ngay = moment(start).format("DD/MM/YYYY");
                     var url = '@Url.Action("GetKehoach", "Baocao")';
-                    if (x.getTime() === start.getTime() || quyen.indexOf("LUIKEHOACH") != -1)
-                    
+                    if (x.getTime() === start.getTime() || (x > start && x < moment(datelock).startOf('isoweek') && quyen.indexOf("LUIKEHOACH") != -1))
                     {
                         $("#btnluutatca").css("display","block");
                         $("#thxoa").css("display","table-cell");
@@ -412,12 +411,20 @@
                                     var check = (data[i].checkin == true) ? " checked" : "";
                                     var hidden = (data[i].checkin == true) ? " hidden" : "";
                                     var block = (data[i].checkin == false) ? " hidden" : "";
+                                    var ngay_string = moment(parseDate(data[i].ngay)).format("YYYY-MM-DD");
+                                    var created_at = moment(parseDate(data[i].created_at)).format("YYYY-MM-DD");
+                                    var class_delete = "";
+                                    if (created_at >= ngay_string) {
+                                        class_delete = "btndelete"
+                                    } else {
+                                        class_delete = "d-none";
+                                    }
                                     $("#tabletdv").find("tbody").append(
                                     '<tr class="stt">'
                                     + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
                                         + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" data-id="' + data[i].id + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - "  + data[i].tenkh + '</td>'
                                     + '<td class="text-center"><input class="largerCheckbox align-middle" type="checkbox"' + check + '>'+ ((data[i].checkgps == 1)?'<button type="button" class="btn btngps btn-success" disabled=""><i class="fa p-1 fa-check"></i></button>':'<button type="button" class="btn btn-primary btngps"><i class="fa fa-map-marker p-1"></i></button>') +'</td>'
-                                    + '<td class="text-center text-dark"><button type="button" class="btn btn-danger btndelete"><i class="fa fa-times"></i></button></td>'
+                                        + '<td class="text-center text-dark"><button type="button" class="btn btn-danger ' + class_delete +'"><i class="fa fa-times"></i></button></td>'
                                         + '</tr><tr><td colspan="3"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"><input type="text" class="form-control ketqua mt-2" placeholder="Kết quả"><div class="input-group mt-2"><select class="custom-select' + block + '"><option selected value="1">Ghé thăm</option><option value="2">Có toa hàng</option></select><div class="input-group-append"><button type="button" title="Thêm đơn hàng" class="btn btn-outline-primary waves-effect m-0 btnadddonhang'+ block +'"><i class="fa fa-plus"></i></button></div></div></td></tr>');
                                     $("#tabletdv > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
                                     $("#tabletdv > tbody > tr").last().find(".ketqua").val(data[i].ketqua_text);
@@ -521,6 +528,12 @@
                     dataevent
                 ,
             });
+        }
+        // Hàm chuyển đổi chuỗi ngày từ dạng "/Date(timestamp)/" sang đối tượng Date
+        function parseDate(dateString) {
+            if (!dateString) return new Date(2024,1,1);
+            const timestamp = dateString.match(/\d+/)[0]; // Lấy số timestamp bên trong chuỗi
+            return new Date(parseInt(timestamp)); // Chuyển thành đối tượng Date
         }
     </script>
 }

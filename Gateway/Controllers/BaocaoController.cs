@@ -19,6 +19,7 @@ using System.Web.Mvc;
 using System.Net;
 using static DevExpress.XtraPrinting.Export.Pdf.PdfImageCache;
 using System.Data.SqlClient;
+using PagedList;
 
 namespace ApplicationChart.Controllers
 {
@@ -693,6 +694,8 @@ namespace ApplicationChart.Controllers
                     }
                     if (i.id > 0)
                     {
+                        var d = db2.DTA_CONGTACTRINHDUOC.Where(n => n.id == i.id).FirstOrDefault();
+                        i.created_at = d.created_at;
                         list_update.Add(i);
                     }
                     else
@@ -704,7 +707,7 @@ namespace ApplicationChart.Controllers
             }
 
             var list_up_id = list_update.Select(d => d.id).ToList();
-            var data_delete = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == MATDV && n.ngay == ngay && !list_up_id.Contains(n.id));
+            var data_delete = db2.DTA_CONGTACTRINHDUOC.Where(n => n.matdv == MATDV && n.ngay == ngay && !list_up_id.Contains(n.id)).ToList();
             db2.DTA_CONGTACTRINHDUOC.RemoveRange(data_delete);
             db2.SaveChanges();
             if (list_add.Count() > 0)
@@ -732,7 +735,13 @@ namespace ApplicationChart.Controllers
         }
         public ActionResult ExcelKhachhang(string matdv)
         {
-
+            var list_tdv = new List<string>() { matdv };
+            if (matdv == null || matdv == "")
+            {
+                var Info = GetInfo();
+                list_tdv = Info.matdv.Split(',').ToList();
+                matdv = Info.nguoidung;
+            }
             string path = Server.MapPath("~/Content/mauKHmoi.xlsx");
             using (var memoryStream = new MemoryStream())
             {
@@ -761,12 +770,19 @@ namespace ApplicationChart.Controllers
                         {
                             worksheet.Cells["C2"].Value = matinh;
                         }
-                        var danhsach = enti.TBL_DANHMUCKHACHHANG
-                            .Where(d => d.matdv == matdv && d.tinhtrang != "Ngừng giao dịch")
-                            .ToList();
-                        danhsach.AddRange(enti1.TBL_DANHMUCKHACHHANG
-                            .Where(d => d.matdv == matdv && d.tinhtrang != "Ngừng giao dịch")
-                            .ToList());
+                        var query1 = enti.TBL_DANHMUCKHACHHANG
+                            .Where(d => d.tinhtrang != "Ngừng giao dịch");
+                        var query2 = enti1.TBL_DANHMUCKHACHHANG
+                            .Where(d => d.tinhtrang != "Ngừng giao dịch");
+                        if (!list_tdv.Contains("ALL"))
+                        {
+                            query1 = query1.Where(d => list_tdv.Contains(d.matdv));
+                            query2 = query2.Where(d => list_tdv.Contains(d.matdv));
+                        }
+                        var danhsach = query1.ToList();
+                        var danhsach2 = query2.ToList();
+
+                        danhsach.AddRange(danhsach2);
 
                         int start_r = 4;
                         foreach (var d in danhsach)
@@ -796,6 +812,7 @@ namespace ApplicationChart.Controllers
                             worksheet.Cells["G" + start_r].Value = d.xeploai;
                             worksheet.Cells["H" + start_r].Value = d.ngaycapnhat != null ? d.ngaycapnhat.Value.ToString("dd/MM/yyyy") : "";
                             worksheet.Cells["I" + start_r].Value = d.makh;
+                            worksheet.Cells["J" + start_r].Value = d.matdv;
                             start_r++;
                         }
 
@@ -813,7 +830,13 @@ namespace ApplicationChart.Controllers
         }
         public ActionResult ExcelKhachhangMoi(string matdv)
         {
-
+            var list_tdv = new List<string>() { matdv };
+            if (matdv == null || matdv == "")
+            {
+                var Info = GetInfo();
+                list_tdv = Info.matdv.Split(',').ToList();
+                matdv = Info.nguoidung;
+            }
             string path = Server.MapPath("~/Content/mauKHmoi.xlsx");
             using (var memoryStream = new MemoryStream())
             {
@@ -842,10 +865,13 @@ namespace ApplicationChart.Controllers
                             worksheet.Cells["C2"].Value = matinh;
                         }
 
-                        var danhsach = enti.TBL_DANHMUCKHACHHANG
-                            .Where(d => d.matdv == matdv && d.tinhtrang == "Khách hàng mới")
-                            .ToList();
-
+                        var query1 = enti.TBL_DANHMUCKHACHHANG
+                          .Where(d => d.tinhtrang == "Khách hàng mới");
+                        if (!list_tdv.Contains("ALL"))
+                        {
+                            query1 = query1.Where(d => list_tdv.Contains(d.matdv));
+                        }
+                        var danhsach = query1.ToList();
                         int start_r = 4;
                         foreach (var d in danhsach)
                         {
@@ -1033,7 +1059,7 @@ namespace ApplicationChart.Controllers
 
 
                     }
-                    var congtac_t2 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t2).ToList();
+                    var congtac_t2 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t2 && d.created_at < d.ngay).ToList();
                     int start_r = 5;
 
                     var enti2 = queryKT.SingleOrDefault(d => d.macn == "DPY").data;
@@ -1073,8 +1099,8 @@ namespace ApplicationChart.Controllers
 
                     }
 
-                    var congtac_t3 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t3).ToList();
-                    start_r = 18;
+                    var congtac_t3 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t3 && d.created_at < d.ngay).ToList();
+                    start_r = 25;
 
                     foreach (var d in congtac_t3)
                     {
@@ -1103,8 +1129,8 @@ namespace ApplicationChart.Controllers
 
                     }
 
-                    var congtac_t4 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t4).ToList();
-                    start_r = 31;
+                    var congtac_t4 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t4 && d.created_at < d.ngay).ToList();
+                    start_r = 45;
                     foreach (var d in congtac_t4)
                     {
 
@@ -1130,8 +1156,8 @@ namespace ApplicationChart.Controllers
 
 
                     }
-                    var congtac_t5 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t5).ToList();
-                    start_r = 44;
+                    var congtac_t5 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t5 && d.created_at < d.ngay).ToList();
+                    start_r = 65;
                     foreach (var d in congtac_t5)
                     {
 
@@ -1158,8 +1184,8 @@ namespace ApplicationChart.Controllers
 
                     }
 
-                    var congtac_t6 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t6).ToList();
-                    start_r = 57;
+                    var congtac_t6 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t6 && d.created_at < d.ngay).ToList();
+                    start_r = 85;
                     foreach (var d in congtac_t6)
                     {
 
@@ -1186,8 +1212,8 @@ namespace ApplicationChart.Controllers
 
                     }
 
-                    var congtac_t7 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t7).ToList();
-                    start_r = 70;
+                    var congtac_t7 = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay == t7 && d.created_at < d.ngay).ToList();
+                    start_r = 105;
                     foreach (var d in congtac_t7)
                     {
 
@@ -1836,7 +1862,7 @@ namespace ApplicationChart.Controllers
         {
             try
             {
-                string strcn = "seleCT ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.GIABAN_VAT AS MONEY)), 0) as TONGTIEN_CT_HOADON  " +
+                string strcn = "seleCT ROUND(SUM(CT.SOLUONG  * CT.GIABAN_VAT), 0) as TONGTIEN_CT_HOADON  " +
                     " ,  ROUND(SUM(CT.SOLUONG * (CT.GIABAN_VAT / (1 + (CAST(CT.vat as MONEY)/100))) * (CAST(CT.ck AS MONEY)/100)),0) AS TIENCK " +
                     "from DTA_DONDATHANG CT " +
                         "LEFT JOIN   TBL_DANHMUCHANGHOA ON CT.MAHH = TBL_DANHMUCHANGHOA.MAHH " +

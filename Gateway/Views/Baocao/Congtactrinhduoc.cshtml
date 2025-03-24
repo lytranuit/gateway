@@ -238,8 +238,11 @@
                 $('#chinhanh').selectpicker();
                 $('#chinhanh').selectpicker('deselectAll');
 
-                if ($("#baocao").val() == 1 || $("#baocao").val() == 4 || $("#baocao").val() == 5 || $("#baocao").val() == 6 || $("#baocao").val() == 7) {
+                if ($("#baocao").val() == 1 ||$("#baocao").val() == 5 || $("#baocao").val() == 6 ) {
                     $("#labeltdv").html('Đại diện nhãn hàng <code class="bg-white">(*)</code>');
+                    $("#divtdv").css("display", "block");
+                }else if ($("#baocao").val() == 4 || $("#baocao").val() == 7) {
+                    $("#labeltdv").html('Đại diện nhãn hàng');
                     $("#divtdv").css("display", "block");
                 }
                 else {

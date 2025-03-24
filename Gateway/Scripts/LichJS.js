@@ -111,6 +111,38 @@
         //    Command: toastr["warning"]("Bạn không có kế hoạch trong ngày này để lưu!", "Thông báo")
         //    return false;
         //}
+        var error = false;
+        $('#tabletdv .ketqua').each(function (index) {
+            console.log($(this).val());
+            if (!$(this).val()) {
+                error = true;
+            }
+
+        });
+
+        if (error) {
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            Command: toastr["warning"]("Bắt buộc nhập kết quả cho báo cáo!", "Thông báo")
+            return false;
+        }
+
         $.confirm({
             title: '<b>THÔNG BÁO</b>',
             content: 'Bạn có chắc chắn muốn lưu tất cả các kế hoạch/báo cáo trong bảng này ?',
@@ -364,7 +396,6 @@
                 }
             }
         });
-
     });
     $("#tabletdv").on("click", ".largerCheckbox", function () {
         var x = this;

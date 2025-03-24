@@ -133,7 +133,8 @@ namespace ApplicationChart.Controllers
                 var Data = DATA(MACH, MATDV, DateTime.Today.AddMonths(-1), DateTime.Today.AddDays(1));
                 ViewBag.TDV = MATDV;
                 var THKM = DATATH1.TBL_DANHMUCKM.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).ToList().Where(n => n.PHAMVI.Split(',').Contains(Infocrm.macn)).Select(cl => new ListChuongTrinhKM { MACTKM = cl.MACTKM, BBTT = (cl.BBTT == true) ? 1 : 0, TENCTKM = cl.TENCTKM, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, ck = cl.ck }).ToList();
-                Data.ListCTKM = THKM.Concat(Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM))).ToList();
+                var ListCTKM = Data.ListCTKM.Where(n => !THKM.Select(cl => cl.MACTKM).ToList().Contains(n.MACTKM));
+                Data.ListCTKM = THKM.Concat(ListCTKM).ToList();
                 Data.ListDDH = Data.ListDDH.OrderByDescending(n => n.MADH).ToList();
                 Data.ListCTHT = DATATH1.TBL_DANHMUCCHUONGTRINHHOTRO.Where(n => n.ngayketthuc >= DateTime.Today && n.ngaybatdau <= DateTime.Today).Select(cl => new ListChuongTrinhHT { MACTHT = cl.MACTHT, TENCTHT = cl.TENCTHT, MAHH = cl.MAHH, TICHDIEM = cl.TICHDIEM, MACTKM = cl.MACTKM }).ToList();
                 ViewBag.tungay = DateTime.Today.ToString("01/MM/yyyy");

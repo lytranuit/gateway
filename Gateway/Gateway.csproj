@@ -1162,6 +1162,24 @@
       <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_TDV_CHITIET_MANV.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_HANGHOA.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_HANGHOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_KHUVUC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_KHUVUC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_KHUVUC.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3976,6 +3994,18 @@
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_CHITIET_MANV.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_TDV_CHITIET_MANV.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_HANGHOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_HANGHOA.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_KHUVUC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_KHUVUC.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_KHUVUC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

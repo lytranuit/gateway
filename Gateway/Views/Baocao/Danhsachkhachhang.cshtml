@@ -35,6 +35,10 @@
                             <th>Địa chỉ</th>
                             <th>ĐT liên hệ</th>
                             <th>Mã nhà phân phối</th>
+                            <th>TDV</th>
+                            <th>Mã Tỉnh</th>
+                            <th>Mã Quận/Huyện</th>
+                            <th>Xếp loại</th>
                             <th style="width:110px;">Hành động</th>
                         </tr>
                     </thead>
@@ -691,6 +695,10 @@
                                 <td>`+ data[i].DIACHI + `</td>
                                 <td>`+ data[i].DT + `</td>
                                 <td class="text-center">`+ data[i].macn + `</td>
+                                <td class="text-center">`+ data[i].MATDV + `</td>
+                                <td class="text-center">`+ data[i].MATINH + ` - ` + data[i].tentinh + `</td>
+                                <td class="text-center">`+ data[i].quanhuyen + ` - ` + data[i].tenquan + `</td>
+                                <td class="text-center">`+ data[i].xeploai + `</td>
                                 <td class="p-1 align-middle text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-primary rounded-0 pl-2 pr-2" data-toggle="dropdown">

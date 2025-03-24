@@ -301,18 +301,22 @@ namespace ApplicationChart.Models
         public string tennguoigd { get; set; }
         public string taikhoan { get; set; }
         public string nganhang { get; set; }
+        public string quanhuyen { get; set; }
         public bool khngoai { get; set; }
         public string masothue { get; set; }
+        public string xeploai { get; set; }
         public string email { get; set; }
         public string diachigiaohang { get; set; }
         public DateTime? NGAYSINH { get; set; }
         public string tinhtrang { get; set; }
+        public string tentinh { get; set; }
+        public string tenquan { get; set; }
     }
     public partial class ListNhaPhanPhoi
     {
         public string macn { get; set; }
         public string tencn { get; set; }
-       
+
     }
     public partial class CONGNOKHACHHANG
     {
@@ -1824,6 +1828,25 @@ namespace ApplicationChart.Models
         public decimal T2 { get; set; }
         public decimal T3 { get; set; }
         public string QUI { get; set; }
+    }
+    public class DULIEUBAOCAO57
+    {
+        public string MACN { get; set; }
+        public string MAKH { get; set; }
+        public string MAHH { get; set; }
+        public string TENHH { get; set; }
+        public string DVT { get; set; }
+        public string DONVI { get; set; }
+        public string DIACHI { get; set; }
+        public string MATINH { get; set; }
+        public string TENTINH { get; set; }
+        public string MATDV { get; set; }
+        public string TENTDV { get; set; }
+        public string TUNGAY { get; set; }
+        public string DENNGAY { get; set; }
+        public decimal SOLUONG { get; set; }
+        public decimal THANHTIEN { get; set; }
+        public decimal THANHTIEN_VAT { get; set; }
     }
     public class DULIEUBAOCAO27
     {
