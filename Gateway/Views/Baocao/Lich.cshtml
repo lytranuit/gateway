@@ -144,7 +144,7 @@
     <script src="~/Scripts/bootstrap-select.js?version=4"></script>
     <script src='~/Content/Calendar/fullcalendar.js?version=10'></script>
     <script src='~/Scripts/moment.js'></script>
-    <script src='~/Scripts/LichJS.js?version=54'></script>
+    <script src='~/Scripts/LichJS.js?version=59'></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfubNaXE2rKxO3-COIS4Do5qpgvd82TLw&callback=myMap"></script>
     <script>
         var quyen = '@ViewBag.quyen';
@@ -286,38 +286,6 @@
                     alert('Trình duyệt của bạn không hỗ trợ lấy GPS vui lòng chuyển trình duyệt khác');
                 }
 
-            });
-            $("#tabletdv").on("click", ".btndelete", function () {
-                var x = this;
-                $.confirm({
-                    title: '<b>THÔNG BÁO</b>',
-                    content: 'Bạn có chắc chắn muốn xóa kế hoạch này ?',
-                    buttons: {
-                        confirm: {
-                            text: 'Chắc chắn',
-                            btnClass: 'btn-success',
-                            keys: ['enter'],
-                            action: function () {
-                                $(x).closest('tr').next('tr').remove();
-                                $(x).closest('tr').remove();
-                                var i = 1;
-                                $("#tabletdv > tbody >tr.stt").each(function () {
-                                    $(this).closest('tr').find('td:eq(0)').empty();
-                                    $(this).closest('tr').find('td:eq(0)').append(i);
-                                    i = i + 1;
-                                });
-                            }
-                        },
-                        cancel: {
-                            text: 'Hủy',
-                            btnClass: 'btn-danger',
-                            keys: ['esc'],
-                            action: function () {
-
-                            }
-                        }
-                    }
-                });
             });
             $(".sidebar-icon").click(function(){
                 $('#calendar').empty();
@@ -512,12 +480,20 @@
                         $.post(url, { ngay: ngay },
                         function (data) {
                             for (var i = 0; i < data.length; i++) {
+                               // $("#tablecreate").find("tbody").append(
+                               //  '<tr>'// need to change closing tag to an opening `<tr>` tag.
+                               //     + '<td class="text-center text-dark">' + (i + 1) + '</td>'
+                               //     + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" data-id="' + data[i].id + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
+                               //+ '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
+                               //     + '</tr>');
                                 $("#tablecreate").find("tbody").append(
-                                 '<tr>'// need to change closing tag to an opening `<tr>` tag.
-                               + '<td class="text-center text-dark">' + (i + 1) + '</td>'
-                                    + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" data-id="' + data[i].id + '" class="left strong text-dark font-weight-normal">'+ data[i].makh + " - " + data[i].tenkh + '</td>'
-                               + '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
-                               + '</tr>');
+                                    '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
+                                    + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
+                                    + '<td data-makh="' + data[i].makh + '" data-tenkh="' + data[i].tenkh + '" data-id="' + data[i].id + '" class="left strong text-dark font-weight-normal">' + data[i].makh + " - " + data[i].tenkh + '</td>'
+                                    + '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
+                                    + '</tr>'
+                                    +'<tr><td colspan="2"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"></td></tr>');
+                                $("#tablecreate > tbody > tr").last().find(".ghichu").val(data[i].ghichu);
                             }
                         });
                         $('#ModalCreate').modal({ backdrop: 'static', keyboard: false })

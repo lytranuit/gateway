@@ -960,7 +960,7 @@ namespace ApplicationChart.Controllers
                         .ToList());
 
 
-                    var congtac = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay >= tungay && d.ngay <= denngay).ToList();
+                    var congtac = db2.DTA_CONGTACTRINHDUOC.Where(d => d.matdv == matdv && d.ngay >= tungay && d.ngay <= denngay && d.ghichu != null && d.ghichu != "").ToList();
                     var groupby_ngay = congtac.GroupBy(d => d.ngay).Select(d => new
                     {
                         ngay = d.Key,

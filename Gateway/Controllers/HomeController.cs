@@ -27,7 +27,6 @@ using System.Net;
 using APIInvoice;
 using System.Data.SqlClient;
 using System.Data.Entity.Migrations;
-using it_report.Models;
 
 namespace ApplicationChart.Controllers
 {
@@ -3273,7 +3272,7 @@ namespace ApplicationChart.Controllers
         [ActionName("huong-dan-su-dung-website")]
         public ActionResult Huongdan()
         {
-            return File("~/Content/HUONG DAN GATEWAY.PYMEPHARCO.COM (USER GUIDE).pdf", "application/pdf");
+            return File("~/Content/Huong dan su dung Gateway.pdf", "application/pdf");
         }
         [ActionName("huong-dan-su-dung-don-dat-hang")]
         public ActionResult Huongdandathang()
@@ -6599,6 +6598,57 @@ namespace ApplicationChart.Controllers
 
             return DATAX;
         }
+        public List<DULIEUBAOCAO> DATABAOCAONHAP(List<string> mapl, List<string> soso, DateTime tungay, DateTime denngay, string phanloai, List<string> phanloaikhachhang, List<string> nhomhang, List<string> sanpham, List<string> quanhuyen, List<string> matinh, List<string> matdv, List<string> hopdong, List<string> makh, List<string> makm, List<string> loaihd, List<string> mactht)
+        {
+            var DATAX = new List<DULIEUBAOCAO>();
+            //String CN
+            string strcn = "seleCT " +
+                "HOADON.SOHD as SoHD," +
+                "HOADON.ngaylaphd AS NGAY," +
+                "HOADON.MAPL," +
+                "CT.MAHH AS MAHH," +
+                "TBL_DANHMUCHANGHOA.TENHH AS TENHH," +
+                "HOADON.MAKH," +
+                "TBL_DANHMUCKHACHHANG.DONVI," +
+                "SUM(CAST(CT.SOLUONG AS MONEY)) AS SOLUONG, " +
+                "CAST(CT.DONGIA AS MONEY) AS DONGIA," +
+                "CT.DVT," +
+                "CT.MALO AS SOLO," +
+                "CT.HANDUNG as HANDUNG," +
+                "ROUND(CAST(CT.SOLUONG AS MONEY) * (CAST(CT.DONGIA AS MONEY)), 0) AS TIEN " +
+                "from " +
+                "DTA_CT_HOADON_NHAP CT " +
+                "LEFT JOIN TBL_DANHMUCHANGHOA ON CT.mahh = TBL_DANHMUCHANGHOA.mahh," +
+                "DTA_HOADON_NHAP HOADON " +
+                "LEFT JOIN TBL_DANHMUCKHACHHANG ON HOADON.makh = TBL_DANHMUCKHACHHANG.makh " +
+                "where HOADON.ngaylaphd BETWEEN '" + tungay.ToString("yyyy-MM-dd") + "' and '" + denngay.ToString("yyyy-MM-dd") + "' " +
+                "AND HOADON.SOHD = CT.SOHD " +
+                "AND HOADON.NGAYLAPHD = CT.NGAYLAPHD " +
+                "AND CT.KT = 1 ";
+
+            //NHOM = cl.Key.SOHD,
+            //            MAQUAY = cl.First().DONVI,
+            //            dvt = cl.First().DVT.ToUpper(),
+            //            mahh = cl.Key.MAHH,
+            //            mapl = cl.First().MAKH,
+            //            NAM = cl.First().NGAY.ToString("dd/MM/yyyy"),
+            //            soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
+            //            tenhh = cl.First().TENHH,
+            //            tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero))
+            strcn = strcn + " GROUP BY CT.MALO,CT.HANDUNG,HOADON.SOHD,HOADON.ngaylaphd, HOADON.MAPL, CT.mahh, TBL_DANHMUCHANGHOA.TENHH, HOADON.MAKH, TBL_DANHMUCKHACHHANG.DONVI, CAST(CT.SOLUONG AS MONEY), CT.DonGia, CT.DVT, ROUND(CAST(CT.SOLUONG AS MONEY) * CAST(CT.DONGIA AS MONEY), 0)";
+            foreach (var x in soso)
+            {
+                if (queryCN.SingleOrDefault(n => n.macn == x) != null)
+                {
+                    var enti = queryCN.SingleOrDefault(n => n.macn == x).data;
+                    enti.Database.CommandTimeout = 320;
+                    var All = enti.Database.SqlQuery<DULIEUBAOCAO>(strcn).ToList();
+                    DATAX.AddRange(All);
+                }
+            }
+            return DATAX;
+        }
+
         public List<DULIEUBAOCAO> DATABAOCAO(List<string> mapl, List<string> soso, DateTime tungay, DateTime denngay, string phanloai, List<string> phanloaikhachhang, List<string> nhomhang, List<string> sanpham, List<string> quanhuyen, List<string> matinh, List<string> matdv, List<string> hopdong, List<string> makh, List<string> makm, List<string> loaihd, List<string> mactht)
         {
             var DATAX = new List<DULIEUBAOCAO>();
@@ -19196,8 +19246,87 @@ namespace ApplicationChart.Controllers
                     GC.Collect();
                     return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
                 }
-            }
+            } 
+            else if (loaibaocao == 61)
+            {
+                var data0 = DATABAOCAO59(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                BAOCAO_TONGHOP_CT_XUAT_TDV_HANGHOA rpt = new BAOCAO_TONGHOP_CT_XUAT_TDV_HANGHOA();
 
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 62)
+            {
+                var data0 = DATABAOCAO59(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
+                BAOCAO_TONGHOP_CT_XUAT_HANGHOA_TDV rpt = new BAOCAO_TONGHOP_CT_XUAT_HANGHOA_TDV();
+
+                rpt.Load();
+                rpt.SetDataSource(data0);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
 
 
             var data = DATABAOCAO(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14).Where(n => n.SOLUONG != 0).ToList();
@@ -20870,6 +20999,64 @@ namespace ApplicationChart.Controllers
                 {
                     data1 = data.Where(n => n.DONGIA != 0).OrderBy(n => n.MAKH).ThenBy(n => n.NGAY).GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA }).Select(cl => new BAOCAO10 { NHOM = cl.Key.SOHD, MAQUAY = cl.First().DONVI, dvt = cl.First().DVT.ToUpper(), mahh = cl.Key.MAHH, mapl = cl.First().MAKH, NAM = cl.First().NGAY.ToString("dd/MM/yyyy"), soluong = (Int32)cl.Sum(cx => cx.SOLUONG), tenhh = cl.First().TENHH, tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero)) }).ToList();
                 }
+                rpt.Load();
+                rpt.SetDataSource(data1);
+                rpt.SetParameterValue("tungay", tungay1);
+                rpt.SetParameterValue("denngay", denngay1);
+                if (btnin == 4)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.WordForWindows);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/msword", "BCKH-SOHD-MAHH.doc");
+                }
+                else if (btnin == 2)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/pdf", "BCKH-SOHD-MAHH.pdf");
+                }
+                else if (btnin == 3)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return File(s, "application/vnd.ms-excel", "BCKH-SOHD-MAHH.xls");
+                }
+                else if (btnin == 1)
+                {
+                    Stream s = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                    rpt.Close();
+                    rpt.Dispose();
+                    GC.Collect();
+                    return View("ReportViewNew", new PDFBase64 { Base64 = Convert.ToBase64String(ReadFully(s)) });
+                }
+            }
+            else if (loaibaocao == 60)
+            {
+                BAOCAO_HOADON_NHAP rpt = new BAOCAO_HOADON_NHAP();
+                var data1 = new List<BAOCAO10>();
+                var data_nhap = DATABAOCAONHAP(maphanloai, Checkboxlist1, tungay, denngay, Checkboxlist2, Checkboxlist3, Checkboxlist4, Checkboxlist5, Checkboxlist11, Checkboxlist6, Checkboxlist10, Checkboxlist12, Checkboxlist8, Checkboxlist9, Checkboxlist13, Checkboxlist14);
+
+                data1 = data_nhap.Where(n => n.DONGIA != 0).OrderBy(n => n.MAKH).ThenBy(n => n.NGAY)
+                    .GroupBy(n => new { n.SOHD, n.MAHH, n.DONGIA })
+                    .Select(cl => new BAOCAO10
+                    {
+                        NHOM = cl.Key.SOHD,
+                        MAQUAY = cl.First().DONVI,
+                        dvt = cl.First().DVT.ToUpper(),
+                        mahh = cl.Key.MAHH,
+                        mapl = cl.First().MAKH,
+                        NAM = cl.First().NGAY.ToString("dd/MM/yyyy"),
+                        soluong = (Int32)cl.Sum(cx => cx.SOLUONG),
+                        tenhh = cl.First().TENHH,
+                        tien = (double)cl.Sum(x => Math.Round(x.SOLUONG * x.DONGIA, 0, MidpointRounding.AwayFromZero))
+                    }).ToList();
+
                 rpt.Load();
                 rpt.SetDataSource(data1);
                 rpt.SetParameterValue("tungay", tungay1);

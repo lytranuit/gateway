@@ -7,6 +7,38 @@
     });
 
     $("#btncreate").click(function () {
+        var error = false;
+        $('#tablecreate .ghichu').each(function (index) {
+            //console.log($(this).val());
+            if (!$(this).val()) {
+                error = true;
+            }
+
+        });
+
+        if (error) {
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            Command: toastr["warning"]("Bắt buộc nhập nội dung kế hoạch!", "Thông báo")
+            return false;
+        }
+
         //if ($('#tablecreate > tbody > tr').length > 0) {
         $.confirm({
             title: '<b>THÔNG BÁO</b>',
@@ -20,10 +52,14 @@
                         var url = lang + '/cong-tac-trinh-duoc/Addkehoach';
                         var formData = new FormData();
                         formData.append("ngay", moment($("#ngaycreate").text(), 'DD/MM/YYYY').format('YYYY-MM-DD'));
-                        $("#tablecreate > tbody >tr").each(function (index) {
+                        $("#tablecreate > tbody >tr.stt").each(function (index) {
+
+                            var x = $(this);
+                            var ghichu = x.next('tr').find('.ghichu').val();
                             formData.append('data1[' + index + '][id]', $(this).find('td').eq(1).attr("data-id"));
                             formData.append('data1[' + index + '][makh]', $(this).find('td').eq(1).attr("data-makh"));
                             formData.append('data1[' + index + '][tenkh]', $(this).find('td').eq(1).attr("data-tenkh"));
+                            formData.append('data1[' + index + '][ghichu]', ghichu);
                             formData.append('data1[' + index + '][ngay]', moment($("#ngaycreate").text(), 'DD/MM/YYYY').format('YYYY-MM-DD'));
                             formData.append('data1[' + index + '][checkin]', false);
                             formData.append('data1[' + index + '][khoa]', false);
@@ -112,8 +148,8 @@
         //    return false;
         //}
         var error = false;
-        $('#tabletdv .ketqua').each(function (index) {
-            console.log($(this).val());
+        $('#tabletdv .ketqua,#tabletdv .ghichu').each(function (index) {
+            //console.log($(this).val());
             if (!$(this).val()) {
                 error = true;
             }
@@ -139,7 +175,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-            Command: toastr["warning"]("Bắt buộc nhập kết quả cho báo cáo!", "Thông báo")
+            Command: toastr["warning"]("Bắt buộc nhập nội dung và kết quả cho báo cáo!", "Thông báo")
             return false;
         }
 
@@ -279,11 +315,13 @@
                         b = parseInt(i) + 1;
                     }
                     $("#tablecreate").find("tbody").append(
-                        '<tr>'// need to change closing tag to an opening `<tr>` tag.
-                        + '<td class="text-center text-dark">' + b + '</td>'
+                        '<tr class="stt">'// need to change closing tag to an opening `<tr>` tag.
+                        + '<td rowspan="2" class="text-center text-dark">' + (i + 1) + '</td>'
                         + '<td data-makh="' + $(this).val() + '" data-tenkh="' + $(this).attr('tabindex') + '" class="left strong text-dark font-weight-normal">' + $(this).val() + " - " + $(this).attr('tabindex') + '</td>'
                         + '<td class="text-center"><button type="button" class="btn btn-sm p-1 btn-danger waves-effect transition-3d-hover btnxoa"><i class="fa fa-2x fa-times"></i></button></td>'
-                        + '</tr>');
+                        + '</tr>'
+                        + '<tr><td colspan="2"><input type="text" class="form-control ghichu" placeholder="Nội dung trao đổi"></td></tr>');
+
                 }
                 $("#khachhang").val('default');
                 $("#khachhang").selectpicker("refresh");
@@ -366,6 +404,39 @@
             });
         }
     });
+
+    $("#tabletdv").on("click", ".btndelete", function () {
+        var x = this;
+        $.confirm({
+            title: '<b>THÔNG BÁO</b>',
+            content: 'Bạn có chắc chắn muốn xóa kế hoạch này ?',
+            buttons: {
+                confirm: {
+                    text: 'Chắc chắn',
+                    btnClass: 'btn-success',
+                    keys: ['enter'],
+                    action: function () {
+                        $(x).closest('tr').next('tr').remove();
+                        $(x).closest('tr').remove();
+                        var i = 1;
+                        $("#tabletdv > tbody >tr.stt").each(function () {
+                            $(this).closest('tr').find('td:eq(0)').empty();
+                            $(this).closest('tr').find('td:eq(0)').append(i);
+                            i = i + 1;
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Hủy',
+                    btnClass: 'btn-danger',
+                    keys: ['esc'],
+                    action: function () {
+
+                    }
+                }
+            }
+        });
+    });
     $("#tablecreate").on("click", ".btnxoa", function () {
         var x = this;
         $.confirm({
@@ -377,9 +448,10 @@
                     btnClass: 'btn-success',
                     keys: ['enter'],
                     action: function () {
+                        $(x).closest('tr').next('tr').remove();
                         $(x).closest('tr').remove();
                         var i = 1;
-                        $("#tablecreate > tbody >tr").each(function () {
+                        $("#tablecreate > tbody >tr.stt").each(function () {
                             $(this).closest('tr').find('td:eq(0)').empty();
                             $(this).closest('tr').find('td:eq(0)').append(i);
                             i = i + 1;

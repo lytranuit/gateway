@@ -1108,6 +1108,12 @@
       <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_DIEMTICHLUY.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\BAOCAO_HOADON_NHAP.cs">
+      <DependentUpon>BAOCAO_HOADON_NHAP.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1167,6 +1173,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_HANGHOA_TDV.cs">
+      <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_HANGHOA_TDV.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_HANGHOA.cs">
+      <DependentUpon>BAOCAO_TONGHOP_CT_XUAT_TDV_HANGHOA.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_HANGHOA.cs">
       <AutoGen>True</AutoGen>
@@ -3496,6 +3514,7 @@
     <Content Include="Content\mauKHmoi.xlsx" />
     <Content Include="Content\mauBCNgay.xlsx" />
     <Content Include="Content\mauKHtuan.xlsx" />
+    <Content Include="Content\Huong dan su dung Gateway.pdf" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -3959,6 +3978,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_DIEMTICHLUY.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_HOADON_NHAP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_HOADON_NHAP.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_MAKH_MAHH_SOHD.cs</LastGenOutput>
@@ -3998,6 +4021,14 @@
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_HANGHOA_TDV.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_HANGHOA_TDV.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_HANGHOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BAOCAO_TONGHOP_CT_XUAT_TDV_HANGHOA.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\BAOCAO_TONGHOP_CT_XUAT_TDV_DONHANG_HANGHOA.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
